@@ -1,0 +1,41 @@
+﻿@model System.Collections.Generic.List<WebStudio.Models.Node>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Объявления о проведении торгов</h2>
+<table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Номер</th>
+          <th scope="col">Наименование</th>
+          <th scope="col">Стартовая сумма (тг)</th>
+          <th scope="col">Дата окончания приема заявок</th>
+          <th scope="col">Дата и время начала торгов</th>
+          <th scope="col">Инициатор</th>
+          <th scope="col">Брокер</th>
+          <th scope="col">Аукцион</th>
+          <th scope="col">Статус / Участники</th>
+          <th scope="col">Лучшая текущая цена (тг)</th>
+        </tr>
+      </thead>
+      <tbody>
+      @foreach (var node in Model)
+      {
+        <tr>
+          <th scope="row">@node.Number</th>
+          <td>@node.Name</td>
+          <td>@node.StartSumm</td>
+          <td>@node.DateOfAcceptingEnd</td>
+          <td>@node.DateOfAuctionStart</td>
+          <td>@node.Initiator</td>
+          <td>@node.Broker</td>
+          <td>@node.Auction</td>
+          <td>@node.State</td>
+          <td>@node.BestPrice</td>
+        </tr>
+      }
+      </tbody>
+    </table>
