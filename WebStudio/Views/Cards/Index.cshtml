@@ -1,7 +1,7 @@
-﻿@model System.Collections.Generic.List<WebStudio.Models.Node>
+﻿@model System.Collections.Generic.List<WebStudio.Models.Card>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Список карточек";
     Layout = "_Layout";
 }
 
@@ -22,19 +22,19 @@
         </tr>
       </thead>
       <tbody>
-      @foreach (var node in Model)
+      @foreach (var card in Model)
       {
         <tr>
-          <th scope="row">@node.Number</th>
-          <td>@node.Name</td>
-          <td>@node.StartSumm</td>
-          <td>@node.DateOfAcceptingEnd</td>
-          <td>@node.DateOfAuctionStart</td>
-          <td>@node.Initiator</td>
-          <td>@node.Broker</td>
-          <td>@node.Auction</td>
-          <td>@node.State</td>
-          <td>@node.BestPrice</td>
+          <th scope="row">@card.Number</th>
+          <td>@card.Name</td>
+          <td>@card.StartSumm</td>
+          <td>@card.DateOfAcceptingEnd</td>
+          <td>@card.DateOfAuctionStart</td>
+          <td>@card.Initiator</td>
+          <td>@card.Broker</td>
+          <td>@card.Auction</td>
+          <td>@card.State</td>
+          <td>@card.BestPrice</td>
         </tr>
       }
       </tbody>

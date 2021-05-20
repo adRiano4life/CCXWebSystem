@@ -48,13 +48,13 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Nodes",
+                name: "Cards",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Number = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    StartSumm = table.Column<decimal>(type: "numeric", nullable: false),
+                    StartSumm = table.Column<double>(type: "double precision", nullable: false),
                     DateOfAcceptingEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     DateOfAuctionStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Initiator = table.Column<string>(type: "text", nullable: true),
@@ -65,7 +65,7 @@ namespace WebStudio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Nodes", x => x.Id);
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,7 +230,7 @@ namespace WebStudio.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Nodes");
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

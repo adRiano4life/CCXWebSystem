@@ -6,7 +6,7 @@ namespace WebStudio.Models
 {
     public class WebStudioContext : IdentityDbContext
     {
-        public DbSet<Node> Nodes { get; set; }
+        public DbSet<Card> Cards { get; set; }
 
         public WebStudioContext(DbContextOptions options) : base(options)
         {

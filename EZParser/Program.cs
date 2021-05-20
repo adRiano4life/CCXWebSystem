@@ -15,13 +15,6 @@ namespace EZParser
 {
     public class Program
     {
-        private static WebStudioContext _db;
-    
-        public Program(WebStudioContext db)
-        {
-            _db = db;
-        }
-
         static void Main(string[] args)
         {
             GetParse();
@@ -29,13 +22,11 @@ namespace EZParser
         public static void GetParse()
         {
             string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@";
-            NpgsqlConnection con = new NpgsqlConnection(connection);
-            con.Open();
+            var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
+            var options = optionsBuilder.UseNpgsql(connection).Options;
+
+            using WebStudioContext _db = new WebStudioContext(options);
             
-            using var cmd = new NpgsqlCommand();
-            cmd.Connection = con;
-
-
             var url = @"https://info.ccx.kz/ru/announcement?per-page=100";
             
             HtmlWeb web = new HtmlWeb();
@@ -48,7 +39,6 @@ namespace EZParser
             
             // WebClient client = new WebClient();
             // client.DownloadFile("https://info.ccx.kz/ru/site/download?uid=45D20B99-17F3-4162-859E-752BCB6A21E6", "Приложение 1.docx");
-            
 
             foreach (var position in collectionPosition)
             {
@@ -57,7 +47,7 @@ namespace EZParser
                 var tds = doc.DocumentNode.SelectNodes("//td");
                 var links = doc.DocumentNode.SelectNodes("//a/..");
 
-                Node node = new Node
+                Card card = new Card
                 {
                     Number = tds[0].InnerText,
                     Name = tds[1].InnerText,
@@ -70,11 +60,9 @@ namespace EZParser
                     State = tds[9].InnerText,
                     BestPrice = tds[10].InnerText,
                 };
-                
-                
-                
-                // _db.Nodes.Add(node);
-                // _db.SaveChanges();
+               
+                _db.Cards.Add(card);
+                _db.SaveChanges();
             }
         }
     }

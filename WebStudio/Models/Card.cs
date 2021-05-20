@@ -2,7 +2,7 @@
 
 namespace WebStudio.Models
 {
-    public class Node
+    public class Card
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Number { get; set; }

@@ -213,20 +213,7 @@ namespace WebStudio.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebStudio.Models.Car", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("WebStudio.Models.Node", b =>
+            modelBuilder.Entity("WebStudio.Models.Card", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -263,7 +250,7 @@ namespace WebStudio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Nodes");
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

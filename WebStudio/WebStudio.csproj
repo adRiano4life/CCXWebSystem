@@ -16,4 +16,8 @@
       <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Nodes\Index.cshtml" />
+    </ItemGroup>
+
 </Project>

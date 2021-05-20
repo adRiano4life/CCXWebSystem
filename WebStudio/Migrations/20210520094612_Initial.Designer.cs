@@ -10,7 +10,7 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210516095153_Initial")]
+    [Migration("20210520094612_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -215,7 +215,7 @@ namespace WebStudio.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebStudio.Models.Node", b =>
+            modelBuilder.Entity("WebStudio.Models.Card", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -244,15 +244,15 @@ namespace WebStudio.Migrations
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("StartSumm")
-                        .HasColumnType("numeric");
+                    b.Property<double>("StartSumm")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("State")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Nodes");
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

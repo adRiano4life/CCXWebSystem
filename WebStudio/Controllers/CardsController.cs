@@ -5,11 +5,11 @@ using WebStudio.Models;
 
 namespace WebStudio.Controllers
 {
-    public class NodesController : Controller
+    public class CardsController : Controller
     {
         private WebStudioContext _db;
 
-        public NodesController(WebStudioContext db)
+        public CardsController(WebStudioContext db)
         {
             _db = db;
         }
@@ -17,10 +17,10 @@ namespace WebStudio.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Node> nodes = _db.Nodes.ToList();
-            if (nodes != null)
+            List<Card> cards = _db.Cards.ToList();
+            if (cards != null)
             {
-                return View(nodes);
+                return View(cards);
             }
 
             return NotFound();
