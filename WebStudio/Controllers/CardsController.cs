@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Models;
+using X.PagedList;
 
 namespace WebStudio.Controllers
 {
@@ -15,15 +16,13 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
             List<Card> cards = _db.Cards.ToList();
-            if (cards != null)
-            {
-                return View(cards);
-            }
+            int pageSize = 20;
+            int pageNumber = page ?? 1;
 
-            return NotFound();
+            return View(cards.ToPagedList(pageNumber, pageSize));
         }
     }
 }

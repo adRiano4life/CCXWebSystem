@@ -1,4 +1,7 @@
-﻿@model System.Collections.Generic.List<WebStudio.Models.Card>
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using WebStudio.Enums
+@model X.PagedList.IPagedList<Card>
 
 @{
     ViewBag.Title = "Список карточек";
@@ -6,6 +9,8 @@
 }
 
 <h2>Объявления о проведении торгов</h2>
+
+
 <table class="table table-striped">
       <thead>
         <tr>
@@ -39,3 +44,8 @@
       }
       </tbody>
     </table>
+
+<p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
+<div class="row justify-content-center">
+  @Html.PagedListPager(Model, page =>Url.Action("Index", "Cards", new {page}), Bootstrap4PagedListRenderOptions.Classic)
+</div>

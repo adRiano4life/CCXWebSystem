@@ -45,7 +45,13 @@ namespace EZParser
                 doc.LoadHtml(position.InnerHtml);
                 
                 var tds = doc.DocumentNode.SelectNodes("//td");
-                var links = doc.DocumentNode.SelectNodes("//a/..");
+                var links = doc.DocumentNode.SelectNodes("//a");
+                List<string> stringLinks = new List<string>();
+                foreach (var link in links)
+                {
+                    string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
+                    stringLinks.Add(stringLink);
+                }
 
                 Card card = new Card
                 {
@@ -59,6 +65,7 @@ namespace EZParser
                     Auction = tds[7].InnerText,
                     State = tds[9].InnerText,
                     BestPrice = tds[10].InnerText,
+                    Links = stringLinks
                 };
                
                 _db.Cards.Add(card);

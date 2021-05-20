@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -61,7 +62,9 @@ namespace WebStudio.Migrations
                     Broker = table.Column<string>(type: "text", nullable: true),
                     Auction = table.Column<string>(type: "text", nullable: true),
                     State = table.Column<string>(type: "text", nullable: true),
-                    BestPrice = table.Column<string>(type: "text", nullable: true)
+                    BestPrice = table.Column<string>(type: "text", nullable: true),
+                    CardState = table.Column<int>(type: "integer", nullable: false),
+                    Links = table.Column<List<string>>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {

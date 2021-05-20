@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using WebStudio.Enums;
 
 namespace WebStudio.Models
 {
@@ -15,5 +17,7 @@ namespace WebStudio.Models
         public string Auction { get; set; }
         public string State { get; set; }
         public string BestPrice { get; set; }
+        public CardState CardState { get; set; } = CardState.Новая;
+        public List<string> Links { get; set; }
     }
 }
