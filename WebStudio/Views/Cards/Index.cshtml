@@ -58,41 +58,6 @@ else
   </div>
 }
 
-
-@* <table class="table table-striped"> *@
-@*       <thead> *@
-@*         <tr> *@
-@*           <th scope="col">Номер</th> *@
-@*           <th scope="col">Наименование</th> *@
-@*           <th scope="col">Стартовая сумма (тг)</th> *@
-@*           <th scope="col">Дата окончания приема заявок</th> *@
-@*           <th scope="col">Дата и время начала торгов</th> *@
-@*           <th scope="col">Инициатор</th> *@
-@*           <th scope="col">Брокер</th> *@
-@*           <th scope="col">Аукцион</th> *@
-@*           <th scope="col">Статус / Участники</th> *@
-@*           <th scope="col">Лучшая текущая цена (тг)</th> *@
-@*         </tr> *@
-@*       </thead> *@
-@*       <tbody> *@
-@*       @foreach (var card in Model) *@
-@*       { *@
-@*         <tr> *@
-@*           <th scope="row">@card.Number</th> *@
-@*           <td>@card.Name</td> *@
-@*           <td>@card.StartSumm</td> *@
-@*           <td>@card.DateOfAcceptingEnd</td> *@
-@*           <td>@card.DateOfAuctionStart</td> *@
-@*           <td>@card.Initiator</td> *@
-@*           <td>@card.Broker</td> *@
-@*           <td>@card.Auction</td> *@
-@*           <td>@card.State</td> *@
-@*           <td>@card.BestPrice</td> *@
-@*         </tr> *@
-@*       } *@
-@*       </tbody> *@
-@*     </table> *@
-
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
 <div class="row justify-content-center">
   @Html.PagedListPager(Model, page =>Url.Action("Index", "Cards", new {page}), Bootstrap4PagedListRenderOptions.Classic)
