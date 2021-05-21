@@ -37,7 +37,7 @@ namespace EZParser
 
             var doc = new HtmlDocument();
             
-            // WebClient client = new WebClient();
+            WebClient client = new WebClient();
             // client.DownloadFile("https://info.ccx.kz/ru/site/download?uid=45D20B99-17F3-4162-859E-752BCB6A21E6", "Приложение 1.docx");
 
             foreach (var position in collectionPosition)
@@ -47,17 +47,24 @@ namespace EZParser
                 var tds = doc.DocumentNode.SelectNodes("//td");
                 var links = doc.DocumentNode.SelectNodes("//a");
                 List<string> stringLinks = new List<string>();
+                List<string> linkNames = new List<string>();
                 foreach (var link in links)
                 {
                     string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
+                    string linkName = link.InnerText;
+                    if (link.InnerText.Contains(".xlsx"))
+                    {
+                        client.DownloadFile($"{stringLink}", $"{linkName}");
+                    }
                     stringLinks.Add(stringLink);
+                    linkNames.Add(linkName);
                 }
 
                 Card card = new Card
                 {
                     Number = tds[0].InnerText,
                     Name = tds[1].InnerText,
-                    StartSumm = Convert.ToDouble(tds[2].InnerText),
+                    StartSumm = Convert.ToDecimal(tds[2].InnerText),
                     DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
                     DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
                     Initiator = tds[5].InnerText,
@@ -65,9 +72,14 @@ namespace EZParser
                     Auction = tds[7].InnerText,
                     State = tds[9].InnerText,
                     BestPrice = tds[10].InnerText,
-                    Links = stringLinks
+                    Links = stringLinks,
+                    LinkNames = linkNames
                 };
-               
+
+                if (!_db.Cards.Any(c=>c.Number == tds[0].InnerText))
+                {
+                    
+                }
                 _db.Cards.Add(card);
                 _db.SaveChanges();
             }

@@ -240,6 +240,9 @@ namespace WebStudio.Migrations
                     b.Property<string>("Initiator")
                         .HasColumnType("text");
 
+                    b.Property<List<string>>("LinkNames")
+                        .HasColumnType("text[]");
+
                     b.Property<List<string>>("Links")
                         .HasColumnType("text[]");
 
@@ -249,8 +252,8 @@ namespace WebStudio.Migrations
                     b.Property<string>("Number")
                         .HasColumnType("text");
 
-                    b.Property<double>("StartSumm")
-                        .HasColumnType("double precision");
+                    b.Property<decimal>("StartSumm")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("State")
                         .HasColumnType("text");

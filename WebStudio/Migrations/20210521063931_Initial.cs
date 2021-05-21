@@ -55,7 +55,7 @@ namespace WebStudio.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     Number = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    StartSumm = table.Column<double>(type: "double precision", nullable: false),
+                    StartSumm = table.Column<decimal>(type: "numeric", nullable: false),
                     DateOfAcceptingEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     DateOfAuctionStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Initiator = table.Column<string>(type: "text", nullable: true),
@@ -64,7 +64,8 @@ namespace WebStudio.Migrations
                     State = table.Column<string>(type: "text", nullable: true),
                     BestPrice = table.Column<string>(type: "text", nullable: true),
                     CardState = table.Column<int>(type: "integer", nullable: false),
-                    Links = table.Column<List<string>>(type: "text[]", nullable: true)
+                    Links = table.Column<List<string>>(type: "text[]", nullable: true),
+                    LinkNames = table.Column<List<string>>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {
