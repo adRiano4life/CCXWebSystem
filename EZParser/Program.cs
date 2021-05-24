@@ -54,7 +54,7 @@ namespace EZParser
                     string linkName = link.InnerText;
                     if (link.InnerText.Contains(".xlsx"))
                     {
-                        client.DownloadFile($"{stringLink}", $"{linkName}");
+                        client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}");
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);
@@ -78,10 +78,9 @@ namespace EZParser
 
                 if (!_db.Cards.Any(c=>c.Number == tds[0].InnerText))
                 {
-                    
+                    _db.Cards.Add(card);
+                    _db.SaveChanges();
                 }
-                _db.Cards.Add(card);
-                _db.SaveChanges();
             }
         }
     }
