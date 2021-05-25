@@ -24,14 +24,21 @@ else
     <div id="cards" class="row">
       @foreach (var card in Model)
       {
-        
-        <div class="col-sm-12 col-md-6 mb-4">
-          <div class="card shadow" id="card-@card.Id" onmouseout="link('@card.Id')" onmousemove="linkStr('@card.Id')">
-            <a class="text-decoration-none" asp-action="DetailCard" asp-controller="Cards" asp-route-cardId="@card.Id">
-              <div class="card-header @if(card.CardState != CardState.Новая){@:bg-danger
-                                      } bg-success text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
-            </a>
-            <div class="card-body">
+        if (card.CardState != CardState.Удалена)
+        {
+          <div class="col-sm-12 col-md-6 mb-4">
+            <div class="card shadow" id="card-@card.Id" onmouseout="link('@card.Id')" onmousemove="linkStr('@card.Id')">
+              <a class="text-decoration-none" asp-action="DetailCard" asp-controller="Cards" asp-route-cardId="@card.Id">
+                <div class="card-header @if(card.CardState != CardState.Новая){@:bg-danger
+                                        } bg-success text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
+                </div>
+              </a>
+              <div class="ml-auto" id="deleteCard">
+                <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id">
+                  <i class="fas fa-times" style="font-size: 20px; color: darkred" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div class="card-body">
               <p class="card-text mb-4">@card.Initiator</p>
               <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>
               <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @card.DateOfAcceptingEnd.ToLongDateString() @card.DateOfAcceptingEnd.ToShortTimeString()</p>
@@ -53,6 +60,7 @@ else
             </div>
           </div>
         </div>
+        }
       }
     </div>
   </div>
@@ -73,7 +81,19 @@ else
               $('#update').removeClass('disabled')
         }, 20000);
         $('#card-header').css({'cursor':'pointer'})
+        $('#deleteCard').css({'cursor':'pointer'})
     });
+    
+    // function DeleteCardAjax(cardId){
+    //   $.ajax({
+    //     url : '@Url.Action("DeleteCardAjax", "Cards")',
+    //     type : 'GET',
+    //     data : {
+    //       'cardId' : cardId
+    //     },
+    //     success : console.log('Удалено')
+    //   });
+    // }
 
 /////////////////////////////////Анимация с тенью карточек////////////////////////////////
        function link(cardId){

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStudio.Enums;
 using WebStudio.Models;
 using X.PagedList;
 
@@ -42,5 +43,39 @@ namespace WebStudio.Controllers
 
             return NotFound();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCard(string cardId)
+        {
+            if (cardId != null)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                if (card != null)
+                {
+                    card.CardState = CardState.Удалена;
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction("Index", "Cards");
+        }
+        
+        // [HttpGet]
+        // public async Task<IActionResult> DeleteCardAjax(string cardId)
+        // {
+        //     if (cardId != null)
+        //     {
+        //         Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+        //         if (card != null)
+        //         {
+        //             card.CardState = CardState.Удалена;
+        //             _db.Cards.Update(card);
+        //             await _db.SaveChangesAsync();
+        //         }
+        //     }
+        //
+        //     return Json(new {success = true, text = "Карточка удалена"});
+        // }
     }
 }

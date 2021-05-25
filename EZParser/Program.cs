@@ -73,7 +73,7 @@ namespace EZParser
                     State = tds[9].InnerText,
                     BestPrice = tds[10].InnerText,
                     Links = stringLinks,
-                    LinkNames = linkNames
+                    LinkNames = linkNames,
                 };
 
                 if (!_db.Cards.Any(c=>c.Number == tds[0].InnerText))

@@ -1,0 +1,33 @@
+﻿@model WebStudio.ViewModels.EditUserViewModel
+
+@{
+    ViewBag.Title = "Изменить профиль";
+    Layout = "_Layout";
+}
+
+<h2>Изменить профиль</h2>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Edit" asp-controller="Account" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="UserName"></label>
+                <input class="form-control" asp-for="UserName">
+                <span asp-validation-for="UserName"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserSurname"></label>
+                <input class="form-control" asp-for="UserSurname">
+                <span asp-validation-for="UserSurname"></span>
+            </div>
+            <div class="form-group">
+                <label>Фото</label>
+                <input class="form-control-file" asp-for="File">
+            </div>
+            <input type="hidden" value="@Model.Id">
+            <div>
+                <input type="submit" class="btn btn-outline-primary" value="Изменить">
+            </div>
+        </form>
+    </div>
+</div>
