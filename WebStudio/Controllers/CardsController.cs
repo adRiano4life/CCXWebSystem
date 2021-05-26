@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Enums;
 using WebStudio.Models;
+using WebStudio.ViewModels;
 using X.PagedList;
 
 namespace WebStudio.Controllers
@@ -32,13 +33,13 @@ namespace WebStudio.Controllers
         {
             if (cardId != null)
             {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-                if (card != null)
+                DetailCardViewModel model = new DetailCardViewModel
                 {
-                    return View(card);
-                }
+                    Card = _db.Cards.FirstOrDefault(c => c.Id == cardId),
+                    Users = _db.Users.ToList()
+                };
 
-                return NotFound();
+                return View(model);
             }
 
             return NotFound();
