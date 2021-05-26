@@ -1,6 +1,8 @@
 ﻿@model WebStudio.ViewModels.DetailCardViewModel
 @using WebStudio.Enums
-
+@{
+  var count =1;
+}
 <h2>Карточка @Model.Card.Name</h2>
 <div>
   <div class="col-sm-12 col-md-12 mb-4 pl-0">
@@ -28,6 +30,44 @@
             }
           </ul>
         </p>
+        
+        @if (Model.Card.Positions.Count() > 0)
+        {
+          <table class="table" style="font-size: 10px;">
+            <tr>
+              <th>№</th>
+              <th>Номенклатурный номер</th>
+              <th>Код ТНВЭД</th>
+              <th>Наименование</th>
+              <th>Ед.изм.</th>
+              <th>Кол-во</th>
+              <th>Валюта</th>
+              <th>Старт.цена за ед.товара</th>
+              <th>Стартовая стоимость</th>
+              <th>Условия оплаты</th>
+              <th>Срок поставки</th>
+              <th>Условия поставки</th>
+            </tr>
+            @foreach (var position in Model.Card.Positions)
+            {
+              <tr>
+                <td>@(@count++)</td>
+                <td>@position.StockNumber</td>
+                <td>@position.CodTNVED</td>
+                <td>@position.Name</td>
+                <td>@position.Measure</td>
+                <td>@position.Amount</td>
+                <td>@position.Currency</td>
+                <td>@position.UnitPrice</td>
+                <td>@position.TotalPrice</td>
+                <td>@position.PaymentTerms</td>
+                <td>@position.DeliveryTime</td>
+                <td>@position.DeliveryTerms</td>
+              </tr>
+              
+            }
+          </table>
+        }
         <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
         <form>
           <div class="form-group">
@@ -146,5 +186,6 @@
         $('#card-' + cardId).removeClass('shadow')
         console.log(cardId)
     }
+        
   </script>
 }
