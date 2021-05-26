@@ -8,6 +8,7 @@ namespace WebStudio.Models
     {
         public DbSet<Card> Cards { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<CardPosition> Positions { get; set; }
 
         public WebStudioContext(DbContextOptions options) : base(options)
         {

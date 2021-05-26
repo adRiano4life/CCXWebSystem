@@ -20,5 +20,6 @@ namespace WebStudio.Models
         public CardState CardState { get; set; } = CardState.Новая;
         public List<string> Links { get; set; }
         public List<string> LinkNames { get; set; }
+        public virtual List<CardPosition> Positions { get; set; }
     }
 }

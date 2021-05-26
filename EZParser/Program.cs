@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
@@ -18,10 +19,12 @@ namespace EZParser
         static void Main(string[] args)
         {
             GetParse();
+            ExcelReader.ExcelRead();
         }
+        
         public static void GetParse()
         {
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@";
+            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; ////////////
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -54,7 +57,7 @@ namespace EZParser
                     string linkName = link.InnerText;
                     if (link.InnerText.Contains(".xlsx"))
                     {
-                        client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}");
+                        client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\Files\Excel\{linkName}"); /////////D:\csharp\esdp\1 итерация\приложение\WebStudio
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);
