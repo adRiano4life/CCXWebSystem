@@ -1,44 +1,50 @@
-﻿@model Card
+﻿@model WebStudio.ViewModels.DetailCardViewModel
 @using WebStudio.Enums
 
-<h2>Карточка @Model.Name</h2>
+<h2>Карточка @Model.Card.Name</h2>
 <div>
   <div class="col-sm-12 col-md-12 mb-4 pl-0">
-    <div class="card shadow" id="card-@Model.Id" onmouseout="link('@Model.Id')" onmousemove="linkStr('@Model.Id')">
+    <div class="card shadow" id="card-@Model.Card.Id" onmouseout="link('@Model.Card.Id')" onmousemove="linkStr('@Model.Card.Id')">
         
-      <div class="card-header @if(Model.CardState != CardState.Новая){@:bg-danger
-                              } bg-success text-white"><h5 class="card-title">@Model.Number @Model.Name.Substring(0, 1).ToUpper()@Model.Name.Substring(1)</h5></div>
+      <div class="card-header @if(Model.Card.CardState != CardState.Новая){@:bg-danger
+                              } bg-success text-white"><h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5></div>
       <div class="card-body">
 
-        <p class="card-text mb-4">@Model.Initiator</p>
-        <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @Model.StartSumm</p>
-        <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @Model.DateOfAcceptingEnd.ToLongDateString() @Model.DateOfAcceptingEnd.ToShortTimeString()</p>
-        <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @Model.DateOfAuctionStart.ToLongDateString() @Model.DateOfAuctionStart.ToShortTimeString()</p>
-        <p class="card-text mb-0" id="lin"><b>Брокер:</b> @Model.Broker</p>
-        <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Auction</p>
-        <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.State</p>
-        <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.BestPrice</p>
+        <p class="card-text mb-4">@Model.Card.Initiator</p>
+        <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @Model.Card.StartSumm</p>
+        <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @Model.Card.DateOfAcceptingEnd.ToLongDateString() @Model.Card.DateOfAcceptingEnd.ToShortTimeString()</p>
+        <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @Model.Card.DateOfAuctionStart.ToLongDateString() @Model.Card.DateOfAuctionStart.ToShortTimeString()</p>
+        <p class="card-text mb-0" id="lin"><b>Брокер:</b> @Model.Card.Broker</p>
+        <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
+        <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
+        <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
         <p class="card-text mb-4" id="lin">
           <ul>
-            @for (int i = 0; i < Model.Links.Count; i++)
+            @for (int i = 0; i < Model.Card.Links.Count; i++)
             {
               <li>
-                <a href="@Model.Links[i]">@Model.LinkNames[i]</a>
+                <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a>
               </li>
             }
           </ul>
         </p>
-        <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.CardState</span></p>
+        <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
         <form>
           <div class="form-group">
             <label for="exampleFormControlSelect1">Выбрать ответственного</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option>Тиль Александр</option>
-              <option>Фоломешкин Александр</option>
-              <option>Асылбекова Гульжан</option>
-              <option>Эдуард Ким</option>
-              <option>Мельников Валентин</option>
-            </select>
+            @if (Model.Users.Count != 0)
+            {
+              <select class="form-control" id="exampleFormControlSelect1">
+                @foreach (var user in Model.Users)
+                {
+                  <option class="col-4" value="@user.Id">@user.UserName @user.UserSurname</option>
+                }
+              </select>
+            }
+            else
+            {
+              <p>У вас нет зарегистрированных сотрудников</p>
+            }
           </div>
           
           <div class="row">

@@ -269,6 +269,19 @@ namespace WebStudio.Migrations
                     b.ToTable("Cards");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("AvatarPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserSurname")
+                        .HasColumnType("text");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
                 {
                     b.Property<string>("Id")
