@@ -13,7 +13,7 @@ namespace EZParser
         public static void ExcelRead()
         {
             string connection =
-                "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; 
+                "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; 
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -29,7 +29,7 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = "../../../../WebStudio/Files/Excel";
+                    string rootDirName = @"E:\csharp\ESDP\Download Files";
                     List<string> fileNames = new List<string>();
 
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
@@ -44,7 +44,7 @@ namespace EZParser
                         if (!string.IsNullOrEmpty(file))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            ExcelFile workbook = ExcelFile.Load("../../../../WebStudio/Files/Excel/" + file);
+                            ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files/" + file);
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)
                             {

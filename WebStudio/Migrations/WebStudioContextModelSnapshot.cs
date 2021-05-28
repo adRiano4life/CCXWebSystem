@@ -243,6 +243,9 @@ namespace WebStudio.Migrations
                     b.Property<DateTime>("DateOfAuctionStart")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("ExecutorId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Initiator")
                         .HasColumnType("text");
 
@@ -266,20 +269,9 @@ namespace WebStudio.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExecutorId");
+
                     b.ToTable("Cards");
-                });
-
-            modelBuilder.Entity("WebStudio.Models.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("AvatarPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserSurname")
-                        .HasColumnType("text");
-
-                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
@@ -392,6 +384,15 @@ namespace WebStudio.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebStudio.Models.Card", b =>
+                {
+                    b.HasOne("WebStudio.Models.User", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+
+                    b.Navigation("Executor");
                 });
 
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>

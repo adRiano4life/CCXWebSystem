@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Enums;
 using WebStudio.Models;
@@ -12,10 +13,12 @@ namespace WebStudio.Controllers
     public class CardsController : Controller
     {
         private WebStudioContext _db;
+        private UserManager<User> _userManager;
 
-        public CardsController(WebStudioContext db)
+        public CardsController(WebStudioContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -61,22 +64,42 @@ namespace WebStudio.Controllers
 
             return RedirectToAction("Index", "Cards");
         }
-        
-        // [HttpGet]
-        // public async Task<IActionResult> DeleteCardAjax(string cardId)
-        // {
-        //     if (cardId != null)
-        //     {
-        //         Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-        //         if (card != null)
-        //         {
-        //             card.CardState = CardState.Удалена;
-        //             _db.Cards.Update(card);
-        //             await _db.SaveChangesAsync();
-        //         }
-        //     }
-        //
-        //     return Json(new {success = true, text = "Карточка удалена"});
-        // }
+
+        [HttpGet]
+        public async Task<IActionResult> RestoreCard(string cardId)
+        {
+            if (cardId != null)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                if (card != null)
+                {
+                    card.CardState = CardState.Новая;
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction("Index", "Cards");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TakeCard(DetailCardViewModel model)
+        {
+            if (model.CardId != null)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
+                if (card != null)
+                {
+                    card.CardState = CardState.Проработка;
+                    card.ExecutorId = model.UserId;
+                    card.Executor = await _userManager.FindByIdAsync(model.UserId);
+
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction("Index", "Cards");
+        }
     }
 }

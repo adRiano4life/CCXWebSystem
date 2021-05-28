@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210526073705_Initial")]
-    partial class Initial
+    [Migration("20210528152446_TakeCard")]
+    partial class TakeCard
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,6 +245,9 @@ namespace WebStudio.Migrations
                     b.Property<DateTime>("DateOfAuctionStart")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("ExecutorId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Initiator")
                         .HasColumnType("text");
 
@@ -268,7 +271,57 @@ namespace WebStudio.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExecutorId");
+
                     b.ToTable("Cards");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("CardId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CodTNVED")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeliveryTerms")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeliveryTime")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Measure")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentTerms")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StockNumber")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("WebStudio.Models.User", b =>
@@ -333,6 +386,29 @@ namespace WebStudio.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebStudio.Models.Card", b =>
+                {
+                    b.HasOne("WebStudio.Models.User", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+
+                    b.Navigation("Executor");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
+                {
+                    b.HasOne("WebStudio.Models.Card", "Card")
+                        .WithMany("Positions")
+                        .HasForeignKey("CardId");
+
+                    b.Navigation("Card");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.Card", b =>
+                {
+                    b.Navigation("Positions");
                 });
 #pragma warning restore 612, 618
         }

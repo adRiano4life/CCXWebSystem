@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class Initial : Migration
+    public partial class TakeCard : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,30 +49,6 @@ namespace WebStudio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cards",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Number = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    StartSumm = table.Column<decimal>(type: "numeric", nullable: false),
-                    DateOfAcceptingEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    DateOfAuctionStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Initiator = table.Column<string>(type: "text", nullable: true),
-                    Broker = table.Column<string>(type: "text", nullable: true),
-                    Auction = table.Column<string>(type: "text", nullable: true),
-                    State = table.Column<string>(type: "text", nullable: true),
-                    BestPrice = table.Column<string>(type: "text", nullable: true),
-                    CardState = table.Column<int>(type: "integer", nullable: false),
-                    Links = table.Column<List<string>>(type: "text[]", nullable: true),
-                    LinkNames = table.Column<List<string>>(type: "text[]", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cards", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,6 +157,66 @@ namespace WebStudio.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cards",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Number = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    StartSumm = table.Column<decimal>(type: "numeric", nullable: false),
+                    DateOfAcceptingEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateOfAuctionStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Initiator = table.Column<string>(type: "text", nullable: true),
+                    Broker = table.Column<string>(type: "text", nullable: true),
+                    Auction = table.Column<string>(type: "text", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: true),
+                    BestPrice = table.Column<string>(type: "text", nullable: true),
+                    CardState = table.Column<int>(type: "integer", nullable: false),
+                    Links = table.Column<List<string>>(type: "text[]", nullable: true),
+                    LinkNames = table.Column<List<string>>(type: "text[]", nullable: true),
+                    ExecutorId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cards", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cards_AspNetUsers_ExecutorId",
+                        column: x => x.ExecutorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Positions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    StockNumber = table.Column<string>(type: "text", nullable: true),
+                    CodTNVED = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Measure = table.Column<string>(type: "text", nullable: true),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Currency = table.Column<string>(type: "text", nullable: true),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    PaymentTerms = table.Column<string>(type: "text", nullable: true),
+                    DeliveryTime = table.Column<string>(type: "text", nullable: true),
+                    DeliveryTerms = table.Column<string>(type: "text", nullable: true),
+                    CardId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Positions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Positions_Cards_CardId",
+                        column: x => x.CardId,
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -217,6 +253,16 @@ namespace WebStudio.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cards_ExecutorId",
+                table: "Cards",
+                column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Positions_CardId",
+                table: "Positions",
+                column: "CardId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -237,10 +283,13 @@ namespace WebStudio.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cards");
+                name: "Positions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
