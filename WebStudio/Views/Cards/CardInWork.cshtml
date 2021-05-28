@@ -1,12 +1,14 @@
-﻿@using X.PagedList.Mvc.Core
+﻿@using WebStudio.Enums
 @using X.PagedList.Mvc.Bootstrap4.Core
-@using WebStudio.Enums
-@model X.PagedList.IPagedList<Card>
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<WebStudio.Models.Card>
 
 @{
-    ViewBag.Title = "Список карточек";
+    ViewBag.Title = "Карточки в работе";
     Layout = "_Layout";
 }
+
+
 
 @if (@Model.Count == 0)
 {
@@ -24,15 +26,11 @@ else
     <div id="cards" class="row">
       @foreach (var card in Model)
       {
-        if (card.CardState != CardState.Удалена)
-        {
-          <div class="col-sm-12 col-md-6 mb-4">
+        <div class="col-sm-12 col-md-6 mb-4">
             <div class="card shadow" id="card-@card.Id" onmouseout="link('@card.Id')" onmousemove="linkStr('@card.Id')">
               <a class="text-decoration-none" asp-action="DetailCard" asp-controller="Cards" asp-route-cardId="@card.Id">
-                <div class="card-header @if(card.CardState != CardState.Новая){@:bg-danger
-                                        } bg-success text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
-                
-                  
+                <div class="card-header bg-info text-white">
+                  <h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
                 </div>
               </a>
               
@@ -42,6 +40,7 @@ else
                 </a>
               </div>
               <div class="card-body pt-2">
+              <p class="card-text mb-2" id="lin"><span class="badge badge-info">@card.CardState</span></p>
               <p class="card-text mb-4">@card.Initiator</p>
               <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>
               <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @card.DateOfAcceptingEnd.ToLongDateString() @card.DateOfAcceptingEnd.ToShortTimeString()</p>
@@ -54,22 +53,8 @@ else
                 
                   @for (int i = 0; i < card.Links.Count; i++)
                   {
-                    if (card.LinkNames[i].Contains(".xlsx"))
-                    {
-                      <i class="far fa-file-excel text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
-                    }
-                    else if (card.LinkNames[i].Contains(".docx"))
-                    {
-                      <i class="far fa-file-word text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
-                    }
-                    else if (card.LinkNames[i].Contains(".pdf"))
-                    {
-                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
-                    }
-                    else if (card.LinkNames[i].Contains(".jpg"))
-                    {
-                      <i class="far fa-file-image text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
-                    }
+                    
+                    <i class="fas fa-file-download text-secondary"></i> <a href="@card.Links[i]">@card.LinkNames[i]</a><br>
                     
                   }
                 
@@ -77,7 +62,7 @@ else
             </div>
           </div>
         </div>
-        }
+        
       }
     </div>
   </div>

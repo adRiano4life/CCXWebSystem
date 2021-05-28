@@ -62,21 +62,25 @@ namespace WebStudio.Controllers
             return RedirectToAction("Index", "Cards");
         }
         
-        // [HttpGet]
-        // public async Task<IActionResult> DeleteCardAjax(string cardId)
-        // {
-        //     if (cardId != null)
-        //     {
-        //         Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-        //         if (card != null)
-        //         {
-        //             card.CardState = CardState.Удалена;
-        //             _db.Cards.Update(card);
-        //             await _db.SaveChangesAsync();
-        //         }
-        //     }
-        //
-        //     return Json(new {success = true, text = "Карточка удалена"});
-        // }
+        [HttpGet]
+        public IActionResult CardInWork(int? page)
+        {
+            List<Card> cards = _db.Cards.Where(c => c.CardState == CardState.Проработка).ToList();
+            int pageSize = 20;
+            int pageNumber = page ?? 1;
+
+            return View(cards.ToPagedList(pageNumber, pageSize));
+        }
+        
+        [HttpGet]
+        public IActionResult CardDeleted(int? page)
+        {
+            List<Card> cards = _db.Cards.Where(c => c.CardState == CardState.Удалена).ToList();
+            int pageSize = 20;
+            int pageNumber = page ?? 1;
+
+            return View(cards.ToPagedList(pageNumber, pageSize));
+        }
+        
     }
 }

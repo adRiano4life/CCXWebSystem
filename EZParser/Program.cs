@@ -57,7 +57,7 @@ namespace EZParser
                     string linkName = link.InnerText;
                     if (link.InnerText.Contains(".xlsx"))
                     {
-                        client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\Files\Excel\{linkName}"); /////////D:\csharp\esdp\1 итерация\приложение\WebStudio
+                        client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); /////////D:\csharp\esdp\1 итерация\приложение\WebStudio
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);

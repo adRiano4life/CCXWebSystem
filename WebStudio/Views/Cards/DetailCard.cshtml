@@ -1,15 +1,27 @@
 ﻿@model WebStudio.ViewModels.DetailCardViewModel
 @using WebStudio.Enums
 @{
-  var count =1;
+  var count = 1;
 }
 <h2>Карточка @Model.Card.Name</h2>
 <div>
   <div class="col-sm-12 col-md-12 mb-4 pl-0">
     <div class="card shadow" id="card-@Model.Card.Id" onmouseout="link('@Model.Card.Id')" onmousemove="linkStr('@Model.Card.Id')">
         
-      <div class="card-header @if(Model.Card.CardState != CardState.Новая){@:bg-danger
-                              } bg-success text-white"><h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5></div>
+      <div class="card-header 
+          @if(Model.Card.CardState == CardState.Новая)
+          {
+            @:bg-success
+          }
+          else if (Model.Card.CardState == CardState.Проработка)
+          {
+            @:bg-info
+          }
+          else if (Model.Card.CardState == CardState.Удалена)
+          {
+            @:bg-danger
+          }text-white"><h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5></div>
+      
       <div class="card-body">
 
         <p class="card-text mb-4">@Model.Card.Initiator</p>
@@ -21,22 +33,36 @@
         <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
         <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
         <p class="card-text mb-4" id="lin">
-          <ul>
+          
             @for (int i = 0; i < Model.Card.Links.Count; i++)
             {
-              <li>
-                <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a>
-              </li>
+              if (Model.Card.LinkNames[i].Contains(".xlsx"))
+              {
+                <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+              else if (Model.Card.LinkNames[i].Contains(".docx"))
+              {
+                <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+              else if (Model.Card.LinkNames[i].Contains(".pdf"))
+              {
+                <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+              else if (Model.Card.LinkNames[i].Contains(".jpg"))
+              {
+                <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+                
+              
             }
-          </ul>
+          
         </p>
         
         @if (Model.Card.Positions.Count() > 0)
         {
-          <table class="table" style="font-size: 10px;">
+          <table class="table" style="font-size: 12px;">
             <tr>
               <th>№</th>
-              <th>Номенклатурный номер</th>
               <th>Код ТНВЭД</th>
               <th>Наименование</th>
               <th>Ед.изм.</th>
@@ -44,7 +70,6 @@
               <th>Валюта</th>
               <th>Старт.цена за ед.товара</th>
               <th>Стартовая стоимость</th>
-              <th>Условия оплаты</th>
               <th>Срок поставки</th>
               <th>Условия поставки</th>
             </tr>
@@ -52,7 +77,6 @@
             {
               <tr>
                 <td>@(@count++)</td>
-                <td>@position.StockNumber</td>
                 <td>@position.CodTNVED</td>
                 <td>@position.Name</td>
                 <td>@position.Measure</td>
@@ -60,7 +84,6 @@
                 <td>@position.Currency</td>
                 <td>@position.UnitPrice</td>
                 <td>@position.TotalPrice</td>
-                <td>@position.PaymentTerms</td>
                 <td>@position.DeliveryTime</td>
                 <td>@position.DeliveryTerms</td>
               </tr>
@@ -68,7 +91,22 @@
             }
           </table>
         }
-        <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
+        <p class="card-text mb-2" id="lin">
+          <span class="badge @if(Model.Card.CardState == CardState.Новая)
+                                       {
+                                         @:bg-success
+                                       }
+                                       else if (Model.Card.CardState == CardState.Проработка)
+                                       {
+                                         @:bg-info
+                                       }
+                                       else if (Model.Card.CardState == CardState.Удалена)
+                                       {
+                                         @:bg-danger
+                                       } text-white">
+            @Model.Card.CardState
+          </span>
+        </p>
         <form>
           <div class="form-group">
             <label for="exampleFormControlSelect1">Выбрать ответственного</label>

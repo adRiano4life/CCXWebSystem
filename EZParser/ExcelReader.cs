@@ -29,7 +29,7 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = "../../../../WebStudio/Files/Excel";
+                    string rootDirName = @$"C:\Users\user\Desktop\files\";
                     List<string> fileNames = new List<string>();
 
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
@@ -44,7 +44,7 @@ namespace EZParser
                         if (!string.IsNullOrEmpty(file))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            ExcelFile workbook = ExcelFile.Load("../../../../WebStudio/Files/Excel/" + file);
+                            ExcelFile workbook = ExcelFile.Load(@$"C:\Users\user\Desktop\files\" + file);
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)
                             {
