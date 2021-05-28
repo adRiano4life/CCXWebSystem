@@ -1,5 +1,8 @@
 ﻿@model WebStudio.ViewModels.DetailCardViewModel
 @using WebStudio.Enums
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
 @{
   var count =1;
 }
@@ -188,7 +191,7 @@
           }
         </form>
         }
-        @if (Model.Card.CardState == CardState.Удалена)
+        @if (Model.Card.CardState == CardState.Удалена && User.IsInRole("admin"))
         {
           <div class="form-group">
             <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-success shadow">Восстановить</a>
