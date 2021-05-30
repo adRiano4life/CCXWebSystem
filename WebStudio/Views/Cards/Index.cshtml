@@ -29,13 +29,25 @@ else
           <div class="col-sm-12 col-md-6 mb-4">
             <div class="card shadow" id="card-@card.Id" onmouseout="link('@card.Id')" onmousemove="linkStr('@card.Id')">
               <a class="text-decoration-none" asp-action="DetailCard" asp-controller="Cards" asp-route-cardId="@card.Id">
-                <div class="card-header @if(card.CardState != CardState.Новая){@:bg-danger
-                                        } bg-success text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
-                
-                  
-                </div>
+                @if (card.CardState == CardState.Новая)
+                {
+                  <div class="card-header bg-success text-white">
+                    <h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
+                  </div>
+                }
+                @if (card.CardState == CardState.Проработка)
+                {
+                  <div class="card-header bg-primary text-white">
+                    <h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
+                  </div>
+                }
+                @if (card.CardState == CardState.Удалена)
+                {
+                  <div class="card-header bg-danger text-white">
+                    <h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5>
+                  </div>
+                }
               </a>
-              
               <div class="ml-auto" id="deleteCard">
                 <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id">
                   <i class="far fa-times-circle mr-3 mt-3" style="font-size: 25px; color: darkred; align-content: center" aria-hidden="true"></i>
