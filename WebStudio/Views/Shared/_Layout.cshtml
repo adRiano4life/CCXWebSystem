@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -30,9 +33,19 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="CardDeleted">Удаленные</a>
                     </li>
-                    
-                    
                 </ul>
+                <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Index" asp-route-userId="@UserManager.GetUserId(User)"><i class="far fa-user text-dark"></i></a>
+                        <form asp-controller="Account" asp-action="Logout" method="post"><input type="submit" class="btn ml-2" value="Выход"></form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn ml-2">Вход</a>
+                        <a asp-controller="Account" asp-action="Register" class="btn">Регистрация</a>
+                    }
+                </div>
             </div>
         </div>
     </nav>
