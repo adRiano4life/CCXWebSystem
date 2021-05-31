@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model WebStudio.ViewModels.CreateRequestViewModel
+@inject UserManager<User> UserManager
+
+@{
+    ViewBag.Title = "Создание запроса";
+    Layout = "_Layout";
+}
+
+@{
+  var count = 1;
+}
+
+<h2>Запрос поставщикам</h2>
+<div class="container">
+    <div class="col-md-12">
+        <form asp-action="Create" asp-controller="Requests" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="DateOfCreate" class="font-weight-bold">Дата создания запроса:</label>
+                    <input disabled value="@Model.DateOfCreate.ToLongDateString()">
+                </div>
+                <div class="form-group d-block">
+                    <label class="font-weight-bold">Текст запроса:</label>
+                    <textarea cols="150" rows="10" readonly class="border-0">@Model.Text</textarea>
+                </div>
+                @if (Model.Card.Positions.Count() > 0)
+                {
+                    <table class="table" style="font-size: 12px;">
+                        <tr>
+                            <th>№</th>
+                            <th>Код ТНВЭД</th>
+                            <th>Наименование</th>
+                            <th>Ед.изм.</th>
+                            <th>Кол-во</th>
+                            <th>Условия поставки</th>
+                        </tr>
+                        @foreach (var position in Model.Card.Positions)
+                        {
+                            <tr>
+                                <td>@(@count++)</td>
+                                <td>@position.CodTNVED</td>
+                                <td>@position.Name</td>
+                                <td>@position.Measure</td>
+                                <td>@position.Amount</td>
+                                <td>@position.DeliveryTerms</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                <div class="form-group">
+                    <label asp-for="File" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="File">
+                </div>
+            </div>
+           
+            <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+            <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
+            <div class="form-group">
+                <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
+            </div>
+        </form>
+    </div>
+</div>

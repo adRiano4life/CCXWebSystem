@@ -198,7 +198,7 @@
             <div class="form-group">
               <button class="btn btn-outline-success shadow">Участвовать в торгах</button>
               <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
-              <button class="btn btn-outline-primary shadow">Отправить запрос</button>
+              <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
             </div>
           }
         </form>
