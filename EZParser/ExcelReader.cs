@@ -41,7 +41,7 @@ namespace EZParser
 
                     foreach (var file in fileNames)
                     {
-                        if (!string.IsNullOrEmpty(file))
+                        if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
                             ExcelFile workbook = ExcelFile.Load(@"C:\Users\user\Desktop\files\" + file);

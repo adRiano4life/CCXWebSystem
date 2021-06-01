@@ -35,8 +35,10 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Удалена">Удалённые</a>
                     </li>
-
-
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="Create">Добавить поставщика</a>
+                    </li>
+                    
                 </ul>
                 <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
                     @if (User.Identity.IsAuthenticated)

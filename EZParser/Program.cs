@@ -54,7 +54,8 @@ namespace EZParser
                 {
                     string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
                     string linkName = link.InnerText;
-                    if (link.InnerText.Contains(".xlsx"))
+                    //if (link.InnerText.Contains(".xlsx"))
+                    if (link.InnerText.Contains(".xlsx") && !link.InnerText.ToLower().Contains("dap"))
                     {
                         client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); 
                     }
