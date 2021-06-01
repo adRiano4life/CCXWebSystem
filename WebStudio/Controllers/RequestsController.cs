@@ -32,10 +32,10 @@ namespace WebStudio.Controllers
         }
 
         // GET
-        public IActionResult Index()
-        {
-            return View();
-        }
+        // public IActionResult Index()
+        // {
+        //     return View();
+        // }
 
         [HttpGet]
         public IActionResult Create(string cardId)
