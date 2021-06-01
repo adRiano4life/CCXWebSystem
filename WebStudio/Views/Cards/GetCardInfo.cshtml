@@ -2,6 +2,7 @@
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<WebStudio.Models.Card>
+@inject WebStudioContext _db
 
 @{
     ViewBag.Title = "Новые карточки";
@@ -30,6 +31,10 @@ else
           <select name="filter">
             <option value="DateOfAcceptingEnd">Дата окончания приема заявок</option>
             <option value="DateOfAuctionStart">Дата начала проведения торгов</option>
+            @foreach (var user in _db.Users)
+            {
+              <option value="@user.Id">@user.UserName @user.UserSurname</option>
+            }
           </select>
 
           <span>c: </span>
@@ -83,21 +88,27 @@ else
               <div class="card-body pt-2">
               
                 <p class="card-text mb-2" id="lin">
-                          <span class="badge @if(card.CardState == CardState.Новая)
-                                             {
-                                               @:bg-success
-                                             }
-                                             else if (card.CardState == CardState.Проработка)
-                                             {
-                                               @:bg-info
-                                             }
-                                             else if (card.CardState == CardState.Удалена)
-                                             {
-                                               @:bg-danger
-                                             } text-white">
-                            @card.CardState
-                          </span>
-                        </p>
+                @if (card.CardState != CardState.Новая && card.CardState != CardState.Удалена)
+                {
+                  <span class="badge badge-dark">@card.Executor.UserName @card.Executor.UserSurname</span>
+                }
+                 
+                
+                <span class="badge @if(card.CardState == CardState.Новая)
+                                   {
+                                     @:bg-success
+                                   }
+                                   else if (card.CardState == CardState.Проработка)
+                                   {
+                                     @:bg-info
+                                   }
+                                   else if (card.CardState == CardState.Удалена)
+                                   {
+                                     @:bg-danger
+                                   } text-white">
+                          @card.CardState
+                        </span>
+                      </p>
                 
                 <p class="card-text mb-4">@card.Initiator</p>
                 <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>
@@ -144,7 +155,7 @@ else
 
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
 <div class="row justify-content-center">
-  @Html.PagedListPager(Model, page =>Url.Action("GetCardInfo", "Cards", new {page, ViewBag.sort}), Bootstrap4PagedListRenderOptions.Classic)
+  @Html.PagedListPager(Model, page =>Url.Action("GetCardInfo", "Cards", new {page, ViewBag.sort, ViewBag.filter}), Bootstrap4PagedListRenderOptions.Classic)
 </div>
 
 @section Scripts

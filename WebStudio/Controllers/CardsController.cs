@@ -76,6 +76,11 @@ namespace WebStudio.Controllers
             return RedirectToAction("Index", "Cards");
         }
 
+        /// <summary>
+        /// Данный Action позволяет восстановить карту в новое состояние.
+        /// </summary>
+        /// <param name="cardId">Id карты по которому ищется карта БД.</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> RestoreCard(string cardId)
         {
@@ -92,7 +97,12 @@ namespace WebStudio.Controllers
 
             return RedirectToAction("Index", "Cards");
         }
-
+        
+        /// <summary>
+        /// Данный Action передает карту ответственному исполнителю и меняет её статус.
+        /// </summary>
+        /// <param name="model">Данный параметр является передаваемым контейнером для сущности Card.</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> TakeCard(DetailCardViewModel model)
         {
@@ -114,7 +124,7 @@ namespace WebStudio.Controllers
         }
 
         /// <summary>
-        /// Отображение карт
+        /// Данный Action позволяет делать отображение, фильтрацию карт и пагинацию страниц по статусам, датам и исполнителям.
         /// </summary>
         /// <param name="page">Номер страницы</param>
         /// <param name="from">С какого числа</param>
@@ -144,28 +154,33 @@ namespace WebStudio.Controllers
                     ViewBag.sort = CardState.Проработка;
                     break;
             }
-            
-            switch (filter)
+
+            if (filter != null)
             {
-                case "DateOfAcceptingEnd": 
-                    if (from != null || to != null)
-                    {
-                        cards = cards.Where(c => c.DateOfAcceptingEnd >= from && c.DateOfAcceptingEnd <= to).ToList();
-                    }
-                    break;
-                
-                case "DateOfAuctionStart": 
-                    if (from != null || to != null)
-                    {
-                        cards = cards.Where(c => c.DateOfAuctionStart >= from && c.DateOfAuctionStart <= to).ToList();
-                    }
-                    break;
-                
+                switch (filter)
+                {
+                    case "DateOfAcceptingEnd":
+                        if (from != null || to != null)
+                        {
+                            cards = cards.Where(c => c.DateOfAcceptingEnd >= from && c.DateOfAcceptingEnd <= to).ToList();
+                        }
+                        break;
+
+                    case "DateOfAuctionStart":
+                        if (from != null || to != null)
+                        {
+                            cards = cards.Where(c => c.DateOfAuctionStart >= from && c.DateOfAuctionStart <= to).ToList();
+                        }
+                        break;
+                    
+                    default:
+                        cards = _db.Cards.Where(c => c.ExecutorId == filter).ToList();
+                        ViewBag.filter = filter;
+                        break;
+                }
             }
-            
-            
-            
-            int pageSize = 10;
+
+            int pageSize = 20;
             int pageNumber = page ?? 1;
 
             return View(cards.ToPagedList(pageNumber, pageSize));

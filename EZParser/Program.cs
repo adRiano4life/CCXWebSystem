@@ -24,7 +24,7 @@ namespace EZParser
         
         public static void GetParse()
         {
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; 
+            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; 
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -41,8 +41,7 @@ namespace EZParser
             var doc = new HtmlDocument();
             
             WebClient client = new WebClient();
-            // client.DownloadFile("https://info.ccx.kz/ru/site/download?uid=45D20B99-17F3-4162-859E-752BCB6A21E6", "Приложение 1.docx");
-
+            
             foreach (var position in collectionPosition)
             {
                 doc.LoadHtml(position.InnerHtml);
@@ -57,7 +56,7 @@ namespace EZParser
                     string linkName = link.InnerText;
                     if (link.InnerText.Contains(".xlsx"))
                     {
-                        client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}"); /////////D:\csharp\esdp\1 итерация\приложение\WebStudio
+                        client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); 
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);
