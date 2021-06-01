@@ -1,26 +1,32 @@
 ﻿@model WebStudio.ViewModels.DetailCardViewModel
 @using WebStudio.Enums
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
 @{
-  var count = 1;
+  var count =1;
 }
 <div>
   <div class="col-sm-12 col-md-12 mb-4 pl-0">
     <div class="card shadow" id="card-@Model.Card.Id" onmouseout="link('@Model.Card.Id')" onmousemove="linkStr('@Model.Card.Id')">
-        
-      <div class="card-header 
-          @if(Model.Card.CardState == CardState.Новая)
-          {
-            @:bg-success
-          }
-          else if (Model.Card.CardState == CardState.Проработка)
-          {
-            @:bg-info
-          }
-          else if (Model.Card.CardState == CardState.Удалена)
-          {
-            @:bg-danger
-          }text-white"><h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5></div>
-      
+      @if (Model.Card.CardState == CardState.Новая)
+      {
+        <div class="card-header bg-success text-white shadow">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Проработка)
+      {
+        <div class="card-header bg-primary text-white shadow">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Удалена)
+      {
+        <div class="card-header bg-danger text-white shadow">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
       <div class="card-body">
 
         <p class="card-text mb-4">@Model.Card.Initiator</p>
@@ -90,28 +96,26 @@
             }
           </table>
         }
-        <p class="card-text mb-2" id="lin">
-          <span class="badge @if(Model.Card.CardState == CardState.Новая)
-                                       {
-                                         @:bg-success
-                                       }
-                                       else if (Model.Card.CardState == CardState.Проработка)
-                                       {
-                                         @:bg-info
-                                       }
-                                       else if (Model.Card.CardState == CardState.Удалена)
-                                       {
-                                         @:bg-danger
-                                       } text-white">
-            @Model.Card.CardState
-          </span>
-        </p>
-        <form>
+        @if (@Model.Card.CardState == CardState.Новая)
+        {
+          <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
+        }
+        @if (@Model.Card.CardState == CardState.Проработка)
+        {
+          <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
+        }
+        @if (@Model.Card.CardState == CardState.Удалена)
+        {
+          <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+        }
+        @if (@Model.Card.CardState != CardState.Удалена)
+        {
+          <form asp-action="TakeCard" asp-controller="Cards" method="post">
           <div class="form-group">
             <label for="exampleFormControlSelect1">Выбрать ответственного</label>
             @if (Model.Users.Count != 0)
             {
-              <select class="form-control" id="exampleFormControlSelect1">
+              <select class="form-control" asp-for="UserId">
                 @foreach (var user in Model.Users)
                 {
                   <option class="col-4" value="@user.Id">@user.UserName @user.UserSurname</option>
@@ -166,43 +170,47 @@
             
             <!-------Сроки------->
             <div class="ml-3">
-                          
               <div class="form-group custom-switch">
                 <label class="" for="begin">Начало</label>
                 <input id="begin" class="form-control" type="date"/>
               </div>
-              
               <div class="form-group custom-switch">
                 <label class="" for="end">Срок до</label>
                 <input id="end" class="form-control" type="date"/>
               </div>
-              
-                          
             </div>
-            
           </div>
-          
-          
-          
           <div class="form-group">
             <label for="exampleFormControlTextarea1">Добавьте описание или комментарий к заявке</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
-          <div class="form-group">
-            <input type="submit" value="Взять в работу" class="btn btn-success shadow">
-            <input type="submit" value="Не брать в работу" class="btn btn-danger shadow">
-          </div>
+          <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
+          @if (Model.Card.CardState == CardState.Новая)
+          {
+            <div class="form-group">
+              <input type="submit" value="Взять в работу" class="btn btn-success shadow">
+              <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-danger shadow">Удалить</a>
+            </div>
+          }
+          @if (Model.Card.CardState == CardState.Проработка)
+          {
+            <div class="form-group">
+              <button class="btn btn-outline-success shadow">Участвовать в торгах</button>
+              <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
+              <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
+            </div>
+          }
         </form>
+        }
+        @if (Model.Card.CardState == CardState.Удалена && User.IsInRole("admin"))
+        {
+          <div class="form-group">
+            <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-success shadow">Восстановить</a>
+          </div>
+        }
       </div>
     </div>
   </div>
-  
-  
-  
-  
-  
-  
-
 </div>
 
 <!-----Правая сторона-->
@@ -210,9 +218,6 @@
 @section Scripts
 {
   <script>
-    $(document).ready(function () {
-        $('.card').css({'cursor':'pointer'})
-    })
     /////////////////////////////////Анимация с тенью карточек////////////////////////////////
     function link(cardId){
          $('#card-' + cardId).addClass('shadow')
