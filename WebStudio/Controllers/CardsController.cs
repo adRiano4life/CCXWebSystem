@@ -23,13 +23,9 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int? page)
+        public IActionResult Index()
         {
-            List<Card> cards = _db.Cards.ToList();
-            int pageSize = 20;
-            int pageNumber = page ?? 1;
-
-            return View(cards.ToPagedList(pageNumber, pageSize));
+            return View();
         }
 
         /// <summary>
