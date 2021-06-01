@@ -24,7 +24,9 @@ namespace EZParser
         
         public static void GetParse()
         {
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; 
+            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@";  // aDriano4life
+            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; //Gulzhan
+            
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -55,9 +57,11 @@ namespace EZParser
                 {
                     string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
                     string linkName = link.InnerText;
-                    if (link.InnerText.Contains(".xlsx"))
+                    //if (link.InnerText.Contains(".xlsx"))
+                    if (link.InnerText.Contains(".xlsx") && !link.InnerText.ToLower().Contains("dap"))
                     {
-                        client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}"); /////////D:\csharp\esdp\1 итерация\приложение\WebStudio
+                        //client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}");  //aDriano4life
+                        client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\Files\Excel\{linkName}"); // Gulzhan
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);

@@ -98,7 +98,6 @@ namespace WebStudio.Controllers
                     await _db.SaveChangesAsync();
                 }
             }
-
             return RedirectToAction("Index", "Cards");
         }
         

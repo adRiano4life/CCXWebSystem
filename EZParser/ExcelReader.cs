@@ -13,7 +13,7 @@ namespace EZParser
         public static void ExcelRead()
         {
             string connection =
-                "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; 
+                "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; 
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -29,7 +29,8 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = @"E:\csharp\ESDP\Download Files";
+                    string rootDirName = "../../../../WebStudio/Files/Excel";  //Gulzhan
+                    //string rootDirName = @"E:\csharp\ESDP\Download Files"; // aDriano4life
                     List<string> fileNames = new List<string>();
 
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
@@ -41,10 +42,11 @@ namespace EZParser
 
                     foreach (var file in fileNames)
                     {
-                        if (!string.IsNullOrEmpty(file))
+                        if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files/" + file);
+                            ExcelFile workbook = ExcelFile.Load("../../../../WebStudio/Files/Excel/" + file); //Gulzhan
+                            //ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files/" + file); // aDriano4life
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)
                             {
@@ -81,10 +83,10 @@ namespace EZParser
                                     CodTNVED = workbook.Worksheets.First().Cells[$"C{i}"].Value?.ToString(),
                                     Name = workbook.Worksheets.First().Cells[$"D{i}"].Value.ToString(),
                                     Measure = workbook.Worksheets.First().Cells[$"E{i}"].Value.ToString(),
-                                    Amount = Convert.ToInt32(workbook.Worksheets.First().Cells[$"F{i}"].Value),
+                                    Amount = Convert.ToUInt32(workbook.Worksheets.First().Cells[$"F{i}"].Value),
                                     Currency = workbook.Worksheets.First().Cells[$"G{i}"].Value.ToString(),
-                                    UnitPrice = Convert.ToInt32(workbook.Worksheets.First().Cells[$"H{i}"].Value),
-                                    TotalPrice = Convert.ToInt32(workbook.Worksheets.First().Cells[$"I{i}"].Value),
+                                    UnitPrice = Convert.ToDecimal(workbook.Worksheets.First().Cells[$"H{i}"].Value),
+                                    TotalPrice = Convert.ToDecimal(workbook.Worksheets.First().Cells[$"I{i}"].Value),
                                     PaymentTerms = workbook.Worksheets.First().Cells[$"M{i}"].Value.ToString(),
                                     DeliveryTime = workbook.Worksheets.First().Cells[$"N{i}"].Value.ToString(),
                                     DeliveryTerms = workbook.Worksheets.First().Cells[$"O{i}"].Value.ToString()
