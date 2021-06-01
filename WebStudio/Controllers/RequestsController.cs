@@ -34,7 +34,12 @@ namespace WebStudio.Controllers
         // GET
         public IActionResult Index()
         {
-            return View();
+            RequestIndexViewModel model = new RequestIndexViewModel
+            {
+                Cards = _db.Cards.ToList(),
+                Requests = _db.Requests.ToList()
+            };
+            return View(model);
         }
 
         [HttpGet]
