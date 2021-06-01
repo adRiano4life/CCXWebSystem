@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Models;
@@ -37,18 +38,14 @@ namespace WebStudio.Controllers
                     Email = model.Email,
                     Website = model.Website,
                     PhoneNumber = model.PhoneNumber,
-                    Address = model.Address
+                    Address = model.Address,
+                    Tags = new List<string>()
                 };
 
-                if (string.IsNullOrEmpty(model.Tags))
+                if (!string.IsNullOrEmpty(model.Tags))
                 {
-                    string[] tagsString = model.Tags.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    supplier.Tags.AddRange(tagsString);
-                    
-                    // for (int i = 0; i < tagsString.Length; i++)
-                    // {
-                    //     supplier.Tags.Add(tagsString[i]);    
-                    // }
+                    string[] tagsString = model.Tags.ToLower().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    supplier.Tags.AddRange(tagsString.ToList());
                 }
                 
                 _db.Suppliers.Add(supplier);
