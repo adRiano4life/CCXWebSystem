@@ -29,8 +29,7 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = "../../../../WebStudio/Files/Excel";  //Gulzhan
-                    //string rootDirName = @"E:\csharp\ESDP\Download Files"; // aDriano4life
+                    string rootDirName = @"C:\Users\user\Desktop\files\";
                     List<string> fileNames = new List<string>();
 
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
@@ -45,8 +44,7 @@ namespace EZParser
                         if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            ExcelFile workbook = ExcelFile.Load("../../../../WebStudio/Files/Excel/" + file); //Gulzhan
-                            //ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files/" + file); // aDriano4life
+                            ExcelFile workbook = ExcelFile.Load(@"C:\Users\user\Desktop\files\" + file);
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)
                             {
@@ -83,10 +81,10 @@ namespace EZParser
                                     CodTNVED = workbook.Worksheets.First().Cells[$"C{i}"].Value?.ToString(),
                                     Name = workbook.Worksheets.First().Cells[$"D{i}"].Value.ToString(),
                                     Measure = workbook.Worksheets.First().Cells[$"E{i}"].Value.ToString(),
-                                    Amount = Convert.ToUInt32(workbook.Worksheets.First().Cells[$"F{i}"].Value),
+                                    Amount = Convert.ToInt32(workbook.Worksheets.First().Cells[$"F{i}"].Value),
                                     Currency = workbook.Worksheets.First().Cells[$"G{i}"].Value.ToString(),
-                                    UnitPrice = Convert.ToDecimal(workbook.Worksheets.First().Cells[$"H{i}"].Value),
-                                    TotalPrice = Convert.ToDecimal(workbook.Worksheets.First().Cells[$"I{i}"].Value),
+                                    UnitPrice = Convert.ToInt32(workbook.Worksheets.First().Cells[$"H{i}"].Value),
+                                    TotalPrice = Convert.ToInt32(workbook.Worksheets.First().Cells[$"I{i}"].Value),
                                     PaymentTerms = workbook.Worksheets.First().Cells[$"M{i}"].Value.ToString(),
                                     DeliveryTime = workbook.Worksheets.First().Cells[$"N{i}"].Value.ToString(),
                                     DeliveryTerms = workbook.Worksheets.First().Cells[$"O{i}"].Value.ToString()

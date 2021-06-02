@@ -6,25 +6,24 @@
 @{
   var count =1;
 }
-<h2>Карточка @Model.Card.Name</h2>
 <div>
   <div class="col-sm-12 col-md-12 mb-4 pl-0">
     <div class="card shadow" id="card-@Model.Card.Id" onmouseout="link('@Model.Card.Id')" onmousemove="linkStr('@Model.Card.Id')">
       @if (Model.Card.CardState == CardState.Новая)
       {
-        <div class="card-header bg-success text-white shadow">
+        <div class="card-header bg-success text-white">
           <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
         </div>
       }
       @if (Model.Card.CardState == CardState.Проработка)
       {
-        <div class="card-header bg-primary text-white shadow">
+        <div class="card-header bg-primary text-white">
           <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
         </div>
       }
       @if (Model.Card.CardState == CardState.Удалена)
       {
-        <div class="card-header bg-danger text-white shadow">
+        <div class="card-header bg-danger text-white">
           <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
         </div>
       }
@@ -66,7 +65,7 @@
         
         @if (Model.Card.Positions.Count() > 0)
         {
-          <table class="table" style="font-size: 12px;">
+          <table class="table" style="font-size: 10px;">
             <tr>
               <th>№</th>
               <th>Код ТНВЭД</th>
@@ -119,7 +118,10 @@
               <select class="form-control" asp-for="UserId">
                 @foreach (var user in Model.Users)
                 {
-                  <option class="col-4" value="@user.Id">@user.UserName @user.UserSurname</option>
+                  if (@user.UserName != "admin")
+                  {
+                    <option class="col-4" value="@user.Id">@user.UserName @user.UserSurname</option>
+                  }
                 }
               </select>
             }
