@@ -22,7 +22,6 @@
 
     <ItemGroup>
       <Folder Include="Files\Links" />
-      <Folder Include="Migrations" />
       <Folder Include="wwwroot\Files\Requests" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>

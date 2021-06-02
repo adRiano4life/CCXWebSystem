@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210528154259_init")]
-    partial class init
+    [Migration("20210601175113_RequestsFilter")]
+    partial class RequestsFilter
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,6 +245,9 @@ namespace WebStudio.Migrations
                     b.Property<DateTime>("DateOfAuctionStart")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("ExecutorId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Initiator")
                         .HasColumnType("text");
 
@@ -267,6 +270,8 @@ namespace WebStudio.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExecutorId");
 
                     b.ToTable("Cards");
                 });
@@ -317,6 +322,35 @@ namespace WebStudio.Migrations
                     b.HasIndex("CardId");
 
                     b.ToTable("Positions");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.Request", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CardId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateOfCreate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ExecutorId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("ExecutorId");
+
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("WebStudio.Models.User", b =>
@@ -383,6 +417,15 @@ namespace WebStudio.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebStudio.Models.Card", b =>
+                {
+                    b.HasOne("WebStudio.Models.User", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+
+                    b.Navigation("Executor");
+                });
+
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
                 {
                     b.HasOne("WebStudio.Models.Card", "Card")
@@ -390,6 +433,21 @@ namespace WebStudio.Migrations
                         .HasForeignKey("CardId");
 
                     b.Navigation("Card");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.Request", b =>
+                {
+                    b.HasOne("WebStudio.Models.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId");
+
+                    b.HasOne("WebStudio.Models.User", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Executor");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Card", b =>

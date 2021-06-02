@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
@@ -31,14 +32,41 @@ namespace WebStudio.Controllers
             _uploadService = uploadService;
         }
 
-        // GET
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(RequestIndexViewModel model, string filterOrder)
         {
-            RequestIndexViewModel model = new RequestIndexViewModel
+            model.Requests = _db.Requests.ToList();
+
+            if (filterOrder == "DateOfCreate")
             {
-                Cards = _db.Cards.ToList(),
-                Requests = _db.Requests.ToList()
-            };
+                model.Requests = model.Requests
+                    .Where(r => r.DateOfCreate >= model.DateFrom && r.DateOfCreate <= model.DateTo)
+                    .OrderBy(r=>r.DateOfCreate).ToList();
+            }
+
+            if (filterOrder == "DateOfAcceptingEnd")
+            {
+                model.Requests = model.Requests
+                    .Where(r => r.Card.DateOfAcceptingEnd >= model.DateFrom &&
+                                r.Card.DateOfAcceptingEnd <= model.DateTo)
+                    .OrderBy(r => r.Card.DateOfAcceptingEnd).ToList();
+            }
+
+            if (filterOrder == "DateOfAuctionStart")
+            {
+                model.Requests = model.Requests
+                    .Where(r => r.Card.DateOfAuctionStart >= model.DateFrom &&
+                                r.Card.DateOfAuctionStart <= model.DateTo)
+                    .OrderBy(r => r.Card.DateOfAuctionStart).ToList();
+            }
+
+            if (model.ExecutorName != null)
+            {
+                model.ExecutorName = model.ExecutorName.ToLower();
+                model.Requests = (IOrderedQueryable<Request>) model.Requests.Where(r =>
+                    r.Card.Executor.UserSurname.Contains(model.ExecutorName));
+            }
+            
             return View(model);
         }
 
@@ -66,11 +94,14 @@ namespace WebStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Requests");
-                string filePath = $"\\Files\\Requests\\{model.File.FileName}";
-                _uploadService.Upload(path, model.File.FileName, model.File);
-                model.FilePath = filePath;
-
+                if (model.File != null)
+                {
+                    string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Requests");
+                    string filePath = $"\\Files\\Requests\\{model.File.FileName}";
+                    _uploadService.Upload(path, model.File.FileName, model.File);
+                    model.FilePath = filePath;
+                }
+                
                 Request request = new Request
                 {
                     Text = model.Text,
@@ -85,7 +116,7 @@ namespace WebStudio.Controllers
                 if (result.IsCompleted)
                 {
                     await _db.SaveChangesAsync();
-                    return RedirectToAction("DetailCard", "Cards");
+                    return RedirectToAction("DetailCard", "Cards", new {cardId = model.CardId});
                 }
             }
 
