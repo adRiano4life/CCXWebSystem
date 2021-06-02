@@ -44,8 +44,8 @@
                         }
                     }
                 </td>
-                <td><a href="#">Редактировать</a></td>
-                <td><a href="#">Удалить</a></td>
+                <td><a asp-action="Edit" asp-route-id="@supplier.Id">Редактировать</a></td>
+                <td><a asp-action="Delete" asp-route-id="@supplier.Id">Удалить</a></td>
             </tr>
         }
     }

@@ -4,6 +4,7 @@ namespace WebStudio.ViewModels
 {
     public class CreateSupplierViewModel
     {
+        public string Id { get; set; }
         [Required(ErrorMessage = "Поле обязательно")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Поле обязательно")]
