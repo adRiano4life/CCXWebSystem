@@ -17,7 +17,15 @@ namespace WebStudio.Controllers
             _db = db;
         }
 
-        
+
+        [HttpGet]
+        //[Authorize]
+        public  IActionResult Index()
+        {
+            List<Supplier> suppliers = _db.Suppliers.ToList();
+            return View(suppliers);
+        }
+
         [HttpGet]
         //[Authorize]
         public IActionResult Create()
@@ -50,7 +58,7 @@ namespace WebStudio.Controllers
                 
                 _db.Suppliers.Add(supplier);
                 _db.SaveChanges();
-                return RedirectToAction("Index", "Cards"); //Index/Suppliers
+                return RedirectToAction("Index", "Suppliers"); 
             }
 
             return View(model);
