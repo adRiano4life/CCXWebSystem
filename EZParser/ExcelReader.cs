@@ -12,8 +12,8 @@ namespace EZParser
     {
         public static void ExcelRead()
         {
-            string connection =
-                "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; 
+            // string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123";
+            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@";
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
