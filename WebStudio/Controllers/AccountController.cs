@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -43,7 +44,13 @@ namespace WebStudio.Controllers
                 User user = await _userManager.FindByIdAsync(userId);
                 if (user != null)
                 {
-                    return View(user);
+                    IndexUsersViewModel model = new IndexUsersViewModel{User = user};
+                    if (User.IsInRole("admin"))
+                    {
+                        model.Users = _db.Users.ToList();
+                    }
+                    
+                    return View(model);
                 }
 
                 return NotFound();
@@ -63,10 +70,10 @@ namespace WebStudio.Controllers
             if (ModelState.IsValid)
             {
                 string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");
-                string avatarPath = "\\Images\\Avatars\\defaultavatar.jpg";
+                string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
                 if (model.File != null)
                 {
-                    avatarPath = $"\\Images\\Avatars\\{model.File.FileName}";
+                    avatarPath = $"/Images/Avatars/{model.File.FileName}";
                     _uploadService.Upload(path, model.File.FileName, model.File);
                 }
 
@@ -154,7 +161,7 @@ namespace WebStudio.Controllers
                     if (model.File != null)
                     {
                         string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");
-                        string avatarPath = $"\\wwwroot\\Images\\Avatars\\{model.File.FileName}";
+                        string avatarPath = $"/Images/Avatars/{model.File.FileName}";
                         _uploadService.Upload(path, model.File.FileName, model.File);
                         model.AvatarPath = avatarPath;
 
@@ -164,7 +171,7 @@ namespace WebStudio.Controllers
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index", new {userId = model.Id});
                     }
 
                     foreach (var error in result.Errors)

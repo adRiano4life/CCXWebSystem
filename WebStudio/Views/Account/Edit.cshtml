@@ -24,7 +24,7 @@
                 <label>Фото</label>
                 <input class="form-control-file" asp-for="File">
             </div>
-            <input type="hidden" value="@Model.Id">
+            <input asp-for="@Model.Id" type="hidden" value="@Model.Id">
             <div>
                 <input type="submit" class="btn btn-outline-primary" value="Изменить">
             </div>

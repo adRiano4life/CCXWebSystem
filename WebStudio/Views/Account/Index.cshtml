@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model WebStudio.ViewModels.IndexUsersViewModel
 
 @{
     ViewBag.Title = "Личный кабинет";
@@ -6,3 +6,56 @@
 }
 
 <h2>Личный кабинет</h2>
+<div class="card my-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="@Model.User.AvatarPath" class="card-img my-auto py-auto" alt="фото пользователя">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Имя: @Model.User.UserSurname @Model.User.UserName</h5>
+                <p class="card-text">Эл.почта: @Model.User.Email</p>
+                <p class="card-text">Телефон: @Model.User.PhoneNumber</p>
+                <p class="card-text">
+                    @if (@User.IsInRole("admin"))
+                    {
+                        <small class="text-muted">роль: admin</small>   
+                    }
+                    else
+                    {
+                        <small class="text-muted">роль: user</small>
+                    }
+                </p>
+                <p>
+                    <a asp-controller="Account" asp-action="Edit" asp-route-userId="@Model.User.Id">Редактировать</a>
+                    <a asp-controller="Account" asp-action="ChangePassword" asp-route-userId="@Model.User.Id" 
+                       class="ml-3">Изменить пароль</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h5 class="my-5">Список пользователей</h5>
+@if (User.IsInRole("admin") && @Model.Users.Count > 0)
+{
+    <div class="users">
+        <table class="table">
+            <tr>
+                <td></td>
+                <th>Имя</th>
+                <th>Эл.почта</th>
+                <th>Телефон</th>
+            </tr>
+            @foreach (var user in @Model.Users)
+            {
+                <tr>
+                    <th><img src="@user.AvatarPath" style="width: 30px; height: 30px;"></th>
+                    <td>@user.UserSurname @user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                </tr>    
+            }
+        </table>
+    </div>    
+}

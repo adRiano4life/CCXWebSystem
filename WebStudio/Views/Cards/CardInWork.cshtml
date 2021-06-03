@@ -50,12 +50,26 @@ else
               <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @card.BestPrice</p>
               <p class="card-text mb-0" id="lin">
                 
-                  @for (int i = 0; i < card.Links.Count; i++)
+                @for (int i = 0; i < card.Links.Count; i++)
+                {
+                  if (card.LinkNames[i].Contains(".xlsx")) 
                   {
-                    
-                    <i class="fas fa-file-download text-secondary"></i> <a href="@card.Links[i]">@card.LinkNames[i]</a><br>
-                    
+                    <i class="far fa-file-excel text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
                   }
+                  else if (card.LinkNames[i].Contains(".docx"))
+                  {
+                    <i class="far fa-file-word text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
+                  }
+                  else if (card.LinkNames[i].Contains(".pdf"))
+                  {
+                    <i class="far fa-file-pdf text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
+                  }
+                  else if (card.LinkNames[i].Contains(".jpg"))
+                  {
+                    <i class="far fa-file-image text-secondary"></i><a href="@card.LinkNames[i]">@card.LinkNames[i]</a><br>
+                  }
+                    
+                }
                 
               </p>
             </div>

@@ -13,7 +13,7 @@ namespace WebStudio.ViewModels
         public string UserName { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
-        [Display(Name = "Имя пользователя")]
+        [Display(Name = "Фамилия пользователя")]
         [DataType(DataType.Text)]
         public string UserSurname { get; set; }
         

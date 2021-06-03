@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@using WebStudio.Enums
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -12,29 +16,45 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Cards" asp-action="Index">Главная</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="Index">Новые</a>
-                    </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="CardInWork">В работе</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">Новые</a>
                     </li>
-                    
+
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="CardDeleted">Удаленные</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">В работе</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Удалена">Удалённые</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="Index">База поставщика</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Запросы</a>
                     </li>
 
                 </ul>
+                <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Index" asp-route-userId="@UserManager.GetUserId(User)"><i class="far fa-user text-dark"></i></a>
+                        <form asp-controller="Account" asp-action="Logout" method="post"><input type="submit" class="btn ml-2" value="Выход"></form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn ml-2">Вход</a>
+                        <a asp-controller="Account" asp-action="Register" class="btn">Регистрация</a>
+                    }
+                </div>
             </div>
         </div>
     </nav>
@@ -47,7 +67,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2021 - WebStudio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2021 - WebStudio - <a asp-area="" asp-controller="Cards" asp-action="Index">Главная</a>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

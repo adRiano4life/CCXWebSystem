@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Files\Links" />
       <Folder Include="wwwroot\Files\Requests" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>

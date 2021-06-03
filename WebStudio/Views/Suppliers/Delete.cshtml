@@ -1,0 +1,13 @@
+﻿@model Supplier
+
+@{
+    ViewBag.Title = "Удаление поставщика";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+<form method="post" asp-action="Delete" asp-controller="Suppliers" asp-route-id="@Model.Id">
+    <p>Удалить поставщика "@Model.Name"?</p>
+    <input type="submit" value="ДА">
+    <a asp-action="Index" asp-controller="Suppliers">НЕТ</a>
+</form>

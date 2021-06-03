@@ -10,6 +10,7 @@ namespace WebStudio.Models
         public DbSet<User> Users { get; set; }
         public DbSet<CardPosition> Positions { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
 
         public WebStudioContext(DbContextOptions options) : base(options)
         {
