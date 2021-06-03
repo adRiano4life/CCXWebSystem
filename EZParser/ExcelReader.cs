@@ -29,7 +29,10 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = @"C:\Users\user\Desktop\files\";
+                    // string rootDirName = @"E:\csharp\ESDP\Download Files\"; // Саня Ф.
+                    // string rootDirName = @"C:\Users\user\Desktop\files\"; // Саня Т.
+                    string rootDirName = "../../../../WebStudio/wwwroot/Files/Excel/"; //Гульжан
+                    
                     List<string> fileNames = new List<string>();
 
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
@@ -44,7 +47,14 @@ namespace EZParser
                         if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            ExcelFile workbook = ExcelFile.Load(@"C:\Users\user\Desktop\files\" + file);
+                            //эти пути не раскоменчивайте.
+                            //если выше в строке "string rootDirName"
+                            //указали правильный путь, то должно сработать норм
+                            //если все норм, удалите эти комменты и оставьте между 49 и 56 строками 1 пробел
+                            //ExcelFile workbook = ExcelFile.Load(@"C:\Users\user\Desktop\files\" + file); //Саня Т.
+                            //ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files\" + file); //Саня Ф.
+                            ExcelFile workbook = ExcelFile.Load(rootDirName + file);
+                            
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)
                             {
