@@ -115,7 +115,7 @@ namespace WebStudio.Controllers
                     await _db.SaveChangesAsync();
                 }
             }
-            return RedirectToAction("Index", "Cards");
+            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Проработка});
         }
 
         /// <summary>

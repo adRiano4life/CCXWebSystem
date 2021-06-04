@@ -112,9 +112,10 @@
         {
           <form asp-action="TakeCard" asp-controller="Cards" method="post">
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Выбрать ответственного</label>
-            @if (Model.Users.Count != 0)
+            
+            @if (Model.Users.Count != 1)
             {
+              <label for="exampleFormControlSelect1">Выбрать ответственного</label>
               <select class="form-control" asp-for="UserId">
                 @foreach (var user in Model.Users)
                 {
@@ -127,7 +128,7 @@
             }
             else
             {
-              <p>У вас нет зарегистрированных сотрудников</p>
+              <p class="text-danger">У вас нет зарегистрированных сотрудников</p>
             }
           </div>
           
