@@ -137,9 +137,8 @@
                 {
                   <p class="text-danger">У вас нет зарегистрированных сотрудников</p>
                 }
-              
-              
-                </div>
+
+            </div>
 
                 <div class="row">
                   <!---------->
@@ -208,6 +207,7 @@
                 @if (Model.Card.CardState == CardState.Проработка)
                 {
                   <div class="form-group">
+                    <input type="submit" value="Переназначить ответственного" class="btn btn-success shadow">
                     <button class="btn btn-outline-success shadow">Участвовать в торгах</button>
                     <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
                     <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
