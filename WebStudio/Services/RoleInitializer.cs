@@ -26,6 +26,7 @@ namespace WebStudio.Services
                 User admin = new User
                 {
                     Email = adminEmail,
+                    UserName = adminEmail,
                     Name = "admin"
                 };
                 var result = await userManager.CreateAsync(admin, adminPassword);

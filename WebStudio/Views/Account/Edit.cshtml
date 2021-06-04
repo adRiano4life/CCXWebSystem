@@ -21,7 +21,19 @@
                 <span asp-validation-for="Surname"></span>
             </div>
             <div class="form-group">
-                <label>Фото</label>
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email">
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input class="form-control" asp-for="PhoneNumber">
+                <span asp-validation-for="PhoneNumber"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="File">Фото</label>
+                <img src="@Model.AvatarPath" class="ml-4" style="height: 30px; width: 30px;">
                 <input class="form-control-file" asp-for="File">
             </div>
             <input asp-for="@Model.Id" type="hidden" value="@Model.Id">

@@ -84,6 +84,8 @@ namespace WebStudio.Controllers
                     Name = model.Name,
                     Surname = model.Surname,
                     Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    UserName = model.Email,
                     AvatarPath = model.AvatarPath
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -142,6 +144,8 @@ namespace WebStudio.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Surname = user.Surname,
+                Email = user.Email,
+                PhoneNumber =  user.PhoneNumber,
                 AvatarPath = user.AvatarPath
             };
             return View(model);
@@ -158,13 +162,16 @@ namespace WebStudio.Controllers
                 {
                     user.Name = model.Name;
                     user.Surname = model.Surname;
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+                    user.PhoneNumber = model.PhoneNumber;
+                    
                     if (model.File != null)
                     {
                         string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");
                         string avatarPath = $"/Images/Avatars/{model.File.FileName}";
                         _uploadService.Upload(path, model.File.FileName, model.File);
                         model.AvatarPath = avatarPath;
-
                         user.AvatarPath = model.AvatarPath;
                     }
 

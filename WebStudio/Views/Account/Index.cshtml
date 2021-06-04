@@ -8,8 +8,10 @@
 <h2>Личный кабинет</h2>
 <div class="card my-3" style="max-width: 540px;">
     <div class="row no-gutters">
-        <div class="col-md-4">
-            <img src="@Model.User.AvatarPath" class="card-img my-auto py-auto" alt="фото пользователя">
+        <div class="col-md-4 align-items-baseline">
+            
+                <img src="@Model.User.AvatarPath" class="card-img" alt="фото пользователя">
+            
         </div>
         <div class="col-md-8">
             <div class="card-body">
@@ -20,10 +22,6 @@
                     @if (@User.IsInRole("admin"))
                     {
                         <small class="text-muted">роль: admin</small>   
-                    }
-                    else
-                    {
-                        <small class="text-muted">роль: user</small>
                     }
                 </p>
                 <p>
@@ -36,9 +34,10 @@
     </div>
 </div>
 
-<h5 class="my-5">Список пользователей</h5>
+
 @if (User.IsInRole("admin") && @Model.Users.Count > 0)
 {
+    <h5 class="my-5">Список пользователей</h5>
     <div class="users">
         <table class="table">
             <tr>
