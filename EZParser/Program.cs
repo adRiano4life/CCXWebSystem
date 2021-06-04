@@ -60,7 +60,7 @@ namespace EZParser
                     {
                         // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
                         // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}"); //Саня Ф.
-                         client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\wwwroot\Files\Excel\{linkName}"); //Гульжан  
+                         client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\Excel\{linkName}"); //Гульжан  
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);

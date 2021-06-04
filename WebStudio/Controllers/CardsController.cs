@@ -118,7 +118,8 @@ namespace WebStudio.Controllers
             return RedirectToAction("Index", "Cards");
         }
 
-        /// <summary>
+        
+       /// <summary>
         /// Данный Action позволяет делать отображение, фильтрацию карт и пагинацию страниц по статусам, датам и исполнителям.
         /// </summary>
         /// <param name="page">Номер страницы</param>
