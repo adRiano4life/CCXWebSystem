@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Enums;
@@ -111,6 +112,24 @@ namespace WebStudio.Controllers
                     card.ExecutorId = model.UserId;
                     card.Executor = await _userManager.FindByIdAsync(model.UserId);
 
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Index", "Cards");
+        }
+
+        
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AuctionCard(string cardId)
+        {
+            if (cardId != null)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                if (card != null)
+                {
+                    card.CardState = CardState.Торги;
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
                 }
