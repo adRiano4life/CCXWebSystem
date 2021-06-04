@@ -12,8 +12,8 @@ namespace EZParser
     {
         public static void ExcelRead()
         {
-            // string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123";
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
+            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; //бд Гульжан
+            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -29,9 +29,9 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = @"E:\csharp\ESDP\Download Files\"; // Саня Ф.
+                    //string rootDirName = @"E:\csharp\ESDP\Download Files\"; // Саня Ф.
                     // string rootDirName = @"C:\Users\user\Desktop\files\"; // Саня Т.
-                    // string rootDirName = "../../../../WebStudio/wwwroot/Files/Excel/"; //Гульжан
+                     string rootDirName = "../../../../WebStudio/wwwroot/Files/Excel/"; //Гульжан
                     
                     List<string> fileNames = new List<string>();
 

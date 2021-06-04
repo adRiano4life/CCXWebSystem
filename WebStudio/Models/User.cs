@@ -6,7 +6,8 @@ namespace WebStudio.Models
 {
     public class User : IdentityUser
     {
-        public string UserSurname { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
         public string AvatarPath { get; set; }
         
         [NotMapped] 

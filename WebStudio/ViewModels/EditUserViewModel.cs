@@ -10,12 +10,12 @@ namespace WebStudio.ViewModels
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Имя пользователя")]
         [DataType(DataType.Text)]
-        public string UserName { get; set; }
+        public string Name { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Фамилия пользователя")]
         [DataType(DataType.Text)]
-        public string UserSurname { get; set; }
+        public string Surname { get; set; }
         
         public string AvatarPath { get; set; }
         public IFormFile File { get; set; }

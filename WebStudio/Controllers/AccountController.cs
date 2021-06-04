@@ -81,8 +81,8 @@ namespace WebStudio.Controllers
 
                 User user = new User
                 {
-                    UserName = model.UserName,
-                    UserSurname = model.UserSurname,
+                    Name = model.Name,
+                    Surname = model.Surname,
                     Email = model.Email,
                     AvatarPath = model.AvatarPath
                 };
@@ -140,8 +140,8 @@ namespace WebStudio.Controllers
             EditUserViewModel model = new EditUserViewModel
             {
                 Id = user.Id,
-                UserName = user.UserName,
-                UserSurname = user.UserSurname,
+                Name = user.Name,
+                Surname = user.Surname,
                 AvatarPath = user.AvatarPath
             };
             return View(model);
@@ -156,8 +156,8 @@ namespace WebStudio.Controllers
                 User user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    user.UserName = model.UserName;
-                    user.UserSurname = model.UserSurname;
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
                     if (model.File != null)
                     {
                         string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");

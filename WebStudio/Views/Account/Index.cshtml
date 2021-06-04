@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">Имя: @Model.User.UserSurname @Model.User.UserName</h5>
+                <h5 class="card-title">Имя: @Model.User.Surname @Model.User.Name</h5>
                 <p class="card-text">Эл.почта: @Model.User.Email</p>
                 <p class="card-text">Телефон: @Model.User.PhoneNumber</p>
                 <p class="card-text">
@@ -51,7 +51,7 @@
             {
                 <tr>
                     <th><img src="@user.AvatarPath" style="width: 30px; height: 30px;"></th>
-                    <td>@user.UserSurname @user.UserName</td>
+                    <td>@user.Surname @user.Name</td>
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
                 </tr>    

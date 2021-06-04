@@ -118,9 +118,9 @@
               <select class="form-control" asp-for="UserId">
                 @foreach (var user in Model.Users)
                 {
-                  if (@user.UserName != "admin")
+                  if (@user.Name != "admin")
                   {
-                    <option class="col-4" value="@user.Id">@user.UserName @user.UserSurname</option>
+                    <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
                   }
                 }
               </select>

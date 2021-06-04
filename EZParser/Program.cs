@@ -24,8 +24,8 @@ namespace EZParser
         
         public static void GetParse()
         {
-            // string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
+             string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан
+            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
             
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
@@ -59,8 +59,8 @@ namespace EZParser
                     if (link.InnerText.Contains(".xlsx"))
                     {
                         // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
-                        client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}"); //Саня Ф.
-                        // client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\wwwroot\Files\Excel\{linkName}"); //Гульжан  
+                        // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}"); //Саня Ф.
+                         client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\wwwroot\Files\Excel\{linkName}"); //Гульжан  
                     }
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);
