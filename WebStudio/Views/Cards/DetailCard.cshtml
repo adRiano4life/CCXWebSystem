@@ -96,6 +96,11 @@
             }
           </table>
         }
+        @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
+        {
+          <span class="badge badge-dark">@Model.Card.Executor.UserName @Model.Card.Executor.UserSurname</span>
+        }
+        
         @if (@Model.Card.CardState == CardState.Новая)
         {
           <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
