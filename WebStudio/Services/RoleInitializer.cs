@@ -10,6 +10,7 @@ namespace WebStudio.Services
         {
             string adminEmail = "admin@admin.com";
             string adminPassword = "Q1w2e3r4t%";
+            string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
 
             var roles = new[] {"admin", "user"};
 
@@ -26,7 +27,8 @@ namespace WebStudio.Services
                 User admin = new User
                 {
                     Email = adminEmail,
-                    UserName = "admin"
+                    UserName = "admin",
+                    AvatarPath = avatarPath
                 };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
