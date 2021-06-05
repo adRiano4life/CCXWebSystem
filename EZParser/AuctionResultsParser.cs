@@ -30,7 +30,6 @@ namespace EZParser
 
             var docAllPosition = web.Load(url);
 
-            //var collectionPosition = docAllPosition.DocumentNode.SelectNodes("//td[contains(text(),'Казахмыс')]/..");
             var rows = docAllPosition.DocumentNode.SelectNodes("//tbody//tr");
 
             var doc = new HtmlDocument();
