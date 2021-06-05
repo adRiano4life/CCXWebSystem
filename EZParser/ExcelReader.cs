@@ -36,7 +36,8 @@ namespace EZParser
                     List<string> fileNames = new List<string>();
 
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
-                    foreach (var file in dirInfo.GetFiles())
+                    
+                   foreach (var file in dirInfo.GetFiles())
                     {
                         if (file.Name.Contains(cardNumber))
                             fileNames.Add(file.Name);

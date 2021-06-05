@@ -20,12 +20,14 @@ namespace EZParser
         {
             GetParse();
             ExcelReader.ExcelRead();
+            AuctionResultsParser.GetAuctionResults();
         }
         
         public static void GetParse()
         {
             string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан
             //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
+            // string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Саня Т.
             
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
@@ -56,7 +58,7 @@ namespace EZParser
                 {
                     //DirectoryInfo dirInfo = new DirectoryInfo(@"E:\csharp\ESDP\Download Files"); //Саня Ф.
                     //DirectoryInfo dirInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files"); //Саня Т.
-                    DirectoryInfo dirInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"); //Гульжан
+                    DirectoryInfo dirInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\"); //Гульжан
                     string[] subDirectory = tds[0].InnerText.Split("/");
                     dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                     string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
@@ -65,8 +67,17 @@ namespace EZParser
                     {
                         // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
                         // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\Excel\{linkName}"); //Саня Ф.
-                        client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\Excel\{linkName}"); //Гульжан  
+                        
+                        //Гульжан
+                        foreach (var dir in dirInfo.GetDirectories())
+                        {
+                            if (!Directory.Exists("Excel"))
+                                dirInfo.CreateSubdirectory("Excel");
+                        }
+                        client.DownloadFile($"{stringLink}", @$"{dirInfo}Excel\{linkName}");
+                        //Гульжан
                     }
+                    
                     //client.DownloadFile($"{stringLink}", $@"E:\csharp\ESDP\Download Files\{subDirectory[0]}\{linkName}"); //Саня Ф.
                     //client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{subDirectory[0]}\{linkName}"); //Саня Т.
                     client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\{subDirectory[0]}\{linkName}"); //Гульжан
