@@ -63,7 +63,7 @@ namespace WebStudio.Controllers
             {
                 model.ExecutorName = model.ExecutorName.ToLower();
                 model.Requests = (IOrderedQueryable<Request>) model.Requests.Where(r =>
-                    r.Card.Executor.UserSurname.Contains(model.ExecutorName));
+                    r.Card.Executor.Surname.Contains(model.ExecutorName));
             }
             
             return View(model);

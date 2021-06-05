@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Enums;
@@ -34,6 +35,7 @@ namespace WebStudio.Controllers
         /// <param name="cardId">для поиска в базе карт метод принимает её Id</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public IActionResult DetailCard(string cardId)
         {
             if (cardId != null)
@@ -118,7 +120,26 @@ namespace WebStudio.Controllers
             return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Проработка});
         }
 
-        /// <summary>
+        
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> AuctionCard(string cardId)
+        {
+            if (cardId != null)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                if (card != null)
+                {
+                    card.CardState = CardState.Торги;
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Index", "Cards");
+        }
+
+        
+       /// <summary>
         /// Данный Action позволяет делать отображение, фильтрацию карт и пагинацию страниц по статусам, датам и исполнителям.
         /// </summary>
         /// <param name="page">Номер страницы</param>
@@ -127,8 +148,9 @@ namespace WebStudio.Controllers
         /// <param name="filter">Выбор фильтрации</param>
         /// <param name="sort">Сортировка статусов карт</param>
         /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetCardInfo(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
+       [HttpGet]
+       [Authorize]
+       public IActionResult GetCardInfo(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
         {
             List<Card> cards = new List<Card>();
             
@@ -147,6 +169,16 @@ namespace WebStudio.Controllers
                 case CardState.Проработка: 
                     cards = _db.Cards.Where(c => c.CardState == CardState.Проработка).ToList();
                     ViewBag.sort = CardState.Проработка;
+                    break;
+                
+                case CardState.Торги: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Торги).ToList();
+                    ViewBag.sort = CardState.Торги;
+                    break;
+                
+                case CardState.Выигранная: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Выигранная).ToList();
+                    ViewBag.sort = CardState.Выигранная;
                     break;
             }
 

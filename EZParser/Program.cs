@@ -54,14 +54,22 @@ namespace EZParser
                 List<string> linkNames = new List<string>();
                 foreach (var link in links)
                 {
+                    //DirectoryInfo dirInfo = new DirectoryInfo(@"E:\csharp\ESDP\Download Files"); //Саня Ф.
+                    DirectoryInfo dirInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files"); //Саня Т.
+                    //DirectoryInfo dirInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"); //Гульжан
+                    string[] subDirectory = tds[0].InnerText.Split("/");
+                    dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                     string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
                     string linkName = link.InnerText;
-                    if (link.InnerText.Contains(".xlsx"))
+                    if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
                     {
                          client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
                         // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\{linkName}"); //Саня Ф.
                         // client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\1itera\app\WebStudio\wwwroot\Files\Excel\{linkName}"); //Гульжан  
                     }
+                    //client.DownloadFile($"{stringLink}", $@"E:\csharp\ESDP\Download Files\{subDirectory[0]}\{linkName}"); //Саня Ф.
+                    client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{subDirectory[0]}\{linkName}"); //Саня Т.
+                    //client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\{subDirectory[0]}\{linkName}"); //Гульжан
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);
                 }
