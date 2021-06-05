@@ -34,9 +34,9 @@ else
             <option disabled>--------------------------------------</option>
             @foreach (var user in _db.Users)
             {
-              if (@user.UserName != "admin")
+              if (@user.Name != "admin")
               {
-                <option value="@user.Id">@user.UserName @user.UserSurname</option>
+                <option value="@user.Id">@user.Name @user.Surname</option>
               }
             }
           </select>
@@ -46,7 +46,6 @@ else
           <span> по: </span>
           <input type="date" name="to" placeholder="по">
           <input value="фильтровать" type="submit">
-
         </form>
         
       </div>
@@ -75,10 +74,20 @@ else
                   else if (card.CardState == CardState.Удалена)
                   {
                     @:bg-danger
-                  }text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
+                  }
+                  else if (card.CardState == CardState.Торги)
+                  {
+                    @:bg-warning
+                  }
+                  else if (card.CardState == CardState.Выигранная)
+                  {
+                    @:bg-info
+                  }
+                  
+                  text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
-              @if (card.CardState != CardState.Удалена)
+              @if (card.CardState != CardState.Удалена && card.CardState != CardState.Торги)
               {
                 <div class="ml-auto" id="deleteCard">
                   <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id">
@@ -94,10 +103,9 @@ else
                 <p class="card-text mb-2" id="lin">
                 @if (card.CardState != CardState.Новая && card.CardState != CardState.Удалена)
                 {
-                  <span class="badge badge-dark">@card.Executor.UserName @card.Executor.UserSurname</span>
+                  <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
                 }
-                 
-                
+
                 <span class="badge @if(card.CardState == CardState.Новая)
                                    {
                                      @:bg-success
@@ -109,7 +117,16 @@ else
                                    else if (card.CardState == CardState.Удалена)
                                    {
                                      @:bg-danger
-                                   } text-white">
+                                   }
+                                   else if (card.CardState == CardState.Торги)
+                                   {
+                                     @:bg-warning
+                                   } 
+                                   else if (card.CardState == CardState.Выигранная)
+                                   {
+                                     @:bg-info
+                                   }
+                                   text-white">
                           @card.CardState
                         </span>
                       </p>
