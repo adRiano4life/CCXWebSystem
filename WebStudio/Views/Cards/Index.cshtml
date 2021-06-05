@@ -12,7 +12,7 @@
         <div class="row justify-content-center">
             <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">База новых карточек</a>
             <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">База карточек взятых в работу/проработку</a>
-            <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm">База карточек для участия в торгах</a>
+            <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Торги">База лотов, участвующих на торгах</a>
             <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm">База выигранных карточек / победивших в торгах</a>
             <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm">База договоров/ реестр исполнения договоров</a>
             <a type="button" class="btn btn-light col-lg-6 text-left mb-2 shadow-sm">База проведенных торгов</a>

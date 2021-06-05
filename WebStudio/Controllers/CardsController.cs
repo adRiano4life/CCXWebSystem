@@ -35,6 +35,7 @@ namespace WebStudio.Controllers
         /// <param name="cardId">для поиска в базе карт метод принимает её Id</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public IActionResult DetailCard(string cardId)
         {
             if (cardId != null)
@@ -148,7 +149,8 @@ namespace WebStudio.Controllers
         /// <param name="sort">Сортировка статусов карт</param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetCardInfo(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
+       [Authorize]
+       public IActionResult GetCardInfo(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
         {
             List<Card> cards = new List<Card>();
             
@@ -167,6 +169,11 @@ namespace WebStudio.Controllers
                 case CardState.Проработка: 
                     cards = _db.Cards.Where(c => c.CardState == CardState.Проработка).ToList();
                     ViewBag.sort = CardState.Проработка;
+                    break;
+                
+                case CardState.Торги: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Торги).ToList();
+                    ViewBag.sort = CardState.Торги;
                     break;
             }
 

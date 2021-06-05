@@ -74,10 +74,14 @@ else
                   else if (card.CardState == CardState.Удалена)
                   {
                     @:bg-danger
+                  }
+                  else if (card.CardState == CardState.Торги)
+                  {
+                    @:bg-warning
                   }text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
-              @if (card.CardState != CardState.Удалена)
+              @if (card.CardState != CardState.Удалена && card.CardState != CardState.Торги)
               {
                 <div class="ml-auto" id="deleteCard">
                   <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id">
@@ -108,6 +112,10 @@ else
                                    else if (card.CardState == CardState.Удалена)
                                    {
                                      @:bg-danger
+                                   }
+                                   else if (card.CardState == CardState.Торги)
+                                   {
+                                     @:bg-warning
                                    } text-white">
                           @card.CardState
                         </span>

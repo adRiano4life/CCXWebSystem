@@ -27,6 +27,12 @@
     <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
   </div>
 }
+@if (Model.Card.CardState == CardState.Торги)
+{
+  <div class="card-header bg-warning text-white">
+    <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+  </div>
+}
 <div class="card-body">
 
   <p class="card-text mb-4">@Model.Card.Initiator</p>
@@ -63,34 +69,34 @@
   @if (Model.Card.Positions.Count() > 0)
   {
     <table class="table" style="font-size: 10px;">
-      <tr>
-        <th>№</th>
-        <th>Код ТНВЭД</th>
-        <th>Наименование</th>
-        <th>Ед.изм.</th>
-        <th>Кол-во</th>
-        <th>Валюта</th>
-        <th>Старт.цена за ед.товара</th>
-        <th>Стартовая стоимость</th>
-        <th>Срок поставки</th>
-        <th>Условия поставки</th>
-      </tr>
-      @foreach (var position in Model.Card.Positions)
-      {
         <tr>
-          <td>@(@count++)</td>
-          <td>@position.CodTNVED</td>
-          <td>@position.Name</td>
-          <td>@position.Measure</td>
-          <td>@position.Amount</td>
-          <td>@position.Currency</td>
-          <td>@position.UnitPrice</td>
-          <td>@position.TotalPrice</td>
-          <td>@position.DeliveryTime</td>
-          <td>@position.DeliveryTerms</td>
+          <th>№</th>
+          <th>Код ТНВЭД</th>
+          <th>Наименование</th>
+          <th>Ед.изм.</th>
+          <th>Кол-во</th>
+          <th>Валюта</th>
+          <th>Старт.цена за ед.товара</th>
+          <th>Стартовая стоимость</th>
+          <th>Срок поставки</th>
+          <th>Условия поставки</th>
         </tr>
-      }
-    </table>
+        @foreach (var position in Model.Card.Positions)
+        {
+          <tr>
+            <td>@(@count++)</td>
+            <td>@position.CodTNVED</td>
+            <td>@position.Name</td>
+            <td>@position.Measure</td>
+            <td>@position.Amount</td>
+            <td>@position.Currency</td>
+            <td>@position.UnitPrice</td>
+            <td>@position.TotalPrice</td>
+            <td>@position.DeliveryTime</td>
+            <td>@position.DeliveryTerms</td>
+          </tr>
+        }
+      </table>
   }
   @if (@Model.Card.CardState == CardState.Новая)
   {
@@ -177,9 +183,9 @@
         <input type="submit" value="Взять в работу" class="btn btn-success shadow">
         <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-danger shadow">Удалить</a>
       </div>
-      
     </form>
   }
+  
   @if (@Model.Card.CardState == CardState.Проработка)
   {
     <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
@@ -187,7 +193,7 @@
       @if (User.IsInRole("admin"))
       {
         <form method="post" asp-controller="Cards" asp-action="AuctionCard">
-          @Html.TextBox("cardId", Model.CardId, new {@type="hidden"})
+          @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
           <button class="btn btn-outline-success shadow">Участвовать в торгах</button>
         </form>
         <form method="get" asp-controller="Cards" asp-action="DeleteCard">
@@ -198,6 +204,12 @@
       <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
     </div>
   }
+  
+  @if (Model.Card.CardState == CardState.Торги)
+  {
+    <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
+  }
+  
   @if (@Model.Card.CardState == CardState.Удалена)
   {
     <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
@@ -205,8 +217,6 @@
       <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-success shadow">Восстановить</a>
     </div>
   }
-  
-  
 </div>
 </div>
 </div>
