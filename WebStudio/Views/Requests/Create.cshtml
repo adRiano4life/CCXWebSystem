@@ -46,8 +46,16 @@
                                 <td>@position.DeliveryTerms</td>
                             </tr>
                         }
+                        <div id="newPosition">
+                                            
+                        </div>
                     </table>
                 }
+                <div class="form-group ml-3">
+                    <a type="button" data-toggle="modal" data-target="#addPositionForm">
+                        <i class="fas fa-plus-circle" style="font-size: 30px; color: #0366d6" aria-hidden="true"></i>
+                    </a>
+                </div>
                 <div class="form-group">
                     <label asp-for="File" class="font-weight-bold">Прикрепить файл:</label>
                     <input type="file" asp-for="File">
@@ -60,5 +68,92 @@
                 <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
             </div>
         </form>
+        
+        
+        <div class="modal fade" id="addPositionForm">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-uppercase" id="editModalLabel">Добавить позицию</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ReloadAjax()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form">
+                            <div class="form-group">
+                                <label for="positionNumberInput">Порядковый номер</label>
+                                <input type="text" class="form-control" id="number" placeholder="Порядковый номер">
+                            </div>
+                            <div class="form-group">
+                                <label for="codTNVEDInput">Код ТНВЭД</label>
+                                <input type="text" class="form-control" id="codTNVED" placeholder="Код ТНВЭД">
+                            </div>
+                            <div class="form-group">
+                                <label for="nameInput">Название</label>
+                                <input type="text" class="form-control" id="name" placeholder="Название">
+                            </div>
+                            <div class="form-group">
+                                <label for="measureInput">Единица измерения</label>
+                                <input type="text" class="form-control" id="measure" placeholder="Единица измерения">
+                            </div>
+                            <div class="form-group">
+                                <label for="amountInput">Количество</label>
+                                <input type="text" class="form-control" id="amount" placeholder="Количество">
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryTermsInput">Условия поставки</label>
+                                <input type="text" class="form-control" id="deliveryTerms" placeholder="Условия поставки">
+                            </div>
+                            <input type="hidden" id="cardId" value="@Model.Card.Id">
+                            <button type="button"
+                                    class="btn btn-outline-primary" id="done" onclick="AddPositionAjax()">Добавить</button>
+                        </form>
+                        <div class="modal-body add-position-succes" id="succes">
+                            <h4>Добавлено!</h4>
+                            <i class="check-custom fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script >
+        $('#succes').hide();
+        function AddPositionAjax(){
+            var cardId = $('#cardId').val()
+            var positionNumber = $('#number').val()
+            var codTNVED = $('#codTNVED').val()
+            var name = $('#name').val()
+            var measure = $('#measure').val()
+            var amount = $('#amount').val()
+            var deliveryTerms = $('#deliveryTerms').val()
+            $.ajax({
+                url : '@Url.Action("AddPositionAjax", "Requests")',
+                type : 'GET',
+                data : {
+                    'cardId' : cardId,
+                    'positionNumber' : positionNumber,
+                    'codTNVED' : codTNVED,
+                    'name' : name,
+                    'measure' : measure,
+                    'amount' : amount,
+                    'deliveryTerms' : deliveryTerms
+                },
+                success : function (data){
+                    $('#newPosition').html('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
+                    console.log(data);
+                }
+            });
+            $('#form').hide();
+            $('#succes').show();
+        }
+        function ReloadAjax(){
+            location.reload();
+        }
+    </script>
+}

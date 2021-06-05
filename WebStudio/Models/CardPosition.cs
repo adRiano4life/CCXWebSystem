@@ -6,7 +6,7 @@ namespace WebStudio.Models
     public class CardPosition
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string  StockNumber { get; set; }
+        public string StockNumber { get; set; }
         public string CodTNVED { get; set; }
         public string Name { get; set; }
         public string Measure { get; set; }

@@ -57,7 +57,7 @@ namespace WebStudio.Controllers
         /// </summary>
         /// <param name="cardId">для поиска в базе карт на удаление карты метод принимает её Id</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> DeleteCard(string cardId)
         {
             if (cardId != null)
@@ -79,7 +79,7 @@ namespace WebStudio.Controllers
         /// </summary>
         /// <param name="cardId">Id карты по которому ищется карта БД.</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RestoreCard(string cardId)
         {
             if (cardId != null)

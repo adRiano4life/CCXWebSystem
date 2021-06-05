@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
@@ -120,6 +121,26 @@ namespace WebStudio.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddPositionAjax(string cardId, string positionNumber, string codTNVED,
+            string name, string measure, string amount, string deliveryTerms)
+        {
+            CardPosition cardPosition = new CardPosition
+            {
+                CodTNVED = codTNVED,
+                Name = name.ToUpper(),
+                Measure = measure.ToUpper(),
+                Amount = Convert.ToInt32(amount),
+                DeliveryTerms = deliveryTerms,
+                CardId = cardId,
+                Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
+            };
+
+            await _db.Positions.AddAsync(cardPosition);
+            await _db.SaveChangesAsync();
+            return Json(cardPosition);
         }
     }
 }

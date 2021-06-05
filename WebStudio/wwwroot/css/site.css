@@ -63,6 +63,15 @@ body {
   margin-bottom: 60px;
 }
 
+.add-position-succes{
+  text-align: center;
+}
+
+.check-custom{
+  font-size: 100px;
+  color: #28a743;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
