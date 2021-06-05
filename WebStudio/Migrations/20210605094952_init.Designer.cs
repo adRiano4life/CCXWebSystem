@@ -11,7 +11,7 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210604164336_init")]
+    [Migration("20210605094952_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -388,10 +388,155 @@ namespace WebStudio.Migrations
                     b.Property<string>("AvatarPath")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserSurname")
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
                         .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d09b38e5-5fc0-4108-97c0-ed78fe9b216a",
+                            Email = "Jake_Billson@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f00f5b2f-4fca-44ab-8480-d59fe72c1df6",
+                            TwoFactorEnabled = false,
+                            Name = "Jake",
+                            Surname = "Billson"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1c7f6d43-fd25-4056-afef-1f048b4328ef",
+                            Email = "Pol_Dou@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3a473757-4884-4b68-9f36-a7d54c4b9b35",
+                            TwoFactorEnabled = false,
+                            Name = "Pol",
+                            Surname = "Dou"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e417a158-3fec-4ffb-8238-e89628e5aa4d",
+                            Email = "Helen_Merker@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "e37643db-4a59-43a9-82f6-ad1b206b8399",
+                            TwoFactorEnabled = false,
+                            Name = "Helen",
+                            Surname = "Merker"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ffdafae1-e36c-4e51-b355-e6015e4a8d0e",
+                            Email = "Jhon_Sohnson@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1acf7267-93b1-4f06-ae0b-2fbbfc0071bf",
+                            TwoFactorEnabled = false,
+                            Name = "Jhon",
+                            Surname = "Sohnson"
+                        },
+                        new
+                        {
+                            Id = "5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "83e532c4-a78d-4643-a165-a7dd542eca56",
+                            Email = "Phill_Madison@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fed279a8-acf7-4be8-8deb-d5e59eb5124a",
+                            TwoFactorEnabled = false,
+                            Name = "Phil",
+                            Surname = "Madison"
+                        },
+                        new
+                        {
+                            Id = "6",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "11017615-8493-4ac7-bf02-77737385b6c4",
+                            Email = "Mark_Takeson@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c196e6ff-858f-4e4b-a941-67ac927e4f84",
+                            TwoFactorEnabled = false,
+                            Name = "Mark",
+                            Surname = "Takeson"
+                        },
+                        new
+                        {
+                            Id = "7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "97a34eae-5dfa-4d2e-873b-48e0c5bf1256",
+                            Email = "Max_Carlson@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "27e7542c-28db-4e47-97d1-fadd94dc39e5",
+                            TwoFactorEnabled = false,
+                            Name = "Max",
+                            Surname = "Carlson"
+                        },
+                        new
+                        {
+                            Id = "8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7f5dbdbd-7c9a-4b8c-81ce-00be7783f023",
+                            Email = "Caren_Jameson@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "bfc8b6d6-676e-48b3-99ec-58ce60bf5025",
+                            TwoFactorEnabled = false,
+                            Name = "Caren",
+                            Surname = "Jameson"
+                        },
+                        new
+                        {
+                            Id = "9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "110d3af3-2df8-433a-a2fc-005acfb5c94d",
+                            Email = "July_Pablich@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c20b9448-1fbc-419d-ad93-aa758d1a209e",
+                            TwoFactorEnabled = false,
+                            Name = "July",
+                            Surname = "Pablich"
+                        },
+                        new
+                        {
+                            Id = "10",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "47df4f62-48f2-47fa-99b1-44e7e1808455",
+                            Email = "Tad_Wilkerson@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7c1554d6-779b-447c-8d48-e4dd700e86b7",
+                            TwoFactorEnabled = false,
+                            Name = "Tad",
+                            Surname = "Wilkerson"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
