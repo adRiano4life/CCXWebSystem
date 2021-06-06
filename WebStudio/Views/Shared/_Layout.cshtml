@@ -41,7 +41,10 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Запросы</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a>
+                    </li>
+                    
                 </ul>
                 <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
                     @if (User.Identity.IsAuthenticated)

@@ -1,0 +1,102 @@
+﻿@model System.Collections.Generic.List<WebStudio.Models.AuctionResult>
+
+@{
+    ViewBag.Title = "Результаты торгов";
+    Layout = "_Layout";
+}
+
+
+@if (Model.Count() == 0)
+{
+    <div class="container pl-0">
+
+        <div class="jumbotron shadow-sm">
+            <h1 class="display-4">В вашей базе нет доступных лотов</h1>
+        </div>
+    </div>
+}
+else
+{
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Номер</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Дата и время начала торгов</th>
+            <th scope="col">Дата заключения сделки</th>
+            <th scope="col">Документы</th>
+            <th scope="col">Победитель</th>
+            <th scope="col">Итоговая сумма (тг)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var lot in Model)
+        {
+            <tr>
+                <th scope="row">
+                    @{ int a = @Model.IndexOf(lot) + 1; }
+                    @a</th>
+                <td>@lot.Number</td>
+                <td>@lot.Name</td>
+                <td>@lot.DateOfAuctionStart.ToLongDateString() @lot.DateOfAuctionStart.ToShortTimeString()</td>
+                <td>
+                    @{
+                        string DateOfSignContract = @lot.DateOfSignContract != null ? $"{lot.DateOfSignContract.Value.ToLongDateString()} + {lot.DateOfSignContract.Value.ToShortTimeString()}" : "-";
+                    }
+                    @DateOfSignContract
+
+                </td>
+                <td>
+                    @if (lot.Links != null)
+                    {
+                        @for (int i = 0; i < lot.Links.Count; i++)
+                        {
+                            if (lot.LinkNames[i].Contains(".xlsx"))
+                            {
+                                <i class="far fa-file-excel text-secondary"></i>
+                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
+                                <br>
+                            }
+                            else if (lot.LinkNames[i].Contains(".docx"))
+                            {
+                                <i class="far fa-file-word text-secondary"></i>
+                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
+                                <br>
+                            }
+                            else if (lot.LinkNames[i].Contains(".pdf"))
+                            {
+                                <i class="far fa-file-pdf text-secondary"></i>
+                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
+                                <br>
+                            }
+                            else if (lot.LinkNames[i].Contains(".jpg"))
+                            {
+                                <i class="far fa-file-image text-secondary"></i>
+                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
+                                <br>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        @:-
+                    }
+                                
+                </td>
+                <td>@lot.Winner</td>
+                <td>
+                    @{
+                        string sum = @lot.Sum != null ? $"{lot.Sum}" : "-";
+                    }
+                    @sum
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+            
+}
