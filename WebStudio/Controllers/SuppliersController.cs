@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebStudio.Models;
 using WebStudio.ViewModels;
+using X.PagedList;
 
 namespace WebStudio.Controllers
 {
@@ -22,15 +23,47 @@ namespace WebStudio.Controllers
 
 
         [HttpGet]
-        //[Authorize]
-        public  IActionResult Index()
+        [Authorize]
+        public  IActionResult Index(string currentFilter, string searchByName, string searchByTag, int? page)
         {
             List<Supplier> suppliers = _db.Suppliers.ToList();
-            return View(suppliers);
+            
+            if (searchByName != null)
+            {
+                page = 1;
+                suppliers = suppliers.Where(s => s.Name.Contains(searchByName)).ToList();
+            }
+            // else
+            // {
+            //     searchByName = currentFilter;
+            // }
+            
+            if (searchByTag != null)
+            {
+                page = 1;
+                List<Supplier> search = new List<Supplier>();
+                foreach (var supplier in suppliers)
+                {
+                    foreach (var tag in supplier.Tags)
+                    {
+                        if(tag.Contains(searchByTag))
+                            search.Add(supplier);
+                    }
+                }
+                suppliers = search;
+            }
+            // else
+            // {
+            //     searchByTag = currentFilter;
+            // }
+            
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IActionResult Create()
         {
             CreateSupplierViewModel model = new CreateSupplierViewModel();
@@ -38,7 +71,7 @@ namespace WebStudio.Controllers
         }
         
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult Create(CreateSupplierViewModel model)
         {
             if (model != null && ModelState.IsValid)
@@ -68,7 +101,7 @@ namespace WebStudio.Controllers
 
         
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IActionResult Edit(string id)
         {
             if (id == null) return NotFound();
@@ -93,7 +126,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult Edit(CreateSupplierViewModel model)
         {
             if (model == null) return NotFound();
@@ -123,22 +156,20 @@ namespace WebStudio.Controllers
         }
 
         
-        
-        
-        [HttpGet]
-        public IActionResult Delete(string id)
-        {
-            if (id is not null)
-            {
-                Supplier supplier = _db.Suppliers.FirstOrDefault(s => s.Id == id);
-                if (supplier != null)
-                {
-                    return View(supplier);
-                }
-                return NotFound();
-            }
-            return NotFound();
-        }
+        // [HttpGet]
+        // public IActionResult Delete(string id)
+        // {
+        //     if (id is not null)
+        //     {
+        //         Supplier supplier = _db.Suppliers.FirstOrDefault(s => s.Id == id);
+        //         if (supplier != null)
+        //         {
+        //             return View(supplier);
+        //         }
+        //         return NotFound();
+        //     }
+        //     return NotFound();
+        // }
 
 
         [HttpPost]
@@ -155,5 +186,6 @@ namespace WebStudio.Controllers
         }
         
         
+       
     }
 }
