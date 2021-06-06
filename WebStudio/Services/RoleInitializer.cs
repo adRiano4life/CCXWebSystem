@@ -29,6 +29,7 @@ namespace WebStudio.Services
                     Email = adminEmail,
                     UserName = adminEmail,
                     Name = "admin",
+                    Surname = "admin",
                     AvatarPath = avatarPath
                 };
                 var result = await userManager.CreateAsync(admin, adminPassword);

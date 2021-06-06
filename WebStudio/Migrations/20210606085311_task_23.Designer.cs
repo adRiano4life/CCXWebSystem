@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210605094952_init")]
-    partial class init
+    [Migration("20210606085311_task_23")]
+    partial class task_23
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,6 +222,40 @@ namespace WebStudio.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.AuctionResult", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateOfAuctionStart")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DateOfSignContract")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<List<string>>("LinkNames")
+                        .HasColumnType("text[]");
+
+                    b.Property<List<string>>("Links")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("Sum")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("Winner")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuctionResults");
+                });
+
             modelBuilder.Entity("WebStudio.Models.Card", b =>
                 {
                     b.Property<string>("Id")
@@ -401,12 +435,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d09b38e5-5fc0-4108-97c0-ed78fe9b216a",
+                            ConcurrencyStamp = "fa607eee-ae4b-4c32-8db3-636554cfc510",
                             Email = "Jake_Billson@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f00f5b2f-4fca-44ab-8480-d59fe72c1df6",
+                            SecurityStamp = "a45f0e1f-5d66-47b7-b3be-8434b9a7f2d8",
                             TwoFactorEnabled = false,
                             Name = "Jake",
                             Surname = "Billson"
@@ -415,12 +449,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1c7f6d43-fd25-4056-afef-1f048b4328ef",
+                            ConcurrencyStamp = "4eb27eb4-a08a-46db-8362-310274420d9c",
                             Email = "Pol_Dou@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3a473757-4884-4b68-9f36-a7d54c4b9b35",
+                            SecurityStamp = "ba6ed043-32ad-4a56-b06c-7582a127377c",
                             TwoFactorEnabled = false,
                             Name = "Pol",
                             Surname = "Dou"
@@ -429,12 +463,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e417a158-3fec-4ffb-8238-e89628e5aa4d",
+                            ConcurrencyStamp = "9a188b5a-1dcd-4edd-8acd-0a8b288aab76",
                             Email = "Helen_Merker@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e37643db-4a59-43a9-82f6-ad1b206b8399",
+                            SecurityStamp = "17a184a4-881c-4d5b-a686-38cef1b762d8",
                             TwoFactorEnabled = false,
                             Name = "Helen",
                             Surname = "Merker"
@@ -443,12 +477,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ffdafae1-e36c-4e51-b355-e6015e4a8d0e",
+                            ConcurrencyStamp = "2937a6f9-315b-4e31-b014-833a81596a33",
                             Email = "Jhon_Sohnson@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1acf7267-93b1-4f06-ae0b-2fbbfc0071bf",
+                            SecurityStamp = "6f300e87-43a8-455c-85ed-2b47b248f534",
                             TwoFactorEnabled = false,
                             Name = "Jhon",
                             Surname = "Sohnson"
@@ -457,12 +491,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "83e532c4-a78d-4643-a165-a7dd542eca56",
+                            ConcurrencyStamp = "edcc65be-9dd8-42a6-9375-14cf1a83d39d",
                             Email = "Phill_Madison@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fed279a8-acf7-4be8-8deb-d5e59eb5124a",
+                            SecurityStamp = "e0db0140-a21f-4fa4-b355-a27f9b6ab801",
                             TwoFactorEnabled = false,
                             Name = "Phil",
                             Surname = "Madison"
@@ -471,12 +505,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11017615-8493-4ac7-bf02-77737385b6c4",
+                            ConcurrencyStamp = "dfa21302-877f-4338-8689-9f8823b974b1",
                             Email = "Mark_Takeson@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c196e6ff-858f-4e4b-a941-67ac927e4f84",
+                            SecurityStamp = "9fbff680-9f3e-4074-b893-3e96b9a8ecb7",
                             TwoFactorEnabled = false,
                             Name = "Mark",
                             Surname = "Takeson"
@@ -485,12 +519,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97a34eae-5dfa-4d2e-873b-48e0c5bf1256",
+                            ConcurrencyStamp = "aa8bb1f9-578e-4523-9cbf-dd7062101e3f",
                             Email = "Max_Carlson@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "27e7542c-28db-4e47-97d1-fadd94dc39e5",
+                            SecurityStamp = "db18b009-e30a-4e8a-b35e-a547ef1f8245",
                             TwoFactorEnabled = false,
                             Name = "Max",
                             Surname = "Carlson"
@@ -499,12 +533,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f5dbdbd-7c9a-4b8c-81ce-00be7783f023",
+                            ConcurrencyStamp = "80ba4d26-faf2-41c3-a79c-a45417b1e673",
                             Email = "Caren_Jameson@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bfc8b6d6-676e-48b3-99ec-58ce60bf5025",
+                            SecurityStamp = "2831f0a2-c8ef-4b1b-a5ec-da188d236aab",
                             TwoFactorEnabled = false,
                             Name = "Caren",
                             Surname = "Jameson"
@@ -513,12 +547,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "110d3af3-2df8-433a-a2fc-005acfb5c94d",
+                            ConcurrencyStamp = "8adf5b61-9e70-47d4-b1cc-84c17e505823",
                             Email = "July_Pablich@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c20b9448-1fbc-419d-ad93-aa758d1a209e",
+                            SecurityStamp = "86619c9d-ddfa-4359-b93e-4ed9a5ee8497",
                             TwoFactorEnabled = false,
                             Name = "July",
                             Surname = "Pablich"
@@ -527,12 +561,12 @@ namespace WebStudio.Migrations
                         {
                             Id = "10",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "47df4f62-48f2-47fa-99b1-44e7e1808455",
+                            ConcurrencyStamp = "5da85e2f-f17b-4757-9616-b732c5be2a31",
                             Email = "Tad_Wilkerson@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7c1554d6-779b-447c-8d48-e4dd700e86b7",
+                            SecurityStamp = "75034f33-5227-4790-aefd-a880f1f05d54",
                             TwoFactorEnabled = false,
                             Name = "Tad",
                             Surname = "Wilkerson"
