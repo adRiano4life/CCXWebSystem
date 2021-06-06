@@ -98,116 +98,151 @@
         }
       </table>
   }
-  @if (@Model.Card.CardState == CardState.Новая)
+  
+  @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
   {
-    <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
-    <div class="form-group">
+    <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
+  }
+  
+  @if (Model.Card.CardState == CardState.Новая)
+  {
+
+    if (User.IsInRole("admin"))
+    {
+      <p class="card-text mb-2" id="lin">
+        <span class="badge badge-success">@Model.Card.CardState</span>
+      </p>
+      
       <form asp-action="TakeCard" asp-controller="Cards" method="post">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Выбрать ответственного</label>
-              @if (Model.Users.Count != 0)
+        <div class="form-group">
+          <label for="">Выбрать ответственного</label>
+          @if (Model.Users.Count != 0)
+          {
+            
+            <select class="form-control" asp-for="UserId">
+              @foreach (var user in Model.Users)
               {
-                <select class="form-control" asp-for="UserId">
-                  @foreach (var user in Model.Users)
-                  {
-                    if (@user.Name != "admin")
-                    {
-                      <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
-                    }
-                  }
-                </select>
+                if (@user.Name != "admin")
+                {
+                  <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+                }
               }
-              else
-              {
-                <p>У вас нет зарегистрированных сотрудников</p>
-              }
+            </select>
+          }
+          else
+          {
+            <p>У вас нет зарегистрированных сотрудников</p>
+          }
+        </div>
+
+        <div class="row">
+          <!----Левый блок------>
+          <div class="ml-3">
+
+            <div class="form-group custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch1">
+              <label class="custom-control-label" for="customSwitch1">Получение КП</label>
             </div>
-      
-            <div class="row">
-              <!----Левый блок------>
-              <div class="ml-3">
-      
-                <div class="form-group custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                  <label class="custom-control-label" for="customSwitch1">Получение КП</label>
-                </div>
-      
-                <div class="form-group custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch2">
-                  <label class="custom-control-label" for="customSwitch2">Налоги и НДС</label>
-                </div>
-      
-                <div class="form-group custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch3">
-                  <label class="custom-control-label" for="customSwitch3">Внесение данных в таблицу</label>
-                </div>
-      
-              </div>
-              <!----Правй блок------>
-              <div class="ml-3">
-      
-                <div class="form-group custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                  <label class="custom-control-label" for="customSwitch4">Оценка поставщика</label>
-                </div>
-      
-                <div class="form-group custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch5">
-                  <label class="custom-control-label" for="customSwitch5">Логистика</label>
-                </div>
-      
-                <div class="form-group custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="customSwitch6">
-                  <label class="custom-control-label" for="customSwitch6">Составление запроса для отправки поставщикам</label>
-                </div>
-      
-              </div>
-      
-              <!-------Сроки------->
-              <div class="ml-3">
-                <div class="form-group custom-switch">
-                  <label class="" for="begin">Начало</label>
-                  <input id="begin" class="form-control" type="date"/>
-                </div>
-                <div class="form-group custom-switch">
-                  <label class="" for="end">Срок до</label>
-                  <input id="end" class="form-control" type="date"/>
-                </div>
-              </div>
+
+            <div class="form-group custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch2">
+              <label class="custom-control-label" for="customSwitch2">Налоги и НДС</label>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControlTextarea1">Добавьте описание или комментарий к заявке</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+            <div class="form-group custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch3">
+              <label class="custom-control-label" for="customSwitch3">Внесение данных в таблицу</label>
             </div>
-            <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
-            <div class="form-group">
-              <input type="submit" value="Взять в работу" class="btn btn-success shadow form-inline">
+
+          </div>
+          <!----Правй блок------>
+          <div class="ml-3">
+
+            <div class="form-group custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch4">
+              <label class="custom-control-label" for="customSwitch4">Оценка поставщика</label>
             </div>
-          </form>
-          <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post" class="form-inline">
-            <input type="submit" value="Удалить" class="btn btn-danger shadow">
-          </form>
-    </div>
+
+            <div class="form-group custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch5">
+              <label class="custom-control-label" for="customSwitch5">Логистика</label>
+            </div>
+
+            <div class="form-group custom-switch">
+              <input type="checkbox" class="custom-control-input" id="customSwitch6">
+              <label class="custom-control-label" for="customSwitch6">Составление запроса для отправки поставщикам</label>
+            </div>
+
+          </div>
+
+          <!-------Сроки------->
+          <div class="ml-3">
+            <div class="form-group custom-switch">
+              <label class="" for="begin">Начало</label>
+              <input id="begin" class="form-control" type="date"/>
+            </div>
+            <div class="form-group custom-switch">
+              <label class="" for="end">Срок до</label>
+              <input id="end" class="form-control" type="date"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Добавьте описание или комментарий к заявке</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
+        <div class="form-group">
+          <input type="submit" value="Взять в работу" class="btn btn-success shadow">
+          <a asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-danger shadow">Удалить</a>
+        </div>
+      </form>
+    }
     
   }
   
   @if (@Model.Card.CardState == CardState.Проработка)
   {
-    <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
-    <div class="form-group">
-      @if (User.IsInRole("admin"))
-      {
-        <form method="post" asp-controller="Cards" asp-action="AuctionCard">
+    @if (User.IsInRole("admin"))
+    {
+      <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
+      <form asp-action="TakeCard" asp-controller="Cards" method="post">
+        <div class="form-group">
+          <label for="">Переназначить ответственного</label>
+          @if (Model.Users.Count != 0)
+          {
+
+            <input hidden value="@Model.Card.Id" asp-for="CardId">
+            <select class="form-control" asp-for="UserId" asp-for="CardId">
+              @foreach (var user in Model.Users)
+              {
+                if (@user.Name != "admin")
+                {
+                  <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+                }
+              }
+            </select>
+          }
+        </div>
+
+        <input class="btn btn-outline-dark mb-2" type="submit" value="Переназначить">
+      </form>
+
+
+      <div class="row container form-group">
+
+        <form class="mr-2" method="post" asp-controller="Cards" asp-action="AuctionCard">
           @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
           <button class="btn btn-outline-success shadow">Участвовать в торгах</button>
         </form>
-        <form method="get" asp-controller="Cards" asp-action="DeleteCard">
-          @Html.TextBox("cardId", Model.CardId, new {@type="hidden"})
+        <form class="mr-2" method="get" asp-controller="Cards" asp-action="DeleteCard">
+          @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
           <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
         </form>
-      }
-      <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
-    </div>
+
+        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
+      </div>
+    }
   }
   
   @if (Model.Card.CardState == CardState.Торги)
@@ -217,12 +252,14 @@
   
   @if (@Model.Card.CardState == CardState.Удалена)
   {
-    <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
-    <div class="form-group">
-      <form asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
-        <input type="submit" value="Восстановить" class="btn btn-success shadow">
-      </form>
-    </div>
+    @if (User.IsInRole("admin"))
+    {
+      <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+      <div class="form-group">
+        <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-success shadow">Восстановить</a>
+      </div>
+    }
+    
   }
 </div>
 </div>

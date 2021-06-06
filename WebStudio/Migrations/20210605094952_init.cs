@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -261,6 +261,23 @@ namespace WebStudio.Migrations
                         principalTable: "Cards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "AvatarPath", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Surname", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "1", 0, null, "d09b38e5-5fc0-4108-97c0-ed78fe9b216a", "User", "Jake_Billson@gmail.com", false, false, null, "Jake", null, null, null, null, false, "f00f5b2f-4fca-44ab-8480-d59fe72c1df6", "Billson", false, null },
+                    { "2", 0, null, "1c7f6d43-fd25-4056-afef-1f048b4328ef", "User", "Pol_Dou@gmail.com", false, false, null, "Pol", null, null, null, null, false, "3a473757-4884-4b68-9f36-a7d54c4b9b35", "Dou", false, null },
+                    { "3", 0, null, "e417a158-3fec-4ffb-8238-e89628e5aa4d", "User", "Helen_Merker@gmail.com", false, false, null, "Helen", null, null, null, null, false, "e37643db-4a59-43a9-82f6-ad1b206b8399", "Merker", false, null },
+                    { "4", 0, null, "ffdafae1-e36c-4e51-b355-e6015e4a8d0e", "User", "Jhon_Sohnson@gmail.com", false, false, null, "Jhon", null, null, null, null, false, "1acf7267-93b1-4f06-ae0b-2fbbfc0071bf", "Sohnson", false, null },
+                    { "5", 0, null, "83e532c4-a78d-4643-a165-a7dd542eca56", "User", "Phill_Madison@gmail.com", false, false, null, "Phil", null, null, null, null, false, "fed279a8-acf7-4be8-8deb-d5e59eb5124a", "Madison", false, null },
+                    { "6", 0, null, "11017615-8493-4ac7-bf02-77737385b6c4", "User", "Mark_Takeson@gmail.com", false, false, null, "Mark", null, null, null, null, false, "c196e6ff-858f-4e4b-a941-67ac927e4f84", "Takeson", false, null },
+                    { "7", 0, null, "97a34eae-5dfa-4d2e-873b-48e0c5bf1256", "User", "Max_Carlson@gmail.com", false, false, null, "Max", null, null, null, null, false, "27e7542c-28db-4e47-97d1-fadd94dc39e5", "Carlson", false, null },
+                    { "8", 0, null, "7f5dbdbd-7c9a-4b8c-81ce-00be7783f023", "User", "Caren_Jameson@gmail.com", false, false, null, "Caren", null, null, null, null, false, "bfc8b6d6-676e-48b3-99ec-58ce60bf5025", "Jameson", false, null },
+                    { "9", 0, null, "110d3af3-2df8-433a-a2fc-005acfb5c94d", "User", "July_Pablich@gmail.com", false, false, null, "July", null, null, null, null, false, "c20b9448-1fbc-419d-ad93-aa758d1a209e", "Pablich", false, null },
+                    { "10", 0, null, "47df4f62-48f2-47fa-99b1-44e7e1808455", "User", "Tad_Wilkerson@gmail.com", false, false, null, "Tad", null, null, null, null, false, "7c1554d6-779b-447c-8d48-e4dd700e86b7", "Wilkerson", false, null }
                 });
 
             migrationBuilder.CreateIndex(

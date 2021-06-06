@@ -69,7 +69,7 @@ else
                   }
                   else if (card.CardState == CardState.Проработка)
                   {
-                    @:bg-info
+                    @:bg-primary
                   }
                   else if (card.CardState == CardState.Удалена)
                   {
@@ -78,7 +78,13 @@ else
                   else if (card.CardState == CardState.Торги)
                   {
                     @:bg-warning
-                  }text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
+                  }
+                  else if (card.CardState == CardState.Выигранная)
+                  {
+                    @:bg-info
+                  }
+                  
+                  text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
               @if (card.CardState != CardState.Удалена && card.CardState != CardState.Торги)
@@ -99,15 +105,14 @@ else
                 {
                   <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
                 }
-                 
-                
+
                 <span class="badge @if(card.CardState == CardState.Новая)
                                    {
                                      @:bg-success
                                    }
                                    else if (card.CardState == CardState.Проработка)
                                    {
-                                     @:bg-info
+                                     @:bg-primary
                                    }
                                    else if (card.CardState == CardState.Удалена)
                                    {
@@ -116,7 +121,12 @@ else
                                    else if (card.CardState == CardState.Торги)
                                    {
                                      @:bg-warning
-                                   } text-white">
+                                   } 
+                                   else if (card.CardState == CardState.Выигранная)
+                                   {
+                                     @:bg-info
+                                   }
+                                   text-white">
                           @card.CardState
                         </span>
                       </p>

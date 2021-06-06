@@ -117,7 +117,7 @@ namespace WebStudio.Controllers
                     await _db.SaveChangesAsync();
                 }
             }
-            return RedirectToAction("Index", "Cards");
+            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Проработка});
         }
 
         
@@ -148,7 +148,7 @@ namespace WebStudio.Controllers
         /// <param name="filter">Выбор фильтрации</param>
         /// <param name="sort">Сортировка статусов карт</param>
         /// <returns></returns>
-        [HttpGet]
+       [HttpGet]
        [Authorize]
        public IActionResult GetCardInfo(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
         {
@@ -174,6 +174,11 @@ namespace WebStudio.Controllers
                 case CardState.Торги: 
                     cards = _db.Cards.Where(c => c.CardState == CardState.Торги).ToList();
                     ViewBag.sort = CardState.Торги;
+                    break;
+                
+                case CardState.Выигранная: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Выигранная).ToList();
+                    ViewBag.sort = CardState.Выигранная;
                     break;
             }
 
