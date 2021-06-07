@@ -21,11 +21,11 @@
                 <p class="card-text">
                     @if (@User.IsInRole("admin"))
                     {
-                        <small class="text-muted">роль: admin</small>   
+                        <small class="text-muted">Роль: Руководитель</small>   
                     }
                     @if (@User.IsInRole("user"))
                     {
-                        <small class="text-muted">роль: user</small>   
+                        <small class="text-muted">Роль: Менеджер</small>   
                     }
                 </p>
                 <p>
