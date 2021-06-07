@@ -76,6 +76,12 @@ body {
   color: darkred;
 }
 
+.font-11{
+  font-size: 11px;
+}
+.font-13{
+  font-size: 13px;
+}
 .footer {
   position: absolute;
   bottom: 0;

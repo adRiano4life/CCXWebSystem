@@ -193,12 +193,12 @@
         </div>
         <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
         <div class="form-group">
-          <input type="submit" value="Взять в работу" class="btn btn-success shadow">
+          <input type="submit" value="Взять в работу" class="btn btn-outline-success shadow">
         </div>
       </form>
       <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
         <div class="form-group">
-          <input type="submit" value="Удалить" class="btn btn-danger shadow form-inline">
+          <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
         </div>
       </form>
     }
@@ -243,10 +243,11 @@
           @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
           <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
         </form>
-        
-        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
       </div>
+      
     }
+    <br>
+    <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
   }
   
   @if (Model.Card.CardState == CardState.Торги)
@@ -260,7 +261,7 @@
     {
       <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
       <div class="form-group">
-        <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-success shadow">Восстановить</a>
+        <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-success shadow">Восстановить</a>
       </div>
     }
     

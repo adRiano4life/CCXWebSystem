@@ -16,6 +16,13 @@ namespace EZParser
 {
     public class Program
     {
+        //public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан, Саня Т.
+        public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
+
+        //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
+        //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
+        public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
+
         static void Main(string[] args)
         {
             GetParse();
@@ -25,12 +32,8 @@ namespace EZParser
         
         public static void GetParse()
         {
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
-            // string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Саня Т.
-            
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
-            var options = optionsBuilder.UseNpgsql(connection).Options;
+            var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
 
             using WebStudioContext _db = new WebStudioContext(options);
             
@@ -56,31 +59,27 @@ namespace EZParser
                 List<string> linkNames = new List<string>();
                 foreach (var link in links)
                 {
-                    DirectoryInfo dirInfo = new DirectoryInfo(@"E:\csharp\ESDP\Download Files"); //Саня Ф.
-                    //DirectoryInfo dirInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files"); //Саня Т.
-                    //DirectoryInfo dirInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\"); //Гульжан
+                    DirectoryInfo dirInfo = new DirectoryInfo(PathToFiles); // общий путь
+                    
                     string[] subDirectory = tds[0].InnerText.Split("/");
                     dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                     string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
                     string linkName = link.InnerText;
                     if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
                     {
-                        // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
-                        client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\Excel\{linkName}"); //Саня Ф.
                         
                         //Гульжан
-                        // foreach (var dir in dirInfo.GetDirectories())
-                        // {
-                        //     if (!Directory.Exists("Excel"))
-                        //         dirInfo.CreateSubdirectory("Excel");
-                        // }
-                        // client.DownloadFile($"{stringLink}", @$"{dirInfo}Excel\{linkName}");
-                        //Гульжан
+                         foreach (var dir in dirInfo.GetDirectories())
+                         {
+                             if (!Directory.Exists("Excel"))
+                                 dirInfo.CreateSubdirectory("Excel");
+                         }
+                         client.DownloadFile($"{stringLink}", @$"{dirInfo}\Excel\{linkName}"); // общий путь
+                        // Гульжан
                     }
                     
-                    client.DownloadFile($"{stringLink}", $@"E:\csharp\ESDP\Download Files\{subDirectory[0]}\{linkName}"); //Саня Ф.
-                    //client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{subDirectory[0]}\{linkName}"); //Саня Т.
-                    //client.DownloadFile($"{stringLink}", @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\{subDirectory[0]}\{linkName}"); //Гульжан
+                    client.DownloadFile($"{stringLink}", @$"{dirInfo}\{subDirectory[0]}\{linkName}");  // общий путь
+
                     stringLinks.Add(stringLink);
                     linkNames.Add(linkName);
                 }

@@ -12,8 +12,7 @@ namespace EZParser
     {
         public static void ExcelRead()
         {
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; //бд Гульжан Саня Т.
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
+            string connection = Program.DefaultConnection; // общая строка
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -29,9 +28,7 @@ namespace EZParser
 
                 if (card.Positions is null)
                 {
-                    string rootDirName = @$"E:\csharp\ESDP\Download Files\Excel\"; // Саня Ф.
-                    // string rootDirName = @"C:\Users\user\Desktop\files\"; // Саня Т.
-                    // string rootDirName = "../../../../WebStudio/wwwroot/Files/Excel/"; //Гульжан
+                    string rootDirName = @$"{Program.PathToFiles}\Excel"; //общий путь
                     
                     List<string> fileNames = new List<string>();
 
@@ -47,13 +44,8 @@ namespace EZParser
                         if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            //эти пути не раскоменчивайте.
-                            //если выше в строке "string rootDirName"
-                            //указали правильный путь, то должно сработать норм
-                            //если все норм, удалите эти комменты и оставьте между 49 и 56 строками 1 пробел
-                            //ExcelFile workbook = ExcelFile.Load(@"C:\Users\user\Desktop\files\" + file); //Саня Т.
-                            //ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files\" + file); //Саня Ф.
-                            ExcelFile workbook = ExcelFile.Load(rootDirName + file);
+                            
+                            ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}\{file}"); // общий путь
                             
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)

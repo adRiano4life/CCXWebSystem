@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebStudio.Models;
 using WebStudio.ViewModels;
+using X.PagedList;
 
 namespace WebStudio.Controllers
 {
@@ -22,15 +23,39 @@ namespace WebStudio.Controllers
 
 
         [HttpGet]
-        //[Authorize]
-        public  IActionResult Index()
+        [Authorize]
+        public  IActionResult Index(string searchByName, string searchByTag, int? page)
         {
             List<Supplier> suppliers = _db.Suppliers.ToList();
-            return View(suppliers);
+            
+            if (searchByName != null)
+            {
+                suppliers = suppliers.Where(s => s.Name.ToLower().Contains(searchByName.ToLower())).ToList();
+                ViewBag.searchByName = searchByName;
+            }
+            
+            if (searchByTag != null)
+            {
+                List<Supplier> search = new List<Supplier>();
+                foreach (var supplier in suppliers)
+                {
+                    foreach (var tag in supplier.Tags)
+                    {
+                        if(tag.ToLower().Contains(searchByTag.ToLower()))
+                            search.Add(supplier);
+                    }
+                }
+                suppliers = search;
+                ViewBag.searchByTag = searchByTag;
+            }
+            
+            int pageSize = 2;
+            int pageNumber = (page ?? 1);
+            return View(suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IActionResult Create()
         {
             CreateSupplierViewModel model = new CreateSupplierViewModel();
@@ -38,7 +63,7 @@ namespace WebStudio.Controllers
         }
         
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult Create(CreateSupplierViewModel model)
         {
             if (model != null && ModelState.IsValid)
@@ -68,7 +93,7 @@ namespace WebStudio.Controllers
 
         
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public IActionResult Edit(string id)
         {
             if (id == null) return NotFound();
@@ -93,7 +118,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult Edit(CreateSupplierViewModel model)
         {
             if (model == null) return NotFound();
@@ -122,8 +147,6 @@ namespace WebStudio.Controllers
             return View(model);
         }
 
-        
-        
         
         [HttpGet]
         public IActionResult Delete(string id)
@@ -155,5 +178,6 @@ namespace WebStudio.Controllers
         }
         
         
+       
     }
 }
