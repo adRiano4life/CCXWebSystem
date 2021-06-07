@@ -16,7 +16,9 @@ namespace EZParser
 
         public static void GetAuctionResults()
         {
-            string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан, Саня Т. 
+            string connection = Program.DefaultConnection; // общая строка
+            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан 
+            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Саня Т. 
             //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
             
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
@@ -46,9 +48,10 @@ namespace EZParser
                 List<string> linkNames = new List<string>();
                 foreach (var link in links)
                 {
+                    DirectoryInfo dirFilesInfo = new DirectoryInfo(Program.PathToFiles); // общий путь
                     //DirectoryInfo dirFilesInfo = new DirectoryInfo(@"E:\csharp\ESDP\Download Files"); //Саня Ф.
                     // DirectoryInfo dirFilesInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files\"); //Саня Т.
-                    DirectoryInfo dirFilesInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\"); // Гульжан - общая папка со всеми файлами 
+                    //DirectoryInfo dirFilesInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\"); // Гульжан - общая папка со всеми файлами 
                     
                     foreach (var dir in dirFilesInfo.GetDirectories()) // Гульжан - в общей папке создается папка Results (если такой не существует), где будут файлы результатов 
                     {
@@ -56,7 +59,8 @@ namespace EZParser
                             dirFilesInfo.CreateSubdirectory("Results");
                     }
                     
-                    DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\Results\"); // Гульжан - сохраняется путь к папке Results
+                    DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"{Program.PathToFiles}\Results"); // общий путь
+                    //DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\Results"); // Гульжан - сохраняется путь к папке Results
                     //DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"E:\csharp\ESDP\Download Files\Results"); // Саня Ф.
                     // DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files\Results\"); //Саня Т.
                     
@@ -78,13 +82,16 @@ namespace EZParser
                         
                         if (link.InnerText.Contains(".xls") && link.InnerText.Contains("Приложение"))
                         {
+                            client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); // общий путь
                             // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\Results\Excel\{linkName}"); //Саня Т. 
                             // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\Excel\{linkName}"); //Саня Ф.
-                            client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); //Гульжан
+                            //client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); //Гульжан
                         }
+                        
+                        client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\{subDirectory[0]}\{linkName}"); // общий путь
                         //client.DownloadFile($"{stringLink}", $@"E:\csharp\ESDP\Download Files\{subDirectory[0]}\{linkName}"); //Саня Ф.
                         // client.DownloadFile($"{stringLink}", $@"C:\Users\user\Desktop\files\Results\{subDirectory[0]}\{linkName}"); //Саня Т.
-                        client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}{subDirectory[0]}\{linkName}"); //Гульжан
+                        // client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}{subDirectory[0]}\{linkName}"); //Гульжан
                         
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
