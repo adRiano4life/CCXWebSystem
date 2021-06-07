@@ -23,6 +23,10 @@
                     {
                         <small class="text-muted">роль: admin</small>   
                     }
+                    @if (@User.IsInRole("user"))
+                    {
+                        <small class="text-muted">роль: user</small>   
+                    }
                 </p>
                 <p>
                     <a asp-controller="Account" asp-action="Edit" asp-route-userId="@Model.User.Id">Редактировать</a>
