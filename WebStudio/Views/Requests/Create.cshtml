@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
 @model WebStudio.ViewModels.CreateRequestViewModel
 @inject UserManager<User> UserManager
 
@@ -14,6 +15,19 @@
 <h2>Запрос поставщикам</h2>
 <div class="container">
     <div class="col-md-12">
+        <form id="supplierForm">
+            <label class="font-weight-bold mr-3">Введите хештег поставщика:</label>
+            <div class="form-inline form-group">
+                <input type="text" id="supplierSearchHash" placeholder="Поиск">
+                <input type="hidden" id="supplierCardId" value="@Model.Card.Id">
+                <button type="button" class="btn btn-outline-primary ml-3" id="search" onclick="SearchSupplierAjax()">Найти</button>
+                <button type="button" class="btn btn-outline-danger ml-3" id="search" onclick="ReloadAjax()">Сброс</button>
+            </div>
+        </form>
+        <label class="font-weight-bold mr-3">Выбранные поставщики:</label>
+        <div id="suppliers" class="form-inline">
+            <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
+        </div>
         <form asp-action="Create" asp-controller="Requests" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="form-group">
@@ -47,7 +61,7 @@
                             </tr>
                         }
                         <div id="newPosition">
-                                            
+
                         </div>
                     </table>
                 }
@@ -61,15 +75,16 @@
                     <input type="file" asp-for="File">
                 </div>
             </div>
-           
+
             <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
             <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
+            <input type="hidden" name="supplierHash" id="supplierHashSubmit">
             <div class="form-group">
                 <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
             </div>
         </form>
-        
-        
+
+
         <div class="modal fade" id="addPositionForm">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -154,6 +169,49 @@
         }
         function ReloadAjax(){
             location.reload();
+        }
+        function SearchSupplierAjax(){
+            var supplierSearchHash = $('#supplierSearchHash').val();
+            $('#supplierHashSubmit').val(supplierSearchHash);
+            $.ajax({
+                url : '@Url.Action("SearchSupplierAjax", "Requests")',
+                type: 'GET',
+                data : {
+                    'supplierSearchHash' : supplierSearchHash
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    for (var i = 0; i < data.length; i++)
+                        {
+                            $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>')
+                            console.log(data[i])
+                        }
+
+                    console.log(data)
+                }
+            });
+        }
+        
+        
+        function RemoveSupplierAjax(){
+            var supplierId = $('#supplierId').val();
+            $.ajax({
+                url : '@Url.Action("RemoveSupplierAjax", "Requests")',
+                type : 'GET',
+                data : {
+                    'supplierId' : supplierId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    for (var i = 0; i < data.length; i++)
+                          {
+                              $('#suppliers').append('<p>' + data[i].name + '</p><input type="hidden" id="supplierId" value="' + data[i].id + '"><a type="button" onclick="RemoveSupplierAjax()" class="mb-3"><i class="fas fa-times suppliers-remove"></i></a>')
+                              console.log(data[i])
+                          }
+        
+                      console.log(data)
+                  }
+            });
         }
     </script>
 }

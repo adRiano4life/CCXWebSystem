@@ -20,6 +20,6 @@ namespace WebStudio.Models
         public string CardId { get; set; }
         public virtual Card Card { get; set; }
 
-        //public virtual List<Supplier> Supplier { get; set; }
+        public virtual List<Supplier> Suppliers { get; set; }
     }
 }

@@ -83,11 +83,11 @@ namespace EZParser
                         
                         if (link.InnerText.Contains(".xls") && link.InnerText.Contains("Приложение"))
                         {
-                            client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
-                            // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\Excel\{linkName}"); //Саня Ф.
+                            // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
+                             client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); //Саня Ф.
                             // client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); //Гульжан
                         }
-                        client.DownloadFile($"{stringLink}", $@"E:\csharp\ESDP\Download Files\{subDirectory[0]}\{linkName}"); //Саня Ф.
+                        client.DownloadFile($"{stringLink}", $@"{dirResultsInfo}\{subDirectory[0]}\{linkName}"); //Саня Ф.
                         //client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{subDirectory[0]}\{linkName}"); //Саня Т.
                         //client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}{subDirectory[0]}\{linkName}"); //Гульжан
                         stringLinks.Add(stringLink);

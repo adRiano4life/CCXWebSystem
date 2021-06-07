@@ -18,7 +18,7 @@ namespace WebStudio.ViewModels
         public string CardId { get; set; }
         public virtual Card Card { get; set; }
 
-        //public List<Provider> Provider { get; set; }
+        public virtual List<Supplier> Suppliers { get; set; }
         
         [NotMapped] 
         public IFormFile File { get; set; }

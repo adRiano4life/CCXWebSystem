@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
@@ -90,7 +91,7 @@ namespace WebStudio.Controllers
 
         [HttpPost]
         //[Authorize]
-        public async Task<IActionResult> Create(CreateRequestViewModel model)
+        public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash)
         {
             if (ModelState.IsValid)
             {
@@ -101,6 +102,8 @@ namespace WebStudio.Controllers
                     _uploadService.Upload(path, model.File.FileName, model.File);
                     model.FilePath = filePath;
                 }
+
+                model.Suppliers = Search(supplierHash);
                 
                 Request request = new Request
                 {
@@ -110,6 +113,7 @@ namespace WebStudio.Controllers
                     Executor = await _userManager.FindByIdAsync(model.ExecutorId),
                     CardId = model.CardId,
                     Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId),
+                    Suppliers = model.Suppliers,
                     FilePath = model.FilePath
                 };
                 var result = _db.Requests.AddAsync(request);
@@ -135,12 +139,45 @@ namespace WebStudio.Controllers
                 Amount = Convert.ToInt32(amount),
                 DeliveryTerms = deliveryTerms,
                 CardId = cardId,
-                Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
+                Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId),
             };
 
             await _db.Positions.AddAsync(cardPosition);
             await _db.SaveChangesAsync();
             return Json(cardPosition);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchSupplierAjax(CreateRequestViewModel model, string supplierSearchHash)
+        {
+            model.Suppliers = _db.Suppliers.ToList();
+            model.Suppliers = Search(supplierSearchHash);
+            return Json(model.Suppliers);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId)
+        {
+            Supplier supplier = model.Suppliers.FirstOrDefault(s => s.Id == supplierId);
+            if (supplier != null)
+            {
+                model.Suppliers.Remove(supplier);
+            }
+
+            return Json(model.Suppliers);
+        }
+
+        [NonAction]
+        public List<Supplier> Search(string supplierSearchHash)
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            if (String.IsNullOrEmpty(supplierSearchHash))
+            {
+                return suppliers;
+            }
+
+            suppliers = _db.Suppliers.Where(s => s.Tags.Contains(supplierSearchHash)).ToList();
+            return suppliers;
         }
     }
 }

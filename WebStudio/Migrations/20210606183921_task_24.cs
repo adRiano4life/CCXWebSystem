@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class task_23 : Migration
+    public partial class task_24 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,23 +69,6 @@ namespace WebStudio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuctionResults", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Suppliers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    Website = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    Tags = table.Column<List<string>>(type: "text[]", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Suppliers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,21 +265,45 @@ namespace WebStudio.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Suppliers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Website = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    Tags = table.Column<List<string>>(type: "text[]", nullable: true),
+                    RequestId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Suppliers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Suppliers_Requests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Requests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AvatarPath", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Surname", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, null, "fa607eee-ae4b-4c32-8db3-636554cfc510", "User", "Jake_Billson@gmail.com", false, false, null, "Jake", null, null, null, null, false, "a45f0e1f-5d66-47b7-b3be-8434b9a7f2d8", "Billson", false, null },
-                    { "2", 0, null, "4eb27eb4-a08a-46db-8362-310274420d9c", "User", "Pol_Dou@gmail.com", false, false, null, "Pol", null, null, null, null, false, "ba6ed043-32ad-4a56-b06c-7582a127377c", "Dou", false, null },
-                    { "3", 0, null, "9a188b5a-1dcd-4edd-8acd-0a8b288aab76", "User", "Helen_Merker@gmail.com", false, false, null, "Helen", null, null, null, null, false, "17a184a4-881c-4d5b-a686-38cef1b762d8", "Merker", false, null },
-                    { "4", 0, null, "2937a6f9-315b-4e31-b014-833a81596a33", "User", "Jhon_Sohnson@gmail.com", false, false, null, "Jhon", null, null, null, null, false, "6f300e87-43a8-455c-85ed-2b47b248f534", "Sohnson", false, null },
-                    { "5", 0, null, "edcc65be-9dd8-42a6-9375-14cf1a83d39d", "User", "Phill_Madison@gmail.com", false, false, null, "Phil", null, null, null, null, false, "e0db0140-a21f-4fa4-b355-a27f9b6ab801", "Madison", false, null },
-                    { "6", 0, null, "dfa21302-877f-4338-8689-9f8823b974b1", "User", "Mark_Takeson@gmail.com", false, false, null, "Mark", null, null, null, null, false, "9fbff680-9f3e-4074-b893-3e96b9a8ecb7", "Takeson", false, null },
-                    { "7", 0, null, "aa8bb1f9-578e-4523-9cbf-dd7062101e3f", "User", "Max_Carlson@gmail.com", false, false, null, "Max", null, null, null, null, false, "db18b009-e30a-4e8a-b35e-a547ef1f8245", "Carlson", false, null },
-                    { "8", 0, null, "80ba4d26-faf2-41c3-a79c-a45417b1e673", "User", "Caren_Jameson@gmail.com", false, false, null, "Caren", null, null, null, null, false, "2831f0a2-c8ef-4b1b-a5ec-da188d236aab", "Jameson", false, null },
-                    { "9", 0, null, "8adf5b61-9e70-47d4-b1cc-84c17e505823", "User", "July_Pablich@gmail.com", false, false, null, "July", null, null, null, null, false, "86619c9d-ddfa-4359-b93e-4ed9a5ee8497", "Pablich", false, null },
-                    { "10", 0, null, "5da85e2f-f17b-4757-9616-b732c5be2a31", "User", "Tad_Wilkerson@gmail.com", false, false, null, "Tad", null, null, null, null, false, "75034f33-5227-4790-aefd-a880f1f05d54", "Wilkerson", false, null }
+                    { "1", 0, null, "08d94f57-2541-4fa8-8985-27a223f257b6", "User", "Jake_Billson@gmail.com", false, false, null, "Jake", null, null, null, null, false, "532c9007-aecf-4035-aece-22780e01d467", "Billson", false, null },
+                    { "2", 0, null, "addebbdb-1ba1-464d-ba9a-7e4d7bfa7577", "User", "Pol_Dou@gmail.com", false, false, null, "Pol", null, null, null, null, false, "9bdedbd0-050e-47e6-8ac8-5204417ff92a", "Dou", false, null },
+                    { "3", 0, null, "f24435cf-d67f-4d8e-bcce-aff8f3a55368", "User", "Helen_Merker@gmail.com", false, false, null, "Helen", null, null, null, null, false, "ce7dfd2d-1f8a-4784-b736-d2c99fa4bd71", "Merker", false, null },
+                    { "4", 0, null, "5009972c-6b51-430c-ba31-f5ae2f157bbf", "User", "Jhon_Sohnson@gmail.com", false, false, null, "Jhon", null, null, null, null, false, "d4668e80-8318-4815-a341-e996a41accaa", "Sohnson", false, null },
+                    { "5", 0, null, "a8627782-bef8-4fac-81d5-dce316f81bcb", "User", "Phill_Madison@gmail.com", false, false, null, "Phil", null, null, null, null, false, "87951050-6325-4842-be26-7139d1a36689", "Madison", false, null },
+                    { "6", 0, null, "2532ab15-e514-49e7-9cea-79e30bf9dcb8", "User", "Mark_Takeson@gmail.com", false, false, null, "Mark", null, null, null, null, false, "ef984359-51cd-477d-a944-5a8e2be39f7b", "Takeson", false, null },
+                    { "7", 0, null, "21370331-eaf5-4a88-92ce-fa66954f2304", "User", "Max_Carlson@gmail.com", false, false, null, "Max", null, null, null, null, false, "38eaf309-d52f-4d23-8770-84b4bbee14c9", "Carlson", false, null },
+                    { "8", 0, null, "55806eb9-9fe9-4c57-8cdb-45fea7bb0562", "User", "Caren_Jameson@gmail.com", false, false, null, "Caren", null, null, null, null, false, "cdc7a5b1-4c00-4c54-9954-bde663e88ac4", "Jameson", false, null },
+                    { "9", 0, null, "7dd662ec-37d8-4925-a671-b3caec01dc62", "User", "July_Pablich@gmail.com", false, false, null, "July", null, null, null, null, false, "040b03ad-b404-4fc1-a348-6307ca726910", "Pablich", false, null },
+                    { "10", 0, null, "fed1c840-3bd8-4e18-88a1-d73b33cec3f3", "User", "Tad_Wilkerson@gmail.com", false, false, null, "Tad", null, null, null, null, false, "9d4eb8cc-5779-4e18-8ed0-24ca63510c2b", "Wilkerson", false, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -355,6 +362,11 @@ namespace WebStudio.Migrations
                 name: "IX_Requests_ExecutorId",
                 table: "Requests",
                 column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Suppliers_RequestId",
+                table: "Suppliers",
+                column: "RequestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -381,13 +393,13 @@ namespace WebStudio.Migrations
                 name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "Requests");
-
-            migrationBuilder.DropTable(
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Requests");
 
             migrationBuilder.DropTable(
                 name: "Cards");

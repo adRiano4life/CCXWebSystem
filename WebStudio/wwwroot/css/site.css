@@ -72,6 +72,10 @@ body {
   color: #28a743;
 }
 
+.suppliers-remove{
+  color: darkred;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
