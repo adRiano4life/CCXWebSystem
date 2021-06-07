@@ -148,20 +148,20 @@ namespace WebStudio.Controllers
         }
 
         
-        // [HttpGet]
-        // public IActionResult Delete(string id)
-        // {
-        //     if (id is not null)
-        //     {
-        //         Supplier supplier = _db.Suppliers.FirstOrDefault(s => s.Id == id);
-        //         if (supplier != null)
-        //         {
-        //             return View(supplier);
-        //         }
-        //         return NotFound();
-        //     }
-        //     return NotFound();
-        // }
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            if (id is not null)
+            {
+                Supplier supplier = _db.Suppliers.FirstOrDefault(s => s.Id == id);
+                if (supplier != null)
+                {
+                    return View(supplier);
+                }
+                return NotFound();
+            }
+            return NotFound();
+        }
 
 
         [HttpPost]
