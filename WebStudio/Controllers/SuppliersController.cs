@@ -24,38 +24,30 @@ namespace WebStudio.Controllers
 
         [HttpGet]
         [Authorize]
-        public  IActionResult Index(string currentFilter, string searchByName, string searchByTag, int? page)
+        public  IActionResult Index(string searchByName, string searchByTag, int? page)
         {
             List<Supplier> suppliers = _db.Suppliers.ToList();
             
             if (searchByName != null)
             {
-                page = 1;
-                suppliers = suppliers.Where(s => s.Name.Contains(searchByName)).ToList();
+                suppliers = suppliers.Where(s => s.Name.ToLower().Contains(searchByName.ToLower())).ToList();
+                ViewBag.searchByName = searchByName;
             }
-            // else
-            // {
-            //     searchByName = currentFilter;
-            // }
             
             if (searchByTag != null)
             {
-                page = 1;
                 List<Supplier> search = new List<Supplier>();
                 foreach (var supplier in suppliers)
                 {
                     foreach (var tag in supplier.Tags)
                     {
-                        if(tag.Contains(searchByTag))
+                        if(tag.ToLower().Contains(searchByTag.ToLower()))
                             search.Add(supplier);
                     }
                 }
                 suppliers = search;
+                ViewBag.searchByTag = searchByTag;
             }
-            // else
-            // {
-            //     searchByTag = currentFilter;
-            // }
             
             int pageSize = 2;
             int pageNumber = (page ?? 1);

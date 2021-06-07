@@ -18,9 +18,9 @@
 @using (Html.BeginForm("Index", "Suppliers", FormMethod.Get))
 {
     <p class="mb-4">
-        Поиск по названию: @Html.TextBox("searchByName", ViewBag.CurrentFilter as string)
+        Поиск по названию: @Html.TextBox("searchByName", ViewBag.searchByName as string)
         <input type="submit" class="btn btn-outline-primary  py-1 font-13 border-primary" value="Искать"/>
-        Поиск по тегу: @Html.TextBox("searchByTag", ViewBag.CurrentFilter as string)
+        Поиск по тегу: @Html.TextBox("searchByTag", ViewBag.searchByTag as string)
         <input type="submit" class="btn btn-outline-primary py-1 font-13 border-primary" value="Искать"/>
     </p>
 }
@@ -70,5 +70,5 @@
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
 <div class="row justify-content-center">
     @Html.PagedListPager(Model, page => Url.Action("Index", "Suppliers", 
-        new { page, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.Classic)
+        new { page, searchByName = ViewBag.searchByName, searchByTag = ViewBag.searchByTag }), Bootstrap4PagedListRenderOptions.Classic)
 </div>
