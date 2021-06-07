@@ -243,10 +243,11 @@
           @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
           <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
         </form>
-        
-        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
       </div>
+      
     }
+    <br>
+    <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
   }
   
   @if (Model.Card.CardState == CardState.Торги)

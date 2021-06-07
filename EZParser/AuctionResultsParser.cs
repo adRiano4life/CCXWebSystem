@@ -12,14 +12,9 @@ namespace EZParser
 {
     public class AuctionResultsParser
     {
-
-
         public static void GetAuctionResults()
         {
             string connection = Program.DefaultConnection; // общая строка
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан 
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Саня Т. 
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
             
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
@@ -49,29 +44,22 @@ namespace EZParser
                 foreach (var link in links)
                 {
                     DirectoryInfo dirFilesInfo = new DirectoryInfo(Program.PathToFiles); // общий путь
-                    //DirectoryInfo dirFilesInfo = new DirectoryInfo(@"E:\csharp\ESDP\Download Files"); //Саня Ф.
-                    // DirectoryInfo dirFilesInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files\"); //Саня Т.
-                    //DirectoryInfo dirFilesInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\"); // Гульжан - общая папка со всеми файлами 
                     
-                    foreach (var dir in dirFilesInfo.GetDirectories()) // Гульжан - в общей папке создается папка Results (если такой не существует), где будут файлы результатов 
+                    foreach (var dir in dirFilesInfo.GetDirectories()) 
                     {
                         if (!Directory.Exists("Results"))
                             dirFilesInfo.CreateSubdirectory("Results");
                     }
                     
                     DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"{Program.PathToFiles}\Results"); // общий путь
-                    //DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files\Results"); // Гульжан - сохраняется путь к папке Results
-                    //DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"E:\csharp\ESDP\Download Files\Results"); // Саня Ф.
-                    // DirectoryInfo dirResultsInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files\Results\"); //Саня Т.
                     
-                    foreach (var dir in dirResultsInfo.GetDirectories()) // Гульжан - в папке Results создается папка для файлов Excel (если такой не существует)
+                    foreach (var dir in dirResultsInfo.GetDirectories())
                     {
                         if (!Directory.Exists("Excel"))
                             dirResultsInfo.CreateSubdirectory("Excel");
                     }
                     
-                    // скачиваются документы только тех лотов, которые состоялись
-                    // те которые не состоялись - пустые болванки, их скачивать не надо
+                    
                     if (!tds[5].InnerText.ToLower().Contains("отмен") && !tds[5].InnerText.ToLower().Contains("состоялся"))
                     {
                         string[] subDirectory = tds[0].InnerText.Split("/");
@@ -83,22 +71,15 @@ namespace EZParser
                         if (link.InnerText.Contains(".xls") && link.InnerText.Contains("Приложение"))
                         {
                             client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); // общий путь
-                            // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\Results\Excel\{linkName}"); //Саня Т. 
-                            // client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\Excel\{linkName}"); //Саня Ф.
-                            //client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\Excel\{linkName}"); //Гульжан
                         }
                         
                         client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}\{subDirectory[0]}\{linkName}"); // общий путь
-                        //client.DownloadFile($"{stringLink}", $@"E:\csharp\ESDP\Download Files\{subDirectory[0]}\{linkName}"); //Саня Ф.
-                        // client.DownloadFile($"{stringLink}", $@"C:\Users\user\Desktop\files\Results\{subDirectory[0]}\{linkName}"); //Саня Т.
-                        // client.DownloadFile($"{stringLink}", @$"{dirResultsInfo}{subDirectory[0]}\{linkName}"); //Гульжан
                         
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
                 }
                 
-                // занесение объекта в таблицу AuctionResults, если номера лотов имеются в бд и результат ранее не заносился
                 if (_db.Cards.Any(c=>c.Number == tds[0].InnerText) && !_db.AuctionResults.Any(r=>r.Number == tds[0].InnerText))
                 {
                     AuctionResult result = new AuctionResult

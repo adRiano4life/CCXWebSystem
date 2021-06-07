@@ -43,7 +43,7 @@ else
                 <td>@lot.DateOfAuctionStart.ToLongDateString() @lot.DateOfAuctionStart.ToShortTimeString()</td>
                 <td>
                     @{
-                        string DateOfSignContract = @lot.DateOfSignContract != null ? $"{lot.DateOfSignContract.Value.ToLongDateString()} + {lot.DateOfSignContract.Value.ToShortTimeString()}" : "-";
+                        string DateOfSignContract = @lot.DateOfSignContract != DateTime.MinValue ? $"{lot.DateOfSignContract.Value.ToLongDateString()} + {lot.DateOfSignContract.Value.ToShortTimeString()}" : "-";
                     }
                     @DateOfSignContract
 
@@ -88,7 +88,7 @@ else
                 <td>@lot.Winner</td>
                 <td>
                     @{
-                        string sum = @lot.Sum != null ? $"{lot.Sum}" : "-";
+                        string sum = @lot.Sum != Decimal.MinValue ? $"{lot.Sum}" : "-";
                     }
                     @sum
                 </td>

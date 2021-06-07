@@ -19,8 +19,8 @@ namespace EZParser
         public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан, Саня Т.
         //public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
 
-        public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
-        //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
+        //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
+        public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
         //public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
 
         static void Main(string[] args)
@@ -32,9 +32,6 @@ namespace EZParser
         
         public static void GetParse()
         {
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Саня Т.
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
-            
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
 
@@ -63,9 +60,6 @@ namespace EZParser
                 foreach (var link in links)
                 {
                     DirectoryInfo dirInfo = new DirectoryInfo(PathToFiles); // общий путь
-                    //DirectoryInfo dirInfo = new DirectoryInfo(@"E:\csharp\ESDP\Download Files"); //Саня Ф.
-                    // DirectoryInfo dirInfo = new DirectoryInfo(@$"C:\Users\user\Desktop\files"); //Саня Т.
-                    // DirectoryInfo dirInfo = new DirectoryInfo(@$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"); //Гульжан
                     
                     string[] subDirectory = tds[0].InnerText.Split("/");
                     dirInfo.CreateSubdirectory($"{subDirectory[0]}");
@@ -73,8 +67,6 @@ namespace EZParser
                     string linkName = link.InnerText;
                     if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
                     {
-                        // client.DownloadFile($"{stringLink}", @$"C:\Users\user\Desktop\files\{linkName}"); //Саня Т. 
-                        //client.DownloadFile($"{stringLink}", @$"E:\csharp\ESDP\Download Files\Excel\{linkName}"); //Саня Ф.
                         
                         //Гульжан
                          foreach (var dir in dirInfo.GetDirectories())

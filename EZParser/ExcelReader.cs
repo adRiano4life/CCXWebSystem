@@ -13,8 +13,6 @@ namespace EZParser
         public static void ExcelRead()
         {
             string connection = Program.DefaultConnection; // общая строка
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; //бд Гульжан Саня Т.
-            //string connection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
             var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
             var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -31,9 +29,6 @@ namespace EZParser
                 if (card.Positions is null)
                 {
                     string rootDirName = @$"{Program.PathToFiles}\Excel"; //общий путь
-                    //string rootDirName = @$"E:\csharp\ESDP\Download Files\Excel\"; // Саня Ф.
-                    // string rootDirName = @"C:\Users\user\Desktop\files\"; // Саня Т.
-                    //string rootDirName = @"..\..\..\..\WebStudio\wwwroot\Files\Excel\"; //Гульжан
                     
                     List<string> fileNames = new List<string>();
 
@@ -51,9 +46,6 @@ namespace EZParser
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
                             
                             ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}\{file}"); // общий путь
-                            // ExcelFile workbook = ExcelFile.Load(@"C:\Users\user\Desktop\files\" + file); //Саня Т.
-                            //ExcelFile workbook = ExcelFile.Load(@"E:\csharp\ESDP\Download Files\" + file); //Саня Ф.
-                            //ExcelFile workbook = ExcelFile.Load(rootDirName + file); // Гульжан
                             
                             int rowCount = 0, startRow = 0;
                             for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)
