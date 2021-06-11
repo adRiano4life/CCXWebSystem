@@ -21,7 +21,7 @@
                 <input type="text" id="supplierSearchHash" placeholder="Поиск">
                 <input type="hidden" id="supplierCardId" value="@Model.Card.Id">
                 <button type="button" class="btn btn-outline-primary ml-3" id="search" onclick="SearchSupplierAjax()">Найти</button>
-                <button type="button" class="btn btn-outline-danger ml-3" id="search" onclick="ReloadAjax()">Сброс</button>
+                <button type="button" class="btn btn-outline-danger ml-3" onclick="ReloadAjax()">Сброс</button>
             </div>
         </form>
         <label class="font-weight-bold mr-3">Выбранные поставщики:</label>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group d-block">
                     <label class="font-weight-bold">Текст запроса:</label>
-                    <textarea cols="150" rows="10" readonly class="border-0">@Model.Text</textarea>
+                    <textarea cols="150" rows="10" readonly class="border-0">@Model.TextView</textarea>
                 </div>
                 @if (Model.Card.Positions.Count() > 0)
                 {
@@ -70,15 +70,35 @@
                         <i class="fas fa-plus-circle" style="font-size: 30px; color: #0366d6" aria-hidden="true"></i>
                     </a>
                 </div>
+            </div>
+
+            <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+            <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
+            <input type="hidden" asp-for="Text" value="@Model.Text">
+            <input type="hidden" asp-for="OverallPath" value="E:\csharp\ESDP\Download Files">
+            <input type="hidden" asp-for="supplierHashs" id="supplierHashSubmit">
+            <div class="form-group">
+                <label class="font-weight-bold mr-3">Выберите файлы вложения:</label>
+                <table class="table table-striped table-borderless">
+                    <tbody class="table-responsive ">
+                    @for (int i = 0; i < @Model.Card.LinkNames.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedLinkNames" value="@Model.Card.LinkNames[i]">
+                            </td>
+                            <td>
+                                <label>@Model.Card.LinkNames[i]</label>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
                 <div class="form-group">
                     <label asp-for="File" class="font-weight-bold">Прикрепить файл:</label>
                     <input type="file" asp-for="File">
                 </div>
             </div>
-
-            <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
-            <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
-            <input type="hidden" name="supplierHash" id="supplierHashSubmit">
             <div class="form-group">
                 <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
             </div>
@@ -183,7 +203,7 @@
                     $('#suppliersNull').hide();
                     for (var i = 0; i < data.length; i++)
                         {
-                            $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>')
+                            $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
                             console.log(data[i])
                         }
 
