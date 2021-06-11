@@ -15,7 +15,12 @@ namespace WebStudio.Controllers
     public class SuppliersController : Controller
     {
         private WebStudioContext _db;
-
+        private ISuppliersService _suppliersService;
+        
+        public SuppliersController(ISuppliersService service)
+        {
+            _suppliersService = service;
+        }
         public SuppliersController(WebStudioContext db)
         {
             _db = db;
@@ -59,7 +64,7 @@ namespace WebStudio.Controllers
         public IActionResult Create()
         {
             CreateSupplierViewModel model = new CreateSupplierViewModel();
-            return View(model);
+            return View("Create", model);
         }
         
         [HttpPost]
