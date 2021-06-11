@@ -76,14 +76,23 @@ namespace WebStudio.Controllers
         {
             CreateRequestViewModel model = new CreateRequestViewModel
             {
-                Text = "    В связи с производственной необходимостью, просим Вас рассмотреть возможность предоставления коммерческого предложения в максимально короткие сроки. " +
-                       "При составлении коммерческого предложения просим Вас учесть следующее:\n" +
-                       "    1. Соответствие запрашиваемого ТМЦ с Вашим предложением: марка, модель, модификации, ГОСТ , ТУ и т.д. В случае не “критичного” расхождения, просим указать данный факт в КП.\n" +
-                       "    2. Количество: в случае несоответствия запрашиваемого кол-ва нормам отгрузки ТМЦ, просим указать данный факт.\n" +
-                       "    3. Качество: предлагать только новый товар, не бывшим в использовании, в ином случае предупреждать в КП.\n" +
-                       "    4. Отгрузка: просим указывать варианты отгрузки, которыми располагаете (автотранспорт, жд/транспорт, авиатранспорт)\n" +
-                       "    5. Условия оплаты.\n" +
-                       "    6. В случае габаритного груза, просим указывать полные габариты в упакованном виде.\n",
+                Text = "<p>В связи с производственной необходимостью, просим Вас рассмотреть возможность предоставления коммерческого предложения в максимально короткие сроки. " +
+                       "При составлении коммерческого предложения просим Вас учесть следующее:</p>" +
+                       "<ol>" +
+                       "<li>Соответствие запрашиваемого ТМЦ с Вашим предложением: марка, модель, модификации, ГОСТ , ТУ и т.д. В случае не “критичного” расхождения, просим указать данный факт в КП.</li>" +
+                       "<li>Количество: в случае несоответствия запрашиваемого кол-ва нормам отгрузки ТМЦ, просим указать данный факт.</li>" +
+                       "<li>Качество: предлагать только новый товар, не бывшим в использовании, в ином случае предупреждать в КП.</li>" +
+                       "<li>Отгрузка: просим указывать варианты отгрузки, которыми располагаете (автотранспорт, жд/транспорт, авиатранспорт).</li>" +
+                       "<li>Условия оплаты.</li>" +
+                       "<li>В случае габаритного груза, просим указывать полные габариты в упакованном виде.</li>",
+                TextView = "В связи с производственной необходимостью, просим Вас рассмотреть возможность предоставления коммерческого предложения в максимально короткие сроки.\n " +
+                           "При составлении коммерческого предложения просим Вас учесть следующее:\n" +
+                           "1.    Соответствие запрашиваемого ТМЦ с Вашим предложением: марка, модель, модификации, ГОСТ , ТУ и т.д. В случае не “критичного” расхождения, просим указать данный факт в КП.\n" +
+                           "2.    Количество: в случае несоответствия запрашиваемого кол-ва нормам отгрузки ТМЦ, просим указать данный факт.\n" +
+                           "3.    Качество: предлагать только новый товар, не бывшим в использовании, в ином случае предупреждать в КП.\n" +
+                           "4.    Отгрузка: просим указывать варианты отгрузки, которыми располагаете (автотранспорт, жд/транспорт, авиатранспорт)\n" +
+                           "5.    Условия оплаты.\n" +
+                           "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
                 Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
             };
             return View(model);
@@ -91,20 +100,20 @@ namespace WebStudio.Controllers
 
         [HttpPost]
         //[Authorize]
-        public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash)
+        public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash, List<string> selectedLinkNames)
         {
             if (ModelState.IsValid)
             {
+                List<string> filePaths = new List<string>(); 
                 if (model.File != null)
                 {
                     string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Requests");
                     string filePath = $"\\Files\\Requests\\{model.File.FileName}";
                     _uploadService.Upload(path, model.File.FileName, model.File);
                     model.FilePath = filePath;
+                    filePaths.Add(filePath);
                 }
 
-                model.Suppliers = Search(supplierHash);
-                
                 Request request = new Request
                 {
                     Text = model.Text,
@@ -120,8 +129,19 @@ namespace WebStudio.Controllers
                 if (result.IsCompleted)
                 {
                     await _db.SaveChangesAsync();
+                    EmailService emailService = new EmailService();
+                    string[] subDirectory = request.Card.Number.Split("/");
+                    string attachPath = @$"{model.OverallPath}\{subDirectory[0]}";
+                    foreach (var linkName in selectedLinkNames)
+                    {
+                        string filePath = $@"{attachPath}\{linkName}";
+                        filePaths.Add(filePath);
+                    }
+                    await emailService.SendMessageAsync(model.Suppliers, "Запрос коммерческого предложения", $"{model.Text}",
+                        filePaths, request.Executor);
                     return RedirectToAction("DetailCard", "Cards", new {cardId = model.CardId});
                 }
+                
             }
 
             return View(model);
@@ -150,7 +170,6 @@ namespace WebStudio.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchSupplierAjax(CreateRequestViewModel model, string supplierSearchHash)
         {
-            model.Suppliers = _db.Suppliers.ToList();
             model.Suppliers = Search(supplierSearchHash);
             return Json(model.Suppliers);
         }
@@ -175,8 +194,8 @@ namespace WebStudio.Controllers
             {
                 return suppliers;
             }
-
-            suppliers = _db.Suppliers.Where(s => s.Tags.Contains(supplierSearchHash)).ToList();
+            
+            suppliers = _db.Suppliers.Where(s => s.Tags.Contains(supplierSearchHash) || s.Name.Contains(supplierSearchHash)).ToList();
             return suppliers;
         }
     }

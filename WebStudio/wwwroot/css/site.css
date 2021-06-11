@@ -82,6 +82,12 @@ body {
 .font-13{
   font-size: 13px;
 }
+
+.delete-card-custom{
+  border: none;
+  background: none;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
