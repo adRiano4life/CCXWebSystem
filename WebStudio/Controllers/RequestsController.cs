@@ -114,6 +114,10 @@ namespace WebStudio.Controllers
                     filePaths.Add(filePath);
                 }
 
+                model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
+                model.Suppliers = _db.Suppliers
+                    .Where(s => s.Tags.Contains(supplierHash) || s.Name.Contains(supplierHash)).ToList();
+
                 Request request = new Request
                 {
                     Text = model.Text,
@@ -138,7 +142,7 @@ namespace WebStudio.Controllers
                         filePaths.Add(filePath);
                     }
                     await emailService.SendMessageAsync(model.Suppliers, "Запрос коммерческого предложения", $"{model.Text}",
-                        filePaths, request.Executor);
+                        filePaths, request.Executor, model.Card);
                     return RedirectToAction("DetailCard", "Cards", new {cardId = model.CardId});
                 }
                 
