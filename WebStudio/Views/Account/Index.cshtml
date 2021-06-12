@@ -5,17 +5,17 @@
     Layout = "_Layout";
 }
 
-<h2>Личный кабинет</h2>
-<div class="card my-3" style="max-width: 540px;">
+<h2 class="display-4">Личный кабинет</h2>
+<div class="card my-3 col-lg-12 shadow">
     <div class="row no-gutters">
-        <div class="col-md-4 align-items-baseline">
+        <div class="col-lg-4 mt-3 mb-3 align-items-baseline">
             
                 <img src="@Model.User.AvatarPath" class="card-img" alt="фото пользователя">
             
         </div>
-        <div class="col-md-8">
+        <div class="col-lg-4">
             <div class="card-body">
-                <h5 class="card-title">Имя: @Model.User.Surname @Model.User.Name</h5>
+                <h4 class="card-title">Имя: @Model.User.Surname @Model.User.Name</h4>
                 <p class="card-text">Эл.почта: @Model.User.Email</p>
                 <p class="card-text">Телефон: @Model.User.PhoneNumber</p>
                 <p class="card-text">
@@ -41,7 +41,7 @@
 
 @if (User.IsInRole("admin") && @Model.Users.Count > 0)
 {
-    <h5 class="my-5">Список пользователей</h5>
+    <h3 class="mt-5 mb-3 display-4">Список пользователей</h3>
     <div class="users">
         <table class="table">
             <tr>
@@ -53,10 +53,10 @@
             @foreach (var user in @Model.Users)
             {
                 <tr>
-                    <th><img src="@user.AvatarPath" style="width: 30px; height: 30px;"></th>
-                    <td>@user.Surname @user.Name</td>
-                    <td>@user.Email</td>
-                    <td>@user.PhoneNumber</td>
+                    <th><img src="@user.AvatarPath" style="width: 80px; height: auto;"></th>
+                    <td class="lead">@user.Surname @user.Name</td>
+                    <td class="lead">@user.Email</td>
+                    <td class="lead">@user.PhoneNumber</td>
                 </tr>    
             }
         </table>
