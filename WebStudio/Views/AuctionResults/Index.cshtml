@@ -26,7 +26,6 @@ else
             <th scope="col">Наименование</th>
             <th scope="col">Дата и время начала торгов</th>
             <th scope="col">Дата заключения сделки</th>
-            <th scope="col">Документы</th>
             <th scope="col">Победитель</th>
             <th scope="col">Итоговая сумма (тг)</th>
         </tr>
@@ -48,43 +47,7 @@ else
                     @DateOfSignContract
 
                 </td>
-                <td>
-                    @if (lot.Links != null)
-                    {
-                        @for (int i = 0; i < lot.Links.Count; i++)
-                        {
-                            if (lot.LinkNames[i].Contains(".xlsx"))
-                            {
-                                <i class="far fa-file-excel text-secondary"></i>
-                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
-                                <br>
-                            }
-                            else if (lot.LinkNames[i].Contains(".docx"))
-                            {
-                                <i class="far fa-file-word text-secondary"></i>
-                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
-                                <br>
-                            }
-                            else if (lot.LinkNames[i].Contains(".pdf"))
-                            {
-                                <i class="far fa-file-pdf text-secondary"></i>
-                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
-                                <br>
-                            }
-                            else if (lot.LinkNames[i].Contains(".jpg"))
-                            {
-                                <i class="far fa-file-image text-secondary"></i>
-                                <a href="@lot.Links[i]">@lot.LinkNames[i]</a>
-                                <br>
-                            }
-                        }
-                    }
-                    else
-                    {
-                        @:-
-                    }
-                                
-                </td>
+               
                 <td>@lot.Winner</td>
                 <td>
                     @{
