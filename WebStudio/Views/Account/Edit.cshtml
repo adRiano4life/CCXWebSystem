@@ -5,9 +5,10 @@
     Layout = "_Layout";
 }
 
-<h2>Изменить профиль</h2>
+
 <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-lg-6 shadow">
+        <h2 class="mt-3 display-4">Изменить профиль</h2>
         <form asp-action="Edit" asp-controller="Account" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
@@ -30,14 +31,14 @@
                 <input class="form-control" asp-for="PhoneNumber">
                 <span asp-validation-for="PhoneNumber"></span>
             </div>
-            
+
             <div class="form-group">
                 <label asp-for="File">Фото</label>
-                <img src="@Model.AvatarPath" class="ml-4" style="height: 30px; width: 30px;">
+                <img src="@Model.AvatarPath" class="ml-4" style="height: 30px; width: auto;">
                 <input class="form-control-file" asp-for="File">
             </div>
             <input asp-for="@Model.Id" type="hidden" value="@Model.Id">
-            <div>
+            <div class="mb-4">
                 <input type="submit" class="btn btn-outline-primary" value="Изменить">
             </div>
         </form>
