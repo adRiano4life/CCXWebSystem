@@ -248,6 +248,7 @@
     }
     <br>
     <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
+    
   }
   
   @if (Model.Card.CardState == CardState.Торги)
@@ -261,7 +262,9 @@
     {
       <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
       <div class="form-group">
-        <a asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-success shadow">Восстановить</a>
+        <form asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+          <input type="submit" value="Восстановить" class="btn btn-outline-success shadow-sm">
+        </form>
       </div>
     }
     
