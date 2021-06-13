@@ -102,44 +102,44 @@ namespace EZParser
 
             
             // убрать когда появятся реальные результаты аукциона
-            if (_db.AuctionResults.Count() == 0) 
-            {
-                Card fakeCard = new Card
-                {
-                 Number = "T-0089444/1",
-                 Name = "вентиляционное оборудование",
-                 StartSumm = 39931200,
-                 DateOfAcceptingEnd = DateTime.Now,
-                 DateOfAuctionStart = DateTime.Now,
-                 Initiator = "ТОО Корпорация Казахмыс 050140000656г.Караганда, ул.Ленина, д.12АО «Bank RBK» БИК KINCKZKA, ИИК KZ 778210139812144560",
-                 Broker = "ТОО «Steppe Nomad» (CSND)+7 (708) 439-87-76",
-                 Auction = "На понижение",
-                 State = "Прием заявок",
-                 BestPrice = "Ожидание начала торгов",
-                 CardState = CardState.Новая,
-                 Links =
-                 {
-                     "https://info.ccx.kz/ru/site/download?uid=991AB39A-7844-4D78-86EF-04ABD22AB369",
-                     "https://info.ccx.kz/ru/site/download?uid=7300FEDA-BE8E-45F1-81B7-5091F61D02E4",
-                     "https://info.ccx.kz/ru/site/download?uid=42A769A3-B6F5-43FB-9081-28085FA640B0",
-                     "https://info.ccx.kz/ru/site/download?uid=09789A77-F2C7-493B-9935-45C2006AAA73",
-                     "https://info.ccx.kz/ru/site/download?uid=B8E3F610-41C7-46FD-B933-BD4643E1185C",
-                     "https://info.ccx.kz/ru/site/download?uid=F067A871-8B51-49E3-B7AD-80B0E0779B2E"
-                 },
-                 LinkNames =
-                 {
-                     " Приложение 1.docx",
-                     " Приложение к торгам №T-0090413 DDP.xlsx",
-                     " Квалификационные требования 13 п..docx",
-                     " Приложение к торгам №T-0090413 DAP.xlsx"," ПКО 33994.pdf",
-                     " ТБ Типовая форма договора поставки ТМЦ, по заказу, Резидент.docx"
-                 },
-                 ExecutorId = null
-                };
-                _db.Cards.Add(fakeCard);
-                _db.SaveChanges();
-                GetAuctionResults();
-            }
+            // if (_db.AuctionResults.Count() == 0) 
+            // {
+            //     Card fakeCard = new Card
+            //     {
+            //      Number = "T-0089444/1",
+            //      Name = "вентиляционное оборудование",
+            //      StartSumm = 39931200,
+            //      DateOfAcceptingEnd = DateTime.Now,
+            //      DateOfAuctionStart = DateTime.Now,
+            //      Initiator = "ТОО Корпорация Казахмыс 050140000656г.Караганда, ул.Ленина, д.12АО «Bank RBK» БИК KINCKZKA, ИИК KZ 778210139812144560",
+            //      Broker = "ТОО «Steppe Nomad» (CSND)+7 (708) 439-87-76",
+            //      Auction = "На понижение",
+            //      State = "Прием заявок",
+            //      BestPrice = "Ожидание начала торгов",
+            //      CardState = CardState.Новая,
+            //      Links =
+            //      {
+            //          "https://info.ccx.kz/ru/site/download?uid=991AB39A-7844-4D78-86EF-04ABD22AB369",
+            //          "https://info.ccx.kz/ru/site/download?uid=7300FEDA-BE8E-45F1-81B7-5091F61D02E4",
+            //          "https://info.ccx.kz/ru/site/download?uid=42A769A3-B6F5-43FB-9081-28085FA640B0",
+            //          "https://info.ccx.kz/ru/site/download?uid=09789A77-F2C7-493B-9935-45C2006AAA73",
+            //          "https://info.ccx.kz/ru/site/download?uid=B8E3F610-41C7-46FD-B933-BD4643E1185C",
+            //          "https://info.ccx.kz/ru/site/download?uid=F067A871-8B51-49E3-B7AD-80B0E0779B2E"
+            //      },
+            //      LinkNames =
+            //      {
+            //          " Приложение 1.docx",
+            //          " Приложение к торгам №T-0090413 DDP.xlsx",
+            //          " Квалификационные требования 13 п..docx",
+            //          " Приложение к торгам №T-0090413 DAP.xlsx"," ПКО 33994.pdf",
+            //          " ТБ Типовая форма договора поставки ТМЦ, по заказу, Резидент.docx"
+            //      },
+            //      ExecutorId = null
+            //     };
+            //     _db.Cards.Add(fakeCard);
+            //     _db.SaveChanges();
+            //     GetAuctionResults();
+            //}
         }
     }
 }

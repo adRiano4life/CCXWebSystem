@@ -22,8 +22,7 @@ namespace WebStudio.ViewModels
         public virtual Card Card { get; set; }
 
         public virtual List<Supplier> Suppliers { get; set; }
-        public virtual List<string> supplierHashs { get; set; }
-        
+
         [NotMapped] 
         public IFormFile File { get; set; }
         

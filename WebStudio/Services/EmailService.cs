@@ -9,7 +9,7 @@ namespace WebStudio.Services
 {
     public class EmailService
     {
-        public async Task SendMessageAsync(List<Supplier> suppliers, string title, string message, List<string> paths, User user, Card card)
+        public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
             //emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", $"{user.Email}"));

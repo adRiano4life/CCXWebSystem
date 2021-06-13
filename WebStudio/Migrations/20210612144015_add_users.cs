@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class user_add : Migration
+    public partial class add_users : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,6 +69,23 @@ namespace WebStudio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuctionResults", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SearchSuppliers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Website = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    Tags = table.Column<List<string>>(type: "text[]", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SearchSuppliers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -294,16 +311,16 @@ namespace WebStudio.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AvatarPath", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Surname", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "/Images/Avatars/defaultavatar.jpg", "1efe3c27-900a-4fc4-8da8-f4dce576fcb7", "User", "Jake_Billson@gmail.com", false, false, null, "Jake", null, null, null, null, false, "c6979460-a91f-4c3d-959c-7d48aff24867", "Billson", false, null },
-                    { "2", 0, "/Images/Avatars/defaultavatar.jpg", "0a2e36d5-bdd1-4dc6-9457-e8a977a5dcf4", "User", "Pol_Dou@gmail.com", false, false, null, "Pol", null, null, null, null, false, "1dd38155-61d5-465b-bf66-d9a1e1ac4775", "Dou", false, null },
-                    { "3", 0, "/Images/Avatars/defaultavatar.jpg", "9fa4164f-e440-4896-819c-2531da75b458", "User", "Helen_Merker@gmail.com", false, false, null, "Helen", null, null, null, null, false, "a45a1d63-74d6-494a-9067-f3bc7a1f0fbd", "Merker", false, null },
-                    { "4", 0, "/Images/Avatars/defaultavatar.jpg", "8c953710-c6eb-4ae9-aa42-c990816a1e0e", "User", "Jhon_Sohnson@gmail.com", false, false, null, "Jhon", null, null, null, null, false, "577f70b0-03d3-4d51-a1ac-181987d9d4a7", "Sohnson", false, null },
-                    { "5", 0, "/Images/Avatars/defaultavatar.jpg", "f9c48411-f37a-4a66-880e-0f51779e2adb", "User", "Phill_Madison@gmail.com", false, false, null, "Phil", null, null, null, null, false, "60a220a9-67ed-4204-b048-6b12a31c8587", "Madison", false, null },
-                    { "6", 0, "/Images/Avatars/defaultavatar.jpg", "3179e7a9-fcac-474c-b859-d26de52b676d", "User", "Mark_Takeson@gmail.com", false, false, null, "Mark", null, null, null, null, false, "27aca9eb-569a-4a19-b8d3-f45a27926055", "Takeson", false, null },
-                    { "7", 0, "/Images/Avatars/defaultavatar.jpg", "d797c413-eac9-4074-9de8-93932cbda14c", "User", "Max_Carlson@gmail.com", false, false, null, "Max", null, null, null, null, false, "713fb2c4-fb78-4c62-9a47-afb47c8735ac", "Carlson", false, null },
-                    { "8", 0, "/Images/Avatars/defaultavatar.jpg", "c7b59f15-2e81-4946-85d3-3449d7649e0d", "User", "Caren_Jameson@gmail.com", false, false, null, "Caren", null, null, null, null, false, "ef395f3f-57a5-4f84-bc9d-14c099d71250", "Jameson", false, null },
-                    { "9", 0, "/Images/Avatars/defaultavatar.jpg", "5f1b1c5d-6952-4dff-91cd-a08ae5d10830", "User", "July_Pablich@gmail.com", false, false, null, "July", null, null, null, null, false, "950371ee-8850-4c16-ab92-8b421f54786a", "Pablich", false, null },
-                    { "10", 0, "/Images/Avatars/defaultavatar.jpg", "09f924fc-003e-4625-afd7-0198f935daad", "User", "Tad_Wilkerson@gmail.com", false, false, null, "Tad", null, null, null, null, false, "2a75ea47-b957-4326-a8c4-d0dda6b513cb", "Wilkerson", false, null }
+                    { "1", 0, "/Images/Avatars/defaultavatar.jpg", "c0d198da-a55a-4537-808f-a7d0bac634c1", "User", "Jake_Billson@gmail.com", false, false, null, "Jake", null, null, null, null, false, "9fa1f2cb-35ee-47db-b916-8abe0a0f3428", "Billson", false, null },
+                    { "2", 0, "/Images/Avatars/defaultavatar.jpg", "a7cf377d-6500-479b-ab74-328b67c6f0c3", "User", "Pol_Dou@gmail.com", false, false, null, "Pol", null, null, null, null, false, "275a94d6-c562-41e0-9c51-f959e32a43b5", "Dou", false, null },
+                    { "3", 0, "/Images/Avatars/defaultavatar.jpg", "8f1f420d-eb3d-4fec-9ef6-c888803de346", "User", "Helen_Merker@gmail.com", false, false, null, "Helen", null, null, null, null, false, "97e04458-41ae-41bd-9412-0ca3805d85f8", "Merker", false, null },
+                    { "4", 0, "/Images/Avatars/defaultavatar.jpg", "69c6f379-63a1-41ed-bbcd-e474870ef1d7", "User", "Jhon_Sohnson@gmail.com", false, false, null, "Jhon", null, null, null, null, false, "bd4c8eee-a080-4d2a-9024-c1d7c262cf6a", "Sohnson", false, null },
+                    { "5", 0, "/Images/Avatars/defaultavatar.jpg", "80b7c3e5-e6e9-4408-9ac4-19f11aa66a90", "User", "Phill_Madison@gmail.com", false, false, null, "Phil", null, null, null, null, false, "a0037639-37f1-4dc2-8113-269ad5ea7f70", "Madison", false, null },
+                    { "6", 0, "/Images/Avatars/defaultavatar.jpg", "1789a12e-86e9-4491-b468-d763229b0560", "User", "Mark_Takeson@gmail.com", false, false, null, "Mark", null, null, null, null, false, "8d8bf363-e82c-432d-86aa-64ed4f372833", "Takeson", false, null },
+                    { "7", 0, "/Images/Avatars/defaultavatar.jpg", "63ac3f31-ca56-44f1-a23b-46880855a900", "User", "Max_Carlson@gmail.com", false, false, null, "Max", null, null, null, null, false, "0f0ad742-fcf2-4b6e-80c0-2159bf06294f", "Carlson", false, null },
+                    { "8", 0, "/Images/Avatars/defaultavatar.jpg", "e77a0b36-3969-4293-bc9d-82a865d415f1", "User", "Caren_Jameson@gmail.com", false, false, null, "Caren", null, null, null, null, false, "dd78593a-8b59-424b-ba0b-a51c6bbd54b1", "Jameson", false, null },
+                    { "9", 0, "/Images/Avatars/defaultavatar.jpg", "c7f0aeaf-0d57-4c4b-9052-402d272d66ee", "User", "July_Pablich@gmail.com", false, false, null, "July", null, null, null, null, false, "bfc91ea5-1a09-414d-8c8a-db042289d4ab", "Pablich", false, null },
+                    { "10", 0, "/Images/Avatars/defaultavatar.jpg", "326b0919-fb9b-447e-bd4f-4728c055d3c2", "User", "Tad_Wilkerson@gmail.com", false, false, null, "Tad", null, null, null, null, false, "89d35246-12f6-49ae-8e24-627b9249bb69", "Wilkerson", false, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -391,6 +408,9 @@ namespace WebStudio.Migrations
 
             migrationBuilder.DropTable(
                 name: "Positions");
+
+            migrationBuilder.DropTable(
+                name: "SearchSuppliers");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");

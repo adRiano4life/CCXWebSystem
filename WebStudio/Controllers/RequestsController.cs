@@ -115,9 +115,10 @@ namespace WebStudio.Controllers
                 }
 
                 model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
-                model.Suppliers = _db.Suppliers
-                    .Where(s => s.Tags.Contains(supplierHash) || s.Name.Contains(supplierHash)).ToList();
 
+                List<SearchSupplier> suppliers = _db.SearchSuppliers.ToList();
+                
+                
                 Request request = new Request
                 {
                     Text = model.Text,
@@ -141,8 +142,10 @@ namespace WebStudio.Controllers
                         string filePath = $@"{attachPath}\{linkName}";
                         filePaths.Add(filePath);
                     }
-                    await emailService.SendMessageAsync(model.Suppliers, "Запрос коммерческого предложения", $"{model.Text}",
+                    await emailService.SendMessageAsync(suppliers, "Запрос коммерческого предложения", $"{model.Text}",
                         filePaths, request.Executor, model.Card);
+                    _db.SearchSuppliers.RemoveRange(suppliers);
+                    await _db.SaveChangesAsync();
                     return RedirectToAction("DetailCard", "Cards", new {cardId = model.CardId});
                 }
                 
@@ -152,7 +155,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPositionAjax(string cardId, string positionNumber, string codTNVED,
+        public async Task<IActionResult> AddPositionAjax(string cardId, string codTNVED,
             string name, string measure, string amount, string deliveryTerms)
         {
             CardPosition cardPosition = new CardPosition
@@ -175,7 +178,22 @@ namespace WebStudio.Controllers
         public async Task<IActionResult> SearchSupplierAjax(CreateRequestViewModel model, string supplierSearchHash)
         {
             model.Suppliers = Search(supplierSearchHash);
-            return Json(model.Suppliers);
+            foreach (var supplier in model.Suppliers)
+            {
+                SearchSupplier searchSupplier = new SearchSupplier
+                {
+                    Name = supplier.Name,
+                    Email = supplier.Email,
+                    Website = supplier.Website,
+                    PhoneNumber = supplier.PhoneNumber,
+                    Address = supplier.Address,
+                    Tags = supplier.Tags
+                };
+                await _db.SearchSuppliers.AddAsync(searchSupplier);
+                await _db.SaveChangesAsync();
+            }
+
+            return Json(_db.SearchSuppliers);
         }
 
         [HttpGet]
