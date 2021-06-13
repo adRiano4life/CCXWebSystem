@@ -17,10 +17,11 @@ namespace WebStudio.Controllers
         private WebStudioContext _db;
         private ISuppliersService _suppliersService;
         
-        public SuppliersController(ISuppliersService service)
-        {
-            _suppliersService = service;
-        }
+        // Конструктор для реализации Unit Test
+        // public SuppliersController(ISuppliersService service)
+        // {
+        //     _suppliersService = service;
+        // }
         public SuppliersController(WebStudioContext db)
         {
             _db = db;
