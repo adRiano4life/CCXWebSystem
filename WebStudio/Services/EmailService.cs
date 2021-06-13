@@ -25,14 +25,14 @@ namespace WebStudio.Services
             builder.HtmlBody = message;
             foreach (var position in card.Positions)
             {
-                string positionTable = $"<br><ul>" +
-                                 $"<li><b>Код ТНВЕД:</b> {@position.CodTNVED}</li>" +
-                                 $"<li><b>Наименование:</b> {@position.Name}</li>" +
-                                 $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
-                                 $"<li><b>Количество:</b> {@position.Amount}</li>" +
-                                 $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
-                                 $"</ul>";
-                builder.HtmlBody += positionTable;
+                // string positionTable = $"<br><ul>" +
+                //                  $"<li><b>Код ТНВЕД:</b> {@position.CodTNVED}</li>" +
+                //                  $"<li><b>Наименование:</b> {@position.Name}</li>" +
+                //                  $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
+                //                  $"<li><b>Количество:</b> {@position.Amount}</li>" +
+                //                  $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
+                //                  $"</ul>";
+                // builder.HtmlBody += positionTable;
             }
             foreach (var path in paths) 
             {
