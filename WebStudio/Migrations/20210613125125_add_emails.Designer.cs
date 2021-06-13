@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210612134120_init")]
-    partial class init
+    [Migration("20210613125125_add_emails")]
+    partial class add_emails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -385,6 +385,34 @@ namespace WebStudio.Migrations
                     b.HasIndex("ExecutorId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.SearchSupplier", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SearchSuppliers");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Supplier", b =>

@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class init : Migration
+    public partial class add_emails : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,6 +69,23 @@ namespace WebStudio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuctionResults", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SearchSuppliers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Website = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    Tags = table.Column<List<string>>(type: "text[]", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SearchSuppliers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,23 +306,6 @@ namespace WebStudio.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "AvatarPath", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Surname", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "1", 0, "/Images/Avatars/defaultavatar.jpg", "f311bd5c-48e1-48f8-8584-1d7aaa6a0a3d", "User", "Jake_Billson@gmail.com", false, false, null, "Jake", null, null, null, null, false, "5cc68c05-8b0d-4358-acb7-eac7565da1dc", "Billson", false, null },
-                    { "2", 0, "/Images/Avatars/defaultavatar.jpg", "e1be84bc-2da5-479f-9636-04fe4c2eea3a", "User", "Pol_Dou@gmail.com", false, false, null, "Pol", null, null, null, null, false, "e267d4af-cbf7-4929-8ef7-9529e72350c6", "Dou", false, null },
-                    { "3", 0, "/Images/Avatars/defaultavatar.jpg", "190f22ff-4a21-4fe9-8bcc-9268c97b1ab7", "User", "Helen_Merker@gmail.com", false, false, null, "Helen", null, null, null, null, false, "bf97a4ec-3299-436a-b1e9-aca952d150e2", "Merker", false, null },
-                    { "4", 0, "/Images/Avatars/defaultavatar.jpg", "04c839e8-5374-4bcb-ad58-459c2ab3afa3", "User", "Jhon_Sohnson@gmail.com", false, false, null, "Jhon", null, null, null, null, false, "f249d2d5-ea74-4d18-a94e-c6da80788016", "Sohnson", false, null },
-                    { "5", 0, "/Images/Avatars/defaultavatar.jpg", "55059ec3-c9ef-40a0-99aa-522a9a10206a", "User", "Phill_Madison@gmail.com", false, false, null, "Phil", null, null, null, null, false, "b33a457e-f078-4b51-afa5-e364e9c59508", "Madison", false, null },
-                    { "6", 0, "/Images/Avatars/defaultavatar.jpg", "49bdfdbe-3af7-4ce3-bbd7-e6b66b8abaa8", "User", "Mark_Takeson@gmail.com", false, false, null, "Mark", null, null, null, null, false, "ea578977-0203-43fd-9b0a-cb4aa32ce11e", "Takeson", false, null },
-                    { "7", 0, "/Images/Avatars/defaultavatar.jpg", "ea1c5826-4d24-44e7-bb46-d7dbeec8f36b", "User", "Max_Carlson@gmail.com", false, false, null, "Max", null, null, null, null, false, "a37bfd22-f6a0-423e-aead-83f2b6594b4e", "Carlson", false, null },
-                    { "8", 0, "/Images/Avatars/defaultavatar.jpg", "07cfce4c-5bc7-46be-998a-cc7f30a56e9f", "User", "Caren_Jameson@gmail.com", false, false, null, "Caren", null, null, null, null, false, "df77ce9b-cef5-4bda-898d-f3b2d18fc514", "Jameson", false, null },
-                    { "9", 0, "/Images/Avatars/defaultavatar.jpg", "1519d33f-d56e-4332-89e9-6b67b6507eb2", "User", "July_Pablich@gmail.com", false, false, null, "July", null, null, null, null, false, "a4da4b94-aa7c-49fd-bbb2-84e257228bb7", "Pablich", false, null },
-                    { "10", 0, "/Images/Avatars/defaultavatar.jpg", "3a925804-5862-4f24-a349-fafc93ee098f", "User", "Tad_Wilkerson@gmail.com", false, false, null, "Tad", null, null, null, null, false, "d7f5aa60-ace8-4a64-8b54-7fdf5f4aea39", "Wilkerson", false, null }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -391,6 +391,9 @@ namespace WebStudio.Migrations
 
             migrationBuilder.DropTable(
                 name: "Positions");
+
+            migrationBuilder.DropTable(
+                name: "SearchSuppliers");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");

@@ -385,6 +385,34 @@ namespace WebStudio.Migrations
                     b.ToTable("Requests");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.SearchSupplier", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SearchSuppliers");
+                });
+
             modelBuilder.Entity("WebStudio.Models.Supplier", b =>
                 {
                     b.Property<string>("Id")
