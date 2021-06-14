@@ -104,20 +104,22 @@ namespace WebStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<string> filePaths = new List<string>(); 
-                if (model.File != null)
+                List<string> filePaths = new List<string>();
+                model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
+                string[] subDirectory = model.Card.Number.Split("/");
+                string attachPath = @$"{model.OverallPath}\{subDirectory[0]}";
+                if (model.Files != null)
                 {
-                    string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Requests");
-                    string filePath = $"\\Files\\Requests\\{model.File.FileName}";
-                    _uploadService.Upload(path, model.File.FileName, model.File);
-                    model.FilePath = filePath;
-                    filePaths.Add(filePath);
+                    foreach (var file in model.Files)
+                    {
+                        string path = Path.Combine(_environment.ContentRootPath, $"{attachPath}");
+                        string filePath = @$"{attachPath}\{file.FileName}";
+                        _uploadService.Upload(path, file.FileName, file);
+                        filePaths.Add(filePath);
+                    }
                 }
 
-                model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
-
                 List<SearchSupplier> suppliers = _db.SearchSuppliers.ToList();
-                
                 
                 Request request = new Request
                 {
@@ -126,17 +128,15 @@ namespace WebStudio.Controllers
                     ExecutorId = model.ExecutorId,
                     Executor = await _userManager.FindByIdAsync(model.ExecutorId),
                     CardId = model.CardId,
-                    Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId),
+                    Card = model.Card,
                     Suppliers = model.Suppliers,
-                    FilePath = model.FilePath
                 };
                 var result = _db.Requests.AddAsync(request);
                 if (result.IsCompleted)
                 {
                     await _db.SaveChangesAsync();
                     EmailService emailService = new EmailService();
-                    string[] subDirectory = request.Card.Number.Split("/");
-                    string attachPath = @$"{model.OverallPath}\{subDirectory[0]}";
+
                     foreach (var linkName in selectedLinkNames)
                     {
                         string filePath = $@"{attachPath}\{linkName}";
@@ -144,7 +144,7 @@ namespace WebStudio.Controllers
                     }
                     await emailService.SendMessageAsync(suppliers, "Запрос коммерческого предложения", $"{model.Text}",
                         filePaths, request.Executor, model.Card);
-                    _db.SearchSuppliers.RemoveRange(suppliers);
+                    _db.SearchSuppliers.RemoveRange(_db.SearchSuppliers);
                     await _db.SaveChangesAsync();
                     return RedirectToAction("DetailCard", "Cards", new {cardId = model.CardId});
                 }

@@ -11,7 +11,7 @@ namespace WebStudio.ViewModels
         public string Text { get; set; }
         public string TextView { get; set; }
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
-        public string FilePath { get; set; }
+        public List<string> FilePath { get; set; }
         public string OverallPath { get; set; }
         public string SupplierSearchInput { get; set; }
 
@@ -24,7 +24,7 @@ namespace WebStudio.ViewModels
         public virtual List<Supplier> Suppliers { get; set; }
 
         [NotMapped] 
-        public IFormFile File { get; set; }
+        public List<IFormFile> Files { get; set; }
         
         
         
