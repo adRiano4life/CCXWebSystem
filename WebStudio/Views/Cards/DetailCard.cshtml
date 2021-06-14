@@ -247,8 +247,10 @@
       
     }
     <br>
-    <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
-    
+    @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+    {
+      <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>  
+    }
   }
   
   @if (Model.Card.CardState == CardState.Торги)
