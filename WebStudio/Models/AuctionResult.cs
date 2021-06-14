@@ -10,8 +10,6 @@ namespace WebStudio.Models
         public string Name { get; set; }
         public DateTime DateOfAuctionStart { get; set; }
         public DateTime? DateOfSignContract { get; set; }
-        public List<string> Links { get; set; }
-        public List<string> LinkNames { get; set; }
         public string Winner { get; set; }
         public decimal? Sum { get; set; }
     }
