@@ -25,8 +25,8 @@ namespace EZParser
 
         static void Main(string[] args)
         {
-            // GetParse();
-            // ExcelReader.ExcelRead();
+            GetParse();
+            ExcelReader.ExcelRead();
             AuctionResultsParser.GetAuctionResults();
         }
         

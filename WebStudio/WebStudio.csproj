@@ -31,6 +31,8 @@
       <Compile Remove="Migrations\WebStudioContextModelSnapshot.cs" />
       <Compile Remove="Migrations\20210604090656_Initial.cs" />
       <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
+      <Compile Remove="Migrations\20210614082416_Initial.cs" />
+      <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
     </ItemGroup>
 
 </Project>
