@@ -20,66 +20,58 @@ namespace WebStudio.Tests
        private readonly ISuppliersService _suppliersService;
 
 
-       [Fact]
-       public void ShouldFailValidationModel()
-       {
-           //Arrange
-           //var controller = new SuppliersController();
-           // var viewModel = new CreateSupplierViewModel();
-           //
-           // //Act
-           // var viewResult = controller.Create(viewModel) as ViewResult;
-           //
-           // //Assert
-           // Assert.NotNull(viewModel);
-           // Assert.Equal(string.Empty, viewResult.ViewName);
-           // Assert.False(viewResult.ViewData.ModelState.IsValid);
-       } 
-
-       
-       // [Fact]
-       // public void AddSupplierReturnsARedirectAndAddsSupplier()
+       //[Fact]
+       // public void ShouldFailValidationModel()
        // {
+       //     string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123";
+       //     var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
+       //     var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
+       //     var db = new WebStudioContext(options);
        //     var mock = new Mock<ISuppliersService>();
-       //     var controller = new SuppliersController(mock.Object);
-       //     var model = new CreateSupplierViewModel
-       //     {
-       //         Id = Guid.NewGuid().ToString(),
-       //         Name = "testSupplier",
-       //         Email = "testSupplier@gmail.com",
-       //         PhoneNumber = "8777",
-       //         Website = "www.tengrinews.kz",
-       //         Address = "г.Алматы",
-       //         Tags = "testTagOne testTagTwo"
-       //     };
+       //     var controller = new SuppliersController(mock.Object, db);
+       //
        //     
-       //     ViewResult result = controller.Create(model) as ViewResult;
-       //     Assert.NotNull(result);
-       //     Assert.NotNull(result.Model);
-       //     //Assert.Equal(model, result.Model);
-       //     
-       //     if (!string.IsNullOrEmpty(model.Tags))
-       //     {
-       //         string[] tagsString =
-       //             model.Tags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-       //
-       //         // var supplier = new Supplier
-       //         // {
-       //         //     Name = model.Name, Email = model.Email, PhoneNumber = model.PhoneNumber,
-       //         //     Website = model.Website, Tags = new List<string>()
-       //         // };
-       //         // supplier.Tags.AddRange(tagsString.ToList());
-       //     }
-       //    
-       //     var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
-       //     Assert.Equal("Index", redirectToActionResult.ActionName);
-       //
-       //     //mock.Verify(r=>r.AddSupplier(supplier));
-       //
-       //     var viewResult = controller.Create(model) as ViewResult;
-       //     Assert.Equal("Create", viewResult.ViewName);
-       //     Assert.Equal(typeof(CreateSupplierViewModel), viewResult.Model.GetType());
-       // }
+       // } 
+
+
+       [Fact]
+       public void AddSupplierReturnsARedirectAndAddsSupplier()
+       {
+           string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123";
+           var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
+           var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
+           var db = new WebStudioContext(options);
+           var mock = new Mock<ISuppliersService>();
+           var controller = new SuppliersController(mock.Object, db);
+           
+           var model = new CreateSupplierViewModel
+           {
+               Id = Guid.NewGuid().ToString(),
+               Name = "testSupplier",
+               Email = "testSupplier@gmail.com",
+               PhoneNumber = "8777",
+               Website = "www.tengrinews.kz",
+               Address = "г.Алматы",
+               Tags = "testTagOne testTagTwo"
+           };
+
+           var result = controller.Create(model); // as ViewResult;
+           var bdresult = db.Suppliers.FirstOrDefault(s => s.Name == model.Name);
+           
+           Assert.NotNull(result);
+           Assert.Equal(model.Website, bdresult.Website);
+           Assert.Equal(model.Website, bdresult.Website);
+
+
+           db.Remove(bdresult);
+           db.SaveChanges();
+           //
+           // //mock.Verify(r=>r.AddSupplier(supplier));
+           //
+           // var viewResult = controller.Create(model) as ViewResult;
+           // Assert.Equal("Create", viewResult.ViewName);
+           // Assert.Equal(typeof(CreateSupplierViewModel), viewResult.Model.GetType());
+       }
 
 
     }
