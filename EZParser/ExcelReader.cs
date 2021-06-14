@@ -41,7 +41,7 @@ namespace EZParser
 
                     foreach (var file in fileNames)
                     {
-                        if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
+                        if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap") && file.Contains("549"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
                             
