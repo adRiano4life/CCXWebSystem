@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -182,8 +183,26 @@ namespace WebStudio.Controllers
             }
             return RedirectToAction("Index", "Suppliers");
         }
-        
-        
+
+        [HttpGet]
+        public async Task<IActionResult> AddSupplierAjax(string supplierName, string supplierEmail, string supplierSite,
+            string supplierPhone, string supplierAddress, string supplierTags)
+        {
+            List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            SearchSupplier supplier = new SearchSupplier
+            {
+                Name = supplierName,
+                Email = supplierEmail,
+                Website = supplierSite,
+                PhoneNumber = supplierPhone,
+                Address = supplierAddress,
+                Tags = tags
+            };
+
+            await _db.SearchSuppliers.AddAsync(supplier);
+            await _db.SaveChangesAsync();
+            return Json(supplier);
+        }
        
     }
 }

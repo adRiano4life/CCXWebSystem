@@ -175,7 +175,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchSupplierAjax(CreateRequestViewModel model, string supplierSearchHash)
+        public async Task<IActionResult> SearchSupplierAjax(CreateRequestViewModel model, string supplierSearchHash, string supplierCardId)
         {
             model.Suppliers = Search(supplierSearchHash);
             foreach (var supplier in model.Suppliers)
@@ -187,7 +187,9 @@ namespace WebStudio.Controllers
                     Website = supplier.Website,
                     PhoneNumber = supplier.PhoneNumber,
                     Address = supplier.Address,
-                    Tags = supplier.Tags
+                    Tags = supplier.Tags,
+                    CardId = supplierCardId,
+                    Card = _db.Cards.FirstOrDefault(c=>c.Id == supplierCardId)
                 };
                 await _db.SearchSuppliers.AddAsync(searchSupplier);
                 await _db.SaveChangesAsync();

@@ -12,5 +12,8 @@ namespace WebStudio.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public List<string> Tags { get; set; }
+
+        public string CardId { get; set; }
+        public virtual Card Card { get; set; }
     }
 }
