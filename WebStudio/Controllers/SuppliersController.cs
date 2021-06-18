@@ -18,13 +18,9 @@ namespace WebStudio.Controllers
         private WebStudioContext _db;
         private ISuppliersService _suppliersService;
         
-        // Конструктор для реализации Unit Test
-        // public SuppliersController(ISuppliersService service)
-        // {
-        //     _suppliersService = service;
-        // }
-        public SuppliersController(WebStudioContext db)
+        public SuppliersController(ISuppliersService service, WebStudioContext db)
         {
+            _suppliersService = service;
             _db = db;
         }
 
