@@ -41,9 +41,10 @@ namespace EZParser
 
                     foreach (var file in fileNames)
                     {
-                        if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap") && file.Contains("549"))
+                        if (!string.IsNullOrEmpty(file) && !file.ToLower().Contains("dap"))
                         {
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
+                            SpreadsheetInfo.FreeLimitReached += (sender, e) => e.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
                             
                             ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}\{file}"); // общий путь
                             

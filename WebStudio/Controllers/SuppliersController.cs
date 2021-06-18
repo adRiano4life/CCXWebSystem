@@ -186,10 +186,10 @@ namespace WebStudio.Controllers
 
         [HttpGet]
         public async Task<IActionResult> AddSupplierAjax(string supplierName, string supplierEmail, string supplierSite,
-            string supplierPhone, string supplierAddress, string supplierTags)
+            string supplierPhone, string supplierAddress, string supplierTags, string supplierCardId)
         {
             List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
-            SearchSupplier supplier = new SearchSupplier
+            Supplier supplier = new Supplier
             {
                 Name = supplierName,
                 Email = supplierEmail,
@@ -198,10 +198,22 @@ namespace WebStudio.Controllers
                 Address = supplierAddress,
                 Tags = tags
             };
+            SearchSupplier searchSupplier = new SearchSupplier
+            {
+                Name = supplierName,
+                Email = supplierEmail,
+                Website = supplierSite,
+                PhoneNumber = supplierPhone,
+                Address = supplierAddress,
+                Tags = tags,
+                CardId = supplierCardId,
+                Card = _db.Cards.FirstOrDefault(c=>c.Id == supplierCardId)
+            };
 
-            await _db.SearchSuppliers.AddAsync(supplier);
+            await _db.Suppliers.AddAsync(supplier);
+            await _db.SearchSuppliers.AddAsync(searchSupplier);
             await _db.SaveChangesAsync();
-            return Json(supplier);
+            return Json(searchSupplier);
         }
        
     }

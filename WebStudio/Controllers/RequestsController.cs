@@ -199,15 +199,16 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId)
+        public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId, string supplierRemoveCardId)
         {
-            Supplier supplier = model.Suppliers.FirstOrDefault(s => s.Id == supplierId);
-            if (supplier != null)
+            SearchSupplier? supplier = _db.SearchSuppliers.FirstOrDefault(s => s.Id == supplierId);
+            if (supplier != null && supplier.Card.Id == supplierRemoveCardId)
             {
-                model.Suppliers.Remove(supplier);
+                _db.SearchSuppliers.Remove(supplier);
+                await _db.SaveChangesAsync();
             }
 
-            return Json(model.Suppliers);
+            return Json(_db.SearchSuppliers);
         }
 
         [NonAction]
