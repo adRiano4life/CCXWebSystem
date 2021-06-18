@@ -138,6 +138,29 @@ namespace WebStudio.Controllers
             return RedirectToAction("Index", "Cards");
         }
 
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState)
+        {
+            if (cardId != null)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                if (card != null)
+                {
+                    switch (cardState)
+                    {
+                        case "ПКО":
+                            card.CardState = CardState.ПКО;
+                            break;
+                    }
+
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
+        }
         
        /// <summary>
         /// Данный Action позволяет делать отображение, фильтрацию карт и пагинацию страниц по статусам, датам и исполнителям.
@@ -211,10 +234,8 @@ namespace WebStudio.Controllers
             int pageNumber = page ?? 1;
 
             return View(cards.ToPagedList(pageNumber, pageSize));
-
-
         }
         
-        
+       
     }
 }

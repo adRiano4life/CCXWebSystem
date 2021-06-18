@@ -33,6 +33,12 @@
     <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
   </div>
 }
+@if (Model.Card.CardState == CardState.ПКО)
+{
+  <div class="card-header bg-info text-white">
+    <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+  </div>
+}
 <div class="card-body">
 
   <p class="card-text mb-4">@Model.Card.Initiator</p>
@@ -229,24 +235,25 @@
           }
         </div>
 
-        <input class="btn btn-outline-dark mb-2" type="submit" value="Переназначить">
+        <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
       </form>
 
 
       <div class="row container form-group">
-
         <form class="mr-2" method="post" asp-controller="Cards" asp-action="AuctionCard">
           @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
-          <button class="btn btn-outline-success shadow">Участвовать в торгах</button>
+          <button class="btn btn-outline-success shadow mt-2">Участвовать в торгах</button>
         </form>
         <form class="mr-2" method="post" asp-controller="Cards" asp-action="DeleteCard">
           @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
-          <button class="btn btn-outline-danger shadow">Не участвовать в торгах</button>
+          <button class="btn btn-outline-danger shadow mt-2">Не участвовать в торгах</button>
+        </form>
+        <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="ПКО" method="post">
+          <input type="submit" value="ПКО" class="btn btn-outline-info shadow mt-2">  
         </form>
       </div>
       
     }
-    <br>
     @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
     {
       <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>  
@@ -258,6 +265,25 @@
     <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
   }
   
+  @if (Model.Card.CardState == CardState.ПКО)
+  {
+    <p class="card-text mb-2" id="lin"><span class="badge badge-info">@Model.Card.CardState</span></p>
+    @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+    {
+      <div class="row container form-group">
+        <form class="mr-2" method="post" asp-controller="Cards" asp-action="AuctionCard">
+          @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
+          <button class="btn btn-outline-success shadow mt-2">Участвовать в торгах</button>
+        </form>
+        <form class="mr-2" method="post" asp-controller="Cards" asp-action="DeleteCard">
+          @Html.TextBox("cardId", Model.CardId, new {@type = "hidden"})
+          <button class="btn btn-outline-danger shadow mt-2">Не участвовать в торгах</button>
+        </form>
+        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
+      </div>
+    }
+  }
+
   @if (@Model.Card.CardState == CardState.Удалена)
   {
     @if (User.IsInRole("admin"))
