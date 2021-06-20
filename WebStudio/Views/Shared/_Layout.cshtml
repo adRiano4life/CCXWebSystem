@@ -31,16 +31,23 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">В работе</a>
                     </li>
-
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.ПКО">ПКО</a>
+                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Удалена">Удалённые</a>
                     </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="Index">База поставщиков</a>
                     </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Запросы</a>
                     </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a>
                     </li>

@@ -203,6 +203,11 @@ namespace WebStudio.Controllers
                     cards = _db.Cards.Where(c => c.CardState == CardState.Выигранная).ToList();
                     ViewBag.sort = CardState.Выигранная;
                     break;
+                
+                case CardState.ПКО: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
+                    ViewBag.sort = CardState.ПКО;
+                    break;
             }
 
             if (filter != null)
