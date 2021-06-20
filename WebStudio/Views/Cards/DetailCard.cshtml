@@ -213,9 +213,9 @@
   
   @if (@Model.Card.CardState == CardState.Проработка)
   {
+    <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
     @if (User.IsInRole("admin"))
     {
-      <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
       <form asp-action="TakeCard" asp-controller="Cards" method="post">
         <div class="form-group">
           <label for="">Переназначить ответственного</label>
@@ -248,7 +248,9 @@
     }
     @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
     {
-      <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>  
+      <div class="row container form-group">
+        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
+      </div>
     }
   }
   
