@@ -152,6 +152,12 @@ namespace WebStudio.Controllers
                         case "ПКО":
                             card.CardState = CardState.ПКО;
                             break;
+                        case "Торги":
+                            card.CardState = CardState.Торги;
+                            break;
+                        case "Удалена":
+                            card.CardState = CardState.Удалена;
+                            break;
                     }
 
                     _db.Cards.Update(card);
