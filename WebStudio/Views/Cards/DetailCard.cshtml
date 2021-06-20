@@ -35,7 +35,7 @@
 }
 @if (Model.Card.CardState == CardState.ПКО)
 {
-  <div class="card-header bg-info text-white">
+  <div class="card-header text-white" style="background-color: #78866b">
     <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
   </div>
 }
@@ -259,7 +259,7 @@
   
   @if (Model.Card.CardState == CardState.ПКО)
   {
-    <p class="card-text mb-2" id="lin"><span class="badge badge-info">@Model.Card.CardState</span></p>
+    <p class="card-text mb-2" id="lin"><span class="badge text-white bg-haky">@Model.Card.CardState</span></p>
     @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
     {
       <div class="row container form-group">

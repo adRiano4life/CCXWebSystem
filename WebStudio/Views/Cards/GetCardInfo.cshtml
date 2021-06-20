@@ -83,7 +83,10 @@ else
                   {
                     @:bg-info
                   }
-                  
+                  else if (card.CardState == CardState.ПКО) 
+                  {
+                    @:bg-haky 
+                  }
                   text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
@@ -128,6 +131,10 @@ else
                                    else if (card.CardState == CardState.Выигранная)
                                    {
                                      @:bg-info
+                                   }
+                                   else if (card.CardState == CardState.ПКО)
+                                   {
+                                     @:bg-haky
                                    }
                                    text-white">
                           @card.CardState
