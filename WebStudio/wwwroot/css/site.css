@@ -4,6 +4,17 @@ for details on configuring this project to bundle and minify static web assets. 
   background-color: #78866b;
 }
 
+.finde {
+  width: 300px;
+  height: 45px;
+  font-size: 20px;
+  padding: 1px 1px 4px 15px;
+  border: 1px solid #cecece;
+  background: #F6F6f6;
+  border-radius: 30px;
+  outline: 0px;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
