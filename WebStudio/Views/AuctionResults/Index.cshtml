@@ -1,4 +1,5 @@
 ﻿@model System.Collections.Generic.List<WebStudio.Models.AuctionResult>
+@inject WebStudioContext _db;
 
 @{
     ViewBag.Title = "Результаты торгов";
@@ -17,7 +18,6 @@
 }
 else
 {
-
     <table class="table">
         <thead class="thead-dark">
         <tr>
@@ -34,9 +34,7 @@ else
         @foreach (var lot in Model)
         {
             <tr>
-                <th scope="row">
-                    @{ int a = @Model.IndexOf(lot) + 1; }
-                    @a</th>
+                <th scope="row">@{ int a = @Model.IndexOf(lot) + 1; } @a</th>
                 <td>@lot.Number</td>
                 <td>@lot.Name</td>
                 <td>@lot.DateOfAuctionStart.ToLongDateString() @lot.DateOfAuctionStart.ToShortTimeString()</td>
@@ -55,7 +53,35 @@ else
                     }
                     @sum
                 </td>
-
+                @if (_db.Cards.FirstOrDefault(c => c.Number == lot.Number) != null)
+                {
+                    Card card = _db.Cards.FirstOrDefault(c => c.Number == lot.Number);
+                    if (card.Positions.Count > 1)
+                    {
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Наименование</th>
+                                <th scope="col">Ед.измерения</th>
+                                <th scope="col">Количество</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var position in card.Positions)
+                            {
+                                <tr>
+                                    <th scope="col">@{ int b = card.Positions.IndexOf(position) + 1; }@b</th>
+                                    <td>@position.Name</td>
+                                    <td>@position.Measure</td>
+                                    <td>@position.Amount</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        
+                    }
+                }
             </tr>
         }
         </tbody>
