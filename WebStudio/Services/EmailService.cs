@@ -13,10 +13,11 @@ namespace WebStudio.Services
         {
             var emailMessage = new MimeMessage();
             //emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", $"{user.Email}"));
-            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", "folomeshkin_instagram@mail.ru"));
+            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", "test@rdprom.kz"));
             foreach (var supplier in suppliers)
             {
                 emailMessage.To.Add(new MailboxAddress("", $"{supplier.Email}"));
+                //emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
             }
 
             emailMessage.Subject = title;
@@ -42,7 +43,7 @@ namespace WebStudio.Services
 
             using var client = new SmtpClient();
             await client.ConnectAsync("smtp.mail.ru", 25, false);
-            await client.AuthenticateAsync("folomeshkin_instagram@mail.ru", "InstagramProject");
+            await client.AuthenticateAsync("test@rdprom.kz", "QWEqwe123");
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
