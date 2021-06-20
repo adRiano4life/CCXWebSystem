@@ -9,6 +9,7 @@ namespace WebStudio.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string AvatarPath { get; set; }
+        public string RoleDisplay { get; set; }
         
         [NotMapped] 
         public IFormFile File { get; set; }

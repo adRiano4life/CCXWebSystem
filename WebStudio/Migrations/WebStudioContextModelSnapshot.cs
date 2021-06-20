@@ -455,6 +455,9 @@ namespace WebStudio.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("RoleDisplay")
+                        .HasColumnType("text");
+
                     b.Property<string>("Surname")
                         .HasColumnType("text");
 

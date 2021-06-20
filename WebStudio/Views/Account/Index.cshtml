@@ -1,4 +1,7 @@
-﻿@model WebStudio.ViewModels.IndexUsersViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model WebStudio.ViewModels.IndexUsersViewModel
+@inject UserManager<User> UserManager
+@inject RoleManager<IdentityRole> RoleManager 
 
 @{
     ViewBag.Title = "Личный кабинет";
@@ -9,9 +12,7 @@
 <div class="card my-3 col-lg-12 shadow">
     <div class="row no-gutters">
         <div class="col-lg-4 mt-3 mb-3 align-items-baseline">
-            
-                <img src="@Model.User.AvatarPath" class="card-img" alt="фото пользователя">
-            
+            <img src="@Model.User.AvatarPath" class="card-img" alt="фото пользователя">
         </div>
         <div class="col-lg-4">
             <div class="card-body">
@@ -49,6 +50,7 @@
                 <th>Имя</th>
                 <th>Эл.почта</th>
                 <th>Телефон</th>
+                <th>Действие</th>
             </tr>
             @foreach (var user in @Model.Users)
             {
@@ -57,6 +59,23 @@
                     <td class="lead">@user.Surname @user.Name</td>
                     <td class="lead">@user.Email</td>
                     <td class="lead">@user.PhoneNumber</td>
+                    <td class="lead">
+                        @if (user.Name != "admin" && user.Id != UserManager.GetUserId(User))
+                        {
+                            @if (user.RoleDisplay == "user")
+                            {
+                                <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="admin" method="post">
+                                    <input type="submit" value="Назначить руководителем" class="btn btn-outline-primary">
+                                </form>
+                            }
+                            @if (user.RoleDisplay == "admin")
+                            {
+                                <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="user" method="post">
+                                    <input type="submit" value="Убрать из руководителей" class="btn btn-outline-danger mt-2">
+                                </form>
+                            }
+                        }
+                    </td>
                 </tr>    
             }
         </table>

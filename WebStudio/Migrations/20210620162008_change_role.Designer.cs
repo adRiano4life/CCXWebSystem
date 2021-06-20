@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210615112422_add_suppliers")]
-    partial class add_suppliers
+    [Migration("20210620162008_change_role")]
+    partial class change_role
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -455,6 +455,9 @@ namespace WebStudio.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleDisplay")
                         .HasColumnType("text");
 
                     b.Property<string>("Surname")

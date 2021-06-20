@@ -86,7 +86,8 @@ namespace WebStudio.Controllers
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                     UserName = model.Email,
-                    AvatarPath = model.AvatarPath
+                    AvatarPath = model.AvatarPath,
+                    RoleDisplay = "user"
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -244,6 +245,32 @@ namespace WebStudio.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeRole(string userId, string loginUserId, string roleName)
+        {
+            User user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                switch (roleName)
+                {
+                    case "admin":
+                        await _userManager.RemoveFromRoleAsync(user, "user");
+                        await _userManager.AddToRoleAsync(user, "admin");
+                        user.RoleDisplay = roleName;
+                        break;
+                    case "user":
+                        await _userManager.RemoveFromRoleAsync(user, "admin");
+                        await _userManager.AddToRoleAsync(user, "user");
+                        user.RoleDisplay = roleName;
+                        break;
+                }
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index", "Account", new {userId = loginUserId});
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
