@@ -51,7 +51,7 @@ namespace WebStudio.Controllers
                 ViewBag.searchByTag = searchByTag;
             }
             
-            int pageSize = 2;
+            int pageSize = 20;
             int pageNumber = (page ?? 1);
             return View(suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
         }
