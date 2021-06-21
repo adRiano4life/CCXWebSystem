@@ -17,7 +17,7 @@ namespace WebStudio.Tests
     
     public class SuppliersControllerTests
     {
-       private readonly ISuppliersService _suppliersService;
+       //private readonly ISuppliersService _suppliersService;
 
        [Fact]
        public void AddSupplierTest()
@@ -27,7 +27,8 @@ namespace WebStudio.Tests
            var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
            var db = new WebStudioContext(options);
            var mock = new Mock<ISuppliersService>();
-           var controller = new SuppliersController(mock.Object, db);
+           //var controller = new SuppliersController(mock.Object, db);
+           var controller = new SuppliersController(db);
            
            var model = new CreateSupplierViewModel
            {

@@ -16,11 +16,10 @@ namespace WebStudio.Controllers
     public class SuppliersController : Controller
     {
         private WebStudioContext _db;
-        private ISuppliersService _suppliersService;
+        //private ISuppliersService _suppliersService;
         
-        public SuppliersController(ISuppliersService service, WebStudioContext db)
+        public SuppliersController(WebStudioContext db)
         {
-            _suppliersService = service;
             _db = db;
         }
 
