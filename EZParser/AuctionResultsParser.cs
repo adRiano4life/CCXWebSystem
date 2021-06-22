@@ -57,8 +57,9 @@ namespace EZParser
              // убрать когда появятся реальные результаты аукциона
              if (_db.AuctionResults.Count() == 0) 
              {
-                 string cardNumber1 = "T-0090412/1", cardName1 ="насосы-fake"; //фэйковый лот который не состоялся
-                 string cardNumber2 = "T-0090370/1", cardName2 ="Кабельная продукция-fake"; //фэйковый лот который состоялся
+                 string cardNumber1 = "T-0090668/1", cardName1 ="Запасные части МТ436-fake"; //фэйковый лот который отменен
+                 string cardNumber2 = "T-0090485/1", cardName2 ="электромонтажные изделия-fake"; //фэйковый лот который состоялся
+                 string cardNumber3 = "T-0090538/1", cardName3 ="Котельное оборудование-fake"; //фэйковый лот который не состоялся
                  
                  if (!_db.Cards.Any(c => c.Number == cardNumber1))
                  {
@@ -70,6 +71,31 @@ namespace EZParser
                          Links = new List<string>(), LinkNames = new List<string>() 
                      };
                      _db.Cards.Add(fakeCard1);
+                     _db.SaveChanges();
+
+                     CardPosition position1 = new CardPosition {Name = "position1 - T-0090668/1", Measure = "шт",
+                         Amount = 10, CardId = fakeCard1.Id};
+                     _db.Positions.Add(position1);
+                     _db.SaveChanges();
+                     
+                     CardPosition position2 = new CardPosition {Name = "position2 - T-0090668/1", Measure = "шт",
+                         Amount = 5, CardId = fakeCard1.Id};
+                     _db.Positions.Add(position2);
+                     _db.SaveChanges();
+                     
+                     CardPosition position3 = new CardPosition {Name = "position3 - T-0090668/1", Measure = "шт",
+                         Amount = 8, CardId = fakeCard1.Id};
+                     _db.Positions.Add(position3);
+                     _db.SaveChanges();
+                     
+                     CardPosition position4 = new CardPosition {Name = "position4 - T-0090668/1", Measure = "шт",
+                         Amount = 2, CardId = fakeCard1.Id};
+                     _db.Positions.Add(position4);
+                     _db.SaveChanges();
+                     
+                     CardPosition position5 = new CardPosition {Name = "position5 - T-0090668/1", Measure = "шт",
+                         Amount = 14, CardId = fakeCard1.Id};
+                     _db.Positions.Add(position5);
                      _db.SaveChanges();
                  }
 
@@ -84,7 +110,46 @@ namespace EZParser
                      };
                      _db.Cards.Add(fakeCard2);
                      _db.SaveChanges();    
+                     
+                     CardPosition position6 = new CardPosition {Name = "position1 - T-0090485/1", Measure = "тонна",
+                         Amount = 200, CardId = fakeCard2.Id};
+                     _db.Positions.Add(position6);
+                     _db.SaveChanges();
+                     
+                     CardPosition position7 = new CardPosition {Name = "position2 - T-0090485/1", Measure = "комплект",
+                         Amount = 500, CardId = fakeCard2.Id};
+                     _db.Positions.Add(position7);
+                     _db.SaveChanges();
                  }
+                 
+                 if (!_db.Cards.Any(c => c.Number == cardNumber3))
+                 {
+                     Card fakeCard3 = new Card
+                     {
+                         Number = cardNumber3, Name = cardName3, StartSumm = 0,
+                         DateOfAcceptingEnd = DateTime.Now, DateOfAuctionStart = DateTime.Now,
+                         CardState = CardState.Новая,  ExecutorId = null,
+                         Links = new List<string>(), LinkNames = new List<string>()
+                     };
+                     _db.Cards.Add(fakeCard3);
+                     _db.SaveChanges();
+                     
+                     CardPosition position8 = new CardPosition {Name = "position1 - T-0090538/1", Measure = "пг.м.",
+                         Amount = 100, CardId = fakeCard3.Id};
+                     _db.Positions.Add(position8);
+                     _db.SaveChanges();
+                     
+                     CardPosition position9 = new CardPosition {Name = "position2 - T-0090538/1", Measure = "кв.м.",
+                         Amount = 999, CardId = fakeCard3.Id};
+                     _db.Positions.Add(position9);
+                     _db.SaveChanges();
+                     
+                     CardPosition position10 = new CardPosition {Name = "position3 - T-0090538/1", Measure = "упаковка",
+                         Amount = 32, CardId = fakeCard3.Id};
+                     _db.Positions.Add(position10);
+                     _db.SaveChanges();
+                 }
+                 
                  GetAuctionResults();
             }
 
