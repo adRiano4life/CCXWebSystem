@@ -298,11 +298,11 @@
                             $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
                             console.log(data[i])
                         }
-                    console.log(data)
-                    location.reload();
                 }
             });
-
+            setTimeout(function (){
+                location.reload();
+            }, 250);
         }
         
         function AddSupplierAjax(){
@@ -352,8 +352,11 @@
                               console.log(data[i])
                           }
                       console.log(data)
-                  }
+                  },
             });
+            setTimeout(function (){
+                location.reload();
+            }, 250);
         }
     </script>
 }
