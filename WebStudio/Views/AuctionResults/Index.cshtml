@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Результаты торгов";
-    Layout = "_Layout";
+    Layout = "_Layout - container-fluid";
 }
 
 
@@ -20,17 +20,15 @@ else
 {
     <div class="row mt-5 justify-content-center">
         <div>
-            <input id="searchLot" class="mb-3 finde" type="text" placeholder="Искать">
+            <input id="searchLot" class="mb-3 finde shadow-sm" type="text" placeholder="Искать">
         </div>
     </div>
     
-    <div id="div-table">
-        
-    
+    <div id="div-table" class="shadow-sm mb-5">
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col"><span class="badge badge-danger">№</span></th>
                 <th scope="col">Номер</th>
                 <th scope="col">Наименование</th>
                 <th scope="col">Дата и время начала торгов</th>
@@ -42,8 +40,8 @@ else
             <tbody>
             @foreach (var lot in Model)
             {
-                <tr>
-                    <th scope="row">@{ int a = @Model.IndexOf(lot) + 1; } @a</th>
+                <tr class="bg-secondary text-white">
+                    <th scope="row">@{ int a = @Model.IndexOf(lot) + 1; }<span class="badge badge-dark">@a</span></th>
                     <td>@lot.Number</td>
                     <td>@lot.Name</td>
                     <td>@lot.DateOfAuctionStart.ToLongDateString() @lot.DateOfAuctionStart.ToShortTimeString()</td>
@@ -54,7 +52,7 @@ else
                         @DateOfSignContract
 
                     </td>
-               
+
                     <td>@lot.Winner</td>
                     <td>
                         @{
@@ -67,31 +65,33 @@ else
                         Card card = _db.Cards.FirstOrDefault(c => c.Number == lot.Number);
                         if (card.Positions.Count > 1)
                         {
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Наименование</th>
-                                    <th scope="col">Ед.измерения</th>
-                                    <th scope="col">Количество</th>
+                            <thead>
+                            <tr class="text-white bg-info">
+                                <th scope="col">Позиций</th>
+                                <th scope="col">Наименование</th>
+                                <th scope="col">Ед.измерения</th>
+                                <th scope="col">Количество</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var position in card.Positions)
+                            {
+                                <tr class="bg-light">
+                                    <th scope="col">
+                                        @{ int b = card.Positions.IndexOf(position) + 1; }<span class="badge badge-info">@b</span></th>
+                                    <td>@position.Name</td>
+                                    <td>@position.Measure</td>
+                                    <td>@position.Amount</td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var position in card.Positions)
-                                {
-                                    <tr>
-                                        <th scope="col">@{ int b = card.Positions.IndexOf(position) + 1; }@b</th>
-                                        <td>@position.Name</td>
-                                        <td>@position.Measure</td>
-                                        <td>@position.Amount</td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        
+                            }
+                            </tbody>
                         }
                     }
                 </tr>
+                 
+                <tbody class="border-0">
+                    <tr class="line"></tr>
+                </tbody>
             }
             </tbody>
         </table>

@@ -19,6 +19,7 @@ namespace WebStudio.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IHostEnvironment _environment;
         private readonly FileUploadService _uploadService;
+        
 
         public AccountController(WebStudioContext db, 
             UserManager<User> userManager, 
@@ -33,6 +34,8 @@ namespace WebStudio.Controllers
             _signInManager = signInManager;
             _environment = environment;
             _uploadService = uploadService;
+            
+
         }
         
         
