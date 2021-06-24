@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@using WebStudio.Enums
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - WebStudio</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="_Layout - container">
+            <a class="navbar-brand" asp-area="" asp-controller="Cards" asp-action="Index">Главная</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">Новые</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">В работе</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.ПКО">ПКО</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Удалена">Удалённые</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="Index">База поставщиков</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Запросы</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a>
+                    </li>
+                    
+                </ul>
+                <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Index" asp-route-userId="@UserManager.GetUserId(User)"><i class="far fa-user text-dark"></i></a>
+                        <form asp-controller="Account" asp-action="Logout" method="post"><input type="submit" class="btn ml-2" value="Выход"></form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn ml-2">Вход</a>
+                        <a asp-controller="Account" asp-action="Register" class="btn">Регистрация</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2021 - WebStudio - <a asp-area="" asp-controller="Cards" asp-action="Index">Главная</a>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
