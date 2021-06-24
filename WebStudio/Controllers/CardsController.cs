@@ -71,7 +71,7 @@ namespace WebStudio.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Cards");
+            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Новая});
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace WebStudio.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Cards");
+            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Новая});
         }
         
         /// <summary>

@@ -12,12 +12,10 @@ namespace WebStudio.Services
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
-            //emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", $"{user.Email}"));
             emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", "test@rdprom.kz"));
             foreach (var supplier in suppliers)
             {
-                emailMessage.To.Add(new MailboxAddress("", $"{supplier.Email}"));
-                //emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
+                emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
             }
 
             emailMessage.Subject = title;
@@ -32,7 +30,7 @@ namespace WebStudio.Services
                                  $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
                                  $"<li><b>Количество:</b> {@position.Amount}</li>" +
                                  $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
-                                 $"</ul>";
+                                 $"</ul><br><hr>";
                 builder.HtmlBody += positionTable;
             }
             foreach (var path in paths) 

@@ -21,8 +21,7 @@
             <div class="form-inline form-group">
                 <input type="text" id="supplierSearchHash" placeholder="Поиск">
                 <input type="hidden" id="supplierCardId" value="@Model.Card.Id">
-                <button type="button" class="btn btn-outline-primary ml-3" id="search" onclick="SearchSupplierAjax()">Найти</button>
-                <button type="button" class="btn btn-outline-danger ml-3" onclick="ReloadAjax()">Сброс</button>
+                <button type="button" class="btn btn-outline-primary shadow ml-3" id="search" onclick="SearchSupplierAjax()">Найти</button>
             </div>
         </form>
         <div class="form-group">
@@ -38,22 +37,39 @@
             }
             @if (_db.SearchSuppliers.Count() != 0)
             {
-                foreach (var supplier in _db.SearchSuppliers)
-                {
-                    if (supplier.CardId == Model.Card.Id)
+                <table class="table" style="font-size: 12px;">
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Email</th>
+                        <th>Тэги</th>
+                        <th>Действие</th>
+                    </tr>
+                    @foreach (var supplier in _db.SearchSuppliers)
                     {
-                        <div class="form-inline form-group">
-                            <div id="suppliers">
-                                <p>@supplier.Name</p>
-                            </div>
-                            <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
-                            <input type="hidden" id="supplierRemoveCardId" value="@Model.Card.Id">
-                            <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierAjax('@supplier.Id')">
-                                <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                        if (supplier.CardId == Model.Card.Id)
+                        {
+                            <tr>
+                                <td>@supplier.Name</td>
+                                <td>@supplier.Email</td>
+                                <td>
+                                    
+                                    @foreach (var tag in @supplier.Tags)
+                                    {
+                                        @(tag + " ")
+                                    }
+                                </td>
+                                <td>
+                                    <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
+                                    <input type="hidden" id="supplierRemoveCardId" value="@Model.Card.Id">
+                                    <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierAjax('@supplier.Id')">
+                                        <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
+                </table>
+                
                 if (_db.SearchSuppliers.All(s=>s.Card.Id != Model.Card.Id))
                 {
                     <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
