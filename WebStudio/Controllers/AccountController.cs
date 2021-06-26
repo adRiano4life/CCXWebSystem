@@ -169,7 +169,7 @@ namespace WebStudio.Controllers
                     user.Email = model.Email;
                     user.UserName = model.Email;
                     user.PhoneNumber = model.PhoneNumber;
-                    
+
                     if (model.File != null)
                     {
                         string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");

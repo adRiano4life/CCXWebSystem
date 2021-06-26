@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210622145550_init")]
-    partial class init
+    [Migration("20210626112917_add_comments")]
+    partial class add_comments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -352,6 +352,35 @@ namespace WebStudio.Migrations
                     b.ToTable("Positions");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.Comment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CardId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateOfChange")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateOfSend")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("WebStudio.Models.Request", b =>
                 {
                     b.Property<string>("Id")
@@ -535,6 +564,21 @@ namespace WebStudio.Migrations
                     b.Navigation("Card");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.Comment", b =>
+                {
+                    b.HasOne("WebStudio.Models.Card", "Card")
+                        .WithMany("Comments")
+                        .HasForeignKey("CardId");
+
+                    b.HasOne("WebStudio.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Card");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebStudio.Models.Request", b =>
                 {
                     b.HasOne("WebStudio.Models.Card", "Card")
@@ -568,6 +612,8 @@ namespace WebStudio.Migrations
 
             modelBuilder.Entity("WebStudio.Models.Card", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Positions");
                 });
 

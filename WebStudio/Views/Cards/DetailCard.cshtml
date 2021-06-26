@@ -41,254 +41,379 @@
 }
 <div class="card-body">
 
-  <p class="card-text mb-4">@Model.Card.Initiator</p>
-  <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @Model.Card.StartSumm</p>
-  <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @Model.Card.DateOfAcceptingEnd.ToLongDateString() @Model.Card.DateOfAcceptingEnd.ToShortTimeString()</p>
-  <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @Model.Card.DateOfAuctionStart.ToLongDateString() @Model.Card.DateOfAuctionStart.ToShortTimeString()</p>
-  <p class="card-text mb-0" id="lin"><b>Брокер:</b> @Model.Card.Broker</p>
-  <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
-  <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
-  <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
-  <p class="card-text mb-4" id="lin">
+<p class="card-text mb-4">@Model.Card.Initiator</p>
+<p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @Model.Card.StartSumm</p>
+<p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @Model.Card.DateOfAcceptingEnd.ToLongDateString() @Model.Card.DateOfAcceptingEnd.ToShortTimeString()</p>
+<p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @Model.Card.DateOfAuctionStart.ToLongDateString() @Model.Card.DateOfAuctionStart.ToShortTimeString()</p>
+<p class="card-text mb-0" id="lin"><b>Брокер:</b> @Model.Card.Broker</p>
+<p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
+<p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
+<p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
+<p class="card-text mb-4" id="lin">
           
-    @for (int i = 0; i < Model.Card.Links.Count; i++)
+  @for (int i = 0; i < Model.Card.Links.Count; i++)
+  {
+    if (Model.Card.LinkNames[i].Contains(".xlsx"))
     {
-      if (Model.Card.LinkNames[i].Contains(".xlsx"))
-      {
-        <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-      else if (Model.Card.LinkNames[i].Contains(".docx"))
-      {
-        <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-      else if (Model.Card.LinkNames[i].Contains(".pdf"))
-      {
-        <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-      else if (Model.Card.LinkNames[i].Contains(".jpg"))
-      {
-        <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
+      <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
     }
-  </p>
+    else if (Model.Card.LinkNames[i].Contains(".docx"))
+    {
+      <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+    }
+    else if (Model.Card.LinkNames[i].Contains(".pdf"))
+    {
+      <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+    }
+    else if (Model.Card.LinkNames[i].Contains(".jpg"))
+    {
+      <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+    }
+  }
+</p>
         
-  @if (Model.Card.Positions.Count() > 0)
-  {
-    <table class="table" style="font-size: 10px;">
-        <tr>
-          <th>№</th>
-          <th>Код ТНВЭД</th>
-          <th>Наименование</th>
-          <th>Ед.изм.</th>
-          <th>Кол-во</th>
-          <th>Валюта</th>
-          <th>Старт.цена за ед.товара</th>
-          <th>Стартовая стоимость</th>
-          <th>Срок поставки</th>
-          <th>Условия поставки</th>
-        </tr>
-        @foreach (var position in Model.Card.Positions)
-        {
-          <tr>
-            <td>@(@count++)</td>
-            <td>@position.CodTNVED</td>
-            <td>@position.Name</td>
-            <td>@position.Measure</td>
-            <td>@position.Amount</td>
-            <td>@position.Currency</td>
-            <td>@position.UnitPrice</td>
-            <td>@position.TotalPrice</td>
-            <td>@position.DeliveryTime</td>
-            <td>@position.DeliveryTerms</td>
-          </tr>
-        }
-      </table>
-  }
-  
-  @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
-  {
-    <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
-  }
-  
-  @if (Model.Card.CardState == CardState.Новая)
-  {
-
-    if (User.IsInRole("admin"))
+@if (Model.Card.Positions.Count() > 0)
+{
+  <table class="table" style="font-size: 10px;">
+    <tr>
+      <th>№</th>
+      <th>Код ТНВЭД</th>
+      <th>Наименование</th>
+      <th>Ед.изм.</th>
+      <th>Кол-во</th>
+      <th>Валюта</th>
+      <th>Старт.цена за ед.товара</th>
+      <th>Стартовая стоимость</th>
+      <th>Срок поставки</th>
+      <th>Условия поставки</th>
+    </tr>
+    @foreach (var position in Model.Card.Positions)
     {
-      <p class="card-text mb-2" id="lin">
-        <span class="badge badge-success">@Model.Card.CardState</span>
-      </p>
+      <tr>
+        <td>@(@count++)</td>
+        <td>@position.CodTNVED</td>
+        <td>@position.Name</td>
+        <td>@position.Measure</td>
+        <td>@position.Amount</td>
+        <td>@position.Currency</td>
+        <td>@position.UnitPrice</td>
+        <td>@position.TotalPrice</td>
+        <td>@position.DeliveryTime</td>
+        <td>@position.DeliveryTerms</td>
+      </tr>
+    }
+  </table>
+}
+  
+@if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
+{
+  <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
+}
+  
+@if (Model.Card.CardState == CardState.Новая)
+{
+
+  if (User.IsInRole("admin"))
+  {
+    <p class="card-text mb-2" id="lin">
+      <span class="badge badge-success">@Model.Card.CardState</span>
+    </p>
       
-      <form asp-action="TakeCard" asp-controller="Cards" method="post">
-        <div class="form-group">
-          <label for="">Выбрать ответственного</label>
-          @if (Model.Users.Count != 0)
-          {
-            
-            <select class="form-control" asp-for="UserId">
-              @foreach (var user in Model.Users)
-              {
-                if (@user.Name != "admin")
-                {
-                  <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
-                }
-              }
-            </select>
-          }
-          else
-          {
-            <p>У вас нет зарегистрированных сотрудников</p>
-          }
-        </div>
-
-        <div class="row">
-          <!----Левый блок------>
-          <div class="ml-3">
-
-            <div class="form-group custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch1">
-              <label class="custom-control-label" for="customSwitch1">Получение КП</label>
-            </div>
-
-            <div class="form-group custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch2">
-              <label class="custom-control-label" for="customSwitch2">Налоги и НДС</label>
-            </div>
-
-            <div class="form-group custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch3">
-              <label class="custom-control-label" for="customSwitch3">Внесение данных в таблицу</label>
-            </div>
-
-          </div>
-          <!----Правй блок------>
-          <div class="ml-3">
-
-            <div class="form-group custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch4">
-              <label class="custom-control-label" for="customSwitch4">Оценка поставщика</label>
-            </div>
-
-            <div class="form-group custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch5">
-              <label class="custom-control-label" for="customSwitch5">Логистика</label>
-            </div>
-
-            <div class="form-group custom-switch">
-              <input type="checkbox" class="custom-control-input" id="customSwitch6">
-              <label class="custom-control-label" for="customSwitch6">Составление запроса для отправки поставщикам</label>
-            </div>
-
-          </div>
-
-          <!-------Сроки------->
-          <div class="ml-3">
-            <div class="form-group custom-switch">
-              <label class="" for="begin">Начало</label>
-              <input id="begin" class="form-control" type="date"/>
-            </div>
-            <div class="form-group custom-switch">
-              <label class="" for="end">Срок до</label>
-              <input id="end" class="form-control" type="date"/>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">Добавьте описание или комментарий к заявке</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-        <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
-        <div class="form-group">
-          <input type="submit" value="Взять в работу" class="btn btn-outline-success shadow">
-        </div>
-      </form>
-      <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
-        <div class="form-group">
-          <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
-        </div>
-      </form>
-    }
-    
-  }
-  
-  @if (@Model.Card.CardState == CardState.Проработка)
-  {
-    <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
-    @if (User.IsInRole("admin"))
-    {
-      <form asp-action="TakeCard" asp-controller="Cards" method="post">
-        <div class="form-group">
-          <label for="">Переназначить ответственного</label>
-          @if (Model.Users.Count != 0)
-          {
-
-            <input hidden value="@Model.Card.Id" asp-for="CardId">
-            <select class="form-control" asp-for="UserId" asp-for="CardId">
-              @foreach (var user in Model.Users)
-              {
-                if (@user.Name != "admin")
-                {
-                  <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
-                }
-              }
-            </select>
-          }
-        </div>
-
-        <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
-      </form>
-
-
-      <div class="row container form-group">
-        <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="ПКО" method="post">
-          <input type="submit" value="ПКО" class="btn btn-outline-info shadow mt-2">  
-        </form>
-      </div>
-      
-    }
-    @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
-    {
-      <div class="row container form-group">
-        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
-      </div>
-    }
-  }
-  
-  @if (Model.Card.CardState == CardState.Торги)
-  {
-    <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
-  }
-  
-  @if (Model.Card.CardState == CardState.ПКО)
-  {
-    <p class="card-text mb-2" id="lin"><span class="badge text-white bg-haky">@Model.Card.CardState</span></p>
-    @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
-    {
-      <div class="row container form-group">
-        <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Торги" method="post">
-          <input type="submit" value="Участвовать в торгах" class="btn btn-outline-success shadow mt-2">
-        </form>
-        <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Удалена" method="post">
-          <input type="submit" value="Не участвовать в торгах" class="btn btn-outline-danger shadow mt-2">
-        </form>
-        <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
-      </div>
-    }
-  }
-
-  @if (@Model.Card.CardState == CardState.Удалена)
-  {
-    @if (User.IsInRole("admin"))
-    {
-      <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+    <form asp-action="TakeCard" asp-controller="Cards" method="post">
       <div class="form-group">
-        <form asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
-          <input type="submit" value="Восстановить" class="btn btn-outline-success shadow-sm">
-        </form>
+        <label for="">Выбрать ответственного</label>
+        @if (Model.Users.Count != 0)
+        {
+            
+          <select class="form-control" asp-for="UserId">
+            @foreach (var user in Model.Users)
+            {
+              if (@user.Name != "admin")
+              {
+                <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+              }
+            }
+          </select>
+        }
+        else
+        {
+          <p>У вас нет зарегистрированных сотрудников</p>
+        }
       </div>
-    }
-    
+
+      <div class="row">
+        <!----Левый блок------>
+        <div class="ml-3">
+
+          <div class="form-group custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+            <label class="custom-control-label" for="customSwitch1">Получение КП</label>
+          </div>
+
+          <div class="form-group custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch2">
+            <label class="custom-control-label" for="customSwitch2">Налоги и НДС</label>
+          </div>
+
+          <div class="form-group custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch3">
+            <label class="custom-control-label" for="customSwitch3">Внесение данных в таблицу</label>
+          </div>
+
+        </div>
+        <!----Правй блок------>
+        <div class="ml-3">
+
+          <div class="form-group custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch4">
+            <label class="custom-control-label" for="customSwitch4">Оценка поставщика</label>
+          </div>
+
+          <div class="form-group custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch5">
+            <label class="custom-control-label" for="customSwitch5">Логистика</label>
+          </div>
+
+          <div class="form-group custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch6">
+            <label class="custom-control-label" for="customSwitch6">Составление запроса для отправки поставщикам</label>
+          </div>
+
+        </div>
+
+        <!-------Сроки------->
+        <div class="ml-3">
+          <div class="form-group custom-switch">
+            <label class="" for="begin">Начало</label>
+            <input id="begin" class="form-control" type="date"/>
+          </div>
+          <div class="form-group custom-switch">
+            <label class="" for="end">Срок до</label>
+            <input id="end" class="form-control" type="date"/>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
+      <div class="form-group">
+        <input type="submit" value="Взять в работу" class="btn btn-outline-success shadow">
+      </div>
+    </form>
+    <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+      <div class="form-group">
+        <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
+      </div>
+    </form>
   }
+  <div class="form-group mt-4">
+    <h6>Комментарии:</h6>
+    <table class="table table-borderless">
+      <tbody>
+      @foreach (var comment in @Model.Card.Comments)
+      {
+        <tr>
+          <td width="20%" rowspan="2">
+            <div class="comment-avatar text-center">
+              <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
+            </div>
+            <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
+            <p style="margin-bottom: 0" class="text-center text-muted font-11">Дата создания: @comment.DateOfSend.ToShortDateString()</p>
+            @if (@comment.DateOfChange != DateTime.MinValue)
+            {
+              <p class="text-center text-muted font-11">Дата изменения: @comment.DateOfChange.ToShortDateString()</p>
+            }
+          </td>
+          <td class="mt-2">
+            @comment.Message
+          </td>
+        </tr>
+        <tr>
+          @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
+          {
+            <td>
+              <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
+            </td>
+          }
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+  <form asp-action="Comment" asp-controller="Cards" method="post">
+    <div class="form-group">
+      <label asp-for="Comment.Message">Оставить комментарий</label>
+      <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
+      <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
+      <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+      <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
+    </div>
+  </form>
+}
+  
+@if (@Model.Card.CardState == CardState.Проработка)
+{
+  <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
+  @if (User.IsInRole("admin"))
+  {
+    <form asp-action="TakeCard" asp-controller="Cards" method="post">
+      <div class="form-group">
+        <label for="">Переназначить ответственного</label>
+        @if (Model.Users.Count != 0)
+        {
+
+          <input hidden value="@Model.Card.Id" asp-for="CardId">
+          <select class="form-control" asp-for="UserId" asp-for="CardId">
+            @foreach (var user in Model.Users)
+            {
+              if (@user.Name != "admin")
+              {
+                <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+              }
+            }
+          </select>
+        }
+      </div>
+
+      <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
+    </form>
+
+
+    <div class="row container form-group">
+      <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="ПКО" method="post">
+        <input type="submit" value="ПКО" class="btn btn-outline-info shadow mt-2">  
+      </form>
+    </div>
+      
+  }
+  @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+  {
+    <div class="row container form-group">
+      <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
+    </div>
+  }
+  <div class="form-group mt-4">
+    <h6>Комментарии:</h6>
+    <table class="table table-borderless">
+      <tbody>
+      @foreach (var comment in @Model.Card.Comments)
+      {
+        <tr>
+          <td width="20%">
+            <div class="comment-avatar text-center">
+              <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
+            </div>
+            <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
+            <p class="text-center">@comment.DateOfSend.ToShortDateString()</p>
+          </td>
+          <td>@comment.Message</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+  <form asp-action="Comment" asp-controller="Cards" method="post">
+    <div class="form-group">
+      <label asp-for="Comment.Message">Оставить комментарий</label>
+      <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
+      <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
+      <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+      <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
+    </div>
+  </form>
+}
+  
+@if (Model.Card.CardState == CardState.Торги)
+{
+  <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
+  <div class="form-group mt-4">
+    <h6>Комментарии:</h6>
+    <table class="table table-borderless">
+      <tbody>
+      @foreach (var comment in @Model.Card.Comments)
+      {
+        <tr>
+          <td width="20%">
+            <div class="comment-avatar text-center">
+              <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
+            </div>
+            <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
+            <p class="text-center">@comment.DateOfSend.ToShortDateString()</p>
+          </td>
+          <td>@comment.Message</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+  <form asp-action="Comment" asp-controller="Cards" method="post">
+    <div class="form-group">
+      <label asp-for="Comment.Message">Оставить комментарий</label>
+      <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
+      <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
+      <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+      <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
+    </div>
+  </form>
+}
+  
+@if (Model.Card.CardState == CardState.ПКО)
+{
+  <p class="card-text mb-2" id="lin"><span class="badge text-white bg-haky">@Model.Card.CardState</span></p>
+  @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+  {
+    <div class="row container form-group">
+      <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Торги" method="post">
+        <input type="submit" value="Участвовать в торгах" class="btn btn-outline-success shadow mt-2">
+      </form>
+      <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Удалена" method="post">
+        <input type="submit" value="Не участвовать в торгах" class="btn btn-outline-danger shadow mt-2">
+      </form>
+      <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
+    </div>
+  }
+  <div class="form-group">
+    <h6>Комментарии:</h6>
+    <table class="table table-borderless">
+      <tbody>
+      @foreach (var comment in @Model.Card.Comments)
+      {
+        <tr>
+          <td width="20%">
+            <div class="comment-avatar text-center">
+              <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
+            </div>
+            <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
+            <p class="text-center">@comment.DateOfSend.ToShortDateString()</p>
+          </td>
+          <td>@comment.Message</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+  <form asp-action="Comment" asp-controller="Cards" method="post">
+    <div class="form-group">
+      <label asp-for="Comment.Message">Оставить комментарий</label>
+      <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
+      <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
+      <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+      <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
+    </div>
+  </form>
+}
+
+@if (@Model.Card.CardState == CardState.Удалена)
+{
+  @if (User.IsInRole("admin"))
+  {
+    <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+    <div class="form-group">
+      <form asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+        <input type="submit" value="Восстановить" class="btn btn-outline-success shadow-sm">
+      </form>
+    </div>
+  }
+    
+}
 </div>
 </div>
 </div>

@@ -1,0 +1,19 @@
+﻿@model WebStudio.ViewModels.ChangeCommentViewModel
+
+@{
+    ViewBag.Title = "Изменение комментария";
+    Layout = "_Layout";
+}
+
+<h2>Изменение комментария</h2>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="ChangeComment" asp-controller="Cards" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <label asp-for="Message">Оставить комментарий</label>
+            <textarea class="form-control" asp-for="Message" rows="3" placeholder="@Model.Message"></textarea>
+            <input type="hidden" asp-for="Id" value="@Model.Id">
+            <input type="submit" class="btn btn-outline-secondary mt-3" value="Изменить комментарий">
+        </form>
+    </div>
+</div>
