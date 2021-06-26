@@ -68,10 +68,12 @@ namespace WebStudio.Controllers
                     card.CardState = CardState.Удалена;
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
+                    return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Новая});
                 }
+                return NotFound();
             }
 
-            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Новая});
+            return NotFound();
         }
 
         /// <summary>
@@ -141,7 +143,7 @@ namespace WebStudio.Controllers
         // }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState)
         {
             if (cardId != null)
@@ -248,7 +250,69 @@ namespace WebStudio.Controllers
 
             return View(cards.ToPagedList(pageNumber, pageSize));
         }
-        
-       
+
+       [HttpPost]
+       [Authorize]
+       public async Task<IActionResult> Comment(DetailCardViewModel model)
+       {
+           Comment comment = new Comment
+           {
+               Message = model.Comment.Message,
+               DateOfSend = DateTime.Now,
+               CardId = model.Comment.CardId,
+               Card = _db.Cards.FirstOrDefault(c => c.Id == model.Comment.CardId),
+               UserId = model.Comment.UserId,
+               User = await _userManager.FindByIdAsync(model.Comment.UserId)
+           };
+
+           await _db.Comments.AddAsync(comment);
+           await _db.SaveChangesAsync();
+           return RedirectToAction("DetailCard", "Cards", new {cardId = model.Comment.CardId});
+       }
+
+       [HttpGet]
+       [Authorize(Roles = "admin")]
+       public async Task<IActionResult> ChangeComment(string commentId)
+       {
+           if (commentId != null)
+           {
+               Comment comment = _db.Comments.FirstOrDefault(c => c.Id == commentId);
+               if (comment != null)
+               {
+                   ChangeCommentViewModel model = new ChangeCommentViewModel
+                   {
+                       Id = comment.Id,
+                       Message = comment.Message,
+                   };
+                   return View(model);
+               }
+
+               return NotFound();
+           }
+
+           return NotFound();
+       }
+
+       [HttpPost]
+       public async Task<IActionResult> ChangeComment(ChangeCommentViewModel model)
+       {
+           if (ModelState.IsValid)
+           {
+               Comment comment = _db.Comments.FirstOrDefault(c => c.Id == model.Id);
+               if (comment != null)
+               {
+                   comment.Message = model.Message;
+                   comment.DateOfChange = DateTime.Now;
+                   
+                   _db.Comments.Update(comment);
+                   await _db.SaveChangesAsync();
+                   return RedirectToAction("DetailCard", "Cards", new {cardId = comment.Card.Id});
+               }
+
+               return NotFound();
+           }
+
+           return View(model);
+       }
     }
 }
