@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WebStudio.Enums;
 
 namespace WebStudio.Models
@@ -24,5 +25,8 @@ namespace WebStudio.Models
 
         public string ExecutorId { get; set; }
         public virtual User Executor { get; set; }
+        
+        public DateTime DateOfProcessingEnd { get; set; }
+        public DateTime DateOfAuctionStartUpdated { get; set; }
     }
 }

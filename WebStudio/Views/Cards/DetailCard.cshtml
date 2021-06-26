@@ -1,10 +1,12 @@
 ﻿@model WebStudio.ViewModels.DetailCardViewModel
 @using WebStudio.Enums
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
 @inject UserManager<User> UserManager
 
 @{
   var count = 1;
+  var customDate = @Model.Card.DateOfAuctionStart;
 }
 <div>
 <div class="col-sm-12 col-md-12 mb-4 pl-0">
@@ -184,12 +186,12 @@
           <!-------Сроки------->
           <div class="ml-3">
             <div class="form-group custom-switch">
-              <label class="" for="begin">Начало</label>
-              <input id="begin" class="form-control" type="date"/>
+              <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+              <input asp-for="@Model.Card.DateOfProcessingEnd" value="" type="date" class="form-control" required/> 
             </div>
             <div class="form-group custom-switch">
-              <label class="" for="end">Срок до</label>
-              <input id="end" class="form-control" type="date"/>
+              <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label> 
+              <input asp-for="@Model.Card.DateOfAuctionStartUpdated" value="05/05/2021" class="form-control" required/> 
             </div>
           </div>
         </div>

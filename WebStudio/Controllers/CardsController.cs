@@ -112,6 +112,8 @@ namespace WebStudio.Controllers
                     card.CardState = CardState.Проработка;
                     card.ExecutorId = model.UserId;
                     card.Executor = await _userManager.FindByIdAsync(model.UserId);
+                    card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
+                    card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
 
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
@@ -121,22 +123,22 @@ namespace WebStudio.Controllers
         }
 
         
-        [HttpPost]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> AuctionCard(string cardId)
-        {
-            if (cardId != null)
-            {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-                if (card != null)
-                {
-                    card.CardState = CardState.Торги;
-                    _db.Cards.Update(card);
-                    await _db.SaveChangesAsync();
-                }
-            }
-            return RedirectToAction("Index", "Cards");
-        }
+        // [HttpPost]
+        // [Authorize(Roles = "admin")]
+        // public async Task<IActionResult> AuctionCard(string cardId)
+        // {
+        //     if (cardId != null)
+        //     {
+        //         Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+        //         if (card != null)
+        //         {
+        //             card.CardState = CardState.Торги;
+        //             _db.Cards.Update(card);
+        //             await _db.SaveChangesAsync();
+        //         }
+        //     }
+        //     return RedirectToAction("Index", "Cards");
+        // }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
