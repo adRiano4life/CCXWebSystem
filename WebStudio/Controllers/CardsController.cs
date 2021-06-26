@@ -141,7 +141,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState)
         {
             if (cardId != null)
