@@ -216,10 +216,10 @@
               <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
             </div>
             <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
-            <p style="margin-bottom: 0" class="text-center text-muted font-11">Дата создания: @comment.DateOfSend.ToShortDateString()</p>
+            <p style="margin-bottom: 0" class="text-center text-muted font-11">Дата создания: @comment.DateOfSend</p>
             @if (@comment.DateOfChange != DateTime.MinValue)
             {
-              <p class="text-center text-muted font-11">Дата изменения: @comment.DateOfChange.ToShortDateString()</p>
+              <p class="text-center text-muted font-11">Дата изменения: @comment.DateOfChange</p>
             }
           </td>
           <td class="mt-2">
