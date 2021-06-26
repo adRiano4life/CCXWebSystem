@@ -11,7 +11,7 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210622145550_init")]
+    [Migration("20210626173224_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -260,6 +260,9 @@ namespace WebStudio.Migrations
 
                     b.Property<string>("BestPrice")
                         .HasColumnType("text");
+
+                    b.Property<int>("Bidding")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Broker")
                         .HasColumnType("text");

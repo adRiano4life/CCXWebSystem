@@ -87,10 +87,14 @@ else
                   {
                     @:bg-haky 
                   }
+                  else if (card.CardState == CardState.Проигранна) 
+                  {
+                    @:bg-dark 
+                  }
                   text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
-              @if (card.CardState != CardState.Удалена && card.CardState != CardState.Торги)
+              @if (card.CardState == CardState.Новая)
               {
                 <div class="ml-auto" id="deleteCard">
                   <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id" method="post">

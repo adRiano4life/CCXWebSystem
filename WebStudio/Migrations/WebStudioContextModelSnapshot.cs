@@ -259,6 +259,9 @@ namespace WebStudio.Migrations
                     b.Property<string>("BestPrice")
                         .HasColumnType("text");
 
+                    b.Property<int>("Bidding")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Broker")
                         .HasColumnType("text");
 

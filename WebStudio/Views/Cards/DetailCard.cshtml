@@ -39,6 +39,12 @@
     <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
   </div>
 }
+@if (Model.Card.CardState == CardState.Проигранна)
+{
+  <div class="card-header text-white bg-dark">
+    <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+  </div>
+}
 <div class="card-body">
 
   <p class="card-text mb-4">@Model.Card.Initiator</p>
@@ -257,6 +263,11 @@
   @if (Model.Card.CardState == CardState.Торги)
   {
     <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
+    <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Проигранна" method="post">
+      <label>Введите предлагаемую цену: </label><br>
+      <input name="bid" type="number" placeholder="Цена">
+      <input type="submit" value="Проиграна">
+    </form>
   }
   
   @if (Model.Card.CardState == CardState.ПКО)
@@ -288,7 +299,15 @@
       </div>
     }
     
+    
   }
+
+  @if (Model.Card.CardState == CardState.Проигранна)
+  {
+    <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-danger">@Model.Card.CardState</span></p>
+    <h1><span class="badge badge-dark text-danger">@Model.Card.Bidding тг.</span></h1>
+  }
+
 </div>
 </div>
 </div>

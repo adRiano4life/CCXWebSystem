@@ -140,7 +140,7 @@ namespace WebStudio.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState)
+        public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState, int bid)
         {
             if (cardId != null)
             {
@@ -157,6 +157,10 @@ namespace WebStudio.Controllers
                             break;
                         case "Удалена":
                             card.CardState = CardState.Удалена;
+                            break;
+                        case "Проигранна":
+                            card.CardState = CardState.Проигранна;
+                            card.Bidding = bid;
                             break;
                     }
 
@@ -210,6 +214,10 @@ namespace WebStudio.Controllers
                     ViewBag.sort = CardState.Выигранная;
                     break;
                 
+                case CardState.Проигранна: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Проигранна).ToList();
+                    ViewBag.sort = CardState.Проигранна;
+                    break;
                 case CardState.ПКО: 
                     cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
                     ViewBag.sort = CardState.ПКО;
@@ -235,7 +243,7 @@ namespace WebStudio.Controllers
                         break;
                     
                     default:
-                        cards = _db.Cards.Where(c => c.ExecutorId == filter).ToList();
+                        cards = cards.Where(c => c.ExecutorId == filter).ToList();
                         ViewBag.filter = filter;
                         break;
                 }

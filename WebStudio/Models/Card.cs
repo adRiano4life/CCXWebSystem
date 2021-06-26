@@ -21,7 +21,7 @@ namespace WebStudio.Models
         public List<string> Links { get; set; }
         public List<string> LinkNames { get; set; }
         public virtual List<CardPosition> Positions { get; set; }
-
+        public int Bidding { get; set; }
         public string ExecutorId { get; set; }
         public virtual User Executor { get; set; }
     }
