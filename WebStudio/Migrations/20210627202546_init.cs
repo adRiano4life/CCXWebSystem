@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -177,7 +177,7 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Card",
+                name: "Cards",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -199,9 +199,9 @@ namespace WebStudio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Card", x => x.Id);
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Card_AspNetUsers_ExecutorId",
+                        name: "FK_Cards_AspNetUsers_ExecutorId",
                         column: x => x.ExecutorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -209,30 +209,54 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Positions",
+                name: "HistoryOfVictoryAndLosing",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    StockNumber = table.Column<string>(type: "text", nullable: true),
-                    CodTNVED = table.Column<string>(type: "text", nullable: true),
+                    Number = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    Measure = table.Column<string>(type: "text", nullable: true),
-                    Amount = table.Column<float>(type: "real", nullable: false),
-                    Currency = table.Column<string>(type: "text", nullable: true),
-                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    PaymentTerms = table.Column<string>(type: "text", nullable: true),
-                    DeliveryTime = table.Column<string>(type: "text", nullable: true),
-                    DeliveryTerms = table.Column<string>(type: "text", nullable: true),
+                    StartSumm = table.Column<decimal>(type: "numeric", nullable: false),
+                    DateOfAcceptingEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateOfAuctionStart = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Initiator = table.Column<string>(type: "text", nullable: true),
+                    Broker = table.Column<string>(type: "text", nullable: true),
+                    Auction = table.Column<string>(type: "text", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: true),
+                    BestPrice = table.Column<string>(type: "text", nullable: true),
+                    CardState = table.Column<int>(type: "integer", nullable: false),
+                    Links = table.Column<List<string>>(type: "text[]", nullable: true),
+                    LinkNames = table.Column<List<string>>(type: "text[]", nullable: true),
+                    Bidding = table.Column<int>(type: "integer", nullable: false),
+                    ExecutorId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HistoryOfVictoryAndLosing", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HistoryOfVictoryAndLosing_AspNetUsers_ExecutorId",
+                        column: x => x.ExecutorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Path = table.Column<string>(type: "text", nullable: true),
                     CardId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Positions", x => x.Id);
+                    table.PrimaryKey("PK_Files", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Positions_Card_CardId",
+                        name: "FK_Files_Cards_CardId",
                         column: x => x.CardId,
-                        principalTable: "Card",
+                        principalTable: "Cards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -258,9 +282,9 @@ namespace WebStudio.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Requests_Card_CardId",
+                        name: "FK_Requests_Cards_CardId",
                         column: x => x.CardId,
-                        principalTable: "Card",
+                        principalTable: "Cards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -282,9 +306,45 @@ namespace WebStudio.Migrations
                 {
                     table.PrimaryKey("PK_SearchSuppliers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SearchSuppliers_Card_CardId",
+                        name: "FK_SearchSuppliers_Cards_CardId",
                         column: x => x.CardId,
-                        principalTable: "Card",
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Positions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    StockNumber = table.Column<string>(type: "text", nullable: true),
+                    CodTNVED = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Measure = table.Column<string>(type: "text", nullable: true),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    Currency = table.Column<string>(type: "text", nullable: true),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    PaymentTerms = table.Column<string>(type: "text", nullable: true),
+                    DeliveryTime = table.Column<string>(type: "text", nullable: true),
+                    DeliveryTerms = table.Column<string>(type: "text", nullable: true),
+                    CardId = table.Column<string>(type: "text", nullable: true),
+                    CardCloneId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Positions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Positions_Cards_CardId",
+                        column: x => x.CardId,
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Positions_HistoryOfVictoryAndLosing_CardCloneId",
+                        column: x => x.CardCloneId,
+                        principalTable: "HistoryOfVictoryAndLosing",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -351,9 +411,24 @@ namespace WebStudio.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_ExecutorId",
-                table: "Card",
+                name: "IX_Cards_ExecutorId",
+                table: "Cards",
                 column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Files_CardId",
+                table: "Files",
+                column: "CardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HistoryOfVictoryAndLosing_ExecutorId",
+                table: "HistoryOfVictoryAndLosing",
+                column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Positions_CardCloneId",
+                table: "Positions",
+                column: "CardCloneId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Positions_CardId",
@@ -402,6 +477,9 @@ namespace WebStudio.Migrations
                 name: "AuctionResults");
 
             migrationBuilder.DropTable(
+                name: "Files");
+
+            migrationBuilder.DropTable(
                 name: "Positions");
 
             migrationBuilder.DropTable(
@@ -414,10 +492,13 @@ namespace WebStudio.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "HistoryOfVictoryAndLosing");
+
+            migrationBuilder.DropTable(
                 name: "Requests");
 
             migrationBuilder.DropTable(
-                name: "Card");
+                name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
