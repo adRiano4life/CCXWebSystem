@@ -194,6 +194,7 @@ namespace WebStudio.Migrations
                     CardState = table.Column<int>(type: "integer", nullable: false),
                     Links = table.Column<List<string>>(type: "text[]", nullable: true),
                     LinkNames = table.Column<List<string>>(type: "text[]", nullable: true),
+                    Bidding = table.Column<int>(type: "integer", nullable: false),
                     ExecutorId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

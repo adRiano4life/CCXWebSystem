@@ -304,8 +304,8 @@
 
   @if (Model.Card.CardState == CardState.Проигранна)
   {
-    <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-danger">@Model.Card.CardState</span></p>
-    <h1><span class="badge badge-dark text-danger">@Model.Card.Bidding тг.</span></h1>
+    <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-white">@Model.Card.CardState</span></p>
+    <h4 class="text-danger">Предложенная цена @Model.Card.Bidding. тг.</h4>
   }
 
 </div>

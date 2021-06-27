@@ -162,6 +162,9 @@ namespace WebStudio.Controllers
                             card.CardState = CardState.Проигранна;
                             card.Bidding = bid;
                             break;
+                        case "Выйгранна":
+                            card.CardState = CardState.Выигранная;
+                            break;
                     }
 
                     _db.Cards.Update(card);

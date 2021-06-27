@@ -58,7 +58,7 @@ namespace EZParser
              if (_db.AuctionResults.Count() == 0) 
              {
                  string cardNumber1 = "T-0090668/1", cardName1 ="Запасные части МТ436-fake"; //фэйковый лот который отменен
-                 string cardNumber2 = "T-0090485/1", cardName2 ="электромонтажные изделия-fake"; //фэйковый лот который состоялся
+                 string cardNumber2 = "T-0090781/1", cardName2 ="электромонтажные изделия-fake"; //фэйковый лот который состоялся
                  string cardNumber3 = "T-0090538/1", cardName3 ="Котельное оборудование-fake"; //фэйковый лот который не состоялся
                  
                  if (!_db.Cards.Any(c => c.Number == cardNumber1))
