@@ -1,0 +1,221 @@
+﻿@model X.PagedList.IPagedList<WebStudio.Models.CardClone>
+@using WebStudio.Enums
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@inject WebStudioContext _db
+
+@{
+    ViewBag.Title = "Карточки";
+    Layout = "_Layout";
+}
+
+
+
+@if (@Model.Count == 0)
+{
+  <div class="container pl-0">
+
+    <div class="jumbotron shadow-sm">
+      <h1 class="display-4">В вашей базе нет доступных лотов</h1>
+    </div>
+  </div>
+}
+else
+{
+  <div>
+    <div class="container pl-0 justify-content-between">
+      <div class="row pt-3 pb-3 mb-4 ml-0 border-bottom">
+        
+        <form asp-controller="Cards" asp-action="GetCardInfo" method="get" asp-route-sort="@ViewBag.sort">
+          <input hidden name="sort" value="@ViewBag.sort">
+          <select name="filter">
+            <option value="DateOfAcceptingEnd">Дата окончания приема заявок</option>
+            <option value="DateOfAuctionStart">Дата начала проведения торгов</option>
+            <option disabled>--------------------------------------</option>
+            @foreach (var user in _db.Users)
+            {
+              if (@user.Name != "admin")
+              {
+                <option value="@user.Id">@user.Name @user.Surname</option>
+              }
+            }
+          </select>
+
+          <span>c: </span>
+          <input type="date" name="from" placeholder="с">
+          <span> по: </span>
+          <input type="date" name="to" placeholder="по">
+          <input value="фильтровать" type="submit">
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container pl-0 pr-0">
+      <div id="cards" class="row">
+    
+        @foreach (var card in Model)
+        {
+          <div class="col-sm-12 col-md-6 mb-4">
+            <div class="card shadow" id="card-@card.Id" onmouseout="link('@card.Id')" onmousemove="linkStr('@card.Id')">
+            
+              <a class="text-decoration-none" asp-action="DetailCard" asp-controller="Cards" asp-route-cardId="@card.Id">
+                <div class="card-header 
+
+                  @if(card.CardState == CardState.Новая)
+                  {
+                    @:bg-success
+                  }
+                  else if (card.CardState == CardState.Проработка)
+                  {
+                    @:bg-primary
+                  }
+                  else if (card.CardState == CardState.Удалена)
+                  {
+                    @:bg-danger
+                  }
+                  else if (card.CardState == CardState.Торги)
+                  {
+                    @:bg-warning
+                  }
+                  else if (card.CardState == CardState.Выигранная)
+                  {
+                    @:bg-info
+                  }
+                  else if (card.CardState == CardState.ПКО) 
+                  {
+                    @:bg-haky 
+                  }
+                  else if (card.CardState == CardState.Проигранна) 
+                  {
+                    @:bg-dark 
+                  }
+                  text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
+              </a>
+              
+              @if (card.CardState == CardState.Новая)
+              {
+                <div class="ml-auto" id="deleteCard">
+                  <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id" method="post">
+                    <button type="submit" style="border:0px solid black; background-color: transparent; outline:none">
+                      <i class="far fa-times-circle mr-3 mt-3" style="font-size: 25px; color: darkred; align-content: center" aria-hidden="true"></i>
+                    </button>
+                  </form>
+                </div>
+                
+              }
+              
+              
+              
+              <div class="card-body pt-2">
+              
+                <p class="card-text mb-2" id="lin">
+                @if (card.CardState != CardState.Новая && card.CardState != CardState.Удалена)
+                {
+                  <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
+                }
+
+                <span class="badge @if(card.CardState == CardState.Новая)
+                                   {
+                                     @:bg-success
+                                   }
+                                   else if (card.CardState == CardState.Проработка)
+                                   {
+                                     @:bg-primary
+                                   }
+                                   else if (card.CardState == CardState.Удалена)
+                                   {
+                                     @:bg-danger
+                                   }
+                                   else if (card.CardState == CardState.Торги)
+                                   {
+                                     @:bg-warning
+                                   } 
+                                   else if (card.CardState == CardState.Выигранная)
+                                   {
+                                     @:bg-info
+                                   }
+                                   else if (card.CardState == CardState.ПКО)
+                                   {
+                                     @:bg-haky
+                                   }
+                                   else if (card.CardState == CardState.Проигранна)
+                                   {
+                                     @:bg-dark
+                                   }
+                                   text-white">
+                          @card.CardState
+                        </span>
+                      </p>
+                
+                <p class="card-text mb-4">@card.Initiator</p>
+                <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>
+                <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @card.DateOfAcceptingEnd.ToLongDateString() @card.DateOfAcceptingEnd.ToShortTimeString()</p>
+                <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @card.DateOfAuctionStart.ToLongDateString() @card.DateOfAuctionStart.ToShortTimeString()</p>
+                <p class="card-text mb-0" id="lin"><b>Брокер:</b> @card.Broker</p>
+                <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @card.Auction</p>
+                <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @card.State</p>
+                <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @card.BestPrice</p>
+                <p class="card-text mb-0" id="lin">
+                
+                  @for (int i = 0; i < card.Links.Count; i++)
+                  {
+                    if (card.LinkNames[i].Contains(".xlsx")) 
+                    {
+                      <i class="far fa-file-excel text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                    }
+                    else if (card.LinkNames[i].Contains(".docx"))
+                    {
+                      <i class="far fa-file-word text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                    }
+                    else if (card.LinkNames[i].Contains(".pdf"))
+                    {
+                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                    }
+                    else if (card.LinkNames[i].Contains(".jpg"))
+                    {
+                      <i class="far fa-file-image text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                    }
+                    
+                  }
+                
+                </p>
+              </div>
+            </div>
+          </div>
+        
+        }
+      </div>
+    </div>
+  </div>
+  
+}
+
+<p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
+<div class="row justify-content-center">
+  @Html.PagedListPager(Model, page =>Url.Action("GetCardInfo", "Cards", new {page, ViewBag.sort, ViewBag.filter}), Bootstrap4PagedListRenderOptions.Classic)
+</div>
+
+@section Scripts
+{
+  <script >
+    $(document).ready(function () {
+        
+        $('#card-header').css({'cursor':'pointer'})
+        $('#deleteCard').css({'cursor':'pointer'})
+    });
+    
+
+/////////////////////////////////Анимация с тенью карточек////////////////////////////////
+       function link(cardId){
+            $('#card-' + cardId).addClass('shadow')
+            
+       }
+
+       function linkStr(cardId){
+           $('#card-' + cardId).removeClass('shadow')
+           
+       }
+  </script>
+}

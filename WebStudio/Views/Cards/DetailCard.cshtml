@@ -61,28 +61,44 @@
   <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
   <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
   <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
-  <p class="card-text mb-4" id="lin">
-          
-    @for (int i = 0; i < Model.Card.Links.Count; i++)
-    {
-      if (Model.Card.LinkNames[i].Contains(".xlsx"))
+<p class="card-text mb-4" id="lin">
+  <div class="row ml-0">
+    <div class="mr-5">
+      @for (int i = 0; i < Model.Card.Links.Count; i++)
       {
-        <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        if (Model.Card.LinkNames[i].Contains(".xlsx"))
+        {
+          <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
+        else if (Model.Card.LinkNames[i].Contains(".docx"))
+        {
+          <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
+        else if (Model.Card.LinkNames[i].Contains(".pdf"))
+        {
+          <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
+        else if (Model.Card.LinkNames[i].Contains(".jpg"))
+        {
+          <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
       }
-      else if (Model.Card.LinkNames[i].Contains(".docx"))
+    </div>
+      
+    <div class="d-flex align-items-baseline">
+      @if (Model.Card.CardState == CardState.Выигранная || Model.Card.CardState == CardState.Активна && Model.FileModels.Count != 0)
       {
-        <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        <div>
+          @foreach (var file in Model.FileModels)
+          {
+            <a href="@file.Path">@file.Name</a><br>
+          }
+        </div>
       }
-      else if (Model.Card.LinkNames[i].Contains(".pdf"))
-      {
-        <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-      else if (Model.Card.LinkNames[i].Contains(".jpg"))
-      {
-        <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-    }
-  </p>
+    </div>
+  </div>
+</p>
+
         
   @if (Model.Card.Positions.Count() > 0)
   {
@@ -328,7 +344,24 @@
   
   @if (Model.Card.CardState == CardState.Выигранная)
     {
-      <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
+      <p class="card-text mb-2 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
+      <div class="row ml-0">
+        
+        <div class="mr-3">
+          <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
+            <input class="mb-2" type="file" name="uploads"/><br>
+            <input class="mb-2" type="file" name="uploads"/><br>
+            <input class="mb-2" type="file" name="uploads"/><br>
+            <input type="submit" value="Загрузить"/>
+          </form>
+        </div>
+        
+        <div class="d-flex align-items-end">
+          <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Активна" method="post">
+            <input type="submit" value="Активна">
+          </form>
+        </div>
+      </div>
     }
 
 </div>
@@ -344,12 +377,10 @@
     /////////////////////////////////Анимация с тенью карточек////////////////////////////////
     function link(cardId){
          $('#card-' + cardId).addClass('shadow')
-         console.log(cardId)
-    }
+     }
         
     function linkStr(cardId){
         $('#card-' + cardId).removeClass('shadow')
-        console.log(cardId)
     }
         
   </script>
