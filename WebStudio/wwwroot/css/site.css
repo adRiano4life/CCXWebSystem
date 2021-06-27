@@ -106,6 +106,10 @@ body {
   background: none;
 }
 
+.avatar-image{
+  width: 150px;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -195,7 +195,9 @@ namespace WebStudio.Migrations
                     Links = table.Column<List<string>>(type: "text[]", nullable: true),
                     LinkNames = table.Column<List<string>>(type: "text[]", nullable: true),
                     Bidding = table.Column<int>(type: "integer", nullable: false),
-                    ExecutorId = table.Column<string>(type: "text", nullable: true)
+                    ExecutorId = table.Column<string>(type: "text", nullable: true),
+                    DateOfProcessingEnd = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateOfAuctionStartUpdated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,6 +238,34 @@ namespace WebStudio.Migrations
                         name: "FK_HistoryOfVictoryAndLosing_AspNetUsers_ExecutorId",
                         column: x => x.ExecutorId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Message = table.Column<string>(type: "text", nullable: true),
+                    DateOfSend = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateOfChange = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    CardId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Cards_CardId",
+                        column: x => x.CardId,
+                        principalTable: "Cards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -416,6 +446,16 @@ namespace WebStudio.Migrations
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_CardId",
+                table: "Comments",
+                column: "CardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Files_CardId",
                 table: "Files",
                 column: "CardId");
@@ -475,6 +515,9 @@ namespace WebStudio.Migrations
 
             migrationBuilder.DropTable(
                 name: "AuctionResults");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Files");

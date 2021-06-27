@@ -22,7 +22,12 @@ namespace WebStudio.Models
         public List<string> LinkNames { get; set; }
         public virtual List<CardPosition> Positions { get; set; }
         public int Bidding { get; set; }
+        public virtual List<Comment> Comments { get; set; }
+
         public string ExecutorId { get; set; }
         public virtual User Executor { get; set; }
+        
+        public DateTime DateOfProcessingEnd { get; set; }
+        public DateTime DateOfAuctionStartUpdated { get; set; }
     }
 }
