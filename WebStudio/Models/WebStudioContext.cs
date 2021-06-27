@@ -16,6 +16,7 @@ namespace WebStudio.Models
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<AuctionResult> AuctionResults { get; set; }
         public DbSet<SearchSupplier> SearchSuppliers { get; set; }
+        public DbSet<Card> HistoryOfVictoryAndLosing { get; set; }
 
         public WebStudioContext(DbContextOptions options) : base(options)
         {

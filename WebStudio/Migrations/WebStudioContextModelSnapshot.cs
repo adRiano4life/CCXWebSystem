@@ -302,7 +302,7 @@ namespace WebStudio.Migrations
 
                     b.HasIndex("ExecutorId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Card");
                 });
 
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>

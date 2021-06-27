@@ -145,6 +145,7 @@ namespace WebStudio.Controllers
             if (cardId != null)
             {
                 Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                Card cardClone = new Card();
                 if (card != null)
                 {
                     switch (cardState)
@@ -161,9 +162,11 @@ namespace WebStudio.Controllers
                         case "Проигранна":
                             card.CardState = CardState.Проигранна;
                             card.Bidding = bid;
+                            SaveCloneCard(card);
                             break;
-                        case "Выйгранна":
+                        case "Выиграна":
                             card.CardState = CardState.Выигранная;
+                            SaveCloneCard(card);
                             break;
                     }
 
@@ -225,6 +228,10 @@ namespace WebStudio.Controllers
                     cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
                     ViewBag.sort = CardState.ПКО;
                     break;
+                case CardState.Участвовшие: 
+                    cards = _db.HistoryOfVictoryAndLosing.Where(c => c.CardState == CardState.Выигранная || c.CardState == CardState.Проигранна).ToList();
+                    ViewBag.sort = CardState.Участвовшие;
+                    break;
             }
 
             if (filter != null)
@@ -257,7 +264,34 @@ namespace WebStudio.Controllers
 
             return View(cards.ToPagedList(pageNumber, pageSize));
         }
-        
+
+       [NonAction]
+       private void SaveCloneCard(Card card)
+       {
+           Card cardClone = new Card
+           {
+               Auction = card.Auction,
+               Bidding = card.Bidding,
+               Broker = card.Broker,
+               Executor = card.Executor,
+               Initiator = card.Initiator,
+               Links = card.Links,
+               Name = card.Name,
+               Number = card.Number,
+               Positions = card.Positions,
+               State = card.State,
+               BestPrice = card.BestPrice,
+               CardState = card.CardState,
+               ExecutorId = card.ExecutorId,
+               LinkNames = card.LinkNames,
+               StartSumm = card.StartSumm,
+               DateOfAcceptingEnd = card.DateOfAcceptingEnd,
+               DateOfAuctionStart = card.DateOfAuctionStart
+           };
+           _db.HistoryOfVictoryAndLosing.Add(cardClone);
+           _db.SaveChanges();
+
+       }
        
     }
 }

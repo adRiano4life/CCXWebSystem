@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -177,7 +177,7 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cards",
+                name: "Card",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -199,9 +199,9 @@ namespace WebStudio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cards", x => x.Id);
+                    table.PrimaryKey("PK_Card", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cards_AspNetUsers_ExecutorId",
+                        name: "FK_Card_AspNetUsers_ExecutorId",
                         column: x => x.ExecutorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -230,9 +230,9 @@ namespace WebStudio.Migrations
                 {
                     table.PrimaryKey("PK_Positions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Positions_Cards_CardId",
+                        name: "FK_Positions_Card_CardId",
                         column: x => x.CardId,
-                        principalTable: "Cards",
+                        principalTable: "Card",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -258,9 +258,9 @@ namespace WebStudio.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Requests_Cards_CardId",
+                        name: "FK_Requests_Card_CardId",
                         column: x => x.CardId,
-                        principalTable: "Cards",
+                        principalTable: "Card",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -282,9 +282,9 @@ namespace WebStudio.Migrations
                 {
                     table.PrimaryKey("PK_SearchSuppliers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SearchSuppliers_Cards_CardId",
+                        name: "FK_SearchSuppliers_Card_CardId",
                         column: x => x.CardId,
-                        principalTable: "Cards",
+                        principalTable: "Card",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -351,8 +351,8 @@ namespace WebStudio.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cards_ExecutorId",
-                table: "Cards",
+                name: "IX_Card_ExecutorId",
+                table: "Card",
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
@@ -417,7 +417,7 @@ namespace WebStudio.Migrations
                 name: "Requests");
 
             migrationBuilder.DropTable(
-                name: "Cards");
+                name: "Card");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
