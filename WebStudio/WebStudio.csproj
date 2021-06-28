@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Nodes\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\T-0090805\1 типовая форма.docx" />
     </ItemGroup>
 
     <ItemGroup>
