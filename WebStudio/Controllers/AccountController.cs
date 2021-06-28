@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -95,20 +96,42 @@ namespace WebStudio.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "user");
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Cards");
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new {token, email = user.Email},
+                        Request.Scheme);
+                    EmailService emailService = new EmailService();
+                    bool emailResponse = emailService.SendEmailAfterRegister(user.Email, confirmationLink);
+                
+                    if (emailResponse)
+                        return RedirectToAction("Index", new {userId = user.Id});
+                    else
+                    {
+                        // log email failed 
+                    }
                 }
-
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
-
             return View(model);
         }
 
+
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            User user = _userManager.FindByEmailAsync(email).Result;
+            if(user == null)
+                return View("Error");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return View(result.Succeeded ? "ConfirmEmail" : "ErrorInConfirmEmail");
+        }
+
+        
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -131,7 +154,20 @@ namespace WebStudio.Controllers
 
                     return RedirectToAction("Index", "Cards");
                 }
-                ModelState.AddModelError("", "Неверный логин или пароль");
+                else
+                {
+                    if (result.IsNotAllowed)
+                    {
+                        ModelState.AddModelError("", 
+                            "Учетная запись не активирована. Выполните подтверждение своего email");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Неверный логин или пароль");    
+                    }
+                }
+                
+
             }
 
             return View(model);

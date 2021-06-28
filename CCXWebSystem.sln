@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZParser", "EZParser\EZPars
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStudio.Tests", "WebStudio.Tests\WebStudio.Tests.csproj", "{AB0DD439-9150-489C-8157-FCB9A84BB476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZParser.Tests", "EZParser.Tests\EZParser.Tests.csproj", "{44D8FDF6-30E2-4D14-8E5A-4C7177A4EBF1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{AB0DD439-9150-489C-8157-FCB9A84BB476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0DD439-9150-489C-8157-FCB9A84BB476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB0DD439-9150-489C-8157-FCB9A84BB476}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44D8FDF6-30E2-4D14-8E5A-4C7177A4EBF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44D8FDF6-30E2-4D14-8E5A-4C7177A4EBF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44D8FDF6-30E2-4D14-8E5A-4C7177A4EBF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44D8FDF6-30E2-4D14-8E5A-4C7177A4EBF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
