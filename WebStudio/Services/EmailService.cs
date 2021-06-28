@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -55,8 +56,10 @@ namespace WebStudio.Services
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = "Подтвердите свой email";
             
-            emailMessage.Body = new TextPart {Text = $@"Пройдите по ссылке {link} чтобы подтвердить свой email"};
-
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = "Пройдите по <a href=\"" + link + "\"> данной ссылке </a> чтобы подтвердить свой email"
+            };
             try
             {
                 // using var client = new SmtpClient();
