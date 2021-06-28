@@ -1,4 +1,5 @@
-﻿@model System.Collections.Generic.List<WebStudio.Models.AuctionResult>
+﻿@using WebStudio.Enums
+@model System.Collections.Generic.List<WebStudio.Models.AuctionResult>
 @inject WebStudioContext _db;
 
 @{
@@ -71,14 +72,18 @@ else
                                 <th scope="col">Наименование</th>
                                 <th scope="col">Ед.измерения</th>
                                 <th scope="col">Количество</th>
+                                @if (card.CardState == CardState.Проигранна)
+                                {
+                                    <th scope="col" class="bg-danger"><h4 align="center">проигран</h4></th>
+                                    <th scope="col" class="bg-dark"><h3 align="center"><span class="badge badge-danger text-white">@card.Bidding</span></h3></th>
+                                }
                             </tr>
                             </thead>
                             <tbody>
                             @foreach (var position in card.Positions)
                             {
                                 <tr class="bg-light">
-                                    <th scope="col">
-                                        @{ int b = card.Positions.IndexOf(position) + 1; }<span class="badge badge-info">@b</span></th>
+                                    <th scope="col">@{ int b = card.Positions.IndexOf(position) + 1; }<span class="badge badge-info">@b</span></th>
                                     <td>@position.Name</td>
                                     <td>@position.Measure</td>
                                     <td>@position.Amount</td>

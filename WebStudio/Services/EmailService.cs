@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MimeKit;
 using WebStudio.Models;
@@ -45,5 +48,40 @@ namespace WebStudio.Services
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
+
+        public bool SendEmailAfterRegister(string email, string link)
+        {
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("админ CCXWebSystem", "test@rdprom.kz"));
+            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.Subject = "Подтвердите свой email";
+            
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = "Пройдите по <a href=\"" + link + "\"> данной ссылке </a> чтобы подтвердить свой email"
+            };
+            try
+            {
+                TryingSendMessage(emailMessage);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+
+        private async Task TryingSendMessage(MimeMessage emailMessage)
+        {
+            using var client = new SmtpClient();
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            await client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
+            await client.AuthenticateAsync("test@rdprom.kz", "QWEqwe123");
+            await client.SendAsync(emailMessage);
+            await client.DisconnectAsync(true);   
+        }
+        
     }
 }

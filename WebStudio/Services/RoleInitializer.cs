@@ -39,7 +39,8 @@ namespace WebStudio.Services
                     UserName = adminEmail,
                     Name = "admin",
                     Surname = "admin",
-                    AvatarPath = avatarPath
+                    AvatarPath = avatarPath,
+                    EmailConfirmed = true
                 };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
@@ -57,7 +58,8 @@ namespace WebStudio.Services
                     Name = "Доминик",
                     Surname = "Торрето",
                     AvatarPath = avatarPath,
-                    RoleDisplay = "user"
+                    RoleDisplay = "user",
+                    EmailConfirmed = true
                 };
                 var userResult = await userManager.CreateAsync(user, userPassword);
                 if (userResult.Succeeded)
@@ -75,7 +77,8 @@ namespace WebStudio.Services
                     Name = "Брайн",
                     Surname = "ОКоннер",
                     AvatarPath = avatarPath,
-                    RoleDisplay = "user"
+                    RoleDisplay = "user",
+                    EmailConfirmed = true
                 };
                 var userResult = await userManager.CreateAsync(user, userPassword);
                 if (userResult.Succeeded)
@@ -93,7 +96,8 @@ namespace WebStudio.Services
                     Name = "Ромео",
                     Surname = "Сантос",
                     AvatarPath = avatarPath,
-                    RoleDisplay = "user"
+                    RoleDisplay = "user",
+                    EmailConfirmed = true
                 };
                 var userResult = await userManager.CreateAsync(user, userPassword);
                 if (userResult.Succeeded)

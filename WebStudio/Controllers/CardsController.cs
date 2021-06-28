@@ -196,6 +196,7 @@ namespace WebStudio.Controllers
             return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
         }
         
+        
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFileCollection uploads, string cardId)
         {

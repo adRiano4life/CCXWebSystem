@@ -36,8 +36,9 @@ namespace WebStudio
                     options.Password.RequiredLength = 6;
                     options.Password.RequireNonAlphanumeric = false;
                     options.User.RequireUniqueEmail = true;
+                    options.SignIn.RequireConfirmedEmail = true;
                 })
-                .AddEntityFrameworkStores<WebStudioContext>();
+                .AddEntityFrameworkStores<WebStudioContext>().AddDefaultTokenProviders();
             services.AddTransient<FileUploadService>();
         }
 

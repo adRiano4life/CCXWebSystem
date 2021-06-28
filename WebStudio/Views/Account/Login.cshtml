@@ -1,13 +1,13 @@
 ﻿@model WebStudio.ViewModels.LoginViewModel
 
 @{
-    ViewBag.Title = "Авторизация";
+    ViewBag.Title = "Вход";
     Layout = "_Layout";
 }
 
 <div class="row justify-content-center">
     <div class="col-md-6 pt-3 pb-4 shadow">
-    <h2>Авторизация</h2>
+        <h2>Авторизация</h2>
         <form asp-action="Login" asp-controller="Account" method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
@@ -25,8 +25,25 @@
                 <input class="form-check-inline" asp-for="RememberMe">
             </div>
             <div>
-                <input type="submit" class="btn btn-outline-primary" value="Войти">
+                <input type="hidden" id="viewBag" value="@Model.RepeatLinkForConfirmEmail" />
+                <input type="submit" id="enter" class="btn btn-outline-primary" value="Войти">
             </div>
         </form>
+        
+        <div class="my-auto pt-3" id="repeat">
+            <a asp-action="SendLinkForConfirmEmail" asp-controller="Account" asp-route-email="@Model.Email">Отправить ссылку повторно</a>
+        </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>               
+        $('#repeat').hide();
+        var check = $('#viewBag').val();
+                   
+       if (check === "repeat"){
+           $('#repeat').show();           
+       }               
+    </script>
+}
