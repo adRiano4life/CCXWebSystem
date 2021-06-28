@@ -47,7 +47,7 @@ else
                     <td>@lot.DateOfAuctionStart.ToLongDateString() @lot.DateOfAuctionStart.ToShortTimeString()</td>
                     <td>
                         @{
-                            string DateOfSignContract = @lot.DateOfSignContract != DateTime.MinValue ? $"{lot.DateOfSignContract.Value.ToLongDateString()} + {lot.DateOfSignContract.Value.ToShortTimeString()}" : "-";
+                            string DateOfSignContract = @lot.DateOfSignContract != DateTime.MinValue ? $"{lot.DateOfSignContract.Value.ToLongDateString()} {lot.DateOfSignContract.Value.ToShortTimeString()}" : "-";
                         }
                         @DateOfSignContract
 

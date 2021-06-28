@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStudio.Enums;
@@ -16,11 +19,13 @@ namespace WebStudio.Controllers
     {
         private WebStudioContext _db;
         private UserManager<User> _userManager;
+        IWebHostEnvironment _appEnvironment;
 
-        public CardsController(WebStudioContext db, UserManager<User> userManager)
+        public CardsController(WebStudioContext db, UserManager<User> userManager, IWebHostEnvironment appEnvironment)
         {
             _db = db;
             _userManager = userManager;
+            _appEnvironment = appEnvironment;
         }
 
         [HttpGet]
@@ -43,7 +48,8 @@ namespace WebStudio.Controllers
                 DetailCardViewModel model = new DetailCardViewModel
                 {
                     Card = _db.Cards.FirstOrDefault(c => c.Id == cardId),
-                    Users = _db.Users.ToList()
+                    Users = _db.Users.ToList(),
+                    FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                 };
 
                 return View(model);
@@ -144,11 +150,12 @@ namespace WebStudio.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState)
+        public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState, int bid)
         {
             if (cardId != null)
             {
                 Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                Card cardClone = new Card();
                 if (card != null)
                 {
                     switch (cardState)
@@ -156,11 +163,28 @@ namespace WebStudio.Controllers
                         case "ПКО":
                             card.CardState = CardState.ПКО;
                             break;
+                        
                         case "Торги":
                             card.CardState = CardState.Торги;
                             break;
+                        
                         case "Удалена":
                             card.CardState = CardState.Удалена;
+                            break;
+                        
+                        case "Проигранна":
+                            card.CardState = CardState.Проигранна;
+                            card.Bidding = bid;
+                            SaveCloneCard(card);
+                            break;
+                        
+                        case "Выиграна":
+                            card.CardState = CardState.Выигранная;
+                            SaveCloneCard(card);
+                            break;
+                        
+                        case "Активна":
+                            card.CardState = CardState.Активна;
                             break;
                     }
 
@@ -170,6 +194,39 @@ namespace WebStudio.Controllers
             }
 
             return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> AddFile(IFormFileCollection uploads, string cardId)
+        {
+            if (!string.IsNullOrEmpty(cardId))
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                if (card != null)
+                {
+                    foreach(var uploadedFile in uploads)
+                    {
+                        if (!Directory.Exists( _appEnvironment.WebRootPath + $"/Files/{card.Number}"))
+                        {
+                            Directory.CreateDirectory(_appEnvironment.WebRootPath + $"/Files/{card.Number}");
+                        }
+                        
+                        string path = $"/Files/{card.Number}" + uploadedFile.FileName;
+                        using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await uploadedFile.CopyToAsync(fileStream);
+                        }
+                        FileModel file = new FileModel { Name = uploadedFile.FileName, Path = path, CardId = card.Id, Card = card};
+                        _db.Files.Add(file); 
+                    } 
+                    _db.SaveChanges(); 
+                    return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
+                }
+                return Content("Такой карточки не обнаруженно");
+                 
+            }
+
+            return NotFound();
         }
         
        /// <summary>
@@ -214,6 +271,11 @@ namespace WebStudio.Controllers
                     ViewBag.sort = CardState.Выигранная;
                     break;
                 
+                case CardState.Проигранна: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Проигранна).ToList();
+                    ViewBag.sort = CardState.Проигранна;
+                    break;
+                
                 case CardState.ПКО: 
                     cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
                     ViewBag.sort = CardState.ПКО;
@@ -239,7 +301,7 @@ namespace WebStudio.Controllers
                         break;
                     
                     default:
-                        cards = _db.Cards.Where(c => c.ExecutorId == filter).ToList();
+                        cards = cards.Where(c => c.ExecutorId == filter).ToList();
                         ViewBag.filter = filter;
                         break;
                 }
@@ -250,6 +312,80 @@ namespace WebStudio.Controllers
 
             return View(cards.ToPagedList(pageNumber, pageSize));
         }
+       
+       [HttpGet]
+       [Authorize]
+       public IActionResult GetCardInfoHistory(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
+        {
+            List<CardClone> cards = new List<CardClone>();
+            
+            switch (sort)
+            {
+                case CardState.Участвовшие: 
+                    cards = _db.HistoryOfVictoryAndLosing.Where(c => c.CardState == CardState.Выигранная || c.CardState == CardState.Проигранна).ToList();
+                    ViewBag.sort = CardState.Участвовшие;
+                    break;
+            }
+
+            if (filter != null)
+            {
+                switch (filter)
+                {
+                    case "DateOfAcceptingEnd":
+                        if (from != null || to != null)
+                        {
+                            cards = cards.Where(c => c.DateOfAcceptingEnd >= from && c.DateOfAcceptingEnd <= to).ToList();
+                        }
+                        break;
+
+                    case "DateOfAuctionStart":
+                        if (from != null || to != null)
+                        {
+                            cards = cards.Where(c => c.DateOfAuctionStart >= from && c.DateOfAuctionStart <= to).ToList();
+                        }
+                        break;
+                    
+                    default:
+                        cards = cards.Where(c => c.ExecutorId == filter).ToList();
+                        ViewBag.filter = filter;
+                        break;
+                }
+            }
+
+            int pageSize = 20;
+            int pageNumber = page ?? 1;
+
+            return View(cards.ToPagedList(pageNumber, pageSize));
+        }
+
+       [NonAction]
+       private void SaveCloneCard(Card card)
+       {
+           CardClone cardClone = new CardClone()
+           {
+               Auction = card.Auction,
+               Bidding = card.Bidding,
+               Broker = card.Broker,
+               Executor = card.Executor,
+               Initiator = card.Initiator,
+               Links = card.Links,
+               Name = card.Name,
+               Number = card.Number,
+               Positions = card.Positions,
+               State = card.State,
+               BestPrice = card.BestPrice,
+               CardState = card.CardState,
+               ExecutorId = card.ExecutorId,
+               LinkNames = card.LinkNames,
+               StartSumm = card.StartSumm,
+               DateOfAcceptingEnd = card.DateOfAcceptingEnd,
+               DateOfAuctionStart = card.DateOfAuctionStart
+           };
+           _db.HistoryOfVictoryAndLosing.Add(cardClone);
+           _db.SaveChanges();
+
+       }
+       
 
        [HttpPost]
        [Authorize]

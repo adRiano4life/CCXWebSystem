@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210626145822_add_comments")]
-    partial class add_comments
+    [Migration("20210627210851_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -261,6 +261,9 @@ namespace WebStudio.Migrations
                     b.Property<string>("BestPrice")
                         .HasColumnType("text");
 
+                    b.Property<int>("Bidding")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Broker")
                         .HasColumnType("text");
 
@@ -310,6 +313,63 @@ namespace WebStudio.Migrations
                     b.ToTable("Cards");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.CardClone", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Auction")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BestPrice")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Bidding")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Broker")
+                        .HasColumnType("text");
+
+                    b.Property<int>("CardState")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateOfAcceptingEnd")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateOfAuctionStart")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ExecutorId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Initiator")
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("LinkNames")
+                        .HasColumnType("text[]");
+
+                    b.Property<List<string>>("Links")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("StartSumm")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("State")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExecutorId");
+
+                    b.ToTable("HistoryOfVictoryAndLosing");
+                });
+
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
                 {
                     b.Property<string>("Id")
@@ -317,6 +377,9 @@ namespace WebStudio.Migrations
 
                     b.Property<float>("Amount")
                         .HasColumnType("real");
+
+                    b.Property<string>("CardCloneId")
+                        .HasColumnType("text");
 
                     b.Property<string>("CardId")
                         .HasColumnType("text");
@@ -353,6 +416,8 @@ namespace WebStudio.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CardCloneId");
+
                     b.HasIndex("CardId");
 
                     b.ToTable("Positions");
@@ -385,6 +450,29 @@ namespace WebStudio.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.FileModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("CardId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Request", b =>
@@ -561,8 +649,21 @@ namespace WebStudio.Migrations
                     b.Navigation("Executor");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.CardClone", b =>
+                {
+                    b.HasOne("WebStudio.Models.User", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+
+                    b.Navigation("Executor");
+                });
+
             modelBuilder.Entity("WebStudio.Models.CardPosition", b =>
                 {
+                    b.HasOne("WebStudio.Models.CardClone", null)
+                        .WithMany("Positions")
+                        .HasForeignKey("CardCloneId");
+
                     b.HasOne("WebStudio.Models.Card", "Card")
                         .WithMany("Positions")
                         .HasForeignKey("CardId");
@@ -583,6 +684,15 @@ namespace WebStudio.Migrations
                     b.Navigation("Card");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.FileModel", b =>
+                {
+                    b.HasOne("WebStudio.Models.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId");
+
+                    b.Navigation("Card");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Request", b =>
@@ -620,6 +730,11 @@ namespace WebStudio.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Positions");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.CardClone", b =>
+                {
                     b.Navigation("Positions");
                 });
 

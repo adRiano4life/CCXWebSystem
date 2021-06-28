@@ -25,32 +25,37 @@
                 <ul class="navbar-nav flex-grow-1">
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">Новые</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">Новые</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">В работе</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">В работе</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.ПКО">ПКО</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.ПКО">ПКО</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Удалена">Удалённые</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Торги">На торгах</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Suppliers" asp-action="Index">База поставщиков</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Удалена">Удалённые</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Запросы</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проигранна">Проигранные</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Выигранная">Выиграные</a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Участвовшие">БД карточек из торгов</a>
                     </li>
+                    
                     
                 </ul>
                 <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">

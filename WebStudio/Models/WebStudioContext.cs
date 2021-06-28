@@ -16,10 +16,13 @@ namespace WebStudio.Models
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<AuctionResult> AuctionResults { get; set; }
         public DbSet<SearchSupplier> SearchSuppliers { get; set; }
+        public DbSet<CardClone> HistoryOfVictoryAndLosing { get; set; }
+        public DbSet<FileModel> Files { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
         public WebStudioContext(DbContextOptions options) : base(options)
         {
+            
         }
         
         

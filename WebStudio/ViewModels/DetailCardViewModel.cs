@@ -10,5 +10,6 @@ namespace WebStudio.ViewModels
         public List<User> Users { get; set; }
         public string CardId { get; set; }
         public string UserId { get; set; }
+        public List<FileModel> FileModels { get; set; }
     }
 }

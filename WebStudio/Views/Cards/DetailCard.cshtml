@@ -31,13 +31,25 @@
 }
 @if (Model.Card.CardState == CardState.Торги)
 {
-  <div class="card-header bg-warning text-white">
+  <div class="card-header bg-warning text-dark">
     <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
   </div>
 }
 @if (Model.Card.CardState == CardState.ПКО)
 {
   <div class="card-header text-white" style="background-color: #78866b">
+    <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+  </div>
+}
+@if (Model.Card.CardState == CardState.Проигранна)
+{
+  <div class="card-header text-white bg-dark">
+    <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+  </div>
+}
+@if (Model.Card.CardState == CardState.Выигранная)
+{
+  <div class="card-header text-white bg-info">
     <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
   </div>
 }
@@ -51,28 +63,44 @@
   <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
   <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
   <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
-  <p class="card-text mb-4" id="lin">
-          
-    @for (int i = 0; i < Model.Card.Links.Count; i++)
-    {
-      if (Model.Card.LinkNames[i].Contains(".xlsx"))
+<p class="card-text mb-4" id="lin">
+  <div class="row ml-0">
+    <div class="mr-5">
+      @for (int i = 0; i < Model.Card.Links.Count; i++)
       {
-        <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        if (Model.Card.LinkNames[i].Contains(".xlsx"))
+        {
+          <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
+        else if (Model.Card.LinkNames[i].Contains(".docx"))
+        {
+          <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
+        else if (Model.Card.LinkNames[i].Contains(".pdf"))
+        {
+          <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
+        else if (Model.Card.LinkNames[i].Contains(".jpg"))
+        {
+          <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        }
       }
-      else if (Model.Card.LinkNames[i].Contains(".docx"))
+    </div>
+      
+    <div class="d-flex align-items-baseline">
+      @if (Model.Card.CardState == CardState.Выигранная || Model.Card.CardState == CardState.Активна && Model.FileModels.Count != 0)
       {
-        <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+        <div>
+          @foreach (var file in Model.FileModels)
+          {
+            <a href="@file.Path">@file.Name</a><br>
+          }
+        </div>
       }
-      else if (Model.Card.LinkNames[i].Contains(".pdf"))
-      {
-        <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-      else if (Model.Card.LinkNames[i].Contains(".jpg"))
-      {
-        <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
-      }
-    }
-  </p>
+    </div>
+  </div>
+</p>
+
         
   @if (Model.Card.Positions.Count() > 0)
   {
@@ -358,6 +386,23 @@
   @if (Model.Card.CardState == CardState.Торги)
   {
     <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
+    <div class="row ml-0">
+      
+      <div class="mr-2">
+        <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Проигранна" method="post">
+          <label>Введите предлагаемую цену: </label><br>
+          <input name="bid" type="number" placeholder="Цена">
+          <input type="submit" value="Проиграна">
+        </form>
+      </div>
+      
+    <div class="d-flex align-items-end">
+      <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Выиграна" method="post">
+        <input type="submit" value="Выйграна">
+      </form>
+      </div>
+    </div>
+    
                                                                                                      <div class="form-group mt-4">
     <h6>Комментарии:</h6>
     <table class="table table-borderless">
@@ -493,7 +538,37 @@
       </div>
     }
     
+    
   }
+
+  @if (Model.Card.CardState == CardState.Проигранна)
+  {
+    <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-white">@Model.Card.CardState</span></p>
+    <h4 class="text-danger">Предложенная цена @Model.Card.Bidding тг.</h4>
+  }
+  
+  @if (Model.Card.CardState == CardState.Выигранная)
+    {
+      <p class="card-text mb-2 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
+      <div class="row ml-0">
+        
+        <div class="mr-3">
+          <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
+            <input class="mb-2" type="file" name="uploads"/><br>
+            <input class="mb-2" type="file" name="uploads"/><br>
+            <input class="mb-2" type="file" name="uploads"/><br>
+            <input type="submit" value="Загрузить"/>
+          </form>
+        </div>
+        
+        <div class="d-flex align-items-end">
+          <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Активна" method="post">
+            <input type="submit" value="Активна">
+          </form>
+        </div>
+      </div>
+    }
+
 </div>
 </div>
 </div>
@@ -507,12 +582,10 @@
     /////////////////////////////////Анимация с тенью карточек////////////////////////////////
     function link(cardId){
          $('#card-' + cardId).addClass('shadow')
-         console.log(cardId)
-    }
+     }
         
     function linkStr(cardId){
         $('#card-' + cardId).removeClass('shadow')
-        console.log(cardId)
     }
         
   </script>
