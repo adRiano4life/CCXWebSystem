@@ -62,12 +62,6 @@ namespace WebStudio.Services
             };
             try
             {
-                // using var client = new SmtpClient();
-                // client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                // client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
-                // client.AuthenticateAsync("test@rdprom.kz", "QWEqwe123");
-                // client.SendAsync(emailMessage);
-                // client.DisconnectAsync(true);
                 TryingSendMessage(emailMessage);
                 return true;
             }
@@ -75,7 +69,6 @@ namespace WebStudio.Services
             {
                 Console.WriteLine(ex.Message);
             }
-
             return false;
         }
 
