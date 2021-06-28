@@ -23,13 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
       <Folder Include="wwwroot\Files\Requests" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Migrations\WebStudioContextModelSnapshot.cs" />
       <Compile Remove="Migrations\20210604090656_Initial.cs" />
       <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.cs" />

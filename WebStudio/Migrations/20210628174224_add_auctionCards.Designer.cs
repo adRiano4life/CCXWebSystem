@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210628154053_initial")]
-    partial class initial
+    [Migration("20210628174224_add_auctionCards")]
+    partial class add_auctionCards
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

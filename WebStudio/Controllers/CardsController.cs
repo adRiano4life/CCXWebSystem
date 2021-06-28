@@ -428,18 +428,21 @@ namespace WebStudio.Controllers
        [Authorize]
        public async Task<IActionResult> Comment(DetailCardViewModel model)
        {
-           Comment comment = new Comment
+           if (model.Comment.Message != null)
            {
-               Message = model.Comment.Message,
-               DateOfSend = DateTime.Now,
-               CardId = model.Comment.CardId,
-               Card = _db.Cards.FirstOrDefault(c => c.Id == model.Comment.CardId),
-               UserId = model.Comment.UserId,
-               User = await _userManager.FindByIdAsync(model.Comment.UserId)
-           };
-
-           await _db.Comments.AddAsync(comment);
-           await _db.SaveChangesAsync();
+               Comment comment = new Comment
+               {
+                   Message = model.Comment.Message,
+                   DateOfSend = DateTime.Now,
+                   CardId = model.Comment.CardId,
+                   Card = _db.Cards.FirstOrDefault(c => c.Id == model.Comment.CardId),
+                   UserId = model.Comment.UserId,
+                   User = await _userManager.FindByIdAsync(model.Comment.UserId)
+               };
+               await _db.Comments.AddAsync(comment);
+               await _db.SaveChangesAsync();
+           }
+           
            return RedirectToAction("DetailCard", "Cards", new {cardId = model.Comment.CardId});
        }
 
