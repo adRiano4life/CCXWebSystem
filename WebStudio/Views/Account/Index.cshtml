@@ -6,9 +6,18 @@
 @{
     ViewBag.Title = "Личный кабинет";
     Layout = "_Layout";
+    // var lockIcon = "<i class=\"fas fa-lock\"></i>";
+    // var unlockIcon = "<i class=\"fas fa-lock-open\"></i>";
 }
 
 <h2 class="display-4">Личный кабинет</h2>
+@if (Model.User.LockoutEnabled == true)
+{
+    <p>Ваша учетная запись заблокирована</p>
+}
+else
+{
+    
 <div class="card my-3 col-lg-12 shadow">
     <div class="row no-gutters">
         <div class="col-lg-4 mt-3 mb-3 align-items-baseline">
@@ -60,28 +69,61 @@
             {
                 <tr>
                     <th><img src="@user.AvatarPath" style="width: 80px; height: auto;"></th>
-                    <td class="lead">@user.Surname @user.Name</td>
+                    <td class="lead py-auto">@user.Surname &#160
+                        @if (user.LockoutEnabled == false)
+                        {
+                            <i class="fas fa-lock-open text-secondary font-13"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-lock text-secondary font-13"></i>
+                        }
+                        </td>
                     <td class="lead">@user.Email</td>
                     <td class="lead">@user.PhoneNumber</td>
                     <td class="lead">
                         @if (user.Name != "admin" && user.Id != UserManager.GetUserId(User))
                         {
-                            @if (user.RoleDisplay == "user")
-                            {
-                                <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="admin" method="post">
-                                    <input type="submit" value="Назначить руководителем" class="btn btn-outline-primary">
-                                </form>
-                            }
-                            @if (user.RoleDisplay == "admin")
-                            {
-                                <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="user" method="post">
-                                    <input type="submit" value="Убрать из руководителей" class="btn btn-outline-danger mt-2">
-                                </form>
-                            }
+                            <span class="">
+                                @if (user.RoleDisplay == "user")
+                                {
+                                    <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="admin" method="post">
+                                        <input type="submit" value="Назначить руководителем" class="btn btn-outline-primary font-13 py-1">
+                                    </form>
+                                }
+                                @if (user.RoleDisplay == "admin")
+                                {
+                                    <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="user" method="post">
+                                        <input type="submit" value="Убрать из руководителей" class="btn btn-outline-danger font-13 py-1">
+                                    </form>
+                                }
+                            </span>
+                            
+                            
+                            <form method="post" asp-action="LockUser" asp-controller="Account" asp-route-userId="@user.Id" asp-route-adminId="@UserManager.GetUserId(User)">
+                                @if (@user.LockoutEnabled == false)
+                                {
+                                    <input type="submit" value="Деактивировать" class="btn btn-outline-primary font-13 mt-3 py-1">
+                                }
+                                else
+                                {
+                                    <input type="submit" value="Активировать" class="btn btn-outline-primary font-13 mt-3 py-1">
+                                }
+                            </form>
+                            
+                            // else
+                            // {
+                            //     <form method="post" asp-action="UnLockUser" asp-controller="Account" asp-route-userId="@user.Id" asp-route-adminId="@UserManager.GetUserId(User)">
+                            //         <input type="submit" value="Активировать" class="btn btn-outline-primary font-13 mt-3 py-1">
+                            //     </form>
+                            // }
+                            
                         }
                     </td>
                 </tr>    
             }
         </table>
     </div>    
+}
+
 }

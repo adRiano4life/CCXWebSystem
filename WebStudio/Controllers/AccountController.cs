@@ -154,6 +154,10 @@ namespace WebStudio.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByEmailAsync(model.Email);
+                if (user.LockoutEnabled)
+                {
+                    return View("ErrorLockedUser");
+                }
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
@@ -324,6 +328,46 @@ namespace WebStudio.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Cards");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LockUser(string userId, string adminId)
+        {
+            if(userId == null && adminId == null) return NotFound();
+
+            User user = _userManager.FindByIdAsync(userId).Result;
+
+            if (user == null) return NotFound();
+
+            if (user.LockoutEnabled == false)
+            {
+                user.LockoutEnabled = true;
+                user.LockoutEnd = DateTime.Now.AddYears(100);    
+            }
+            else
+            {
+                user.LockoutEnabled = false;
+                user.LockoutEnd = DateTime.Now.AddMinutes(-1);
+            }
+            
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Index", new {userId = adminId});
+        }
+        
+        
+        [HttpPost]
+        public async Task<IActionResult> UnLockUser(string userId, string adminId)
+        {
+            if(userId == null && adminId == null) return NotFound();
+
+            User user = _userManager.FindByIdAsync(userId).Result;
+
+            if (user == null) return NotFound();
+
+            user.LockoutEnabled = false;
+            user.LockoutEnd = DateTimeOffset.Now.AddMinutes(-1);
+            await _userManager.UpdateAsync(user);
+            return RedirectToAction("Index", new {userId = adminId});
         }
     }
 }
