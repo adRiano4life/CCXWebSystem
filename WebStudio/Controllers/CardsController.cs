@@ -358,6 +358,41 @@ namespace WebStudio.Controllers
             return View(cards.ToPagedList(pageNumber, pageSize));
         }
 
+       [HttpGet]
+       [Authorize]
+       public IActionResult AuctionCards(AuctionCardsViewModel model, string filterOrder, string executorName, int? page)
+       {
+           model.Cards = _db.HistoryOfVictoryAndLosing.ToList();
+           switch (filterOrder)
+           {
+               case "All":
+                   model.Cards = model.Cards;
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+               case "Number":
+                   model.Cards = model.Cards.OrderBy(c => c.Number).ToList();
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+               case "CardSummDesc":
+                   model.Cards = model.Cards.OrderByDescending(c => c.StartSumm).ToList();
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+               case "CardSummAsc":
+                   model.Cards = model.Cards.OrderBy(c => c.StartSumm).ToList();
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+           }
+
+           if (executorName != null)
+           {
+               model.Cards = model.Cards.Where(c => c.Executor.Name.Contains(model.ExecutorName) 
+                                                    || c.Executor.Surname.Contains(model.ExecutorName)).ToList();
+               ViewBag.executorName = executorName;
+           }
+
+           return View(model);
+       }
+
        [NonAction]
        private void SaveCloneCard(Card card)
        {

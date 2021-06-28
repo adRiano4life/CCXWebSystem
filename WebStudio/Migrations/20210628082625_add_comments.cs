@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class initial : Migration
+    public partial class add_comments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
