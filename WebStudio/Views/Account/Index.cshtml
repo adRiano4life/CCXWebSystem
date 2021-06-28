@@ -22,18 +22,22 @@
                 <p class="card-text">
                     @if (@User.IsInRole("admin"))
                     {
-                        <small class="text-muted">Роль: Руководитель</small>   
+                        <small class="text-muted">Роль: Руководитель</small>
                     }
                     @if (@User.IsInRole("user"))
                     {
-                        <small class="text-muted">Роль: Менеджер</small>   
+                        <small class="text-muted">Роль: Менеджер</small>
                     }
                 </p>
                 <p>
                     <a asp-controller="Account" asp-action="Edit" asp-route-userId="@Model.User.Id">Редактировать</a>
-                    <a asp-controller="Account" asp-action="ChangePassword" asp-route-userId="@Model.User.Id" 
+                    <a asp-controller="Account" asp-action="ChangePassword" asp-route-userId="@Model.User.Id"
                        class="ml-3">Изменить пароль</a>
                 </p>
+                @if (Model.User.EmailConfirmed == false)
+                {
+                    <p class="text-danger font-italic font-weight-bold">Для использования приложения активируйте свою учетную запись пройдя по ссылке, отправленной на вашу эл.почту</p>    
+                }
             </div>
         </div>
     </div>

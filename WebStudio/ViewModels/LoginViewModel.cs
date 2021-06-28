@@ -19,5 +19,7 @@ namespace WebStudio.ViewModels
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public string RepeatLinkForConfirmEmail { get; set; }
     }
 }

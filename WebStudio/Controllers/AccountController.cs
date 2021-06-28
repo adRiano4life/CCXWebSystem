@@ -96,18 +96,8 @@ namespace WebStudio.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new {token, email = user.Email},
-                        Request.Scheme);
-                    EmailService emailService = new EmailService();
-                    bool emailResponse = emailService.SendEmailAfterRegister(user.Email, confirmationLink);
-                
-                    if (emailResponse)
-                        return RedirectToAction("Index", new {userId = user.Id});
-                    else
-                    {
-                        // log email failed 
-                    }
+                    SendLinkForConfirmEmail(user.Email);
+                    return RedirectToAction("Index", new{userId = user.Id});
                 }
                 else
                 {
@@ -118,14 +108,34 @@ namespace WebStudio.Controllers
                 }
             }
             return View(model);
+            
         }
 
+        
+        public async Task<IActionResult> SendLinkForConfirmEmail(string email)
+        {
+            User user = _userManager.FindByEmailAsync(email).Result;
+            if (user == null) return Ok("Неверная  эл.почта");
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = Url.Action("ConfirmEmail", "Account", new {token, email = user.Email},
+                Request.Scheme);
+            EmailService emailService = new EmailService();
+            bool emailResponse = emailService.SendEmailAfterRegister(user.Email, confirmationLink);
+                
+            if (emailResponse)
+                return RedirectToAction("Index", new {userId = user.Id});
+            else
+            {
+                // log email failed
+            }
+            return View("Login");
+        }
 
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
             User user = _userManager.FindByEmailAsync(email).Result;
             if(user == null)
-                return View("Error");
+                return View("ErrorInConfirmEmail");
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
             return View(result.Succeeded ? "ConfirmEmail" : "ErrorInConfirmEmail");
@@ -151,7 +161,6 @@ namespace WebStudio.Controllers
                     {
                         return Redirect(model.ReturnUrl);
                     }
-
                     return RedirectToAction("Index", "Cards");
                 }
                 else
@@ -159,17 +168,15 @@ namespace WebStudio.Controllers
                     if (result.IsNotAllowed)
                     {
                         ModelState.AddModelError("", 
-                            "Учетная запись не активирована. Выполните подтверждение своего email");
+                            "Учетная запись не активирована. Эл.почта не подтверждена");
+                        model.RepeatLinkForConfirmEmail = "repeat";
                     }
                     else
                     {
                         ModelState.AddModelError("", "Неверный логин или пароль");    
                     }
                 }
-                
-
             }
-
             return View(model);
         }
 
