@@ -1,6 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core
 @using X.PagedList.Mvc.Bootstrap4.Core
-@model WebStudio.ViewModels.AuctionCardsViewModel
+@model X.PagedList.IPagedList<CardClone>
 
 @{
     ViewBag.Title = "База проведенных торгов";
@@ -45,7 +45,7 @@
                 <th scope="col">Статус</th>
             </tr>
             </thead>
-            @foreach (var card in Model.Cards)
+            @foreach (var card in Model)
             {
                 <tbody>
                 <tr>
@@ -60,4 +60,9 @@
             }
         </table>
     </div>
+</div>
+<p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
+<div class="row justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("AuctionCards", "Cards", 
+        new { page, filterOrder = ViewBag.filterOrder, executorName = ViewBag.executorName }), Bootstrap4PagedListRenderOptions.Classic)
 </div>

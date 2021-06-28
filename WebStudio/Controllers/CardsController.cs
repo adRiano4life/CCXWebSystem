@@ -389,8 +389,9 @@ namespace WebStudio.Controllers
                                                     || c.Executor.Surname.Contains(model.ExecutorName)).ToList();
                ViewBag.executorName = executorName;
            }
-
-           return View(model);
+           int pageSize = 20;
+           int pageNumber = (page ?? 1);
+           return View(model.Cards.ToPagedList(pageNumber, pageSize));
        }
 
        [NonAction]
