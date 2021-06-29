@@ -8,8 +8,8 @@
     int workCard = Model.Where(c => c.CardState == CardState.Проработка).Count();
     int PKOCard = Model.Where(c => c.CardState == CardState.ПКО).Count();
     int AuctionCard = Model.Where(c => c.CardState == CardState.Торги).Count();
-    int WinCard = Model.Where(c => c.CardState == CardState.Выигранная).Count();
-    int LoseCard = Model.Where(c => c.CardState == CardState.Проигранна).Count();
+    int WinCard = Model.Where(c => c.CardState == CardState.Выиграна).Count();
+    int LoseCard = Model.Where(c => c.CardState == CardState.Проиграна).Count();
     int ActiveCard = Model.Where(c => c.CardState == CardState.Активна).Count();
     int DelCard = Model.Where(c => c.CardState == CardState.Удалена).Count();
     
