@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\Files\Requests" />
+      <Folder Include="wwwroot\Files\T-0090837" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>
 

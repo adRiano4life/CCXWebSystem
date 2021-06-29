@@ -110,6 +110,14 @@ body {
   width: 150px;
 }
 
+.bg-lightcoral{
+  background-color: lightcoral;
+}
+
+.bg-violet{
+  background-color: darkviolet;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
