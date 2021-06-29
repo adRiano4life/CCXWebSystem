@@ -323,6 +323,7 @@ namespace WebStudio.Controllers
             return NotFound();
         }
 
+        
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -330,14 +331,16 @@ namespace WebStudio.Controllers
             return RedirectToAction("Index", "Cards");
         }
 
+        
         [HttpPost]
-        public async Task<IActionResult> LockUser(string userId, string adminId)
+        public async Task<IActionResult> LockOrUnlockUser(string userId, string adminId)
         {
-            if(userId == null && adminId == null) return NotFound();
+            if(userId == null || adminId == null) return NotFound();
 
             User user = _userManager.FindByIdAsync(userId).Result;
+            User admin = _userManager.FindByIdAsync(adminId).Result;
 
-            if (user == null) return NotFound();
+            if (user == null || admin == null) return NotFound();
 
             if (user.LockoutEnabled == false)
             {
@@ -355,19 +358,5 @@ namespace WebStudio.Controllers
         }
         
         
-        [HttpPost]
-        public async Task<IActionResult> UnLockUser(string userId, string adminId)
-        {
-            if(userId == null && adminId == null) return NotFound();
-
-            User user = _userManager.FindByIdAsync(userId).Result;
-
-            if (user == null) return NotFound();
-
-            user.LockoutEnabled = false;
-            user.LockoutEnd = DateTimeOffset.Now.AddMinutes(-1);
-            await _userManager.UpdateAsync(user);
-            return RedirectToAction("Index", new {userId = adminId});
-        }
     }
 }

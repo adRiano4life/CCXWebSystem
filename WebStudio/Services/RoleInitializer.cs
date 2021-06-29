@@ -40,7 +40,8 @@ namespace WebStudio.Services
                     Name = "admin",
                     Surname = "admin",
                     AvatarPath = avatarPath,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
                 };
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
@@ -59,7 +60,8 @@ namespace WebStudio.Services
                     Surname = "Торрето",
                     AvatarPath = avatarPath,
                     RoleDisplay = "user",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
                 };
                 var userResult = await userManager.CreateAsync(user, userPassword);
                 if (userResult.Succeeded)
@@ -78,7 +80,8 @@ namespace WebStudio.Services
                     Surname = "ОКоннер",
                     AvatarPath = avatarPath,
                     RoleDisplay = "user",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
                 };
                 var userResult = await userManager.CreateAsync(user, userPassword);
                 if (userResult.Succeeded)
@@ -97,7 +100,8 @@ namespace WebStudio.Services
                     Surname = "Сантос",
                     AvatarPath = avatarPath,
                     RoleDisplay = "user",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
                 };
                 var userResult = await userManager.CreateAsync(user, userPassword);
                 if (userResult.Succeeded)
@@ -107,6 +111,10 @@ namespace WebStudio.Services
             }
         }
         
-        
+        /*
+         UPDATE "AspNetUsers"
+         SET "LockoutEnabled" = false
+         WHERE "Name" like 'admin';
+         */
     }
 }
