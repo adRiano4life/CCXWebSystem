@@ -37,35 +37,31 @@ namespace WebStudio.Controllers
         public IActionResult Index(RequestIndexViewModel model, string filterOrder)
         {
             model.Requests = _db.Requests.ToList();
-
-            if (filterOrder == "DateOfCreate")
+            switch (filterOrder)
             {
-                model.Requests = model.Requests
-                    .Where(r => r.DateOfCreate >= model.DateFrom && r.DateOfCreate <= model.DateTo)
-                    .OrderBy(r=>r.DateOfCreate).ToList();
-            }
-
-            if (filterOrder == "DateOfAcceptingEnd")
-            {
-                model.Requests = model.Requests
-                    .Where(r => r.Card.DateOfAcceptingEnd >= model.DateFrom &&
-                                r.Card.DateOfAcceptingEnd <= model.DateTo)
-                    .OrderBy(r => r.Card.DateOfAcceptingEnd).ToList();
-            }
-
-            if (filterOrder == "DateOfAuctionStart")
-            {
-                model.Requests = model.Requests
-                    .Where(r => r.Card.DateOfAuctionStart >= model.DateFrom &&
-                                r.Card.DateOfAuctionStart <= model.DateTo)
-                    .OrderBy(r => r.Card.DateOfAuctionStart).ToList();
+                case "DateOfCreate":
+                    model.Requests = model.Requests
+                        .Where(r => r.DateOfCreate >= model.DateFrom && r.DateOfCreate <= model.DateTo)
+                        .OrderBy(r=>r.DateOfCreate).ToList();
+                    break;
+                case "DateOfAcceptingEnd":
+                    model.Requests = model.Requests
+                        .Where(r => r.Card.DateOfAcceptingEnd >= model.DateFrom &&
+                                    r.Card.DateOfAcceptingEnd <= model.DateTo)
+                        .OrderBy(r => r.Card.DateOfAcceptingEnd).ToList();
+                    break;
+                case "DateOfAuctionStart":
+                    model.Requests = model.Requests
+                        .Where(r => r.Card.DateOfAuctionStart >= model.DateFrom &&
+                                    r.Card.DateOfAuctionStart <= model.DateTo)
+                        .OrderBy(r => r.Card.DateOfAuctionStart).ToList();
+                    break;
             }
 
             if (model.ExecutorName != null)
             {
-                model.ExecutorName = model.ExecutorName.ToLower();
-                model.Requests = (IOrderedQueryable<Request>) model.Requests.Where(r =>
-                    r.Card.Executor.Surname.Contains(model.ExecutorName));
+                model.Requests = model.Requests.Where(r =>
+                    r.Card.Executor.Surname.Contains(model.ExecutorName)).ToList();
             }
             
             return View(model);

@@ -105,8 +105,9 @@ namespace EZParser
                      {
                          Number = cardNumber2, Name = cardName2, StartSumm = 0,
                          DateOfAcceptingEnd = DateTime.Now, DateOfAuctionStart = DateTime.Now,
-                         CardState = CardState.Новая,  ExecutorId = null,
-                         Links = new List<string>(), LinkNames = new List<string>()
+                         CardState = CardState.Проигранна,  ExecutorId = null,
+                         Links = new List<string>(), LinkNames = new List<string>(),
+                         Bidding = 5000000
                      };
                      _db.Cards.Add(fakeCard2);
                      _db.SaveChanges();    

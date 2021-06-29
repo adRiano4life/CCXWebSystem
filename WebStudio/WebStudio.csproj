@@ -19,20 +19,32 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Nodes\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\T-0090805\1 типовая форма.docx" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
       <Folder Include="wwwroot\Files\Requests" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Migrations\WebStudioContextModelSnapshot.cs" />
       <Compile Remove="Migrations\20210604090656_Initial.cs" />
       <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
+      <Compile Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Migrations\**" />
     </ItemGroup>
 
 </Project>

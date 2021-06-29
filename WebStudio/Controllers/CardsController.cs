@@ -196,6 +196,7 @@ namespace WebStudio.Controllers
             return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
         }
         
+        
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFileCollection uploads, string cardId)
         {
@@ -358,6 +359,42 @@ namespace WebStudio.Controllers
             return View(cards.ToPagedList(pageNumber, pageSize));
         }
 
+       [HttpGet]
+       [Authorize]
+       public IActionResult AuctionCards(AuctionCardsViewModel model, string filterOrder, string executorName, int? page)
+       {
+           model.Cards = _db.HistoryOfVictoryAndLosing.ToList();
+           switch (filterOrder)
+           {
+               case "All":
+                   model.Cards = model.Cards;
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+               case "Number":
+                   model.Cards = model.Cards.OrderBy(c => c.Number).ToList();
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+               case "CardSummDesc":
+                   model.Cards = model.Cards.OrderByDescending(c => c.StartSumm).ToList();
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+               case "CardSummAsc":
+                   model.Cards = model.Cards.OrderBy(c => c.StartSumm).ToList();
+                   ViewBag.filterOrder = filterOrder;
+                   break;
+           }
+
+           if (executorName != null)
+           {
+               model.Cards = model.Cards.Where(c => c.Executor.Name.Contains(model.ExecutorName) 
+                                                    || c.Executor.Surname.Contains(model.ExecutorName)).ToList();
+               ViewBag.executorName = executorName;
+           }
+           int pageSize = 20;
+           int pageNumber = (page ?? 1);
+           return View(model.Cards.ToPagedList(pageNumber, pageSize));
+       }
+
        [NonAction]
        private void SaveCloneCard(Card card)
        {
@@ -391,18 +428,21 @@ namespace WebStudio.Controllers
        [Authorize]
        public async Task<IActionResult> Comment(DetailCardViewModel model)
        {
-           Comment comment = new Comment
+           if (model.Comment.Message != null)
            {
-               Message = model.Comment.Message,
-               DateOfSend = DateTime.Now,
-               CardId = model.Comment.CardId,
-               Card = _db.Cards.FirstOrDefault(c => c.Id == model.Comment.CardId),
-               UserId = model.Comment.UserId,
-               User = await _userManager.FindByIdAsync(model.Comment.UserId)
-           };
-
-           await _db.Comments.AddAsync(comment);
-           await _db.SaveChangesAsync();
+               Comment comment = new Comment
+               {
+                   Message = model.Comment.Message,
+                   DateOfSend = DateTime.Now,
+                   CardId = model.Comment.CardId,
+                   Card = _db.Cards.FirstOrDefault(c => c.Id == model.Comment.CardId),
+                   UserId = model.Comment.UserId,
+                   User = await _userManager.FindByIdAsync(model.Comment.UserId)
+               };
+               await _db.Comments.AddAsync(comment);
+               await _db.SaveChangesAsync();
+           }
+           
            return RedirectToAction("DetailCard", "Cards", new {cardId = model.Comment.CardId});
        }
 

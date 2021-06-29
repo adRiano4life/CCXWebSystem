@@ -50,6 +50,7 @@
         <div class="m-3">
           <label class="control-label">Фильтровать по </label>
           <select name="filterOrder" id="filterOrder">
+            <option value="">По умолчанию</option>
             <option value="DateOfCreate">Дате создания запроса</option>
             <option value="DateOfAcceptingEnd">Дате окончания приема заявок</option>
             <option value="DateOfAuctionStart">Дате начала проведения торгов</option>
@@ -57,11 +58,11 @@
         </div>
         <div class="m-3">
           <label class="control-label">От</label>
-          <input type="date" asp-for="DateFrom">
+          <input type="date" value="" asp-for="DateFrom">
         </div>
         <div class="m-3">
           <label class="control-label">До</label>
-          <input type="date" asp-for="DateTo">
+          <input type="date" value="" asp-for="DateTo">
         </div>
         <div class="m-3">
           <label class="control-label">Фильтровать по исполнителю</label>
