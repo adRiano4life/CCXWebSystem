@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "Личный кабинет";
     Layout = "_Layout";
+    var isLocked = "";
 }
 
 <h2 class="display-4">Личный кабинет</h2>
@@ -61,7 +62,7 @@
             {
                 <tr>
                     <th><img src="@user.AvatarPath" style="width: 80px; height: auto;"></th>
-                    <td class="lead py-auto">@user.Surname &#160
+                    <td class="lead py-auto">@user.Surname @user.Name &#160
                         @if (user.LockoutEnabled == false)
                         {
                             <i class="fas fa-lock-open text-secondary font-13"></i>
@@ -76,7 +77,6 @@
                     <td class="lead">
                         @if (user.Name != "admin" && user.Id != UserManager.GetUserId(User))
                         {
-                            <span class="">
                                 @if (user.RoleDisplay == "user")
                                 {
                                     <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="admin" method="post">
@@ -89,18 +89,9 @@
                                         <input type="submit" value="Убрать из руководителей" class="btn btn-outline-danger font-13 py-1">
                                     </form>
                                 }
-                            </span>
-                            
                             
                             <form method="post" asp-action="LockOrUnlockUser" asp-controller="Account" asp-route-userId="@user.Id" asp-route-adminId="@UserManager.GetUserId(User)">
-                                @if (@user.LockoutEnabled == false)
-                                {
-                                    <input type="submit" value="Деактивировать" class="btn btn-outline-primary font-13 mt-3 py-1">
-                                }
-                                else
-                                {
-                                    <input type="submit" value="Активировать" class="btn btn-outline-primary font-13 mt-3 py-1">
-                                }
+                                <input type="submit" value=@(isLocked = @user.LockoutEnabled == false ? "Деактивировать" : "Активировать") class="btn btn-outline-primary font-13 mt-3 py-1">
                             </form>
                         }
                     </td>

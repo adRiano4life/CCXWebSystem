@@ -172,7 +172,7 @@ namespace WebStudio.Controllers
                     if (result.IsNotAllowed)
                     {
                         ModelState.AddModelError("", 
-                            "Учетная запись не активирована. Эл.почта не подтверждена");
+                            "Вход возможен после подтверждения вашей эл.почты");
                         model.RepeatLinkForConfirmEmail = "repeat";
                     }
                     else
