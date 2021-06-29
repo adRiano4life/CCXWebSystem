@@ -155,7 +155,6 @@ namespace WebStudio.Controllers
             if (cardId != null)
             {
                 Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-                Card cardClone = new Card();
                 if (card != null)
                 {
                     switch (cardState)
@@ -172,19 +171,23 @@ namespace WebStudio.Controllers
                             card.CardState = CardState.Удалена;
                             break;
                         
-                        case "Проигранна":
-                            card.CardState = CardState.Проигранна;
+                        case "Проиграна":
+                            card.CardState = CardState.Проиграна;
                             card.Bidding = bid;
                             SaveCloneCard(card);
                             break;
                         
                         case "Выиграна":
-                            card.CardState = CardState.Выигранная;
+                            card.CardState = CardState.Выиграна;
                             SaveCloneCard(card);
                             break;
                         
                         case "Активна":
                             card.CardState = CardState.Активна;
+                            break;
+                        
+                        case "Закрыта":
+                            card.CardState = CardState.Закрыта;
                             break;
                     }
 
@@ -267,14 +270,14 @@ namespace WebStudio.Controllers
                     ViewBag.sort = CardState.Торги;
                     break;
                 
-                case CardState.Выигранная: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Выигранная).ToList();
-                    ViewBag.sort = CardState.Выигранная;
+                case CardState.Выиграна: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Выиграна).ToList();
+                    ViewBag.sort = CardState.Выиграна;
                     break;
                 
-                case CardState.Проигранна: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Проигранна).ToList();
-                    ViewBag.sort = CardState.Проигранна;
+                case CardState.Проиграна: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Проиграна).ToList();
+                    ViewBag.sort = CardState.Проиграна;
                     break;
                 
                 case CardState.ПКО: 
@@ -323,7 +326,7 @@ namespace WebStudio.Controllers
             switch (sort)
             {
                 case CardState.Участвовшие: 
-                    cards = _db.HistoryOfVictoryAndLosing.Where(c => c.CardState == CardState.Выигранная || c.CardState == CardState.Проигранна).ToList();
+                    cards = _db.HistoryOfVictoryAndLosing.Where(c => c.CardState == CardState.Выиграна || c.CardState == CardState.Проиграна).ToList();
                     ViewBag.sort = CardState.Участвовшие;
                     break;
             }
