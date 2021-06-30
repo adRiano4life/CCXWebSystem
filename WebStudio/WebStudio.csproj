@@ -23,6 +23,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="wwwroot\Files\T-0090879" />
+      <Folder Include="wwwroot\Files\T-0090880" />
+      <Folder Include="wwwroot\Files\T-0090885" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>
 

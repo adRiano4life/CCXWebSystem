@@ -265,6 +265,11 @@ namespace WebStudio.Controllers
                     ViewBag.sort = CardState.Проработка;
                     break;
                 
+                case CardState.ПКО: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
+                    ViewBag.sort = CardState.ПКО;
+                    break;
+                
                 case CardState.Торги: 
                     cards = _db.Cards.Where(c => c.CardState == CardState.Торги).ToList();
                     ViewBag.sort = CardState.Торги;
@@ -280,9 +285,14 @@ namespace WebStudio.Controllers
                     ViewBag.sort = CardState.Проиграна;
                     break;
                 
-                case CardState.ПКО: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
-                    ViewBag.sort = CardState.ПКО;
+                case CardState.Активна: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Активна).ToList();
+                    ViewBag.sort = CardState.Активна;
+                    break;
+                
+                case CardState.Закрыта: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Закрыта).ToList();
+                    ViewBag.sort = CardState.Закрыта;
                     break;
             }
 
@@ -325,9 +335,9 @@ namespace WebStudio.Controllers
             
             switch (sort)
             {
-                case CardState.Участвовшие: 
+                case CardState.Участвовашие: 
                     cards = _db.HistoryOfVictoryAndLosing.Where(c => c.CardState == CardState.Выиграна || c.CardState == CardState.Проиграна).ToList();
-                    ViewBag.sort = CardState.Участвовшие;
+                    ViewBag.sort = CardState.Участвовашие;
                     break;
             }
 
