@@ -31,19 +31,6 @@
       <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
-      <Compile Remove="Migrations\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="Migrations\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Migrations\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Remove="Migrations\**" />
     </ItemGroup>
 
 </Project>

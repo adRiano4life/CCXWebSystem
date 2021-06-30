@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class init : Migration
+    public partial class copmlete_cardState : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

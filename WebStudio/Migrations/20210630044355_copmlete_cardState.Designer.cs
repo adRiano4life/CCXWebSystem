@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210628185157_init")]
-    partial class init
+    [Migration("20210630044355_copmlete_cardState")]
+    partial class copmlete_cardState
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
