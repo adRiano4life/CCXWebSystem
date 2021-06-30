@@ -184,6 +184,7 @@ namespace WebStudio.Controllers
             string supplierPhone, string supplierAddress, string supplierTags, string supplierCardId)
         {
             List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
+            Card card = _db.Cards.FirstOrDefault(c => c.Id == supplierCardId);
             Supplier supplier = new Supplier
             {
                 Name = supplierName,
@@ -208,7 +209,7 @@ namespace WebStudio.Controllers
             await _db.Suppliers.AddAsync(supplier);
             await _db.SearchSuppliers.AddAsync(searchSupplier);
             await _db.SaveChangesAsync();
-            return Json(searchSupplier);
+            return PartialView("SuppliersAddPartialView",searchSupplier.Card);
         }
        
     }

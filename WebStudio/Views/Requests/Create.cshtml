@@ -35,41 +35,43 @@
             {
                 <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
             }
+            <div id="suppliersTablePartial"></div>
             @if (_db.SearchSuppliers.Count() != 0)
             {
-                <table class="table" style="font-size: 12px;">
-                    <tr>
-                        <th>Наименование</th>
-                        <th>Email</th>
-                        <th>Тэги</th>
-                        <th>Действие</th>
-                    </tr>
-                    @foreach (var supplier in _db.SearchSuppliers)
-                    {
-                        if (supplier.CardId == Model.Card.Id)
+                <div id="suppliersTable">
+                    <table class="table" style="font-size: 12px;">
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Email</th>
+                            <th>Тэги</th>
+                            <th>Действие</th>
+                        </tr>
+                        @foreach (var supplier in _db.SearchSuppliers)
                         {
-                            <tr>
-                                <td>@supplier.Name</td>
-                                <td>@supplier.Email</td>
-                                <td>
-                                    
-                                    @foreach (var tag in @supplier.Tags)
-                                    {
-                                        @(tag + " ")
-                                    }
-                                </td>
-                                <td>
-                                    <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
-                                    <input type="hidden" id="supplierRemoveCardId" value="@Model.Card.Id">
-                                    <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierAjax('@supplier.Id')">
-                                        <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            if (supplier.CardId == Model.Card.Id)
+                            {
+                                <tr>
+                                    <td>@supplier.Name</td>
+                                    <td>@supplier.Email</td>
+                                    <td>
+                                                        
+                                        @foreach (var tag in @supplier.Tags)
+                                        {
+                                            @(tag + " ")
+                                        }
+                                    </td>
+                                    <td>
+                                        <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
+                                        <input type="hidden" id="supplierRemoveCardId" value="@Model.Card.Id">
+                                        <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierAjax('@supplier.Id')">
+                                            <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
                         }
-                    }
-                </table>
-                
+                    </table>
+                </div>
                 if (_db.SearchSuppliers.All(s=>s.Card.Id != Model.Card.Id))
                 {
                     <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
@@ -108,9 +110,7 @@
                                 <td>@position.DeliveryTerms</td>
                             </tr>
                         }
-                        <div id="newPosition">
-
-                        </div>
+                        <div id="newPosition"></div>
                     </table>
                 }
                 <div class="form-group ml-3">
@@ -284,7 +284,8 @@
                     'deliveryTerms' : deliveryTerms
                 },
                 success : function (data){
-                    $('#newPosition').append('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
+                    //$('#newPosition').append('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
+                    //$('#newPosition').append(data)
                     console.log(data);
                 }
             });
@@ -309,16 +310,18 @@
                 },
                 success : function (data){
                     $('#suppliersNull').hide();
-                    for (var i = 0; i < data.length; i++)
+                    $('#suppliersTablePartial').html(data);
+                    console.log(data)
+                    /*for (var i = 0; i < data.length; i++)
                         {
                             $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
                             console.log(data[i])
-                        }
+                        }*/
                 }
             });
-            setTimeout(function (){
+/*            setTimeout(function (){
                 location.reload();
-            }, 250);
+            }, 250);*/
         }
         
         function AddSupplierAjax(){
@@ -343,7 +346,7 @@
                 },
                 success : function (data){
                     $('#suppliersNull').hide();
-                    $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
+                    $('#suppliersTablePartial').html(data);
                 }
             });
             $('#supplierAddForm').hide();
