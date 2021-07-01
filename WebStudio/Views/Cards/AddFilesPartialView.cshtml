@@ -1,0 +1,17 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+
+<div class="mr-3">
+    <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
+        <label class="font-weight-bold">Прикрепить файл:</label>
+        <div class="form-group">
+            <input class="mb-2" type="file" name="uploads"/>
+        </div>
+        <div class="form-group">
+            <input class="mb-2" type="file" name="uploads"/>
+        </div>
+        <div class="form-group">
+            <input class="mb-1" type="file" name="uploads"/>
+        </div>
+        <button class="btn btn-outline-info shadow" type="submit"><i class="fas fa-upload"></i> Загрузить</button>
+    </form>
+</div>

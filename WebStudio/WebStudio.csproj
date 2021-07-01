@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MailKit" Version="2.12.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
         <PrivateAssets>all</PrivateAssets>
@@ -13,7 +14,26 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.6" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.6" />
       <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="8.0.7.1" />
-      <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
+      <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Nodes\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\Files\T-0090805\1 типовая форма.docx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\Files\T-0090879" />
+      <Folder Include="wwwroot\Files\T-0090880" />
+      <Folder Include="wwwroot\Files\T-0090885" />
+      <Folder Include="wwwroot\Images\Avatars" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Migrations\20210604090656_Initial.cs" />
+      <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
+      <Compile Remove="Migrations\20210614082416_Initial.cs" />
+      <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
     </ItemGroup>
 
 </Project>

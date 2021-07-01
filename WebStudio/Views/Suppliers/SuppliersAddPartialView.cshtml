@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@model Card
+@inject UserManager<User> UserManager
+@inject WebStudioContext _db
+
+<table class="table" style="font-size: 12px;">
+    <tr>
+        <th>Наименование</th>
+        <th>Email</th>
+        <th>Тэги</th>
+        <th>Действие</th>
+    </tr>
+    @foreach (var supplier in _db.SearchSuppliers)
+    {
+        if (supplier.CardId == Model.Id)
+        {
+            <tr>
+                <td>@supplier.Name</td>
+                <td>@supplier.Email</td>
+                <td>
+                                    
+                    @foreach (var tag in @supplier.Tags)
+                    {
+                        @(tag + " ")
+                    }
+                </td>
+                <td>
+                    <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
+                    <input type="hidden" id="supplierRemoveCardId" value="@Model.Id">
+                    <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierAjax('@supplier.Id')">
+                        <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+@section Scripts
+{
+    <script >
+        function RemoveSupplierAjax(supplierRemoveId){
+            var supplierId = $('#supplierId-' + supplierRemoveId).val();
+            var supplierRemoveCardId = $('#supplierRemoveCardId').val();
+            $.ajax({
+                url : '@Url.Action("RemoveSupplierAjax", "Requests")',
+                type : 'GET',
+                data : {
+                    'supplierId' : supplierId,
+                    'supplierRemoveCardId' : supplierRemoveCardId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    for (var i = 0; i < data.length; i++)
+                          {
+                              $('#suppliers').append('<p>' + data[i].name + '</p>')
+                              console.log(data[i])
+                          }
+                      console.log(data)
+                  },
+            });
+            setTimeout(function (){
+                location.reload();
+            }, 250);
+        }
+    </script>
+}

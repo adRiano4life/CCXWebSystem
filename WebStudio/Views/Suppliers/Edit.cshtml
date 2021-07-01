@@ -1,0 +1,58 @@
+﻿@model WebStudio.ViewModels.CreateSupplierViewModel
+
+@{
+    ViewBag.Title = "Редактирование поставщика";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 pt-3 pb-4 shadow">
+        <h4 class="my-4">@ViewBag.Title</h4>
+        <form asp-controller="Suppliers" asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="Id" value="@Model.Id">
+            <div class="form-group">
+                <label asp-for="Name">Название:</label>
+                <span asp-validation-for="Name"></span><br>
+                <input asp-for="Name" class="form-control" value="@Model.Name">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email:</label>
+                <span asp-validation-for="Email"></span><br>
+                <input asp-for="Email" class="form-control" value="@Model.Email">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Website">Сайт:</label>
+                <span asp-validation-for="Website"></span><br>
+                <input asp-for="Website" class="form-control" value="@Model.Website">
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Телефон:</label>
+                <span asp-validation-for="PhoneNumber"></span><br>
+                <input asp-for="PhoneNumber" class="form-control" value="@Model.PhoneNumber">
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Address">Адрес:</label>
+                <span asp-validation-for="Address"></span><br>
+                <input asp-for="Address" class="form-control" value="@Model.Address">
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Tags">Тэги:</label>
+                <span asp-validation-for="Tags"></span><br>
+                <textarea asp-for="Tags" class="form-control" rows="2" cols="50" value="@Model.Tags"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Редактировать</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

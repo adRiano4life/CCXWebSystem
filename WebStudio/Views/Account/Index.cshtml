@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model WebStudio.ViewModels.IndexUsersViewModel
+@inject UserManager<User> UserManager
+@inject RoleManager<IdentityRole> RoleManager 
+
+@{
+    ViewBag.Title = "Личный кабинет";
+    Layout = "_Layout";
+    var isLocked = "";
+}
+
+<h2 class="display-4">Личный кабинет</h2>
+  
+<div class="card my-3 col-lg-12 shadow">
+    <div class="row no-gutters">
+        <div class="col-lg-4 mt-3 mb-3 align-items-baseline">
+            <img src="@Model.User.AvatarPath" class="card-img" alt="фото пользователя">
+        </div>
+        <div class="col-lg-4">
+            <div class="card-body">
+                <h4 class="card-title">Имя: @Model.User.Surname @Model.User.Name</h4>
+                <p class="card-text">Эл.почта: @Model.User.Email</p>
+                <p class="card-text">Телефон: @Model.User.PhoneNumber</p>
+                <p class="card-text">
+                    @if (@User.IsInRole("admin"))
+                    {
+                        <small class="text-muted">Роль: Руководитель</small>
+                    }
+                    @if (@User.IsInRole("user"))
+                    {
+                        <small class="text-muted">Роль: Менеджер</small>
+                    }
+                </p>
+                <p>
+                    <a asp-controller="Account" asp-action="Edit" asp-route-userId="@Model.User.Id">Редактировать</a>
+                    <a asp-controller="Account" asp-action="ChangePassword" asp-route-userId="@Model.User.Id"
+                       class="ml-3">Изменить пароль</a>
+                </p>
+                @if (Model.User.EmailConfirmed == false)
+                {
+                    <p class="text-danger font-italic font-weight-bold">Для использования приложения активируйте свою учетную запись пройдя по ссылке, отправленной на вашу эл.почту</p>    
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (User.IsInRole("admin") && @Model.Users.Count > 0)
+{
+    <h3 class="mt-5 mb-3 display-4">Список пользователей</h3>
+    <div class="users">
+        <table class="table">
+            <tr>
+                <td></td>
+                <th>Имя</th>
+                <th>Эл.почта</th>
+                <th>Телефон</th>
+                <th>Действие</th>
+            </tr>
+            @foreach (var user in @Model.Users)
+            {
+                <tr>
+                    <th><img src="@user.AvatarPath" style="width: 80px; height: auto;"></th>
+                    <td class="lead py-auto">@user.Surname @user.Name &#160
+                        @if (user.LockoutEnabled == false)
+                        {
+                            <i class="fas fa-lock-open text-secondary font-13"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-lock text-secondary font-13"></i>
+                        }
+                        </td>
+                    <td class="lead">@user.Email</td>
+                    <td class="lead">@user.PhoneNumber</td>
+                    <td class="lead">
+                        @if (user.Name != "admin" && user.Id != UserManager.GetUserId(User))
+                        {
+                                @if (user.RoleDisplay == "user")
+                                {
+                                    <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="admin" method="post">
+                                        <input type="submit" value="Назначить руководителем" class="btn btn-outline-primary font-13 py-1">
+                                    </form>
+                                }
+                                @if (user.RoleDisplay == "admin")
+                                {
+                                    <form asp-action="ChangeRole" asp-controller="Account" asp-route-userId="@user.Id" asp-route-loginUserId="@UserManager.GetUserId(User)" asp-route-roleName="user" method="post">
+                                        <input type="submit" value="Убрать из руководителей" class="btn btn-outline-danger font-13 py-1">
+                                    </form>
+                                }
+                            
+                            <form method="post" asp-action="LockOrUnlockUser" asp-controller="Account" asp-route-userId="@user.Id" asp-route-adminId="@UserManager.GetUserId(User)">
+                                <input type="submit" value=@(isLocked = @user.LockoutEnabled == false ? "Деактивировать" : "Активировать") class="btn btn-outline-primary font-13 mt-3 py-1">
+                            </form>
+                        }
+                    </td>
+                </tr>    
+            }
+        </table>
+    </div>    
+}

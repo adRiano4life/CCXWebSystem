@@ -1,0 +1,54 @@
+﻿@model WebStudio.ViewModels.CreateSupplierViewModel
+
+@{
+    ViewBag.Title = "Добавление поставщика";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 pt-3 pb-4 shadow">
+        <h4>@ViewBag.Title</h4>
+        <form asp-controller="Suppliers" asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="">Название:</label><br>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="">Email:</label><br>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Website" class="">Сайт:</label><br>
+                <input asp-for="Website" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="">Телефон: </label><br>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="">Адрес:</label><br>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address"></span>
+            </div>
+    
+            <div class="form-group">
+                <label asp-for="Tags" class="">Тэги:</label><br>
+                <textarea asp-for="Tags" class="form-control" rows="2" cols="50" placeholder="введите тэги"> </textarea>
+                <span asp-validation-for="Tags"></span>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-outline-primary">Добавить</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,381 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
+@model WebStudio.ViewModels.CreateRequestViewModel
+@inject UserManager<User> UserManager
+@inject WebStudioContext _db
+
+@{
+    ViewBag.Title = "Создание запроса";
+    Layout = "_Layout";
+}
+
+@{
+  var count = 1;
+}
+
+<h2>Запрос поставщикам</h2>
+<div class="container">
+    <div class="col-md-12">
+        <form id="supplierForm">
+            <label class="font-weight-bold mr-3">Введите хештег или название поставщика:</label>
+            <div class="form-inline form-group">
+                <input type="text" id="supplierSearchHash" placeholder="Поиск">
+                <input type="hidden" id="supplierCardId" value="@Model.Card.Id">
+                <button type="button" class="btn btn-outline-primary shadow ml-3" id="search" onclick="SearchSupplierAjax()">Найти</button>
+            </div>
+        </form>
+        <div class="form-group">
+            <a type="button" data-toggle="modal" data-target="#addSupplierForm" class="font-italic">
+                Добавить поставщика
+            </a>
+        </div>
+        <label class="font-weight-bold mr-3">Выбранные поставщики:</label>
+        <div class="form-inline">
+            @if (_db.SearchSuppliers.Count() == 0)
+            {
+                <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
+            }
+            <div id="suppliersTablePartial"></div>
+            @if (_db.SearchSuppliers.Count() != 0)
+            {
+                <div id="suppliersTable">
+                    <table class="table" style="font-size: 12px;">
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Email</th>
+                            <th>Тэги</th>
+                            <th>Действие</th>
+                        </tr>
+                        @foreach (var supplier in _db.SearchSuppliers)
+                        {
+                            if (supplier.CardId == Model.Card.Id)
+                            {
+                                <tr>
+                                    <td>@supplier.Name</td>
+                                    <td>@supplier.Email</td>
+                                    <td>
+                                                        
+                                        @foreach (var tag in @supplier.Tags)
+                                        {
+                                            @(tag + " ")
+                                        }
+                                    </td>
+                                    <td>
+                                        <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
+                                        <input type="hidden" id="supplierRemoveCardId" value="@Model.Card.Id">
+                                        <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierAjax('@supplier.Id')">
+                                            <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+                if (_db.SearchSuppliers.All(s=>s.Card.Id != Model.Card.Id))
+                {
+                    <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
+                }
+            }
+        </div>
+        <form asp-action="Create" asp-controller="Requests" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="DateOfCreate" class="font-weight-bold">Дата создания запроса:</label>
+                    <input disabled value="@Model.DateOfCreate.ToLongDateString()">
+                </div>
+                <div class="form-group d-block">
+                    <label class="font-weight-bold">Текст запроса:</label>
+                    <textarea cols="150" rows="10" readonly class="border-0">@Model.TextView</textarea>
+                </div>
+                @if (Model.Card.Positions.Count() > 0)
+                {
+                    <table class="table" style="font-size: 12px;">
+                        <tr>
+                            <th>№</th>
+                            <th>Код ТНВЭД</th>
+                            <th>Наименование</th>
+                            <th>Ед.изм.</th>
+                            <th>Кол-во</th>
+                            <th>Условия поставки</th>
+                        </tr>
+                        @foreach (var position in Model.Card.Positions)
+                        {
+                            <tr>
+                                <td>@(@count++)</td>
+                                <td>@position.CodTNVED</td>
+                                <td>@position.Name</td>
+                                <td>@position.Measure</td>
+                                <td>@position.Amount</td>
+                                <td>@position.DeliveryTerms</td>
+                            </tr>
+                        }
+                        <div id="newPosition"></div>
+                    </table>
+                }
+                <div class="form-group ml-3">
+                    <a type="button" data-toggle="modal" data-target="#addPositionForm">
+                        <i class="fas fa-plus-circle" style="font-size: 30px; color: #0366d6" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+            <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
+            <input type="hidden" asp-for="Text" value="@Model.Text">
+            <input type="hidden" asp-for="OverallPath" value="E:\csharp\ESDP\Download Files">
+            <input type="hidden" name="supplierHash" id="supplierHashSubmit">
+            <div class="form-group">
+                <label class="font-weight-bold mr-3">Выберите файлы вложения:</label>
+                <table class="table table-striped table-borderless">
+                    <tbody class="table-responsive ">
+                    @for (int i = 0; i < @Model.Card.LinkNames.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedLinkNames" value="@Model.Card.LinkNames[i]">
+                            </td>
+                            <td>
+                                <label>@Model.Card.LinkNames[i]</label>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="Files">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="Files">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="Files">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
+            </div>
+        </form>
+
+
+        <div class="modal fade" id="addPositionForm">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-uppercase" id="editModalLabel">Добавить позицию</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ReloadAjax()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form">
+                            <div class="form-group">
+                                <label for="positionNumberInput">Порядковый номер</label>
+                                <input disabled type="text" class="form-control" id="number" value="@(@count++)" placeholder="Порядковый номер">
+                            </div>
+                            <div class="form-group">
+                                <label for="codTNVEDInput">Код ТНВЭД</label>
+                                <input type="text" class="form-control" id="codTNVED" placeholder="Код ТНВЭД">
+                            </div>
+                            <div class="form-group">
+                                <label for="nameInput">Название</label>
+                                <input type="text" class="form-control" id="name" placeholder="Название">
+                            </div>
+                            <div class="form-group">
+                                <label for="measureInput">Единица измерения</label>
+                                <input type="text" class="form-control" id="measure" placeholder="Единица измерения">
+                            </div>
+                            <div class="form-group">
+                                <label for="amountInput">Количество</label>
+                                <input type="text" class="form-control" id="amount" placeholder="Количество">
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryTermsInput">Условия поставки</label>
+                                <input type="text" class="form-control" id="deliveryTerms" placeholder="Условия поставки">
+                            </div>
+                            <input type="hidden" id="cardId" value="@Model.Card.Id">
+                            <button type="button"
+                                    class="btn btn-outline-primary" id="done" onclick="AddPositionAjax()">Добавить</button>
+                        </form>
+                        <div class="modal-body add-position-success" id="success">
+                            <h4>Добавлено!</h4>
+                            <i class="check-custom fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addSupplierForm">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-uppercase" id="editSupplierModalLabel">Добавить поставщика</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ReloadAjax()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="supplierAddForm">
+                            <div class="form-group">
+                                <label for="supplierName">Название:</label>
+                                <input type="text" class="form-control" id="supplierName" placeholder="Название">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierEmail">Email:</label>
+                                <input type="text" class="form-control" id="supplierEmail" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierSite">Сайт:</label>
+                                <input type="text" class="form-control" id="supplierSite" placeholder="Сайт">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierPhone">Телефон</label>
+                                <input type="text" class="form-control" id="supplierPhone" placeholder="Телефон">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierAddress">Адрес:</label>
+                                <input type="text" class="form-control" id="supplierAddress" placeholder="Адрес">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierTags">Тэги</label>
+                                <input type="text" class="form-control" id="supplierTags" placeholder="Введите тэги">
+                            </div>
+                            <input type="hidden" id="cardId" value="@Model.Card.Id">
+                            <button type="button"
+                                    class="btn btn-outline-primary" id="done" onclick="AddSupplierAjax()">Добавить</button>
+                        </form>
+                        <div class="modal-body add-position-success" id="supplierSuccess">
+                            <h4>Добавлено!</h4>
+                            <i class="check-custom fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script >
+        $('#success').hide();
+        $('#supplierSuccess').hide();
+        function AddPositionAjax(){
+            var cardId = $('#cardId').val();
+            var positionNumber = $('#number').val();
+            var codTNVED = $('#codTNVED').val();
+            var name = $('#name').val();
+            var measure = $('#measure').val();
+            var amount = $('#amount').val();
+            var deliveryTerms = $('#deliveryTerms').val();
+            $.ajax({
+                url : '@Url.Action("AddPositionAjax", "Requests")',
+                type : 'GET',
+                data : {
+                    'cardId' : cardId,
+                    'positionNumber' : positionNumber,
+                    'codTNVED' : codTNVED,
+                    'name' : name,
+                    'measure' : measure,
+                    'amount' : amount,
+                    'deliveryTerms' : deliveryTerms
+                },
+                success : function (data){
+                    //$('#newPosition').append('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
+                    //$('#newPosition').append(data)
+                    console.log(data);
+                }
+            });
+            $('#form').hide();
+            $('#success').show();
+        }
+        
+        function ReloadAjax(){
+            location.reload();
+        }
+        
+        function SearchSupplierAjax(){
+            var supplierSearchHash = $('#supplierSearchHash').val();
+            var supplierCardId = $('#supplierCardId').val();
+            $('#supplierHashSubmit').val(supplierSearchHash);
+            $.ajax({
+                url : '@Url.Action("SearchSupplierAjax", "Requests")',
+                type: 'GET',
+                data : {
+                    'supplierSearchHash' : supplierSearchHash,
+                    'supplierCardId' : supplierCardId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    $('#suppliersTablePartial').html(data);
+                    console.log(data)
+                    /*for (var i = 0; i < data.length; i++)
+                        {
+                            $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
+                            console.log(data[i])
+                        }*/
+                }
+            });
+/*            setTimeout(function (){
+                location.reload();
+            }, 250);*/
+        }
+        
+        function AddSupplierAjax(){
+            var supplierName = $('#supplierName').val();
+            var supplierEmail = $('#supplierEmail').val();
+            var supplierSite = $('#supplierSite').val();
+            var supplierPhone = $('#supplierPhone').val();
+            var supplierAddress = $('#supplierAddress').val();
+            var supplierTags = $('#supplierTags').val();
+            var supplierCardId = $('#supplierCardId').val();
+            $.ajax({
+                url : '@Url.Action("AddSupplierAjax", "Suppliers")',
+                type : 'GET',
+                data : {
+                    'supplierName' : supplierName,
+                    'supplierEmail' : supplierEmail,
+                    'supplierSite' : supplierSite,
+                    'supplierPhone' : supplierPhone,
+                    'supplierAddress' : supplierAddress,
+                    'supplierTags' : supplierTags,
+                    'supplierCardId' : supplierCardId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    $('#suppliersTablePartial').html(data);
+                }
+            });
+            $('#supplierAddForm').hide();
+            $('#supplierSuccess').show();
+        }
+        
+        function RemoveSupplierAjax(supplierRemoveId){
+            var supplierId = $('#supplierId-' + supplierRemoveId).val();
+            var supplierRemoveCardId = $('#supplierRemoveCardId').val();
+            $.ajax({
+                url : '@Url.Action("RemoveSupplierAjax", "Requests")',
+                type : 'GET',
+                data : {
+                    'supplierId' : supplierId,
+                    'supplierRemoveCardId' : supplierRemoveCardId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    for (var i = 0; i < data.length; i++)
+                          {
+                              $('#suppliers').append('<p>' + data[i].name + '</p>')
+                              console.log(data[i])
+                          }
+                      console.log(data)
+                  },
+            });
+            setTimeout(function (){
+                location.reload();
+            }, 250);
+        }
+    </script>
+}

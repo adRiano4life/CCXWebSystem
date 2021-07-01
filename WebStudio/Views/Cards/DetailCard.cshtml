@@ -1,0 +1,394 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using WebStudio.Enums
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@inject UserManager<User> UserManager
+
+@{
+  var count = 1;
+  var customDate = @Model.Card.DateOfAuctionStart;
+}
+<div>
+  <div class="col-sm-12 col-md-12 mb-4 pl-0">
+    <div class="card shadow" id="card-@Model.Card.Id" onmouseout="link('@Model.Card.Id')" onmousemove="linkStr('@Model.Card.Id')">
+      @if (Model.Card.CardState == CardState.Новая)
+      {
+        <div class="card-header bg-success text-white">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Проработка)
+      {
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Удалена)
+      {
+        <div class="card-header bg-danger text-white">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Торги)
+      {
+        <div class="card-header bg-warning text-dark">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.ПКО)
+      {
+        <div class="card-header text-white" style="background-color: #78866b">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Проиграна)
+      {
+        <div class="card-header text-white bg-dark">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Выиграна)
+      {
+        <div class="card-header text-white bg-info">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Активна)
+      {
+        <div class="card-header text-white bg-violet">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+      @if (Model.Card.CardState == CardState.Закрыта)
+      {
+        <div class="card-header text-white bg-lightcoral">
+          <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+        </div>
+      }
+    
+      <div class="card-body">
+      <p class="card-text mb-4">@Model.Card.Initiator</p>
+      <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @Model.Card.StartSumm</p>
+      <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @Model.Card.DateOfAcceptingEnd.ToLongDateString() @Model.Card.DateOfAcceptingEnd.ToShortTimeString()</p>
+      <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @Model.Card.DateOfAuctionStart.ToLongDateString() @Model.Card.DateOfAuctionStart.ToShortTimeString()</p>
+      <p class="card-text mb-0" id="lin"><b>Брокер:</b> @Model.Card.Broker</p>
+      <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
+      <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
+      <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
+      <p class="card-text mb-4" id="lin">
+        <div class="row ml-0">
+          <div class="mr-5">
+            @for (int i = 0; i < Model.Card.Links.Count; i++)
+            {
+              if (Model.Card.LinkNames[i].Contains(".xlsx"))
+              {
+                <i class="far fa-file-excel text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+              else if (Model.Card.LinkNames[i].Contains(".docx"))
+              {
+                <i class="far fa-file-word text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+              else if (Model.Card.LinkNames[i].Contains(".pdf"))
+              {
+                <i class="far fa-file-pdf text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+              else if (Model.Card.LinkNames[i].Contains(".jpg"))
+              {
+                <i class="far fa-file-image text-secondary"></i><a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
+            }
+          </div>
+          <div class="d-flex align-items-baseline">
+            @if (Model.Card.CardState == CardState.Выиграна || Model.Card.CardState == CardState.Активна && Model.FileModels.Count != 0)
+            {
+              <div>
+                @foreach (var file in Model.FileModels)
+                {
+                  <a href="@file.Path">@file.Name</a><br>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </p>
+      @if (Model.Card.Positions.Count() > 0)
+      {
+        <table class="table" style="font-size: 10px;">
+          <tr>
+            <th>№</th>
+            <th>Код ТНВЭД</th>
+            <th>Наименование</th>
+            <th>Ед.изм.</th>
+            <th>Кол-во</th>
+            <th>Валюта</th>
+            <th>Старт.цена за ед.товара</th>
+            <th>Стартовая стоимость</th>
+            <th>Срок поставки</th>
+            <th>Условия поставки</th>
+          </tr>
+          @foreach (var position in Model.Card.Positions)
+          {
+            <tr>
+              <td>@(@count++)</td>
+              <td>@position.CodTNVED</td>
+              <td>@position.Name</td>
+              <td>@position.Measure</td>
+              <td>@position.Amount</td>
+              <td>@position.Currency</td>
+              <td>@position.UnitPrice</td>
+              <td>@position.TotalPrice</td>
+              <td>@position.DeliveryTime</td>
+              <td>@position.DeliveryTerms</td>
+            </tr>
+          }
+        </table>
+      }
+        
+      @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
+      {
+        <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
+      }
+        
+      @if (Model.Card.CardState == CardState.Новая)
+      {
+        if (User.IsInRole("admin"))
+        {
+          <p class="card-text mb-2" id="lin">
+            <span class="badge badge-success">@Model.Card.CardState</span>
+          </p>
+          
+          <form asp-action="TakeCard" asp-controller="Cards" method="post">
+            <div class="form-group">
+              <label for="">Выбрать ответственного</label>
+              @if (Model.Users.Count != 0)
+              {
+                <select class="form-control" asp-for="UserId">
+                  @foreach (var user in Model.Users)
+                  {
+                    if (@user.Name != "admin")
+                    {
+                      <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+                    }
+                  }
+                </select>
+              }
+              else
+              {
+                <p>У вас нет зарегистрированных сотрудников</p>
+              }
+            </div>
+
+            <div class="row">
+              <!----Левый блок------>
+              <div class="ml-3">
+
+                <div class="form-group custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                  <label class="custom-control-label" for="customSwitch1">Получение КП</label>
+                </div>
+
+                <div class="form-group custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                  <label class="custom-control-label" for="customSwitch2">Налоги и НДС</label>
+                </div>
+
+                <div class="form-group custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                  <label class="custom-control-label" for="customSwitch3">Внесение данных в таблицу</label>
+                </div>
+
+              </div>
+              <!----Правй блок------>
+              <div class="ml-3">
+
+                <div class="form-group custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch4">
+                  <label class="custom-control-label" for="customSwitch4">Оценка поставщика</label>
+                </div>
+
+                <div class="form-group custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch5">
+                  <label class="custom-control-label" for="customSwitch5">Логистика</label>
+                </div>
+
+                <div class="form-group custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="customSwitch6">
+                  <label class="custom-control-label" for="customSwitch6">Составление запроса для отправки поставщикам</label>
+                </div>
+
+              </div>
+
+              <!-------Сроки------->
+              <div class="ml-3">
+                <div class="form-group custom-switch">
+                  <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+                  <input asp-for="@Model.Card.DateOfProcessingEnd" value="" type="date" class="form-control" required/> 
+                </div>
+                <div class="form-group custom-switch">
+                  <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label> 
+                  <input asp-for="@Model.Card.DateOfAuctionStartUpdated" value="@Model.Card.DateOfAuctionStart" class="form-control" required/> 
+                </div>
+              </div>
+            </div>
+            <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
+            <div class="form-group">
+              <input type="submit" value="Взять в работу" class="btn btn-outline-success shadow">
+            </div>
+          </form>
+          <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+            <div class="form-group">
+              <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
+            </div>
+          </form>
+        }
+        await Html.RenderPartialAsync("CommentPartialView");
+      }
+      @if (@Model.Card.CardState == CardState.Проработка)
+      {
+        <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
+        @if (User.IsInRole("admin"))
+        {
+          <form asp-action="TakeCard" asp-controller="Cards" method="post">
+            <div class="form-group">
+              <label for="">Переназначить ответственного</label>
+              @if (Model.Users.Count != 0)
+              {
+                <input hidden value="@Model.Card.Id" asp-for="CardId">
+                <select class="form-control" asp-for="UserId" asp-for="CardId">
+                  @foreach (var user in Model.Users)
+                  {
+                    if (@user.Name != "admin")
+                    {
+                      <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+                    }
+                  }
+                </select>
+              }
+            </div>
+            <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
+          </form>
+          <div class="row container form-group">
+            <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="ПКО" method="post">
+              <input type="submit" value="ПКО" class="btn btn-outline-info shadow mt-2">  
+            </form>
+          </div>
+        }
+        @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+        {
+          <div class="row container form-group">
+            <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
+          </div>
+        }
+        await Html.RenderPartialAsync("CommentPartialView");
+      }
+
+      @if (Model.Card.CardState == CardState.ПКО)
+      {
+        <p class="card-text mb-2" id="lin"><span class="badge text-white bg-haky">@Model.Card.CardState</span></p>
+        @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+        {
+          <div class="row container form-group">
+            <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Торги" method="post">
+              <input type="submit" value="Участвовать в торгах" class="btn btn-outline-success shadow mt-2">
+            </form>
+            <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Удалена" method="post">
+              <input type="submit" value="Не участвовать в торгах" class="btn btn-outline-danger shadow mt-2">
+            </form>
+            <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
+          </div>
+        }
+        await Html.RenderPartialAsync("CommentPartialView");
+      }
+
+      @if (Model.Card.CardState == CardState.Торги)
+      {
+        <p class="card-text mb-2" id="lin"><span class="badge badge-warning">@Model.Card.CardState</span></p>
+        
+        <div class="d-flex align-items-end mt-2">
+          <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Выиграна" method="post">
+            <input class="btn btn-outline-primary shadow d-inline mt-2" type="submit" value="Выиграна">
+          </form>
+        </div>
+        <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Проиграна" method="post">
+          <div class="form-group mr-2 mt-4">
+            <label class="d-inline-block">Введите предлагаемую цену: </label><br>
+            <input name="bid" type="number" placeholder="Цена">
+            <input class="btn btn-outline-danger shadow d-block mt-3" type="submit" value="Проиграна">
+          </div>
+        </form>
+        
+        await Html.RenderPartialAsync("CommentPartialView");
+      }
+        
+        @if (Model.Card.CardState == CardState.Проиграна)
+        {
+          <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-white">@Model.Card.CardState</span></p>
+          <h4 class="text-danger">Предложенная цена @Model.Card.Bidding тг.</h4>
+        }
+        
+        @if (Model.Card.CardState == CardState.Выиграна)
+        {
+          <p class="card-text mb-2 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
+          await Html.RenderPartialAsync("AddFilesPartialView");
+          <div class="form-group">
+            <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Активна" method="post">
+              <input class="btn btn-outline-success shadow mt-4" type="submit" value="Активна">
+            </form>
+          </div>
+          await Html.RenderPartialAsync("CommentPartialView");
+        }
+
+      @if (Model.Card.CardState == CardState.Активна)
+      {
+        <p class="card-text mb-2" id="lin"><span class="badge text-white bg-violet">@Model.Card.CardState</span></p>
+        @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+        {
+          await Html.RenderPartialAsync("CommentPartialView");
+          <div class="form-group">
+            <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Закрыта" method="post">
+              <input type="submit" value="Закрыть" class="btn btn-outline-success shadow mt-4">
+            </form>
+          </div>
+        }
+        await Html.RenderPartialAsync("CommentPartialView");
+      }
+
+      @if (@Model.Card.CardState == CardState.Закрыта)
+      {
+        <p class="card-text mb-2" id="lin"><span class="badge text-white bg-lightcoral">@Model.Card.CardState</span></p>
+        await Html.RenderPartialAsync("CommentPartialView");
+      }
+
+      @if (@Model.Card.CardState == CardState.Удалена)
+      {
+        @if (User.IsInRole("admin"))
+        {
+          <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+          <div class="form-group">
+            <form asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+              <input type="submit" value="Восстановить" class="btn btn-outline-success shadow-sm">
+            </form>
+          </div>
+        }
+      }
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-----Правая сторона-->
+
+@section Scripts
+{
+  <script>
+    /////////////////////////////////Анимация с тенью карточек////////////////////////////////
+    function link(cardId){
+         $('#card-' + cardId).addClass('shadow')
+     }
+        
+    function linkStr(cardId){
+        $('#card-' + cardId).removeClass('shadow')
+    }
+        
+  </script>
+}

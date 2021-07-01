@@ -1,0 +1,74 @@
+﻿@using System.Text
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@using System.Security.Principal
+@model X.PagedList.IPagedList<WebStudio.Models.Supplier>
+
+@{
+    ViewBag.Title = "База поставщиков";
+    Layout = "_Layout";
+    var count =1;
+}
+
+<div class="mb-4">
+    <h4>@ViewBag.Title</h4>
+    <a asp-controller="Suppliers" asp-action="Create" class="font-italic">(Добавить нового поставщика)</a>
+</div>
+
+@using (Html.BeginForm("Index", "Suppliers", FormMethod.Get))
+{
+    <p class="mb-4">
+        Поиск по названию: @Html.TextBox("searchByName", ViewBag.searchByName as string)
+        <input type="submit" class="btn btn-outline-primary  py-1 font-13 border-primary" value="Искать"/>
+        Поиск по тегу: @Html.TextBox("searchByTag", ViewBag.searchByTag as string)
+        <input type="submit" class="btn btn-outline-primary py-1 font-13 border-primary" value="Искать"/>
+    </p>
+}
+
+<div class="row">
+    <table class="table font-11">
+        <theader>
+            <tr>
+                <th>№</th>
+                <th>Название</th>
+                <th>Email</th>
+                <th>Телефон</th>
+                <th>Сайт</th>
+                <th>Адрес</th>
+                <th>Тэги</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </theader>
+        <tbody>
+        @foreach (var supplier in Model)
+        {
+            <tr id="supplier - @supplier.Id">
+                <td>@(@count++)</td>
+                <td>@supplier.Name</td>
+                <td>@supplier.Email</td>
+                <td>@supplier.PhoneNumber</td>
+                <td><a href="@supplier.Website"> @supplier.Website</a></td>
+                <td>@supplier.Address</td>
+                <td>
+                    @if (@supplier.Tags.Count != 0)
+                    {
+                        @foreach (var tag in @supplier.Tags)
+                        {
+                            @(@tag + " ")
+                        }
+                    }
+                </td>
+                <td><a asp-controller="Suppliers" asp-action="Edit" asp-route-id="@supplier.Id">Изменить</a></td>
+                <td><a asp-controller="Suppliers" asp-action="Delete" asp-route-id="@supplier.Id">Удалить</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
+<div class="row justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Suppliers", 
+        new { page, searchByName = ViewBag.searchByName, searchByTag = ViewBag.searchByTag }), Bootstrap4PagedListRenderOptions.Classic)
+</div>

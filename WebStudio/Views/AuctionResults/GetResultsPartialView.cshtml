@@ -1,0 +1,80 @@
+﻿@using WebStudio.Enums
+@model List<AuctionResult>
+@inject WebStudioContext _db;
+
+<table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"><span class="badge badge-danger">№</span></th>
+            <th scope="col">Номер</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Дата и время начала торгов</th>
+            <th scope="col">Дата заключения сделки</th>
+            <th scope="col">Победитель</th>
+            <th scope="col">Итоговая сумма (тг)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var lot in Model)
+        {
+            <tr class="bg-secondary text-white">
+                <th scope="row">@{ int a = @Model.IndexOf(lot) + 1; }<span class="badge badge-dark">@a</span></th>
+                <td>@lot.Number</td>
+                <td>@lot.Name</td>
+                <td>@lot.DateOfAuctionStart.ToLongDateString() @lot.DateOfAuctionStart.ToShortTimeString()</td>
+                <td>
+                    @{
+                        string DateOfSignContract = @lot.DateOfSignContract != DateTime.MinValue ? $"{lot.DateOfSignContract.Value.ToLongDateString()} + {lot.DateOfSignContract.Value.ToShortTimeString()}" : "-";
+                    }
+                    @DateOfSignContract
+
+                </td>
+               
+                <td>@lot.Winner</td>
+                <td>
+                    @{
+                        string sum = @lot.Sum != Decimal.MinValue ? $"{lot.Sum}" : "-";
+                    }
+                    @sum
+                </td>
+                @if (_db.Cards.FirstOrDefault(c => c.Number == lot.Number) != null)
+                {
+                    Card card = _db.Cards.FirstOrDefault(c => c.Number == lot.Number);
+                    if (card.Positions.Count > 1)
+                    {
+                        
+                        <thead>
+                        <tr class="text-white bg-success">
+                            <th scope="col">Позиций</th>
+                            <th scope="col">Наименование</th>
+                            <th scope="col">Ед.измерения</th>
+                            <th scope="col">Количество</th>
+                            @if (card.CardState == CardState.Проиграна)
+                            {
+                                <th scope="col" class="bg-danger"><h4 align="center">проигран</h4></th>
+                                <th scope="col" class="bg-dark"><h3 align="center"><span class="badge badge-danger text-white">@card.Bidding</span></h3></th>
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var position in card.Positions)
+                        {
+                            <tr class="bg-light">
+                                <th scope="col">@{ int b = card.Positions.IndexOf(position) + 1; }<span class="badge badge-success">@b</span></th>
+                                <td>@position.Name</td>
+                                <td>@position.Measure</td>
+                                <td>@position.Amount</td>
+                            </tr>
+                        }
+                        </tbody>
+                        
+                    }
+                }
+            </tr>
+            
+            <tbody class="border-0">
+            <tr class="line"></tr>
+            </tbody>
+        }
+        </tbody>
+    </table>
