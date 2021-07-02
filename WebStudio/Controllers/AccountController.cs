@@ -154,6 +154,10 @@ namespace WebStudio.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return NotFound("Пользователь не найден");
+                }
                 if (user.LockoutEnabled)
                 {
                     return View("ErrorLockedUser");
