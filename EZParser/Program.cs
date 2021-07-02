@@ -94,11 +94,14 @@ namespace EZParser
                         linkNames.Add(linkName);
                     }
 
+                    bool sum = decimal.TryParse(tds[2].InnerText, out decimal result);
+                    Console.WriteLine(sum);
+                    
                     Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
-                        StartSumm = Convert.ToInt32(tds[2].InnerText),
+                        StartSumm = result,
                         DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
                         DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
                         Initiator = tds[5].InnerText,
