@@ -104,7 +104,7 @@
               <div>
                 @foreach (var file in Model.FileModels)
                 {
-                  <a href="@file.Path">@file.Name</a><br>
+                  <i class="far fa-file-excel text-secondary mr-1"></i><a href="@file.Path">@file.Name</a><br>
                 }
               </div>
             }
@@ -343,7 +343,6 @@
         <p class="card-text mb-2" id="lin"><span class="badge text-white bg-violet">@Model.Card.CardState</span></p>
         @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
         {
-          await Html.RenderPartialAsync("CommentPartialView");
           <div class="form-group">
             <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Закрыта" method="post">
               <input type="submit" value="Закрыть" class="btn btn-outline-success shadow mt-4">
