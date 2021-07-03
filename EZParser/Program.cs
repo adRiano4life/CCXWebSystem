@@ -101,11 +101,11 @@ namespace EZParser
                         linkNames.Add(linkName);
                     }
                     
-                    decimal sumResult = decimal.Parse(tds[2].InnerText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), CultureInfo.InvariantCulture);
-
                     DateTime acceptingEnd = Convert.ToDateTime(tds[3].InnerText);
-                    Console.WriteLine(sumResult);
                     Console.WriteLine(acceptingEnd);
+                    decimal sumResult = decimal.Parse(tds[2].InnerText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), CultureInfo.InvariantCulture);
+                    Console.WriteLine(sumResult);
+                    
                     
                     
                     Card card = new Card
