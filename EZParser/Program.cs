@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -38,6 +39,12 @@ namespace EZParser
             GetParse();
             ExcelReader.ExcelRead();
             AuctionResultsParser.GetAuctionResults();
+        }
+
+        public static decimal DecimalParse(string s)
+        {
+            s = s.Replace(",", ".");
+            return decimal.Parse(s);
         }
         
         public static void GetParse()
@@ -93,9 +100,9 @@ namespace EZParser
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
+                    
+                    decimal sumResult = decimal.Parse(tds[2].InnerText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), CultureInfo.InvariantCulture);
 
-                    string[] sumStrings = tds[2].InnerText.Split(",");
-                    decimal sumResult = Convert.ToDecimal(sumStrings[0]);
                     DateTime acceptingEnd = Convert.ToDateTime(tds[3].InnerText);
                     Console.WriteLine(sumResult);
                     Console.WriteLine(acceptingEnd);
