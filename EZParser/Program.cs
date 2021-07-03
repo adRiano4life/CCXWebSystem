@@ -22,7 +22,7 @@ namespace EZParser
         //public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=123"; // бд Гульжан, Саня Т.
         public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф.
 
-        public static string PathToFiles = @"~\\WebStudio\\wwwroot\\Files"; // Гульжан
+        public static string PathToFiles = @"~/WebStudio/wwwroot/Files"; // Гульжан
         //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
         //public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
 
@@ -101,23 +101,26 @@ namespace EZParser
                         linkNames.Add(linkName);
                     }
 
-                    string[] datestrings = tds[3].InnerText.Split(".");
-                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
-                    
-                    DateTime acceptingEnd = Convert.ToDateTime(date);
-                    Console.WriteLine(acceptingEnd);
                     bool result = decimal.TryParse(tds[2].InnerText, out decimal sumResult);
                     Console.WriteLine(result);
                     
-                    
-                    
+                    string[] datestrings = tds[3].InnerText.Split(".");
+                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
+                    DateTime acceptingEnd = Convert.ToDateTime(date);
+                    Console.WriteLine(acceptingEnd);
+
+                    string[] auctionDates = tds[4].InnerText.Split(".");
+                    string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
+                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);
+
+
                     Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
                         StartSumm = sumResult,
-                        DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
-                        DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
+                        DateOfAcceptingEnd = acceptingEnd,
+                        DateOfAuctionStart = auctionEnd,
                         Initiator = tds[5].InnerText,
                         Broker = tds[6].InnerText,
                         Auction = tds[7].InnerText,
