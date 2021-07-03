@@ -20,6 +20,7 @@ namespace WebStudio.Controllers
         private WebStudioContext _db;
         private UserManager<User> _userManager;
         IWebHostEnvironment _appEnvironment;
+        
 
         public CardsController(WebStudioContext db, UserManager<User> userManager, IWebHostEnvironment appEnvironment)
         {
