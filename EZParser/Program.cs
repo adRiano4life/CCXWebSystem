@@ -100,8 +100,11 @@ namespace EZParser
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
+
+                    string[] datestrings = tds[3].InnerText.Split(".");
+                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
                     
-                    DateTime acceptingEnd = Convert.ToDateTime(tds[3].InnerText);
+                    DateTime acceptingEnd = Convert.ToDateTime(date);
                     Console.WriteLine(acceptingEnd);
                     decimal sumResult = decimal.Parse(tds[2].InnerText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), CultureInfo.InvariantCulture);
                     Console.WriteLine(sumResult);
