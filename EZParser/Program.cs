@@ -38,7 +38,7 @@ namespace EZParser
         {
             GetParse();
             ExcelReader.ExcelRead();
-            AuctionResultsParser.GetAuctionResults();
+            //AuctionResultsParser.GetAuctionResults();
         }
 
         public static decimal DecimalParse(string s)
