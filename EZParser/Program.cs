@@ -106,7 +106,8 @@ namespace EZParser
                     
                     DateTime acceptingEnd = Convert.ToDateTime(date);
                     Console.WriteLine(acceptingEnd);
-                    decimal sumResult = decimal.Parse(tds[2].InnerText.Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator), CultureInfo.InvariantCulture);
+                    string[] sumstrings = tds[2].InnerText.Split(",");
+                    int sumResult = int.Parse(sumstrings[0]);
                     Console.WriteLine(sumResult);
                     
                     
