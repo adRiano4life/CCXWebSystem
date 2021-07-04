@@ -1,27 +1,80 @@
-﻿@using WebStudio.Enums
-
+﻿@model System.Collections.Generic.List<WebStudio.Models.Card>
+@using WebStudio.Enums
 
 @{
-    ViewBag.Title = "Меню";
+    ViewBag.Title = "Главная страница";
     Layout = "_Layout";
+    int newCard = Model.Where(c => c.CardState == CardState.Новая).Count();
+    int workCard = Model.Where(c => c.CardState == CardState.Проработка).Count();
+    int PKOCard = Model.Where(c => c.CardState == CardState.ПКО).Count();
+    int AuctionCard = Model.Where(c => c.CardState == CardState.Торги).Count();
+    int WinCard = Model.Where(c => c.CardState == CardState.Выиграна).Count();
+    int LoseCard = Model.Where(c => c.CardState == CardState.Проиграна).Count();
+    int ActiveCard = Model.Where(c => c.CardState == CardState.Активна).Count();
+    int DelCard = Model.Where(c => c.CardState == CardState.Удалена).Count();
+    
 }
 
 <div>
     <div class="container pl-0">
-
-        <div class="justify-content-left">
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">База новых карточек</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">База карточек взятых в работу/проработку</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Торги">База лотов, по которым поданы заявки на участие в торгах</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm">База выигранных карточек / победивших в торгах</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm">База договоров/ реестр исполнения договоров</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm">Запрос поставщикам</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="AuctionCards">База проведенных торгов</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm" asp-controller="Suppliers" asp-action="Index">База поставщиков</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm">База коммерческих предложений</a><br>
-            <a type="button" class="btn btn-light col-lg-4 text-left mb-2 shadow-sm">Настройки и ввод постоянных данных</a><br>
+        <div class="row ml-0">
+        
+            <div class="col-lg-4 pl-0 pr-0 justify-content-left">
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">База новых карточек</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">База карточек взятых в работу/проработку</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Торги">База лотов, по которым поданы заявки на участие в торгах</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm">База выигранных карточек / победивших в торгах</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm">База договоров/ реестр исполнения договоров</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Requests" asp-action="Index">База запросов поставщикам</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="AuctionCards">База проведенных торгов</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Suppliers" asp-action="Index">База поставщиков</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm">База коммерческих предложений</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm">Настройки и ввод постоянных данных</a><br>
+            </div>
+            
+            
+            <div class="col-lg-6">
+                <div id="piechart_3d" style="width: 720px; height: 400px;"></div> 
+            </div>
         </div>
     </div>
-    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Новые',     @newCard,],
+          ['В проработке',      @workCard],
+          ['ПКО',  @PKOCard],
+          ['Торги', @AuctionCard],
+          ['Выиграные',    @WinCard],
+          ['Проиграные',  @LoseCard],
+          ['Активные', @ActiveCard],
+          ['Удалённые',    @DelCard]
+        ]);
+
+        var options = {
+          title: 'Статистика карточек',
+          is3D: true,
+          colors: ['#28A745','#007BFF', '#78866B', '#FFC107', '#17A2B8', '#343A40', '#C42FC9', '#DC3545'],
+          chartArea: {left:30,top:20,width:'80%',height:'70%'},
+          width: 1130,
+          height: 800,
+         
+          
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+}
+
 

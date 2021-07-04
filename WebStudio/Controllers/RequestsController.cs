@@ -167,13 +167,14 @@ namespace WebStudio.Controllers
 
             await _db.Positions.AddAsync(cardPosition);
             await _db.SaveChangesAsync();
-            return Json(cardPosition);
+            return PartialView("PositionAddPartialView", cardPosition);
         }
 
         [HttpGet]
         public async Task<IActionResult> SearchSupplierAjax(CreateRequestViewModel model, string supplierSearchHash, string supplierCardId)
         {
             model.Suppliers = Search(supplierSearchHash);
+            Card supplierCard = _db.Cards.FirstOrDefault(c => c.Id == supplierCardId);
             foreach (var supplier in model.Suppliers)
             {
                 SearchSupplier searchSupplier = new SearchSupplier
@@ -191,7 +192,7 @@ namespace WebStudio.Controllers
                 await _db.SaveChangesAsync();
             }
 
-            return Json(_db.SearchSuppliers);
+            return PartialView("SuppliersTablePartialView", supplierCard);
         }
 
         [HttpGet]

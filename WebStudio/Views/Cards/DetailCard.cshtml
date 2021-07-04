@@ -104,7 +104,7 @@
               <div>
                 @foreach (var file in Model.FileModels)
                 {
-                  <a href="@file.Path">@file.Name</a><br>
+                  <i class="far fa-file-excel text-secondary mr-1"></i><a href="@file.Path">@file.Name</a><br>
                 }
               </div>
             }
@@ -162,7 +162,6 @@
               <label for="">Выбрать ответственного</label>
               @if (Model.Users.Count != 0)
               {
-                
                 <select class="form-control" asp-for="UserId">
                   @foreach (var user in Model.Users)
                   {
@@ -242,57 +241,7 @@
             </div>
           </form>
         }
-        <div class="form-group mt-4">
-        <h6>Комментарии:</h6>
-        <table class="table table-borderless">
-          <tbody>
-          @foreach (var comment in @Model.Card.Comments)
-          {
-            <tr>
-              <td width="20%" rowspan="2">
-                <div class="comment-avatar text-center">
-                  <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
-                </div>
-                <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
-                @if (comment.User.RoleDisplay == "user")
-                {
-                  <p style="margin-bottom: 0" class="text-muted text-center font-11">Менеджер</p>
-                }
-                @if (comment.User.RoleDisplay == "admin")
-                {
-                  <p style="margin-bottom: 0" class="text-muted text-center font-11">Руководитель</p>
-                }
-              </td>
-              <td class="mt-2">
-                <p style="margin-bottom: 0" class="text-muted font-11 font-italic">Дата публикации: @comment.DateOfSend</p>
-                @comment.Message
-                @if (@comment.DateOfChange != DateTime.MinValue)
-                {
-                  <p class="text-muted font-11 font-italic mt-4">Изменено: @comment.DateOfChange</p>
-                }
-              </td>
-            </tr>
-            <tr>
-              @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
-              {
-                <td>
-                  <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
-                </td>
-              }
-            </tr>
-          }
-          </tbody>
-        </table>
-      </div>
-      <form asp-action="Comment" asp-controller="Cards" method="post">
-        <div class="form-group">
-          <label asp-for="Comment.Message">Оставить комментарий</label>
-          <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
-          <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
-          <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
-          <input type="submit" class="btn btn-outline-secondary shadow mt-3" value="Оставить комментарий">
-        </div>
-      </form>
+        await Html.RenderPartialAsync("CommentPartialView");
       }
       @if (@Model.Card.CardState == CardState.Проработка)
       {
@@ -330,58 +279,7 @@
             <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
           </div>
         }
-        <div class="form-group mt-4">
-        <h6>Комментарии:</h6>
-        <table class="table table-borderless">
-          <tbody>
-          @foreach (var comment in @Model.Card.Comments)
-          {
-            <tr>
-              <td width="20%" rowspan="2">
-                <div class="comment-avatar text-center">
-                  <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
-                </div>
-                <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
-                @if (comment.User.RoleDisplay == "user")
-                {
-                  <p style="margin-bottom: 0" class="text-muted text-center font-11">Менеджер</p>
-                }
-                @if (comment.User.RoleDisplay == "admin")
-                {
-                  <p style="margin-bottom: 0" class="text-muted text-center font-11">Руководитель</p>
-                }
-
-              </td>
-              <td class="mt-2">
-                <p style="margin-bottom: 0" class="text-muted font-11 font-italic">Дата публикации: @comment.DateOfSend</p>
-                @comment.Message
-                @if (@comment.DateOfChange != DateTime.MinValue)
-                {
-                  <p class="text-muted font-11 font-italic mt-4">Изменено: @comment.DateOfChange</p>
-                }
-              </td>
-            </tr>
-            <tr>
-              @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
-              {
-                <td>
-                  <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
-                </td>
-              }
-            </tr>
-          }
-          </tbody>
-        </table>
-      </div>
-      <form asp-action="Comment" asp-controller="Cards" method="post">
-        <div class="form-group">
-          <label asp-for="Comment.Message">Оставить комментарий</label>
-          <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
-          <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
-          <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
-          <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
-        </div>
-      </form>
+        await Html.RenderPartialAsync("CommentPartialView");
       }
 
       @if (Model.Card.CardState == CardState.ПКО)
@@ -399,58 +297,7 @@
             <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
           </div>
         }
-        <div class="form-group mt-4">
-        <h6>Комментарии:</h6>
-        <table class="table table-borderless">
-          <tbody>
-          @foreach (var comment in @Model.Card.Comments)
-          {
-            <tr>
-              <td width="20%" rowspan="2">
-                <div class="comment-avatar text-center">
-                  <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
-                </div>
-                <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
-                @if (comment.User.RoleDisplay == "user")
-                {
-                  <p style="margin-bottom: 0" class="text-muted text-center font-11">Менеджер</p>
-                }
-                @if (comment.User.RoleDisplay == "admin")
-                {
-                  <p style="margin-bottom: 0" class="text-muted text-center font-11">Руководитель</p>
-                }
-
-              </td>
-              <td class="mt-2">
-                <p style="margin-bottom: 0" class="text-muted font-11 font-italic">Дата публикации: @comment.DateOfSend</p>
-                @comment.Message
-                @if (@comment.DateOfChange != DateTime.MinValue)
-                {
-                  <p class="text-muted font-11 font-italic mt-4">Изменено: @comment.DateOfChange</p>
-                }
-              </td>
-            </tr>
-            <tr>
-              @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
-              {
-                <td>
-                  <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
-                </td>
-              }
-            </tr>
-          }
-          </tbody>
-        </table>
-      </div>
-      <form asp-action="Comment" asp-controller="Cards" method="post">
-        <div class="form-group">
-          <label asp-for="Comment.Message">Оставить комментарий</label>
-          <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
-          <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
-          <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
-          <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
-        </div>
-      </form>
+        await Html.RenderPartialAsync("CommentPartialView");
       }
 
       @if (Model.Card.CardState == CardState.Торги)
@@ -469,59 +316,8 @@
             <input class="btn btn-outline-danger shadow d-block mt-3" type="submit" value="Проиграна">
           </div>
         </form>
-
-        <div class="form-group mt-4">
-          <h6>Комментарии:</h6>
-          <table class="table table-borderless">
-            <tbody>
-            @foreach (var comment in @Model.Card.Comments)
-            {
-              <tr>
-                <td width="20%" rowspan="2">
-                  <div class="comment-avatar text-center">
-                    <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
-                  </div>
-                  <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
-                  @if (comment.User.RoleDisplay == "user")
-                  {
-                    <p style="margin-bottom: 0" class="text-muted text-center font-11">Менеджер</p>
-                  }
-                  @if (comment.User.RoleDisplay == "admin")
-                  {
-                    <p style="margin-bottom: 0" class="text-muted text-center font-11">Руководитель</p>
-                  }
-
-                </td>
-                <td class="mt-2">
-                  <p style="margin-bottom: 0" class="text-muted font-11 font-italic">Дата публикации: @comment.DateOfSend</p>
-                  @comment.Message
-                  @if (@comment.DateOfChange != DateTime.MinValue)
-                  {
-                    <p class="text-muted font-11 font-italic mt-4">Изменено: @comment.DateOfChange</p>
-                  }
-                </td>
-              </tr>
-              <tr>
-                @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
-                {
-                  <td>
-                    <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
-                  </td>
-                }
-              </tr>
-            }
-            </tbody>
-          </table>
-        </div>
-      <form asp-action="Comment" asp-controller="Cards" method="post">
-        <div class="form-group">
-          <label asp-for="Comment.Message">Оставить комментарий</label>
-          <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
-          <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
-          <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
-          <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
-        </div>
-      </form>
+        
+        await Html.RenderPartialAsync("CommentPartialView");
       }
         
         @if (Model.Card.CardState == CardState.Проиграна)
@@ -533,27 +329,13 @@
         @if (Model.Card.CardState == CardState.Выиграна)
         {
           <p class="card-text mb-2 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
-
-          <div class="mr-3">
-            <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
-              <label class="font-weight-bold">Прикрепить файл:</label>
-              <div class="form-group">
-                <input class="mb-2" type="file" name="uploads"/>
-              </div>
-              <div class="form-group">
-                <input class="mb-2" type="file" name="uploads"/>
-              </div>
-              <div class="form-group">
-                <input class="mb-1" type="file" name="uploads"/>
-              </div>
-              <button class="btn btn-outline-info shadow" type="submit"><i class="fas fa-upload"></i> Загрузить</button>
-            </form>
-          </div>
+          await Html.RenderPartialAsync("AddFilesPartialView");
           <div class="form-group">
             <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Активна" method="post">
               <input class="btn btn-outline-success shadow mt-4" type="submit" value="Активна">
             </form>
           </div>
+          await Html.RenderPartialAsync("CommentPartialView");
         }
 
       @if (Model.Card.CardState == CardState.Активна)
@@ -561,35 +343,19 @@
         <p class="card-text mb-2" id="lin"><span class="badge text-white bg-violet">@Model.Card.CardState</span></p>
         @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
         {
-          <div class="mr-3">
-            <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
-              <label class="font-weight-bold">Прикрепить файл:</label>
-              <div class="form-group">
-                <input class="mb-2" type="file" name="uploads"/>
-              </div>
-              <div class="form-group">
-                <input class="mb-2" type="file" name="uploads"/>
-              </div>
-              <div class="form-group">
-                <input class="mb-1" type="file" name="uploads"/>
-              </div>
-              <button class="btn btn-outline-info shadow" type="submit"><i class="fas fa-upload"></i> Загрузить</button>
-            </form>
-          </div>
           <div class="form-group">
             <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Закрыта" method="post">
               <input type="submit" value="Закрыть" class="btn btn-outline-success shadow mt-4">
             </form>
           </div>
         }
+        await Html.RenderPartialAsync("CommentPartialView");
       }
 
       @if (@Model.Card.CardState == CardState.Закрыта)
       {
-        @if (User.IsInRole("admin"))
-        {
-          <p class="card-text mb-2" id="lin"><span class="badge text-white bg-lightcoral">@Model.Card.CardState</span></p>
-        }
+        <p class="card-text mb-2" id="lin"><span class="badge text-white bg-lightcoral">@Model.Card.CardState</span></p>
+        await Html.RenderPartialAsync("CommentPartialView");
       }
 
       @if (@Model.Card.CardState == CardState.Удалена)
@@ -604,9 +370,6 @@
           </div>
         }
       }
-
-
-
       </div>
     </div>
   </div>

@@ -21,6 +21,7 @@ namespace WebStudio.Controllers
         private WebStudioContext _db;
         private UserManager<User> _userManager;
         IWebHostEnvironment _appEnvironment;
+        
 
         public CardsController(WebStudioContext db, UserManager<User> userManager, IWebHostEnvironment appEnvironment)
         {
@@ -32,7 +33,7 @@ namespace WebStudio.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(_db.Cards.ToList());
         }
 
         /// <summary>
@@ -211,38 +212,48 @@ namespace WebStudio.Controllers
             switch (sort)
             {
                 case CardState.Новая:
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Новая).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderByDescending(c=>c.Number).ToList();
                     ViewBag.sort = CardState.Новая;
                     break;
                 
                 case CardState.Удалена: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Удалена).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Удалена).OrderByDescending(c=>c.Number).ToList();
                     ViewBag.sort = CardState.Удалена;
                     break;
                 
                 case CardState.Проработка: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Проработка).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Проработка).OrderByDescending(c=>c.Number).ToList();
                     ViewBag.sort = CardState.Проработка;
                     break;
                 
+                case CardState.ПКО: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).OrderByDescending(c=>c.Number).ToList();
+                    ViewBag.sort = CardState.ПКО;
+                    break;
+                
                 case CardState.Торги: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Торги).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Торги).OrderByDescending(c=>c.Number).ToList();
                     ViewBag.sort = CardState.Торги;
                     break;
                 
                 case CardState.Выиграна: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Выиграна).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Выиграна).OrderByDescending(c=>c.Number).ToList();
                     ViewBag.sort = CardState.Выиграна;
                     break;
                 
                 case CardState.Проиграна: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Проиграна).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Проиграна).OrderByDescending(c=>c.Number).ToList();
                     ViewBag.sort = CardState.Проиграна;
                     break;
                 
-                case CardState.ПКО: 
-                    cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).ToList();
-                    ViewBag.sort = CardState.ПКО;
+                case CardState.Активна: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Активна).OrderByDescending(c=>c.Number).ToList();
+                    ViewBag.sort = CardState.Активна;
+                    break;
+                
+                case CardState.Закрыта: 
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Закрыта).OrderByDescending(c=>c.Number).ToList();
+                    ViewBag.sort = CardState.Закрыта;
                     break;
             }
 
@@ -285,9 +296,9 @@ namespace WebStudio.Controllers
             
             switch (sort)
             {
-                case CardState.Участвовшие: 
+                case CardState.Участвовашие: 
                     cards = _db.HistoryOfVictoryAndLosing.Where(c => c.CardState == CardState.Выиграна || c.CardState == CardState.Проиграна).ToList();
-                    ViewBag.sort = CardState.Участвовшие;
+                    ViewBag.sort = CardState.Участвовашие;
                     break;
             }
 

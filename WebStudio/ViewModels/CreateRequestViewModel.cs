@@ -23,6 +23,8 @@ namespace WebStudio.ViewModels
 
         public virtual List<Supplier> Suppliers { get; set; }
 
+        public virtual List<SearchSupplier> SearchSuppliers { get; set; }
+
         [NotMapped] 
         public List<IFormFile> Files { get; set; }
         
