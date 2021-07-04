@@ -47,6 +47,23 @@
               <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
             }
           </span>
+          <span class="d-flex align-items-baseline">
+            @if (Model.Card.CardState == CardState.Выиграна || Model.Card.CardState == CardState.Активна && Model.FileModels.Count != 0)
+            {
+              <span>
+                @foreach (var file in Model.FileModels)
+                {
+                  <i class="@(file.Name.Contains(".xlsx") ? "far fa-file-excel" : 
+                              file.Name.Contains(".docx") ? "far fa-file-word" : 
+                                file.Name.Contains(".pdf") ? "far fa-file-pdf" : 
+                                  file.Name.Contains(".jpg") ? "far fa-file-image" : 
+                                    "far fa-file") text-secondary"></i>
+                  <a href="@file.Path">@file.Name</a>
+                  <br>
+                }
+              </span>
+            }
+          </span>
         </span>
       </p>
       

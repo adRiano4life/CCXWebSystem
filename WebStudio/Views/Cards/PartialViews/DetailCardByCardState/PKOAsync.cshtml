@@ -3,8 +3,10 @@
 @inject UserManager<User> UserManager
 
 @{
-  var date1 = Model.Card.DateOfProcessingEnd == DateTime.MinValue ? "не установлено" : Model.Card.DateOfProcessingEnd.ToString(); 
-  var date2 = Model.Card.DateOfAuctionStartUpdated == DateTime.MinValue ? "не установлено" : Model.Card.DateOfAuctionStartUpdated.ToString();
+  var date1 = Model.Card.DateOfProcessingEnd == DateTime.MinValue ? "не установлено" 
+    : Model.Card.DateOfProcessingEnd.ToString(); 
+  var date2 = Model.Card.DateOfAuctionStartUpdated == DateTime.MinValue ? "не установлено" 
+    : Model.Card.DateOfAuctionStartUpdated.ToString();
 }
 
 <p class="card-text mb-2" id="lin"><span class="badge text-white bg-haky">@Model.Card.CardState</span></p>
@@ -12,28 +14,32 @@
 @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
 {
   <div class="row container form-group">
-    <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Торги" method="post">
+    <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Торги" method="post">
       @if (User.IsInRole("admin"))
       {
         <div class="deadlines d-flex flex-row mt-3 font-italic">
           <div class="form-group d-flex flex-row">
             <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
-            <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
+            <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" 
+                   value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
           </div>
           <div class="form-group ml-2 mb-3">
             <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label>
-            @Html.EditorFor(m => m.Card.DateOfAuctionStartUpdated, new {@class = "form-control", @Value = @Model.Card.DateOfAuctionStartUpdated.ToString("s"), required = "required"})
+            @Html.EditorFor(m => m.Card.DateOfAuctionStartUpdated, 
+              new {@class = "form-control", @Value = @Model.Card.DateOfAuctionStartUpdated.ToString("s"), 
+                required = "required"})
           </div>
         </div>
       }
       <input type="submit" value="Участвовать в торгах" class="btn btn-outline-success shadow mt-2">
     </form>
     
-    <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Удалена" method="post">
+    <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" method="post">
      <input type="submit" value="Не участвовать в торгах" class="btn btn-outline-danger shadow mt-2">
     </form>
     <br>
-    <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
+    <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" 
+       class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
   </div>
 }
 else
