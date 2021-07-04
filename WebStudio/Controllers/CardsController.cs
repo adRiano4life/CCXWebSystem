@@ -124,7 +124,7 @@ namespace WebStudio.Controllers
                     card.Executor = await _userManager.FindByIdAsync(model.UserId);
                     card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
                     card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
-
+                    
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
                 }
@@ -135,31 +135,55 @@ namespace WebStudio.Controllers
         
        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState, int bid)
+        public async Task<IActionResult> ChangeCardStatus(DetailCardViewModel model, string cardState, int bid)
         {
-            if (cardId != null)
+            if (model.CardId != null)
             {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
                 if (card != null)
                 {
                     switch (cardState)
                     {
-                        case "ПКО": card.CardState = CardState.ПКО; break;
-                        case "Торги": card.CardState = CardState.Торги; break;
+                        case "ПКО": card.CardState = CardState.ПКО; 
+                            card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
+                            card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated; 
+                            break;
+                        
+                        case "Торги": card.CardState = CardState.Торги; 
+                            card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
+                            card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
+                            break;
+                        
                         case "Удалена": card.CardState = CardState.Удалена; break;
                         case "Проиграна": card.CardState = CardState.Проиграна; card.Bidding = bid;
                             SaveCloneCard(card); break;
+                        
                         case "Выиграна": card.CardState = CardState.Выиграна; SaveCloneCard(card); break;
                         case "Активна": card.CardState = CardState.Активна; break;
                         case "Закрыта": card.CardState = CardState.Закрыта; break;
                     }
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
+                    return RedirectToAction("DetailCard2", "Cards", new {cardId = card.Id});
                 }
             }
-            return RedirectToAction("DetailCard2", "Cards", new {cardId = cardId});
+            return NotFound("Не найдено");
         }
-        
+
+        [NonAction]
+        private Card ChangeDateTimesOnDetailsCard(DateTime processDateTime, DateTime auctionStartDateTimeUpdate, Card card)
+        {
+            if (card != null && processDateTime != DateTime.MinValue && auctionStartDateTimeUpdate != DateTime.MinValue)
+            {
+                card.DateOfProcessingEnd = card.DateOfProcessingEnd != processDateTime
+                    ? processDateTime
+                    : card.DateOfProcessingEnd;
+                card.DateOfAuctionStartUpdated = card.DateOfAuctionStartUpdated != auctionStartDateTimeUpdate
+                    ? auctionStartDateTimeUpdate : card.DateOfAuctionStartUpdated;
+            }
+
+            return new Card();
+        }
         
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFileCollection uploads, string cardId)

@@ -90,7 +90,7 @@
         
       @if (Model.Card.CardState == CardState.Новая)
       {
-         await Html.RenderPartialAsync("../Cards/PartialViews/DetailCardByCardState/NewAsync", @Model);
+         await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/NewAsync", @Model);
       }
       
       @if (@Model.Card.CardState == CardState.Проработка)

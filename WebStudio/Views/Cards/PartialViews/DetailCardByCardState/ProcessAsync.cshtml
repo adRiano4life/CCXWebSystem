@@ -3,6 +3,11 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @inject UserManager<User> UserManager
 
+@{
+  var date1 = Model.Card.DateOfProcessingEnd == DateTime.MinValue ? "не установлено" : Model.Card.DateOfProcessingEnd.ToString(); 
+  var date2 = Model.Card.DateOfAuctionStartUpdated == DateTime.MinValue ? "не установлено" : Model.Card.DateOfAuctionStartUpdated.ToString();
+}
+
 <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
 @if (User.IsInRole("admin"))
 {
@@ -26,23 +31,31 @@
     <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
   </form>
   
-  <!--Сроки-->
-  <div class="deadlines d-flex flex-row mt-3 font-italic">
-    <div class="form-group">
-      <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
-      @* @Html.EditorFor(m=>m.Card.DateOfProcessingEnd, new {@class="form-control", required = "required"}) *@
-      <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
-    </div>
-    <div class="form-group ml-5 mb-3">
-      <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label>
-      @Html.EditorFor(m=>m.Card.DateOfAuctionStartUpdated, new {@class="form-control", @Value=@Model.Card.DateOfAuctionStartUpdated.ToString("s"), required = "required"})
-    </div>
-  </div>
+  @* @Html.EditorFor(m=>m.Card.DateOfProcessingEnd, new {@class="form-control", required = "required"}) *@
   
   <div class="row container form-group">
     <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="ПКО" method="post">
+      <div class="deadlines d-flex flex-row mt-3 font-italic">
+          <div class="form-group d-flex flex-row">
+            <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+            <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
+          </div>
+          <div class="form-group ml-2 mb-3">
+            <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label>
+            @Html.EditorFor(m=>m.Card.DateOfAuctionStartUpdated, new {@class="form-control", @Value=@Model.Card.DateOfAuctionStartUpdated.ToString("s"), required = "required"})
+          </div>
+        </div>
       <input type="submit" value="ПКО" class="btn btn-outline-info shadow mt-2">
     </form>
+  </div>
+}
+else
+{
+  <div class="deadlines my-4 d-flex flex-row">
+    <p>
+      Дата окончания проработки - @date1<br>
+      Дата начала торгов - @date2
+    </p>  
   </div>
 }
 
