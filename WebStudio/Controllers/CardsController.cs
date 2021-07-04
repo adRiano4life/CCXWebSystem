@@ -76,7 +76,7 @@ namespace WebStudio.Controllers
                     card.CardState = CardState.Удалена;
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
-                    return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Новая});
+                    return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Новая});
                 }
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace WebStudio.Controllers
                 }
             }
 
-            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Новая});
+            return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Новая});
         }
         
         /// <summary>
@@ -129,7 +129,7 @@ namespace WebStudio.Controllers
                     await _db.SaveChangesAsync();
                 }
             }
-            return RedirectToAction("GetCardInfo", "Cards", new {sort = CardState.Проработка});
+            return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Проработка});
         }
 
         
@@ -205,7 +205,7 @@ namespace WebStudio.Controllers
         /// <returns></returns>
        [HttpGet]
        [Authorize]
-       public IActionResult GetCardInfo(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
+       public IActionResult AllCardsList(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
         {
             List<Card> cards = new List<Card>();
             

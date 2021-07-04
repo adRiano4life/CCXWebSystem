@@ -241,7 +241,7 @@
             </div>
           </form>
         }
-        await Html.RenderPartialAsync("CommentPartialView");
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
       @if (@Model.Card.CardState == CardState.Проработка)
       {
@@ -279,7 +279,7 @@
             <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
           </div>
         }
-        await Html.RenderPartialAsync("CommentPartialView");
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
 
       @if (Model.Card.CardState == CardState.ПКО)
@@ -297,7 +297,7 @@
             <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
           </div>
         }
-        await Html.RenderPartialAsync("CommentPartialView");
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
 
       @if (Model.Card.CardState == CardState.Торги)
@@ -317,25 +317,25 @@
           </div>
         </form>
         
-        await Html.RenderPartialAsync("CommentPartialView");
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
         
         @if (Model.Card.CardState == CardState.Проиграна)
         {
           <p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-white">@Model.Card.CardState</span></p>
           <h4 class="text-danger">Предложенная цена @Model.Card.Bidding тг.</h4>
+          await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
         }
         
         @if (Model.Card.CardState == CardState.Выиграна)
         {
           <p class="card-text mb-2 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
-          await Html.RenderPartialAsync("AddFilesPartialView");
           <div class="form-group">
             <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Активна" method="post">
               <input class="btn btn-outline-success shadow mt-4" type="submit" value="Активна">
             </form>
           </div>
-          await Html.RenderPartialAsync("CommentPartialView");
+          await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
         }
 
       @if (Model.Card.CardState == CardState.Активна)
@@ -349,13 +349,13 @@
             </form>
           </div>
         }
-        await Html.RenderPartialAsync("CommentPartialView");
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
 
       @if (@Model.Card.CardState == CardState.Закрыта)
       {
         <p class="card-text mb-2" id="lin"><span class="badge text-white bg-lightcoral">@Model.Card.CardState</span></p>
-        await Html.RenderPartialAsync("CommentPartialView");
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
 
       @if (@Model.Card.CardState == CardState.Удалена)

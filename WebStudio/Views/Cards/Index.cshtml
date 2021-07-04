@@ -20,9 +20,9 @@
         <div class="row ml-0">
         
             <div class="col-lg-4 pl-0 pr-0 justify-content-left">
-                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Новая">База новых карточек</a><br>
-                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Проработка">База карточек взятых в работу/проработку</a><br>
-                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="GetCardInfo" asp-route-sort="@CardState.Торги">База лотов, по которым поданы заявки на участие в торгах</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Новая">База новых карточек</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Проработка">База карточек взятых в работу/проработку</a><br>
+                <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Торги">База лотов, по которым поданы заявки на участие в торгах</a><br>
                 <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm">База выигранных карточек / победивших в торгах</a><br>
                 <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm">База договоров/ реестр исполнения договоров</a><br>
                 <a type="button" class="btn btn-light col-lg-12 text-left mb-2 shadow-sm" asp-controller="AuctionResults" asp-action="Index">Результаты торгов</a><br>

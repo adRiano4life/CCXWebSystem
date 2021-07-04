@@ -16,7 +16,6 @@
               Model.Card.CardState == CardState.Выиграна ? "bg-info" :
                 Model.Card.CardState == CardState.Активна ? "bg-violet" :
                   Model.Card.CardState == CardState.Закрыта ? "bg-lightcoral" : "";
-  //var customDate = @Model.Card.DateOfAuctionStart;
 }
 
 <div>
@@ -132,6 +131,10 @@
       @if (@Model.Card.CardState == CardState.Удалена)
       {
         await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/DeletedAsync", @Model);
+      }
+      @if (@Model.Card.CardState != CardState.Удалена)
+      {
+        await Html.RenderPartialAsync("PartialViews/Comment/CommentPartialView");
       }
       </div>
     </div>

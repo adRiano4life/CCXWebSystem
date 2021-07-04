@@ -26,7 +26,7 @@ else
     <div class="container pl-0 justify-content-between">
       <div class="row pt-3 pb-3 mb-4 ml-0 border-bottom">
         
-        <form asp-controller="Cards" asp-action="GetCardInfo" method="get" asp-route-sort="@ViewBag.sort">
+        <form asp-controller="Cards" asp-action="AllCardsList" method="get" asp-route-sort="@ViewBag.sort">
           <input hidden name="sort" value="@ViewBag.sort">
           <select name="filter">
             <option value="DateOfAcceptingEnd">Дата окончания приема заявок</option>
@@ -202,7 +202,7 @@ else
 
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
 <div class="row justify-content-center">
-  @Html.PagedListPager(Model, page =>Url.Action("GetCardInfo", "Cards", new {page, ViewBag.sort, ViewBag.filter}), Bootstrap4PagedListRenderOptions.Classic)
+  @Html.PagedListPager(Model, page =>Url.Action("AllCardsList", "Cards", new {page, ViewBag.sort, ViewBag.filter}), Bootstrap4PagedListRenderOptions.Classic)
 </div>
 
 @section Scripts

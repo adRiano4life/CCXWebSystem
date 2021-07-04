@@ -4,6 +4,7 @@
 
 
 <p class="card-text mb-2" id="lin"><span class="badge text-white bg-violet">@Model.Card.CardState</span></p>
+
 @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
 {
     <div class="mr-3">
