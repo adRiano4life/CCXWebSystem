@@ -102,6 +102,7 @@ namespace EZParser
                     }
 
                     bool result = decimal.TryParse(tds[2].InnerText, out decimal sumResult);
+                    Console.WriteLine(tds[2].InnerText);
                     Console.WriteLine(sumResult);
                     
                     // string[] datestrings = tds[3].InnerText.Split(".");
@@ -117,7 +118,7 @@ namespace EZParser
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
-                        StartSumm = Convert.ToDecimal(tds[2].InnerText),
+                        StartSumm = sumResult,
                         DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
                         DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
                         Initiator = tds[5].InnerText,
