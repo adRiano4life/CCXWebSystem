@@ -1,0 +1,6 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+<p class="card-text mb-0 mt-2" id="lin"><span class="badge badge-dark text-white">@Model.Card.CardState</span></p>
+<h4 class="text-danger">Предложенная цена @Model.Card.Bidding тг.</h4>

@@ -1,0 +1,152 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using WebStudio.Enums
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using WebStudio.ViewModels
+@inject UserManager<User> UserManager
+
+@{
+  var count = 1;
+  var bgColor = @Model.Card.CardState == CardState.Новая ? "bg-success" : 
+    Model.Card.CardState == CardState.Проработка ? "bg-primary" :
+      Model.Card.CardState == CardState.Удалена ? "bg-danger" :
+        Model.Card.CardState == CardState.Торги ? "bg-warning" :
+          Model.Card.CardState == CardState.ПКО ? "bg-haky" :
+            Model.Card.CardState == CardState.Проиграна ? "bg-dark" :
+              Model.Card.CardState == CardState.Выиграна ? "bg-info" :
+                Model.Card.CardState == CardState.Активна ? "bg-violet" :
+                  Model.Card.CardState == CardState.Закрыта ? "bg-lightcoral" : "";
+  //var customDate = @Model.Card.DateOfAuctionStart;
+}
+
+<div>
+  <div class="col-sm-12 col-md-12 mb-4 pl-0">
+    <div class="card shadow" id="card-@Model.Card.Id" onmouseout="link('@Model.Card.Id')" onmousemove="linkStr('@Model.Card.Id')">
+    <div class="card-header @bgColor text-white">
+      <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
+    </div>
+      
+      <div class="card-body">
+      <p class="card-text mb-4">@Model.Card.Initiator</p>
+      <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @Model.Card.StartSumm</p>
+      <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @Model.Card.DateOfAcceptingEnd.ToLongDateString() @Model.Card.DateOfAcceptingEnd.ToShortTimeString()</p>
+      <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @Model.Card.DateOfAuctionStart.ToLongDateString() @Model.Card.DateOfAuctionStart.ToShortTimeString()</p>
+      <p class="card-text mb-0" id="lin"><b>Брокер:</b> @Model.Card.Broker</p>
+      <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @Model.Card.Auction</p>
+      <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @Model.Card.State</p>
+      <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @Model.Card.BestPrice</p>
+      <p class="card-text mb-4" id="lin">
+        <span class="card-files row ml-0">
+          <span class="mr-5">
+            @for (int i = 0; i < Model.Card.Links.Count; i++)
+            {
+              <i class="@(Model.Card.LinkNames[i].Contains(".xlsx") ? "far fa-file-excel" : 
+                          Model.Card.LinkNames[i].Contains(".docx") ? "far fa-file-word" : 
+                            Model.Card.LinkNames[i].Contains(".pdf") ? "far fa-file-pdf" : 
+                              Model.Card.LinkNames[i].Contains(".jpg") ? "far fa-file-image" : 
+                                "far fa-file") text-secondary"></i>
+              <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+            }
+          </span>
+        </span>
+      </p>
+      
+      @if (Model.Card.Positions.Count() > 0)
+      {
+        <table class="table font-10">
+          <tr>
+            <th>№</th>
+            <th>Код ТНВЭД</th>
+            <th>Наименование</th>
+            <th>Ед.изм.</th>
+            <th>Кол-во</th>
+            <th>Валюта</th>
+            <th>Старт.цена за ед.товара</th>
+            <th>Стартовая стоимость</th>
+            <th>Срок поставки</th>
+            <th>Условия поставки</th>
+          </tr>
+          @foreach (var position in Model.Card.Positions)
+          {
+            <tr>
+              <td>@(@count++)</td>
+              <td>@position.CodTNVED</td>
+              <td>@position.Name</td>
+              <td>@position.Measure</td>
+              <td>@position.Amount</td>
+              <td>@position.Currency</td>
+              <td>@position.UnitPrice</td>
+              <td>@position.TotalPrice</td>
+              <td>@position.DeliveryTime</td>
+              <td>@position.DeliveryTerms</td>
+            </tr>
+          }
+        </table>
+      }
+        
+      @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
+      {
+        <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
+      }
+        
+      @if (Model.Card.CardState == CardState.Новая)
+      {
+         await Html.RenderPartialAsync("../Cards/PartialViews/DetailCardByCardState/NewAsync", @Model);
+      }
+      
+      @if (@Model.Card.CardState == CardState.Проработка)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/ProcessAsync", @Model);
+      }
+
+      @if (Model.Card.CardState == CardState.ПКО)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/PKOAsync", @Model);
+      }
+
+      @if (Model.Card.CardState == CardState.Торги)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/AuctionAsync", @Model);
+      }
+      
+      @if (Model.Card.CardState == CardState.Проиграна)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/LostAsync", @Model);
+      }
+      
+      @if (Model.Card.CardState == CardState.Выиграна)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/WonAsync", @Model);
+      }
+
+      @if (Model.Card.CardState == CardState.Активна)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/ActiveAsync", @Model);
+      }
+
+      @if (@Model.Card.CardState == CardState.Закрыта)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/ClosedAsync", @Model);
+      }
+
+      @if (@Model.Card.CardState == CardState.Удалена)
+      {
+        await Html.RenderPartialAsync("PartialViews/DetailCardByCardState/DeletedAsync", @Model);
+      }
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts
+{
+  <script>
+    //Анимация с тенью карточек
+    function link(cardId){
+         $('#card-' + cardId).addClass('shadow')
+     }        
+    function linkStr(cardId){
+        $('#card-' + cardId).removeClass('shadow')
+    }        
+  </script>
+}

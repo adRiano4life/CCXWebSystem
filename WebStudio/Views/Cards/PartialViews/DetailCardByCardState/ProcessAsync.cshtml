@@ -1,0 +1,108 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@inject UserManager<User> UserManager
+
+<p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
+@if (User.IsInRole("admin"))
+{
+  <form asp-action="TakeCard" asp-controller="Cards" method="post">
+    <div class="form-group">
+      <label for="">Переназначить ответственного</label>
+      @if (Model.Users.Count != 0)
+      {
+        <input hidden value="@Model.Card.Id" asp-for="CardId">
+        <select class="form-control" asp-for="UserId" asp-for="CardId">
+          @foreach (var user in Model.Users)
+          {
+            if (@user.Name != "admin")
+            {
+              <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+            }
+          }
+        </select>
+      }
+    </div>
+    <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
+  </form>
+  
+  <!--Сроки-->
+  <div class="deadlines d-flex flex-row mt-3 font-italic">
+    <div class="form-group">
+      <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+      @* @Html.EditorFor(m=>m.Card.DateOfProcessingEnd, new {@class="form-control", required = "required"}) *@
+      <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
+    </div>
+    <div class="form-group ml-5 mb-3">
+      <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label>
+      @Html.EditorFor(m=>m.Card.DateOfAuctionStartUpdated, new {@class="form-control", @Value=@Model.Card.DateOfAuctionStartUpdated.ToString("s"), required = "required"})
+    </div>
+  </div>
+  
+  <div class="row container form-group">
+    <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="ПКО" method="post">
+      <input type="submit" value="ПКО" class="btn btn-outline-info shadow mt-2">
+    </form>
+  </div>
+}
+
+@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+{
+  <div class="row container form-group">
+    <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" class="btn btn-outline-primary shadow">Отправить запрос</a>
+  </div>
+}
+
+<div class="form-group mt-4">
+  <h6>Комментарии:</h6>
+  <table class="table table-borderless">
+    <tbody>
+    @foreach (var comment in @Model.Card.Comments)
+    {
+      <tr>
+        <td width="20%" rowspan="2">
+          <div class="comment-avatar text-center">
+            <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
+          </div>
+          <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
+          @if (comment.User.RoleDisplay == "user")
+          {
+            <p style="margin-bottom: 0" class="text-muted text-center font-11">Менеджер</p>
+          }
+          @if (comment.User.RoleDisplay == "admin")
+          {
+            <p style="margin-bottom: 0" class="text-muted text-center font-11">Руководитель</p>
+          }
+
+        </td>
+        <td class="mt-2">
+          <p style="margin-bottom: 0" class="text-muted font-11 font-italic">Дата публикации: @comment.DateOfSend</p>
+          @comment.Message
+          @if (@comment.DateOfChange != DateTime.MinValue)
+          {
+            <p class="text-muted font-11 font-italic mt-4">Изменено: @comment.DateOfChange</p>
+          }
+        </td>
+      </tr>
+      <tr>
+        @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
+        {
+          <td>
+            <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
+          </td>
+        }
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>
+
+<form asp-action="Comment" asp-controller="Cards" method="post">
+  <div class="form-group">
+    <label asp-for="Comment.Message">Оставить комментарий</label>
+    <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
+    <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
+    <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+    <input type="submit" class="btn btn-outline-secondary mt-3" value="Оставить комментарий">
+  </div>
+</form>

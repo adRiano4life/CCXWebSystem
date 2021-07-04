@@ -1,0 +1,13 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@if (User.IsInRole("admin"))
+{
+    <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+    <div class="form-group">
+        <form asp-action="RestoreCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+            <input type="submit" value="Восстановить" class="btn btn-outline-success shadow-sm">
+        </form>
+    </div>
+}

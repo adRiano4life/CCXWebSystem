@@ -1,0 +1,110 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@using System.ComponentModel
+@inject UserManager<User> UserManager
+
+
+@if (User.IsInRole("admin"))
+{
+  <p class="card-text mb-2" id="lin">
+    <span class="badge badge-success">@Model.Card.CardState</span>
+  </p>
+
+  <form asp-action="TakeCard" asp-controller="Cards" method="post">
+    <div class="form-group">
+      <label for="">Выбрать ответственного</label>
+      @if (Model.Users.Count != 0)
+      {
+        <select class="form-control" asp-for="UserId">
+          @foreach (var user in Model.Users)
+          {
+            if (@user.Name != "admin")
+            {
+              <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+            }
+          }
+        </select>
+      }
+      else
+      {
+        <p>У вас нет зарегистрированных сотрудников</p>
+      }
+    </div>
+    
+    <!--Сроки-->
+    <div class="deadlines my-4 d-flex flex-row font-italic">
+      <div class="form-group d-flex flex-row">
+        <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+        <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" value="" type="datetime-local" required/>
+      </div>
+      <div class="form-group ml-5 d-flex flex-row">
+        <label asp-for="@Model.Card.DateOfAuctionStartUpdated" >Дата начала торгов</label>
+        <input asp-for="@Model.Card.DateOfAuctionStartUpdated" class="form-control" value="" type="datetime-local" required/>
+      </div>
+    </div>
+
+    <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
+    <div class="form-group">
+      <input type="submit" value="Взять в работу" class="btn btn-outline-success shadow">
+    </div>
+  </form>
+
+  <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+    <div class="form-group">
+      <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
+    </div>
+  </form>
+}
+
+<div class="form-group mt-4">
+  <h6>Комментарии:</h6>
+  <table class="table table-borderless">
+    <tbody>
+    @foreach (var comment in @Model.Card.Comments)
+    {
+      <tr>
+        <td width="20%" rowspan="2">
+          <div class="comment-avatar text-center">
+            <img src="@comment.User.AvatarPath" alt="avatar" class="avatar-image">
+          </div>
+          <p style="margin-bottom: 0" class="text-center"><b>@comment.User.Name @comment.User.Surname</b></p>
+          @if (comment.User.RoleDisplay == "user")
+          {
+            <p style="margin-bottom: 0" class="text-muted text-center font-11">Менеджер</p>
+          }
+          @if (comment.User.RoleDisplay == "admin")
+          {
+            <p style="margin-bottom: 0" class="text-muted text-center font-11">Руководитель</p>
+          }
+        </td>
+        <td class="mt-2">
+          <p style="margin-bottom: 0" class="text-muted font-11 font-italic">Дата публикации: @comment.DateOfSend</p>
+          @comment.Message
+          @if (@comment.DateOfChange != DateTime.MinValue)
+          {
+            <p class="text-muted font-11 font-italic mt-4">Изменено: @comment.DateOfChange</p>
+          }
+        </td>
+      </tr>
+      <tr>
+        @if (User.IsInRole("admin") && UserManager.GetUserId(User) == @comment.User.Id)
+        {
+          <td>
+            <a asp-action="ChangeComment" asp-controller="Cards" asp-route-commentId="@comment.Id" class="font-italic">Изменить</a>
+          </td>
+        }
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>
+
+<form asp-action="Comment" asp-controller="Cards" method="post">
+  <div class="form-group">
+    <label asp-for="Comment.Message">Оставить комментарий</label>
+    <textarea class="form-control" asp-for="@Model.Comment.Message" rows="3"></textarea>
+    <input type="hidden" asp-for="Comment.CardId" value="@Model.Card.Id">
+    <input type="hidden" asp-for="Comment.UserId" value="@UserManager.GetUserId(User)">
+    <input type="submit" class="btn btn-outline-secondary shadow mt-3" value="Оставить комментарий">
+  </div>
+</form>
