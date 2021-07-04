@@ -92,34 +92,34 @@ namespace EZParser
                                 if (!Directory.Exists("Excel"))
                                     dirInfo.CreateSubdirectory("Excel");
                             }
-                            client.DownloadFile($"{stringLink}", @$"{dirInfo}\Excel\{linkName}"); // общий путь
+                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/Excel/{linkName}"); // общий путь
                         }
                         
-                        client.DownloadFile($"{stringLink}", @$"{dirInfo}\{subDirectory[0]}\{linkName}");  // общий путь
+                        client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");  // общий путь
 
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
 
-                    bool result = decimal.TryParse(tds[2].InnerText, out decimal sumResult);
-                    Console.WriteLine(sumResult);
+                    // bool result = decimal.TryParse(tds[2].InnerText, out decimal sumResult);
+                    // Console.WriteLine(sumResult);
                     
-                    string[] datestrings = tds[3].InnerText.Split(".");
-                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
-                    DateTime acceptingEnd = Convert.ToDateTime(date);
-
-                    string[] auctionDates = tds[4].InnerText.Split(".");
-                    string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
-                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);
+                    // string[] datestrings = tds[3].InnerText.Split(".");
+                    // string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
+                    // DateTime acceptingEnd = Convert.ToDateTime(date);
+                    //
+                    // string[] auctionDates = tds[4].InnerText.Split(".");
+                    // string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
+                    // DateTime auctionEnd = Convert.ToDateTime(auctiondate);
 
 
                     Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
-                        StartSumm = sumResult,
-                        DateOfAcceptingEnd = acceptingEnd,
-                        DateOfAuctionStart = auctionEnd,
+                        StartSumm = Convert.ToDecimal(tds[2].InnerText),
+                        DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
+                        DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
                         Initiator = tds[5].InnerText,
                         Broker = tds[6].InnerText,
                         Auction = tds[7].InnerText,
