@@ -60,8 +60,8 @@ else
           <div class="col-sm-12 col-md-6 mb-4">
             <div class="card shadow" id="card-@card.Id" onmouseout="link('@card.Id')" onmousemove="linkStr('@card.Id')">
             
-              <a class="text-decoration-none" asp-action="DetailCard" asp-controller="Cards" asp-route-cardId="@card.Id">
-                <div class="card-header 
+            <a class="text-decoration-none" asp-action="DetailCard2" asp-controller="Cards" asp-route-cardId="@card.Id">
+            <div class="card-header 
 
                   @if(card.CardState == CardState.Новая)
                   {

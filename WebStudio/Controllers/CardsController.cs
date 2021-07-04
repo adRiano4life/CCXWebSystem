@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebStudio.Enums;
 using WebStudio.Models;
 using WebStudio.ViewModels;
@@ -41,14 +42,14 @@ namespace WebStudio.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public IActionResult DetailCard(string cardId)
+        public async Task<ActionResult> DetailCard2(string cardId)
         {
             if (cardId != null)
             {
                 DetailCardViewModel model = new DetailCardViewModel
                 {
-                    Card = _db.Cards.FirstOrDefault(c => c.Id == cardId),
-                    Users = _db.Users.ToList(),
+                    Card =  _db.Cards.FirstOrDefault(c => c.Id == cardId),
+                    Users =  _db.Users.ToList(),
                     FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                 };
 
@@ -131,24 +132,7 @@ namespace WebStudio.Controllers
         }
 
         
-        // [HttpPost]
-        // [Authorize(Roles = "admin")]
-        // public async Task<IActionResult> AuctionCard(string cardId)
-        // {
-        //     if (cardId != null)
-        //     {
-        //         Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-        //         if (card != null)
-        //         {
-        //             card.CardState = CardState.Торги;
-        //             _db.Cards.Update(card);
-        //             await _db.SaveChangesAsync();
-        //         }
-        //     }
-        //     return RedirectToAction("Index", "Cards");
-        // }
-
-        [HttpPost]
+       [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangeCardStatus(string cardId, string cardState, int bid)
         {
@@ -159,44 +143,20 @@ namespace WebStudio.Controllers
                 {
                     switch (cardState)
                     {
-                        case "ПКО":
-                            card.CardState = CardState.ПКО;
-                            break;
-                        
-                        case "Торги":
-                            card.CardState = CardState.Торги;
-                            break;
-                        
-                        case "Удалена":
-                            card.CardState = CardState.Удалена;
-                            break;
-                        
-                        case "Проиграна":
-                            card.CardState = CardState.Проиграна;
-                            card.Bidding = bid;
-                            SaveCloneCard(card);
-                            break;
-                        
-                        case "Выиграна":
-                            card.CardState = CardState.Выиграна;
-                            SaveCloneCard(card);
-                            break;
-                        
-                        case "Активна":
-                            card.CardState = CardState.Активна;
-                            break;
-                        
-                        case "Закрыта":
-                            card.CardState = CardState.Закрыта;
-                            break;
+                        case "ПКО": card.CardState = CardState.ПКО; break;
+                        case "Торги": card.CardState = CardState.Торги; break;
+                        case "Удалена": card.CardState = CardState.Удалена; break;
+                        case "Проиграна": card.CardState = CardState.Проиграна; card.Bidding = bid;
+                            SaveCloneCard(card); break;
+                        case "Выиграна": card.CardState = CardState.Выиграна; SaveCloneCard(card); break;
+                        case "Активна": card.CardState = CardState.Активна; break;
+                        case "Закрыта": card.CardState = CardState.Закрыта; break;
                     }
-
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();
                 }
             }
-
-            return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
+            return RedirectToAction("DetailCard2", "Cards", new {cardId = cardId});
         }
         
         
@@ -224,7 +184,7 @@ namespace WebStudio.Controllers
                         _db.Files.Add(file); 
                     } 
                     _db.SaveChanges(); 
-                    return RedirectToAction("DetailCard", "Cards", new {cardId = cardId});
+                    return RedirectToAction("DetailCard2", "Cards", new {cardId = cardId});
                 }
                 return Content("Такой карточки не обнаруженно");
                  
@@ -446,7 +406,7 @@ namespace WebStudio.Controllers
                await _db.SaveChangesAsync();
            }
            
-           return RedirectToAction("DetailCard", "Cards", new {cardId = model.Comment.CardId});
+           return RedirectToAction("DetailCard2", "Cards", new {cardId = model.Comment.CardId});
        }
 
        [HttpGet]
@@ -485,7 +445,7 @@ namespace WebStudio.Controllers
                    
                    _db.Comments.Update(comment);
                    await _db.SaveChangesAsync();
-                   return RedirectToAction("DetailCard", "Cards", new {cardId = comment.Card.Id});
+                   return RedirectToAction("DetailCard2", "Cards", new {cardId = comment.Card.Id});
                }
 
                return NotFound();

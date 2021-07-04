@@ -6,7 +6,7 @@
 
 @{
   var count = 1;
-  var customDate = @Model.Card.DateOfAuctionStart;
+  //var customDate = @Model.Card.DateOfAuctionStart;
 }
 <div>
   <div class="col-sm-12 col-md-12 mb-4 pl-0">
@@ -37,7 +37,7 @@
       }
       @if (Model.Card.CardState == CardState.ПКО)
       {
-        <div class="card-header text-white" style="background-color: #78866b">
+        <div class="card-header text-white bg-haky">
           <h5 class="card-title">@Model.Card.Number @Model.Card.Name.Substring(0, 1).ToUpper()@Model.Card.Name.Substring(1)</h5>
         </div>
       }

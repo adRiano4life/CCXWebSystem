@@ -142,7 +142,7 @@ namespace WebStudio.Controllers
                         filePaths, request.Executor, model.Card);
                     _db.SearchSuppliers.RemoveRange(_db.SearchSuppliers);
                     await _db.SaveChangesAsync();
-                    return RedirectToAction("DetailCard", "Cards", new {cardId = model.CardId});
+                    return RedirectToAction("DetailCard2", "Cards", new {cardId = model.CardId});
                 }
                 
             }
