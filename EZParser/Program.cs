@@ -102,6 +102,7 @@ namespace EZParser
                     }
 
                     string startSumString = tds[2].InnerText.Trim();
+                    startSumString = startSumString.Replace(" ", "");
                     Console.WriteLine(startSumString);
                     bool result = decimal.TryParse(startSumString, out decimal sumResult);
                     Console.WriteLine(sumResult);
