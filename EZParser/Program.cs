@@ -101,8 +101,8 @@ namespace EZParser
                         linkNames.Add(linkName);
                     }
 
-                    bool result = decimal.TryParse(tds[2].InnerText, out decimal sumResult);
-                    Console.WriteLine(tds[2].InnerText);
+                    string startSumString = tds[2].InnerText.Trim();
+                    bool result = decimal.TryParse(startSumString, out decimal sumResult);
                     Console.WriteLine(sumResult);
                     
                     // string[] datestrings = tds[3].InnerText.Split(".");
