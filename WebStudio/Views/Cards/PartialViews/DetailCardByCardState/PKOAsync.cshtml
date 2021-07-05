@@ -31,15 +31,17 @@
           </div>
         </div>
       }
+      <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
       <input type="submit" value="Участвовать в торгах" class="btn btn-outline-success shadow mt-2">
     </form>
     
-    <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" method="post">
-     <input type="submit" value="Не участвовать в торгах" class="btn btn-outline-danger shadow mt-2">
+    <form class="mr-2 mt-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" method="post">
+      <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+      <input type="submit" value="Не участвовать в торгах" class="btn btn-outline-danger shadow mt-2">
     </form>
     <br>
     <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id" 
-       class="btn btn-outline-primary mt-2 shadow">Отправить запрос</a>
+       class="btn btn-outline-primary mt-3 shadow">Отправить запрос</a>
   </div>
 }
 else
