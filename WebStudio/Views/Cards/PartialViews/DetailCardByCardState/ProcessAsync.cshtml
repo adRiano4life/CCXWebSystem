@@ -13,7 +13,7 @@
 <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
 @if (User.IsInRole("admin"))
 {
-  <form asp-action="TakeCard" asp-controller="Cards" method="post">
+  <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Проработка" method="post">
     <div class="form-group">
       <label for="">Переназначить ответственного</label>
       @if (Model.Users.Count != 0)
@@ -30,6 +30,8 @@
         </select>
       }
     </div>
+    <input type="hidden" asp-for="Card.DateOfProcessingEnd" value="@Model.Card.DateOfProcessingEnd">
+    <input type="hidden" asp-for="Card.DateOfAuctionStartUpdated" value="@Model.Card.DateOfAuctionStartUpdated">
     <input class="btn btn-outline-dark shadow mb-2" type="submit" value="Переназначить">
   </form>
   
