@@ -84,7 +84,7 @@ namespace EZParser
                         string[] subDirectory = tds[0].InnerText.Split("/");
                         dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                         string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
-                        string linkName = link.InnerText;
+                        string linkName = link.InnerText.Trim();
                         if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
                         {
                             foreach (var dir in dirInfo.GetDirectories())
