@@ -12,7 +12,7 @@
 
 @if (User.IsInRole("admin"))
 {
-  <form asp-action="TakeCard" asp-controller="Cards" method="post">
+  <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Проработка" method="post">
     <div class="form-group">
       <label for="">Выбрать ответственного</label>
       @if (Model.Users.Count != 0)

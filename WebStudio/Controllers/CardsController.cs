@@ -85,56 +85,7 @@ namespace WebStudio.Controllers
             return NotFound();
         }
 
-        /// <summary>
-        /// Данный Action позволяет восстановить карту в новое состояние.
-        /// </summary>
-        /// <param name="cardId">Id карты по которому ищется карта БД.</param>
-        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> RestoreCard(string cardId)
-        {
-            if (cardId != null)
-            {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-                if (card != null)
-                {
-                    card.CardState = CardState.Новая;
-                    _db.Cards.Update(card);
-                    await _db.SaveChangesAsync();
-                }
-            }
-
-            return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Новая});
-        }
-        
-        /// <summary>
-        /// Данный Action передает карту ответственному исполнителю и меняет её статус.
-        /// </summary>
-        /// <param name="model">Данный параметр является передаваемым контейнером для сущности Card.</param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> TakeCard(DetailCardViewModel model)
-        {
-            if (model.CardId != null)
-            {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
-                if (card != null)
-                {
-                    card.CardState = CardState.Проработка;
-                    card.ExecutorId = model.UserId;
-                    card.Executor = await _userManager.FindByIdAsync(model.UserId);
-                    card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
-                    card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
-                    
-                    _db.Cards.Update(card);
-                    await _db.SaveChangesAsync();
-                }
-            }
-            return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Проработка});
-        }
-
-        
-       [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangeCardStatus(DetailCardViewModel model, string cardState, int bid)
         {
@@ -145,23 +96,52 @@ namespace WebStudio.Controllers
                 {
                     switch (cardState)
                     {
-                        case "ПКО": card.CardState = CardState.ПКО; 
-                            card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
-                            card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated; 
-                            break;
-                        
-                        case "Торги": card.CardState = CardState.Торги; 
+                        case "Проработка":
+                            card.CardState = CardState.Проработка;
+                            card.ExecutorId = model.UserId;
+                            card.Executor = await _userManager.FindByIdAsync(model.UserId);
                             card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
                             card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
                             break;
                         
-                        case "Удалена": card.CardState = CardState.Удалена; break;
-                        case "Проиграна": card.CardState = CardState.Проиграна; card.Bidding = bid;
-                            SaveCloneCard(card); break;
+                        case "ПКО": 
+                            card.CardState = CardState.ПКО; 
+                            card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
+                            card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated; 
+                            break;
                         
-                        case "Выиграна": card.CardState = CardState.Выиграна; SaveCloneCard(card); break;
-                        case "Активна": card.CardState = CardState.Активна; break;
-                        case "Закрыта": card.CardState = CardState.Закрыта; break;
+                        case "Торги": 
+                            card.CardState = CardState.Торги; 
+                            card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
+                            card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
+                            break;
+                        
+                        case "Удалена": 
+                            card.CardState = CardState.Удалена; 
+                            break;
+                        
+                        case "Восстановлена":
+                            card.CardState = CardState.Новая;
+                            break;
+                        
+                        case "Проиграна": 
+                            card.CardState = CardState.Проиграна; 
+                            card.Bidding = bid;
+                            SaveCloneCard(card); 
+                            break;
+                        
+                        case "Выиграна": 
+                            card.CardState = CardState.Выиграна; 
+                            SaveCloneCard(card); 
+                            break;
+                        
+                        case "Активна": 
+                            card.CardState = CardState.Активна; 
+                            break;
+                        
+                        case "Закрыта": 
+                            card.CardState = CardState.Закрыта; 
+                            break;
                     }
                     _db.Cards.Update(card);
                     await _db.SaveChangesAsync();

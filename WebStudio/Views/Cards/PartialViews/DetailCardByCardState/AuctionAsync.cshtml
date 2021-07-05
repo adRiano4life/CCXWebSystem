@@ -32,6 +32,7 @@
           </div>
         </div>
       }
+      <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
       <input class="btn btn-outline-primary shadow d-inline mt-2" type="submit" value="Выиграна">
     </form>
   </div>
@@ -40,7 +41,8 @@
     <div class="form-group mr-2 mt-4">
       <input hidden value="@Model.CardId" asp-for="CardId">
       <label class="d-inline-block">Введите предлагаемую цену: </label><br>
-      <input name="bid" type="number" placeholder="Цена">
+       <input name="bid" type="number" placeholder="Цена">
+       <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
       <input class="btn btn-outline-danger shadow d-block mt-3" type="submit" value="Проиграна">
     </div>
   </form>
