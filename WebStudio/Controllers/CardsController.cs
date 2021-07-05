@@ -50,6 +50,7 @@ namespace WebStudio.Controllers
                 DetailCardViewModel model = new DetailCardViewModel
                 {
                     Card =  _db.Cards.FirstOrDefault(c => c.Id == cardId),
+                    CardId = cardId,
                     Users =  _db.Users.ToList(),
                     FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                 };

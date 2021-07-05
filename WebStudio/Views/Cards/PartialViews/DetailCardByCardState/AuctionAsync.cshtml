@@ -19,8 +19,9 @@
       {
         <div class="deadlines d-flex flex-row mt-3 font-italic">
           <div class="form-group d-flex flex-row">
+            <input hidden value="@Model.CardId" asp-for="CardId">
             <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
-            <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" 
+            <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control"
                    value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
           </div>
           <div class="form-group ml-2 mb-3">
@@ -36,7 +37,8 @@
   </div>
 
   <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardState="Проиграна" method="post">
-     <div class="form-group mr-2 mt-4">
+    <div class="form-group mr-2 mt-4">
+      <input hidden value="@Model.CardId" asp-for="CardId">
       <label class="d-inline-block">Введите предлагаемую цену: </label><br>
       <input name="bid" type="number" placeholder="Цена">
       <input class="btn btn-outline-danger shadow d-block mt-3" type="submit" value="Проиграна">

@@ -23,7 +23,8 @@
         </form>
     </div>
     <div class="form-group">
-        <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" asp-route-cardState="Закрыта" method="post">
+        <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Закрыта" method="post">
+            <input hidden value="@Model.CardId" asp-for="CardId">
             <input type="submit" value="Закрыть" class="btn btn-outline-success shadow mt-4">
         </form>
     </div>

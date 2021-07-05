@@ -18,7 +18,7 @@
       <label for="">Переназначить ответственного</label>
       @if (Model.Users.Count != 0)
       {
-        <input hidden value="@Model.Card.Id" asp-for="CardId">
+        <input hidden value="@Model.CardId" asp-for="CardId">
         <select class="form-control" asp-for="UserId" asp-for="CardId">
           @foreach (var user in Model.Users)
           {
@@ -37,6 +37,7 @@
     <form class="mr-2" asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="ПКО" method="post">
       <div class="deadlines d-flex flex-row mt-3 font-italic">
           <div class="form-group d-flex flex-row">
+            <input hidden asp-for="CardId" value="@Model.CardId">
             <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
             <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" 
                    value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
