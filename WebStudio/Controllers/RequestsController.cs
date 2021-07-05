@@ -103,13 +103,13 @@ namespace WebStudio.Controllers
                 List<string> filePaths = new List<string>();
                 model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
                 string[] subDirectory = model.Card.Number.Split("/");
-                string attachPath = @$"{model.OverallPath}\{subDirectory[0]}";
+                string attachPath = @$"{model.OverallPath}/{subDirectory[0]}";
                 if (model.Files != null)
                 {
                     foreach (var file in model.Files)
                     {
                         string path = Path.Combine(_environment.ContentRootPath, $"{attachPath}");
-                        string filePath = @$"{attachPath}\{file.FileName}";
+                        string filePath = @$"{attachPath}/{file.FileName}";
                         _uploadService.Upload(path, file.FileName, file);
                         filePaths.Add(filePath);
                     }
@@ -135,7 +135,7 @@ namespace WebStudio.Controllers
 
                     foreach (var linkName in selectedLinkNames)
                     {
-                        string filePath = $@"{attachPath}\{linkName}";
+                        string filePath = $@"{attachPath}/{linkName}";
                         filePaths.Add(filePath);
                     }
                     await emailService.SendMessageAsync(suppliers, "Запрос коммерческого предложения", $"{model.Text}",
