@@ -23,7 +23,8 @@
             <th scope="col" colspan="2">Поставщик</th>
             <th scope="col" colspan="2">Дата КП</th>
             <th scope="col" colspan="2">№ КП</th>
-            <th scope="col" colspan="2">Скачать КП</th>
+            <th scope="col" colspan="2">Скачать </th>
+            <th scope="col" colspan="2"></th>
             </tr>
         </thead>
         <tbody>
@@ -35,14 +36,14 @@
                     <th scope="row">@(@count++)</th>
                     <td colspan="2">@(@cardNumber = @offer.CardNumber != null ? @offer.CardNumber : "без номера")</td>
                     <td colspan="2">@offer.SupplierName</td>
-                    <td colspan="2">@offer.DateOfIssue</td>
+                    <td colspan="2">@offer.DateOfIssue.ToShortDateString()</td>
                     <td colspan="2">@offer.Number</td>
-                    <td colspan="2"><small>добавлено: @offer.User.Surname @offer.User.Name</small></td>
+                    <td colspan="2"><a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" asp-route-fileName="@offer.FileName">КП @offer.SupplierName</a><br><small class="font-10 font-italic">добавлено: @offer.User.Surname @offer.User.Name</small></td>
                     <td colspan="2"> <a asp-controller="Offers" asp-action="AddPosition" asp-route-offerId="@offer.Id">Добавить позицию в КП</a> </td>
                 
                     @if (offer.Positions.Count != 0)
                     {
-                        <thead>
+                        <thead class="font-11">
                         <tr>
                             <th class="py-1">Код ТНВЭД</th>
                             <th class="py-1">Название</th>
@@ -58,8 +59,7 @@
                             <th class="py-1">Город отгрузки</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        
+                        <tbody class="font-11 pb-1">
                         @foreach (var op in @offer.Positions)
                         {
                             <tr>

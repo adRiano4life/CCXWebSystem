@@ -112,9 +112,7 @@ namespace WebStudio.Services
         }
         
         /*
-         UPDATE "AspNetUsers"
-         SET "LockoutEnabled" = false
-         WHERE "Name" like 'admin';
+         UPDATE "AspNetUsers" SET "LockoutEnabled" = false WHERE "Name" like 'admin';
          */
     }
 }
