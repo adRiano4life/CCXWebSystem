@@ -7,7 +7,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-6 pt-3 pb-4 shadow">
-        <h2>Авторизация</h2>
+        <h2>Вход в систему</h2>
         <form asp-action="Login" asp-controller="Account" method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
@@ -24,9 +24,12 @@
                 <label asp-for="RememberMe"></label>
                 <input class="form-check-inline" asp-for="RememberMe">
             </div>
+            <div class="my-auto">
+                <a asp-action="ForgotPassword" asp-controller="Account">Забыли пароль</a>
+            </div>
             <div>
                 <input type="hidden" id="viewBag" value="@Model.RepeatLinkForConfirmEmail" />
-                <input type="submit" id="enter" class="btn btn-outline-primary" value="Войти">
+                <input type="submit" id="enter" class="btn btn-outline-primary mt-4" value="Войти">
             </div>
         </form>
         

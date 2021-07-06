@@ -1,0 +1,56 @@
+﻿@model Offer
+
+@{
+    ViewBag.Title = "Добавление коммерческого предложения";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post" asp-controller="Offers" asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            
+            <div class="form-group">
+                <label asp-for="CardNumber"></label><br/>
+                <input class="form-control" asp-for="CardNumber"  />
+                <span asp-validation-for="CardNumber"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="SupplierName"></label><br/>
+                <input class="form-control" asp-for="SupplierName"  />
+                <span asp-validation-for="SupplierName"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="DateOfIssue"></label><br/>
+                <input class="form-control" asp-for="DateOfIssue" type="date"  />
+                <span asp-validation-for="DateOfIssue"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Number"></label><br/>
+                <input class="form-control" asp-for="Number"  />
+                <span asp-validation-for="Number"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="File"></label><br />
+                <input class="form-control-file" asp-for="File" />
+            </div>
+            @* @Html.HiddenFor(o=>o.UserId, @Model.UserId) *@
+            <div>
+                <input class="form-control" type="submit" value="Добавить" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
