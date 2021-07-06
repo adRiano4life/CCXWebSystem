@@ -102,7 +102,14 @@
         
       @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
       {
-        <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
+        @if (Model.Card.ExecutorId != null)
+        {
+          <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
+        }
+      }
+      else
+      {
+        <span class="badge badge-dark">тестовая карточка</span>
       }
         
       @if (Model.Card.CardState == CardState.Новая)

@@ -121,9 +121,16 @@ else
                 <p class="card-text mb-2" id="lin">
                 @if (card.CardState != CardState.Новая && card.CardState != CardState.Удалена)
                 {
-                  <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
+                  @if (card.ExecutorId != null)
+                  {
+                    <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
+                  }
                 }
-
+                else
+                {
+                  <span class="badge badge-dark">тестовая карточка</span>
+                }
+                
                 <span class="badge @if(card.CardState == CardState.Новая)
                                    {
                                      @:bg-success
