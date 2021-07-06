@@ -360,7 +360,65 @@ namespace WebStudio.Controllers
             await _userManager.UpdateAsync(user);
             return RedirectToAction("Index", new {userId = adminId});
         }
-        
-        
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callBackUrl = Url.Action("ResetPassword", "Account", new {userId = user.Id, code = code},
+                    protocol: HttpContext.Request.Scheme);
+                EmailService emailService = new EmailService();
+                await emailService.SendEmailForResetPassword(model.Email, "Сброс пароля", callBackUrl);
+                return View("ForgotPasswordConfirm");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string code = null)
+        {
+            return code == null ? View("Error") : View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    return View("ResetPasswordConfirm");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
     }
 }

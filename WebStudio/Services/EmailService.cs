@@ -6,6 +6,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MimeKit;
+using MimeKit.Text;
 using WebStudio.Models;
 
 namespace WebStudio.Services
@@ -82,7 +83,26 @@ namespace WebStudio.Services
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);   
         }
-        
+
+        public async Task SendEmailForResetPassword(string email, string title, string link)
+        {
+            var emailMessage = new MimeMessage();
+            
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test@rdprom.kz"));
+            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.Subject = title;
+
+            emailMessage.Body = new TextPart(TextFormat.Html)
+            {
+                Text = $"Для сброса пароля пройдите по <a href= '{link}'>данной ссылке</a>"
+            };
+
+            using var client = new SmtpClient();
+            await client.ConnectAsync("smtp.mail.ru", 25, false);
+            await client.AuthenticateAsync("test@rdprom.kz", "QWEqwe123");
+            await client.SendAsync(emailMessage);
+            await client.DisconnectAsync(true);
+        }
      
     }
 }
