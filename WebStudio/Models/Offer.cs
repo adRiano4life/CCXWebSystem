@@ -34,6 +34,7 @@ namespace WebStudio.Models
         [DisplayName("Загрузить КП")]
         public IFormFile File { get; set; }
         public string Path { get; set; }
+        public string FileName { get; set; }
 
         public virtual List<OfferPosition> Positions { get; set; }
         
