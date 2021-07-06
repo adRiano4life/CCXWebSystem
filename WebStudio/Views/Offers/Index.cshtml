@@ -37,8 +37,8 @@
                 <td>@offer.SupplierName</td>
                 <td>@offer.DateOfIssue</td>
                 <td>@offer.Number</td>
-                <td></td>
-                <td> <a href="#">Добавить позицию в КП</a> </td>
+                <td><small>добавлено: @offer.User.Surname @offer.User.Name</small></td>
+                <td> <a asp-controller="Offers" asp-action="AddPosition" asp-route-offerId="@offer.Id">Добавить позицию в КП</a> </td>
             </tr>
         }
     }

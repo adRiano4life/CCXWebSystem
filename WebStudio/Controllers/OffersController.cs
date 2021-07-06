@@ -36,7 +36,7 @@ namespace WebStudio.Controllers
             if (userId == null)
                 return NotFound();
             Offer offer = new Offer(){UserId = userId};
-            return View();
+            return View(offer);
         }
         
         [HttpPost]
@@ -65,6 +65,29 @@ namespace WebStudio.Controllers
                 return RedirectToAction("Index");
             } 
             return View(offer);
+        }
+        
+        
+        [HttpGet]
+        public IActionResult AddPosition(string offerId)
+        {
+            if (offerId == null)
+                return NotFound();
+            OfferPosition offerPosition = new OfferPosition(){OfferId =  offerId};
+            return View(offerPosition);
+        }
+        
+        [HttpPost]
+        public IActionResult AddPosition(OfferPosition offerPosition)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                _db.OfferPositions.Add(offerPosition);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            } 
+            return View(offerPosition);
         }
 
         

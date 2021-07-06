@@ -35,7 +35,7 @@ namespace WebStudio.Models
         public IFormFile File { get; set; }
         public string Path { get; set; }
 
-        public virtual  List<OfferPosition> Positions { get; set; }
+        public virtual List<OfferPosition> Positions { get; set; }
         
         public string UserId { get; set; }
         public virtual User User { get; set; }

@@ -26,7 +26,7 @@
             
             <div class="form-group">
                 <label asp-for="DateOfIssue"></label><br/>
-                <input class="form-control" asp-for="DateOfIssue" type="date"  />
+                <input class="form-control" asp-for="DateOfIssue" type="date" value="" />
                 <span asp-validation-for="DateOfIssue"></span>
             </div>
             
@@ -40,9 +40,10 @@
                 <label asp-for="File"></label><br />
                 <input class="form-control-file" asp-for="File" />
             </div>
-            @* @Html.HiddenFor(o=>o.UserId, @Model.UserId) *@
+            @Html.HiddenFor(o=>o.UserId, @Model.UserId)
+            
             <div>
-                <input class="form-control" type="submit" value="Добавить" />
+                <input class="btn btn-outline-primary" type="submit" value="Добавить" />
             </div>
         </form>
     </div>
