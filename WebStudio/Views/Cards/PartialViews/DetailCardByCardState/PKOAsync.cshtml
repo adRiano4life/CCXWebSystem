@@ -10,6 +10,10 @@
 }
 
 <p class="card-text mb-2" id="lin"><span class="badge text-white bg-haky">@Model.Card.CardState</span></p>
+@if (Model.Card.DateOfProcessingEnd < DateTime.Now)
+{
+  <p class="text-danger font-weight-bold border-danger">Просрочено!</p>
+}
 
 @if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
 {
