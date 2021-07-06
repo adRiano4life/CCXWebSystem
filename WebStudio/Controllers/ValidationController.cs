@@ -13,12 +13,12 @@ namespace WebStudio.Controllers
             _db = db;
         }
 
-        public bool CheckCardNumber(string cardId)
+        public bool CheckCardNumber(string cardNumber)
         {
-            if (cardId == null)
+            if (cardNumber == null)
                 return true;
 
-            return (_db.Cards.Any(c => c.Id == cardId));
+            return (_db.Cards.Any(c => c.Number == cardNumber));
         }
     }
 }

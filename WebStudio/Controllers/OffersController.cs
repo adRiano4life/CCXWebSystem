@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -10,14 +11,14 @@ using WebStudio.Services;
 namespace WebStudio.Controllers
 {
     [Authorize]
-    public class OfferSController : Controller
+    public class OffersController : Controller
     {
         private WebStudioContext _db;
         
         private FileUploadService _uploadService;
         private IHostEnvironment _environment;
 
-        public OfferSController(WebStudioContext db, FileUploadService uploadService, IHostEnvironment environment)
+        public OffersController(WebStudioContext db, FileUploadService uploadService, IHostEnvironment environment)
         {
             _db = db;
             _uploadService = uploadService;
@@ -26,7 +27,7 @@ namespace WebStudio.Controllers
         
         public IActionResult Index()
         {
-            return Ok();
+            return View(_db.Offers.ToList());
         }
 
         [HttpGet]
