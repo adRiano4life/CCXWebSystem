@@ -22,8 +22,8 @@ namespace EZParser
         public static string DefaultConnection = "Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф., Гульжан
 
         //public static string PathToFiles = @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
-        //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
-        public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
+        public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
+        //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
         //public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
 
         static void Main(string[] args)
