@@ -15,17 +15,16 @@
 </div>
 
 <div>
-    <table class="table">
+    <table class="table" style="width: 100%">
         <thead>
-        <tr class="bg-light">
+        <tr class="bg-success text-white">
             <th scope="col">№</th>
-            <th scope="col">Лот</th>
-            <th scope="col">Поставщик</th>
-            <th scope="col">Дата КП</th>
-            <th scope="col">№ КП</th>
-            <th scope="col">Скачать КП</th>
-            <th></th>
-        </tr>
+            <th scope="col" colspan="2">Лот</th>
+            <th scope="col" colspan="2">Поставщик</th>
+            <th scope="col" colspan="2">Дата КП</th>
+            <th scope="col" colspan="2">№ КП</th>
+            <th scope="col" colspan="2">Скачать КП</th>
+            </tr>
         </thead>
         <tbody>
         @if (Model.Count != 0)
@@ -34,51 +33,57 @@
             {
                 <tr class="bg-light">
                     <th scope="row">@(@count++)</th>
-                    <td>@(@cardNumber = @offer.CardNumber != null ? @offer.CardNumber : "без номера")</td>
-                    <td>@offer.SupplierName</td>
-                    <td>@offer.DateOfIssue</td>
-                    <td>@offer.Number</td>
-                    <td><a href="#">КП @offer.SupplierName</a><br><small class="font-10 font-italic">добавлено: @offer.User.Surname @offer.User.Name</small></td>
-                    <td> <a asp-controller="Offers" asp-action="AddPosition" asp-route-offerId="@offer.Id">Добавить позицию в КП</a> </td>
-                </tr>
-                @if (offer.Positions.Count != 0)
-                {
-                    <span>
-                        <table class="table text-secondary ml-5 mb-3 font-11">
+                    <td colspan="2">@(@cardNumber = @offer.CardNumber != null ? @offer.CardNumber : "без номера")</td>
+                    <td colspan="2">@offer.SupplierName</td>
+                    <td colspan="2">@offer.DateOfIssue</td>
+                    <td colspan="2">@offer.Number</td>
+                    <td colspan="2"><small>добавлено: @offer.User.Surname @offer.User.Name</small></td>
+                    <td colspan="2"> <a asp-controller="Offers" asp-action="AddPosition" asp-route-offerId="@offer.Id">Добавить позицию в КП</a> </td>
+                
+                    @if (offer.Positions.Count != 0)
+                    {
+                        <thead>
+                        <tr>
+                            <th class="py-1">Код ТНВЭД</th>
+                            <th class="py-1">Название</th>
+                            <th class="py-1">Ед.изм.</th>
+                            <th class="py-1">Кол-ко</th>
+                            <th class="py-1">Цена</th>
+                            <th class="py-1">Валюта</th>
+                            <th class="py-1">Итого</th>
+                            <th class="py-1">Условия поставки</th>
+                            <th class="py-1">Комментарий</th>
+                            <th class="py-1">Срок поставки</th>
+                            <th class="py-1">Условия оплаты</th>
+                            <th class="py-1">Город отгрузки</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        
+                        @foreach (var op in @offer.Positions)
+                        {
                             <tr>
-                                <th class="py-1">Код ТНВЭД</th>
-                                <th class="py-1">Название</th>
-                                <th class="py-1">Ед.изм.</th>
-                                <th class="py-1">Кол-ко</th>
-                                <th class="py-1">Цена</th>
-                                <th class="py-1">Валюта</th>
-                                <th class="py-1">Итого</th>
-                                <th class="py-1">Условия поставки</th>
-                                <th class="py-1">Комментарий</th>
-                                <th class="py-1">Срок поставки</th>
-                                <th class="py-1">Условия оплаты</th>
-                                <th class="py-1">Город отгрузки</th>
+                                <th scope="col" class="py-1">@(codTNVED = @op.CodTNVED != null ? @op.CodTNVED : "")</th>
+                                <td class="py-1">@op.Name</td>
+                                <td class="py-1">@op.Measure</td>
+                                <td class="py-1">@op.Amount</td>
+                                <td class="py-1">@op.UnitPrice</td>
+                                <td class="py-1">@op.Currency</td>
+                                <td class="py-1">@op.TotalPrice</td>
+                                <td class="py-1">@op.DeliveryTerms</td>
+                                <td class="py-1">@op.Comment</td>
+                                <td class="py-1">@op.DeliveryTime</td>
+                                <td class="py-1">@op.PaymentTerms</td>
+                                <td class="py-1">@op.DeliveryCity</td>
                             </tr>
-                            @foreach (var op in @offer.Positions)
-                            {
-                                <tr>
-                                    <th scope="col" class="py-1">@(codTNVED = @op.CodTNVED != null ? @op.CodTNVED : "")</th>
-                                    <td class="py-1">@op.Name</td>
-                                    <td class="py-1">@op.Measure</td>
-                                    <td class="py-1">@op.Amount</td>
-                                    <td class="py-1">@op.UnitPrice</td>
-                                    <td class="py-1">@op.Currency</td>
-                                    <td class="py-1">@op.TotalPrice</td>
-                                    <td class="py-1">@op.DeliveryTerms</td>
-                                    <td class="py-1">@op.Comment</td>
-                                    <td class="py-1">@op.DeliveryTime</td>
-                                    <td class="py-1">@op.PaymentTerms</td>
-                                    <td class="py-1">@op.DeliveryCity</td>
-                                </tr>
-                            }
-                        </table>
-                    </span>
-                }
+                        }
+                        </tbody>
+                    }
+                    </tr>
+                    
+                <tbody class="border-0">
+                    <tr class="line"></tr>
+                </tbody>
             }
         }
         </tbody>
