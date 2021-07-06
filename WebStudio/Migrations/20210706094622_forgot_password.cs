@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class copmlete_cardState : Migration
+    public partial class forgot_password : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

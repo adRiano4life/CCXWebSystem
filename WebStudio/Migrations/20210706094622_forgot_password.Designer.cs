@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210630044355_copmlete_cardState")]
-    partial class copmlete_cardState
+    [Migration("20210706094622_forgot_password")]
+    partial class forgot_password
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

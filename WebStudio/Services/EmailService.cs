@@ -94,7 +94,8 @@ namespace WebStudio.Services
 
             emailMessage.Body = new TextPart(TextFormat.Html)
             {
-                Text = $"Для сброса пароля пройдите по <a href= '{link}'>данной ссылке</a>"
+                Text = $"Для сброса пароля пройдите по <a href= '{link}'>данной ссылке</a>.<br><br>" +
+                       $"Если вы не отправляли запрос на изменение пароля в системе, проигнорируйте данное письмо"
             };
 
             using var client = new SmtpClient();

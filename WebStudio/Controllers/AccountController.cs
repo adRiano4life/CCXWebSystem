@@ -156,7 +156,7 @@ namespace WebStudio.Controllers
                 User user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    return NotFound("Пользователь не найден");
+                    return View("ErrorUserNotFound");
                 }
                 if (user.LockoutEnabled)
                 {
@@ -375,7 +375,7 @@ namespace WebStudio.Controllers
                 User user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    return NotFound();
+                    return View("ErrorUserNotFound");
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -403,7 +403,7 @@ namespace WebStudio.Controllers
                 User user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    return NotFound();
+                    return View("ErrorUserNotFound");
                 }
 
                 var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
