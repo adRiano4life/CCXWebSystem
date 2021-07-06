@@ -59,7 +59,7 @@ namespace WebStudio.Controllers
                     
                     string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
                     string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
-                    //string supplierName = Regex.Replace(offer.SupplierName,"[^a-zA-Z0-9]", String.Empty); 
+                    
                     var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x) 
                                                                            || char.IsWhiteSpace(x)).ToArray());
                     
