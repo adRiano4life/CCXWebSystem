@@ -46,20 +46,19 @@ namespace WebStudio.Controllers
             {
                 if (offer.File != null)
                 {
-                    string rootDirName = "wwwroot";
+                    string rootDirName = "wwwroot/Files";
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
                     foreach (var dir in dirInfo.GetDirectories())
                     {
                         if (!Directory.Exists("Offers"))
                             dirInfo.CreateSubdirectory("Offers");
                     }
-                    rootDirName = String.Concat(rootDirName, "\\Offers");
-                    string rootDirPath = Path.Combine(_environment.ContentRootPath, rootDirName);
-
-                    offer.Path = $"/Offers/{offer.SupplierName} - {offer.DateOfIssue}";
-                    _uploadService.Upload(rootDirPath, offer.File.FileName, offer.File);
+                    
+                    string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
+                    string fileName = offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/')) + " - " + offer.SupplierName;
+                    _uploadService.Upload(rootDirPath, fileName, offer.File);
+                    offer.Path = $"/Offers/{fileName}";
                 }
-                
                 _db.Offers.Add(offer);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
