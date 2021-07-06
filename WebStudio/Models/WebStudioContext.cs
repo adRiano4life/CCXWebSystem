@@ -19,6 +19,9 @@ namespace WebStudio.Models
         public DbSet<CardClone> HistoryOfVictoryAndLosing { get; set; }
         public DbSet<FileModel> Files { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        
+        public DbSet<Offer> Offers { get; set; }
+        public DbSet<OfferPosition> OfferPositions { get; set; }
 
         public WebStudioContext(DbContextOptions options) : base(options)
         {
