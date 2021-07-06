@@ -52,12 +52,6 @@
                         <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Выиграна">Выиграные</a>
                     </li>
                     
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="GetCardInfoHistory" asp-route-sort="@CardState.Участвовашие">БД карточек из торгов</a>
-                    </li>
-                    
-                    
-                    
                 </ul>
                 <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
                     @if (User.Identity.IsAuthenticated)

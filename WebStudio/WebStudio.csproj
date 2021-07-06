@@ -12,6 +12,8 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.6" />
+      <PackageReference Include="NLog" Version="4.7.10" />
+      <PackageReference Include="NLog.Config" Version="4.7.10" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.6" />
       <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="8.0.7.1" />
       <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
