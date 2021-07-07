@@ -1,7 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
+@inject WebStudioContext db
 
 @using WebStudio.Enums
+
+@{
+    var newCards = @db.Cards.Where(c => c.CardState == CardState.Новая).Count();
+    var processCards = @db.Cards.Where(c => c.CardState == CardState.Проработка).Count();
+    var pkoCards = @db.Cards.Where(c => c.CardState == CardState.ПКО).Count();
+    var auctionCards = @db.Cards.Where(c => c.CardState == CardState.Торги).Count();
+    var wonCards = @db.Cards.Where(c => c.CardState == CardState.Выиграна).Count();
+    var activeCards = @db.Cards.Where(c => c.CardState == CardState.Активна).Count();
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,31 +35,41 @@
                 <ul class="navbar-nav flex-grow-1">
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Новая">Новые</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
+                           asp-route-sort="@CardState.Новая">Новые<span class="text-success font-weight-bold">(@newCards)</span></a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Проработка">В работе</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
+                           asp-route-sort="@CardState.Проработка">Проработка <span class="text-success font-weight-bold">(@processCards)</span></a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.ПКО">ПКО</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
+                           asp-route-sort="@CardState.ПКО">ПКО <span class="text-success font-weight-bold">(@pkoCards)</span></a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Торги">На торгах</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
+                           asp-route-sort="@CardState.Торги">Торги <span class="text-success font-weight-bold">(@auctionCards)</span></a>
                     </li>
                     
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Удалена">Удалённые</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Проиграна">Проигранные</a>
-                    </li>
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Удалена">-Удалённые</a> *@
+                    @* </li> *@
+                    @* *@
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Проиграна">-Проигранные</a> *@
+                    @* </li> *@
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Выиграна">Выиграные</a>
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
+                           asp-route-sort="@CardState.Выиграна">Выиграные <span class="text-success font-weight-bold">(@wonCards)</span></a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
+                           asp-route-sort="@CardState.Активна">Активные <span class="text-success font-weight-bold">(@activeCards)</span></a>
                     </li>
                     
                 </ul>

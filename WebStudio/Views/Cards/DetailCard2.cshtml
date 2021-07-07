@@ -106,11 +106,12 @@
         {
           <span class="badge badge-dark">@Model.Card.Executor.Name @Model.Card.Executor.Surname</span>
         }
+        else
+        {
+          <span class="badge badge-dark">тестовая карточка</span>
+        }
       }
-      else
-      {
-        <span class="badge badge-dark">тестовая карточка</span>
-      }
+      
         
       @if (Model.Card.CardState == CardState.Новая)
       {
