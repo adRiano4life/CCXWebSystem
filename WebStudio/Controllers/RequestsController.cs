@@ -101,6 +101,7 @@ namespace WebStudio.Controllers
             if (ModelState.IsValid)
             {
                 List<string> filePaths = new List<string>();
+                model.OverallPath = "/var/www/CCXWebSystem/WebStudio/wwwroot/Files";
                 model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
                 string[] subDirectory = model.Card.Number.Split("/");
                 string attachPath = @$"{model.OverallPath}/{subDirectory[0]}";
