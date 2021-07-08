@@ -103,7 +103,7 @@ namespace WebStudio.Controllers
                 List<string> filePaths = new List<string>();
                 model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
                 string[] subDirectory = model.Card.Number.Split("/");
-                string attachPath = @$"{model.OverallPath}/{subDirectory[0]}";
+                string attachPath = $"/var/www/CCXWebSystem/WebStudio/wwwroot/Files/{subDirectory[0]}";
                 if (model.Files != null)
                 {
                     foreach (var file in model.Files)
