@@ -20,6 +20,7 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace WebStudio.Controllers
 {
+    [Authorize]
     public class CardsController : Controller
     {
         private WebStudioContext _db;
