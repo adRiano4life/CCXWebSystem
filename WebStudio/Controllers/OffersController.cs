@@ -63,7 +63,16 @@ namespace WebStudio.Controllers
                     var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x) 
                                                                            || char.IsWhiteSpace(x)).ToArray());
                     
-                    string fileName = $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";
+                    string fileName = "";
+                    if (offer.CardNumber != null)
+                    {
+                        fileName = $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";    
+                    }
+                    else
+                    {
+                        fileName = $"Без лота - {supplierName}{fileType}";
+                    }
+                    
                     _uploadService.Upload(rootDirPath, fileName, offer.File);
                     offer.Path = $"/Offers/{fileName}";
                     offer.FileName = fileName;
