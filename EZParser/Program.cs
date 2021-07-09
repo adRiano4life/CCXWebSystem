@@ -5,11 +5,14 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using HtmlAgilityPack;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using WebStudio.Models;
-using System.Configuration;
-using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Npgsql;
+using WebStudio.Models;
+using WebStudio.Services;
 
 namespace EZParser
 {
@@ -43,7 +46,13 @@ namespace EZParser
         {
             GetParse();
             ExcelReader.ExcelRead();
-            AuctionResultsParser.GetAuctionResults();
+            //AuctionResultsParser.GetAuctionResults();
+        }
+
+        public static decimal DecimalParse(string s)
+        {
+            s = s.Replace(",", ".");
+            return decimal.Parse(s);
         }
         
         public static void GetParse()
@@ -83,7 +92,7 @@ namespace EZParser
                         string[] subDirectory = tds[0].InnerText.Split("/");
                         dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                         string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
-                        string linkName = link.InnerText;
+                        string linkName = link.InnerText.Trim();
                         if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
                         {
                             foreach (var dir in dirInfo.GetDirectories())
@@ -91,29 +100,38 @@ namespace EZParser
                                 if (!Directory.Exists("Excel"))
                                     dirInfo.CreateSubdirectory("Excel");
                             }
-                            client.DownloadFile($"{stringLink}", @$"{dirInfo}\Excel\{linkName}"); // общий путь
+                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/Excel/{linkName}"); // общий путь
                         }
                         
-                        client.DownloadFile($"{stringLink}", @$"{dirInfo}\{subDirectory[0]}\{linkName}");  // общий путь
+                        client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");  // общий путь
 
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
 
-                    string[] sumStrings = tds[2].InnerText.Split(",");
-                    decimal sumResult = Convert.ToDecimal(sumStrings[0]);
-                    DateTime acceptingEnd = Convert.ToDateTime(tds[3].InnerText);
+                    string startSumString = tds[2].InnerText.Trim();
+                    startSumString = startSumString.Replace(" ", "");
+                    startSumString = startSumString.Replace(",", ".");
+                    Console.WriteLine(startSumString);
+                    bool result = decimal.TryParse(startSumString, out decimal sumResult);
                     Console.WriteLine(sumResult);
-                    Console.WriteLine(acceptingEnd);
                     
+                    string[] datestrings = tds[3].InnerText.Split(".");
+                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
+                    DateTime acceptingEnd = Convert.ToDateTime(date);
                     
+                    string[] auctionDates = tds[4].InnerText.Split(".");
+                    string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
+                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);
+
+
                     Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
                         StartSumm = sumResult,
-                        DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
-                        DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
+                        DateOfAcceptingEnd = acceptingEnd,
+                        DateOfAuctionStart = auctionEnd,
                         Initiator = tds[5].InnerText,
                         Broker = tds[6].InnerText,
                         Auction = tds[7].InnerText,
