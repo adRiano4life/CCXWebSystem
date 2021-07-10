@@ -152,7 +152,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPositionAjax(string cardId, string codTNVED,
+        public async Task<IActionResult> AddPositionAjax(int number, string cardId, string codTNVED,
             string name, string measure, string amount, string deliveryTerms)
         {
             CardPosition cardPosition = new CardPosition
@@ -165,10 +165,17 @@ namespace WebStudio.Controllers
                 CardId = cardId,
                 Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId),
             };
-
             await _db.Positions.AddAsync(cardPosition);
             await _db.SaveChangesAsync();
-            return PartialView("PositionAddPartialView", cardPosition);
+            
+            RequestAddPositionViewModel model = new RequestAddPositionViewModel
+            {
+                Card = _db.Cards.FirstOrDefault(c => c.Id == cardId),
+                CardPosition = cardPosition,
+                Number = number
+            };
+            
+            return PartialView("PositionAddPartialView", model);
         }
 
         [HttpGet]
