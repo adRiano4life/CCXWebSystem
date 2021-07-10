@@ -46,8 +46,8 @@ namespace WebStudio.Controllers
             }
             catch (Exception e)
             {
-                _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
             
