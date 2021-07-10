@@ -77,7 +77,7 @@ namespace WebStudio.Services
         private async Task TryingSendMessage(MimeMessage emailMessage)
         {
             using var client = new SmtpClient();
-            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            //client.ServerCertificateValidationCallback = (s, c, h, e) => true;
             await client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
             await client.AuthenticateAsync("test@rdprom.kz", "QWEqwe123");
             await client.SendAsync(emailMessage);
