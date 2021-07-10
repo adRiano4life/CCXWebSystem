@@ -91,6 +91,7 @@ namespace WebStudio.Controllers
                            "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
                 Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
             };
+            ViewBag.SearchSuppliersCard = _db.SearchSuppliers.FirstOrDefault(c => c.Id == cardId);
             return View(model);
         }
 

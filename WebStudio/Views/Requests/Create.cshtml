@@ -31,12 +31,12 @@
         </div>
         <label class="font-weight-bold mr-3">Выбранные поставщики:</label>
         <div class="form-inline">
-            @if (_db.SearchSuppliers.Count() == 0)
+            @if (_db.SearchSuppliers.Count() == 0 || !_db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
             {
                 <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
             }
             <div id="suppliersTablePartial"></div>
-            @if (_db.SearchSuppliers.Count() != 0)
+            @if (_db.SearchSuppliers.Count() != 0 && _db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
             {
                 <div id="suppliersTable">
                     <table class="table" style="font-size: 12px;">
@@ -72,10 +72,6 @@
                         }
                     </table>
                 </div>
-                if (_db.SearchSuppliers.All(s=>s.Card.Id != Model.Card.Id))
-                {
-                    <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
-                }
             }
         </div>
         <form asp-action="Create" asp-controller="Requests" method="post" enctype="multipart/form-data">
@@ -156,7 +152,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
+                <button type="submit" class="btn btn-outline-primary shadow"><i class="fas fa-paper-plane"></i> Отправить</button>
             </div>
         </form>
 
