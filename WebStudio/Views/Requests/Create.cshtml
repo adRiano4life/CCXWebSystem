@@ -122,7 +122,7 @@
             <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
             <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
             <input type="hidden" asp-for="Text" value="@Model.Text">
-            @* <input type="hidden" asp-for="OverallPath" value="/var/www/CCXWebSystem/WebStudio/wwwroot/Files"> *@
+            <input type="hidden" asp-for="OverallPath" value="/var/www/CCXWebSystem/WebStudio/wwwroot/Files">
             <input type="hidden" name="supplierHash" id="supplierHashSubmit">
             <div class="form-group">
                 <label class="font-weight-bold mr-3">Выберите файлы вложения:</label>

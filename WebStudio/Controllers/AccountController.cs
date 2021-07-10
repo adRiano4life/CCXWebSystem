@@ -73,7 +73,7 @@ namespace WebStudio.Controllers
         {
             if (ModelState.IsValid)
             {
-                string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");
+                string path = Path.Combine(_environment.ContentRootPath, "wwwroot/Images/Avatars");
                 string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
                 if (model.File != null)
                 {
