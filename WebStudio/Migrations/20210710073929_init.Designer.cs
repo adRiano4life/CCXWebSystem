@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210630044355_copmlete_cardState")]
-    partial class copmlete_cardState
+    [Migration("20210710073929_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -475,6 +475,104 @@ namespace WebStudio.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.Offer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
+
+                    b.Property<DateTime>("DateOfIssue")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.OfferPosition", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("CodTNVED")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CommentId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeliveryCity")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeliveryTerms")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DeliveryTime")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Measure")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OfferId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentTerms")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OfferPositions");
+                });
+
             modelBuilder.Entity("WebStudio.Models.Request", b =>
                 {
                     b.Property<string>("Id")
@@ -695,6 +793,36 @@ namespace WebStudio.Migrations
                     b.Navigation("Card");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.Offer", b =>
+                {
+                    b.HasOne("WebStudio.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.OfferPosition", b =>
+                {
+                    b.HasOne("WebStudio.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
+
+                    b.HasOne("WebStudio.Models.Offer", "Offer")
+                        .WithMany("Positions")
+                        .HasForeignKey("OfferId");
+
+                    b.HasOne("WebStudio.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WebStudio.Models.Request", b =>
                 {
                     b.HasOne("WebStudio.Models.Card", "Card")
@@ -734,6 +862,11 @@ namespace WebStudio.Migrations
                 });
 
             modelBuilder.Entity("WebStudio.Models.CardClone", b =>
+                {
+                    b.Navigation("Positions");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.Offer", b =>
                 {
                     b.Navigation("Positions");
                 });

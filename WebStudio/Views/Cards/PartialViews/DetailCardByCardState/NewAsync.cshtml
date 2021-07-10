@@ -1,0 +1,68 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@using System.ComponentModel
+@inject UserManager<User> UserManager
+
+@{
+  var date1 = Model.Card.DateOfProcessingEnd == DateTime.MinValue ? "не установлено" : Model.Card.DateOfProcessingEnd.ToString(); 
+  var date2 = Model.Card.DateOfAuctionStartUpdated == DateTime.MinValue ? "не установлено" : Model.Card.DateOfAuctionStartUpdated.ToString();
+}
+
+<p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
+
+@if (User.IsInRole("admin"))
+{
+  <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Проработка" method="post">
+    <div class="form-group">
+      <label for="">Выбрать ответственного</label>
+      @if (Model.Users.Count != 0)
+      {
+        <select class="form-control" asp-for="UserId">
+          @foreach (var user in Model.Users)
+          {
+            if (@user.Name != "admin")
+            {
+              <option class="col-4" value="@user.Id">@user.Name @user.Surname</option>
+            }
+          }
+        </select>
+      }
+      else
+      {
+        <p>У вас нет зарегистрированных сотрудников</p>
+      }
+    </div>
+    
+    <!--Сроки-->
+    <div class="deadlines my-4 d-flex flex-row font-italic">
+      <div class="form-group d-flex flex-row">
+        <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+        <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control" value="" type="datetime-local" required/>
+      </div>
+      <div class="form-group ml-5 d-flex flex-row">
+        <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label>
+        <input asp-for="@Model.Card.DateOfAuctionStartUpdated" class="form-control" value="" type="datetime-local" required/>
+      </div>
+    </div>
+
+    <input type="hidden" value="@Model.Card.Id" asp-for="CardId">
+    <div class="form-group">
+      <input type="submit" value="Взять в работу" class="btn btn-outline-success shadow">
+    </div>
+  </form>
+
+  <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+    <div class="form-group">
+      <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
+    </div>
+  </form>
+}
+else
+{
+  <div class="deadlines my-4 d-flex flex-row">
+    <p>
+      Дата окончания проработки - @date1<br>
+      Дата начала торгов - @date2
+    </p>  
+  </div>
+}

@@ -1,0 +1,101 @@
+﻿@model OfferPosition
+
+@{
+    ViewBag.Title = "Добавление позиции";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post" asp-controller="Offers" asp-action="AddPosition" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            
+            <div class="form-group">
+                <label asp-for="CodTNVED">Код ТНВЭД</label><br/>
+                <input class="form-control" asp-for="CodTNVED"  />
+                <span asp-validation-for="CodTNVED"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Name">Название</label><br/>
+                <input class="form-control" asp-for="Name"  />
+                <span asp-validation-for="Name"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Measure">Ед.изм.</label><br/>
+                <input class="form-control" asp-for="Measure" />
+                <span asp-validation-for="Measure"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Amount">Кол-во</label><br/>
+                <input class="form-control" asp-for="Amount" />
+                <span asp-validation-for="Amount"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="UnitPrice">Цена</label><br/>
+                <input class="form-control" asp-for="UnitPrice" />
+                <span asp-validation-for="UnitPrice"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Currency">Валюта</label><br/>
+                <input class="form-control" asp-for="Currency" />
+                <span asp-validation-for="Currency"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="TotalPrice">Итого</label><br/>
+                <input class="form-control" asp-for="TotalPrice" />
+                <span asp-validation-for="TotalPrice"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="DeliveryTerms">Условия поставки</label><br/>
+                <input class="form-control" asp-for="DeliveryTerms" />
+                <span asp-validation-for="DeliveryTerms"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Comment">Комментарий</label><br/>
+                <textarea class="form-control" asp-for="Comment" rows="2" cols="50"></textarea>
+                <span asp-validation-for="Comment"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DeliveryTime">Срок поставки</label><br/>
+                <input class="form-control" asp-for="DeliveryTime" />
+                <span asp-validation-for="DeliveryTime"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="PaymentTerms">Условия оплаты</label><br/>
+                <input class="form-control" asp-for="PaymentTerms" />
+                <span asp-validation-for="PaymentTerms"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="DeliveryCity">Город отгрузки</label><br/>
+                <input class="form-control" asp-for="DeliveryCity" />
+                <span asp-validation-for="DeliveryCity"></span>
+            </div>
+            
+            @Html.HiddenFor(op=>op.OfferId, @Model.OfferId)
+            
+            <div>
+                <input class="btn btn-outline-primary" type="submit" value="Добавить" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

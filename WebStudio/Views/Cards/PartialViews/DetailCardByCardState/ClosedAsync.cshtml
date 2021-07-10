@@ -1,0 +1,9 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+
+@if (User.IsInRole("admin"))
+{
+    <p class="card-text mb-2" id="lin"><span class="badge text-white bg-lightcoral">@Model.Card.CardState</span></p>
+}

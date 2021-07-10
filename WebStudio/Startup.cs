@@ -38,7 +38,7 @@ namespace WebStudio
                     options.User.RequireUniqueEmail = true;
                     options.SignIn.RequireConfirmedEmail = true;
                     options.Lockout.AllowedForNewUsers = true;
-                    //options.Lockout.MaxFailedAccessAttempts = 5;
+                    options.Lockout.MaxFailedAccessAttempts = 5;
                 })
                 .AddEntityFrameworkStores<WebStudioContext>().AddDefaultTokenProviders();
             services.AddTransient<FileUploadService>();

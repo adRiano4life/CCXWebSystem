@@ -1,0 +1,62 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@{
+  var date1 = Model.Card.DateOfProcessingEnd == DateTime.MinValue ? "не установлено" 
+    : Model.Card.DateOfProcessingEnd.ToString(); 
+  var date2 = Model.Card.DateOfAuctionStartUpdated == DateTime.MinValue ? "не установлено" 
+    : Model.Card.DateOfAuctionStartUpdated.ToString();
+}
+
+<p class="card-text mb-2" id="lin"><span class="badge text-white bg-warning">@Model.Card.CardState</span></p>
+@if (Model.Card.DateOfProcessingEnd < DateTime.Now)
+{
+  <p class="text-danger font-weight-bold border-danger">Просрочено!</p>
+}
+
+@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+{
+  <div class="d-flex align-items-end mt-2">
+    <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardState="Выиграна" method="post">
+      @if (User.IsInRole("admin"))
+      {
+        <div class="deadlines d-flex flex-row mt-3 font-italic">
+          <div class="form-group d-flex flex-row">
+            <input hidden value="@Model.CardId" asp-for="CardId">
+            <label asp-for="@Model.Card.DateOfProcessingEnd">Дата окончания проработки</label>
+            <input asp-for="@Model.Card.DateOfProcessingEnd" class="form-control"
+                   value=@Model.Card.DateOfProcessingEnd.ToString("s") type="datetime-local" required/>
+          </div>
+          <div class="form-group ml-2 mb-3">
+            <label asp-for="@Model.Card.DateOfAuctionStartUpdated">Дата начала торгов</label>
+            @Html.EditorFor(m => m.Card.DateOfAuctionStartUpdated, 
+              new {@class = "form-control", @Value = @Model.Card.DateOfAuctionStartUpdated.ToString("s"), 
+                required = "required"})
+          </div>
+        </div>
+      }
+      <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+      <input class="btn btn-outline-primary shadow d-inline mt-2" type="submit" value="Выиграна">
+    </form>
+  </div>
+
+  <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardState="Проиграна" method="post">
+    <div class="form-group mr-2 mt-4">
+      <input hidden value="@Model.CardId" asp-for="CardId">
+      <label class="d-inline-block">Введите предлагаемую цену: </label><br>
+       <input name="bid" type="number" placeholder="Цена">
+       <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+      <input class="btn btn-outline-danger shadow d-block mt-3" type="submit" value="Проиграна">
+    </div>
+  </form>
+}
+else
+{
+  <div class="deadlines my-4 d-flex flex-row">
+    <p>
+      Дата окончания проработки - @date1<br>
+      Дата начала торгов - @date2
+    </p>  
+  </div>
+}

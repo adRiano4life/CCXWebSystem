@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class copmlete_cardState : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -243,6 +243,29 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Offers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CardNumber = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: true),
+                    SupplierName = table.Column<string>(type: "text", nullable: false),
+                    DateOfIssue = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Number = table.Column<string>(type: "text", nullable: false),
+                    Path = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Offers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -380,6 +403,49 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OfferPositions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CodTNVED = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Measure = table.Column<string>(type: "text", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    Currency = table.Column<string>(type: "text", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    DeliveryTerms = table.Column<string>(type: "text", nullable: false),
+                    CommentId = table.Column<string>(type: "text", nullable: true),
+                    DeliveryTime = table.Column<string>(type: "text", nullable: false),
+                    PaymentTerms = table.Column<string>(type: "text", nullable: false),
+                    DeliveryCity = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
+                    OfferId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OfferPositions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OfferPositions_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OfferPositions_Comments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OfferPositions_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Suppliers",
                 columns: table => new
                 {
@@ -466,6 +532,26 @@ namespace WebStudio.Migrations
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OfferPositions_CommentId",
+                table: "OfferPositions",
+                column: "CommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OfferPositions_OfferId",
+                table: "OfferPositions",
+                column: "OfferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OfferPositions_UserId",
+                table: "OfferPositions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Offers_UserId",
+                table: "Offers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Positions_CardCloneId",
                 table: "Positions",
                 column: "CardCloneId");
@@ -517,10 +603,10 @@ namespace WebStudio.Migrations
                 name: "AuctionResults");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "OfferPositions");
 
             migrationBuilder.DropTable(
                 name: "Positions");
@@ -533,6 +619,12 @@ namespace WebStudio.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Offers");
 
             migrationBuilder.DropTable(
                 name: "HistoryOfVictoryAndLosing");

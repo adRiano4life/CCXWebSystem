@@ -12,6 +12,9 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.6" />
+      <PackageReference Include="MimeMapping" Version="1.0.1.37" />
+      <PackageReference Include="NLog" Version="4.7.10" />
+      <PackageReference Include="NLog.Config" Version="4.7.10" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.6" />
       <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="8.0.7.1" />
       <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
@@ -34,6 +37,19 @@
       <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
+      <Compile Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Migrations\**" />
     </ItemGroup>
 
 </Project>

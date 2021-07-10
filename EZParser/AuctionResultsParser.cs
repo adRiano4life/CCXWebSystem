@@ -157,6 +157,7 @@ namespace EZParser
                 }
                 Console.WriteLine($"{DateTime.Now} - Парсинг результатов аукциона закончен");
             }
+            
             catch (Exception e)
             {
                 Console.WriteLine(e);

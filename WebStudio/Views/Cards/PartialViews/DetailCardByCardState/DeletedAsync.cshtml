@@ -1,0 +1,14 @@
+﻿@model WebStudio.ViewModels.DetailCardViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@if (User.IsInRole("admin"))
+{
+    <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
+    <div class="form-group">
+        <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Восстановлена" method="post">
+            <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+            <input type="submit" value="Восстановить" class="btn btn-outline-success shadow-sm">
+        </form>
+    </div>
+}
