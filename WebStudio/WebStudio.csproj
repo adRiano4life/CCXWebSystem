@@ -12,6 +12,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.6" />
+      <PackageReference Include="MimeMapping" Version="1.0.1.37" />
       <PackageReference Include="NLog" Version="4.7.10" />
       <PackageReference Include="NLog.Config" Version="4.7.10" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.6" />
@@ -25,7 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
       <Folder Include="wwwroot\Files\T-0090879" />
       <Folder Include="wwwroot\Files\T-0090880" />
       <Folder Include="wwwroot\Files\T-0090885" />
@@ -37,6 +37,19 @@
       <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.cs" />
       <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
+      <Compile Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Migrations\**" />
     </ItemGroup>
 
 </Project>

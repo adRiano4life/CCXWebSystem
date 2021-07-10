@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using MimeKit;
 using Org.BouncyCastle.Asn1.X509;
 using WebStudio.Models;
 using WebStudio.Services;
@@ -36,7 +39,7 @@ namespace WebStudio.Controllers
             if (userId == null)
                 return NotFound();
             Offer offer = new Offer(){UserId = userId};
-            return View();
+            return View(offer);
         }
         
         [HttpPost]
@@ -46,25 +49,93 @@ namespace WebStudio.Controllers
             {
                 if (offer.File != null)
                 {
-                    string rootDirName = "wwwroot";
+                    string rootDirName = "wwwroot/Files";
                     DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
                     foreach (var dir in dirInfo.GetDirectories())
                     {
                         if (!Directory.Exists("Offers"))
                             dirInfo.CreateSubdirectory("Offers");
                     }
-                    rootDirName = String.Concat(rootDirName, "\\Offers");
-                    string rootDirPath = Path.Combine(_environment.ContentRootPath, rootDirName);
-
-                    offer.Path = $"/Offers/{offer.SupplierName} - {offer.DateOfIssue}";
-                    _uploadService.Upload(rootDirPath, offer.File.FileName, offer.File);
+                    
+                    string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
+                    string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
+                    
+                    var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x) 
+                                                                           || char.IsWhiteSpace(x)).ToArray());
+                    
+                    string fileName = "";
+                    if (offer.CardNumber != null)
+                    {
+                        fileName = $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";    
+                    }
+                    else
+                    {
+                        fileName = $"Без лота - {supplierName}{fileType}";
+                    }
+                    
+                    _uploadService.Upload(rootDirPath, fileName, offer.File);
+                    offer.Path = $"/Offers/{fileName}";
+                    offer.FileName = fileName;
                 }
-                
                 _db.Offers.Add(offer);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             } 
             return View(offer);
+        }
+        
+        public IActionResult DownloadFile(string path, string fileName)
+        {
+            if (path == null && fileName == null)
+                return NotFound();
+
+            Offer offer = _db.Offers.FirstOrDefault(o => o.Path == path && o.FileName == fileName);
+            if (offer == null)
+                return NotFound();
+            string contentType = GetContentType(fileName);
+            
+            var filePath = Path.Combine("", "/Files" + path);
+            return File(filePath, contentType, fileName);
+        }
+        
+        [NonAction]
+        private string GetContentType(string filename) {
+            var dictionary = new Dictionary<string, string> {
+                { ".doc", "application/ms-word" },
+                { ".docx", "application/ms-word" },
+                { ".xls", "application/ms-excel" },
+                { ".xlsx", "application/ms-excel" },
+                { ".pdf", "application/pdf" },
+                { ".png", "image/png" },
+                { ".jpg", "image/jpg" }
+            };
+            string contentType = "";
+            string fileExtension = Path.GetExtension(filename);
+            dictionary.TryGetValue(fileExtension, out contentType);
+            return contentType;
+        }
+        
+        
+        [HttpGet]
+        public IActionResult AddPosition(string offerId)
+        {
+            if (offerId == null)
+                return NotFound();
+            OfferPosition offerPosition = new OfferPosition(){OfferId =  offerId};
+            return View(offerPosition);
+        }
+        
+        [HttpPost]
+        public IActionResult AddPosition(OfferPosition offerPosition)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                _db.OfferPositions.Add(offerPosition);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            } 
+            return View(offerPosition);
         }
 
         

@@ -91,6 +91,7 @@ namespace WebStudio.Controllers
                            "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
                 Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
             };
+            ViewBag.SearchSuppliersCard = _db.SearchSuppliers.FirstOrDefault(c => c.Id == cardId);
             return View(model);
         }
 
@@ -151,7 +152,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPositionAjax(string cardId, string codTNVED,
+        public async Task<IActionResult> AddPositionAjax(int number, string cardId, string codTNVED,
             string name, string measure, string amount, string deliveryTerms)
         {
             CardPosition cardPosition = new CardPosition
@@ -164,10 +165,17 @@ namespace WebStudio.Controllers
                 CardId = cardId,
                 Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId),
             };
-
             await _db.Positions.AddAsync(cardPosition);
             await _db.SaveChangesAsync();
-            return PartialView("PositionAddPartialView", cardPosition);
+            
+            RequestAddPositionViewModel model = new RequestAddPositionViewModel
+            {
+                Card = _db.Cards.FirstOrDefault(c => c.Id == cardId),
+                CardPosition = cardPosition,
+                Number = number
+            };
+            
+            return PartialView("PositionAddPartialView", model);
         }
 
         [HttpGet]
@@ -199,13 +207,14 @@ namespace WebStudio.Controllers
         public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId, string supplierRemoveCardId)
         {
             SearchSupplier? supplier = _db.SearchSuppliers.FirstOrDefault(s => s.Id == supplierId);
+            Card supplierCard = _db.Cards.FirstOrDefault(c => c.Id == supplier.Card.Id);
             if (supplier != null && supplier.Card.Id == supplierRemoveCardId)
             {
                 _db.SearchSuppliers.Remove(supplier);
                 await _db.SaveChangesAsync();
             }
 
-            return Json(_db.SearchSuppliers);
+            return PartialView("SuppliersTablePartialView", supplierCard);
         }
 
         [NonAction]

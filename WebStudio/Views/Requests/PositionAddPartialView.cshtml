@@ -1,9 +1,13 @@
-﻿@model CardPosition
+﻿@model WebStudio.ViewModels.RequestAddPositionViewModel
 
-<tr>
-    <td>@Model.CodTNVED</td>
-    <td>@Model.Name</td>
-    <td>@Model.Measure</td>
-    <td>@Model.Amount</td>
-    <td>@Model.DeliveryTerms</td>
-</tr>
+
+<table class="table" style="font-size: 12px;">
+    <tr>
+        <td style="width: 30.49px">@Model.Number</td>
+        <td style="width: 80.6px">@Model.CardPosition.CodTNVED</td>
+        <td style="width: 193.18px">@Model.CardPosition.Name</td>
+        <td style="width: 53.12px">@Model.CardPosition.Measure</td>
+        <td style="width: 43.11px">@Model.CardPosition.Amount</td>
+        <td style="width: 289.49px">@Model.CardPosition.DeliveryTerms</td>
+    </tr>
+</table>

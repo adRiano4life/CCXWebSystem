@@ -11,6 +11,11 @@
 }
 
 <p class="card-text mb-2" id="lin"><span class="badge badge-primary">@Model.Card.CardState</span></p>
+@if (Model.Card.DateOfProcessingEnd < DateTime.Now)
+{
+  <p class="text-danger font-weight-bold border-danger">Просрочено!</p>  
+}
+
 @if (User.IsInRole("admin"))
 {
   <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Проработка" method="post">

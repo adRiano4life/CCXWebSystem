@@ -111,51 +111,62 @@ else
                     </button>
                   </form>
                 </div>
-                
               }
               
-              
-              
               <div class="card-body pt-2">
-              
                 <p class="card-text mb-2" id="lin">
-                @if (card.CardState != CardState.Новая && card.CardState != CardState.Удалена)
-                {
-                  <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
-                }
-
-                <span class="badge @if(card.CardState == CardState.Новая)
-                                   {
-                                     @:bg-success
-                                   }
-                                   else if (card.CardState == CardState.Проработка)
-                                   {
-                                     @:bg-primary
-                                   }
-                                   else if (card.CardState == CardState.Удалена)
-                                   {
-                                     @:bg-danger
-                                   }
-                                   else if (card.CardState == CardState.Торги)
-                                   {
-                                     @:bg-warning
-                                   } 
-                                   else if (card.CardState == CardState.Выиграна)
-                                   {
-                                     @:bg-info
-                                   }
-                                   else if (card.CardState == CardState.ПКО)
-                                   {
-                                     @:bg-haky
-                                   }
-                                   else if (card.CardState == CardState.Проиграна)
-                                   {
-                                     @:bg-dark
-                                   }
+                  @if (card.CardState != CardState.Новая && card.CardState != CardState.Удалена)
+                  {
+                    @if (card.ExecutorId != null)
+                    {
+                      <span class="badge badge-dark">@card.Executor.Name @card.Executor.Surname</span>
+                    }
+                    else
+                    {
+                      <span class="badge badge-dark">тестовая карточка</span>
+                    }
+                  }
+                  
+                
+                  <span class="badge @if(card.CardState == CardState.Новая)
+                                     {
+                                       @:bg-success
+                                     }
+                                     else if (card.CardState == CardState.Проработка)
+                                     {
+                                       @:bg-primary
+                                     }
+                                     else if (card.CardState == CardState.Удалена)
+                                     {
+                                       @:bg-danger
+                                     }
+                                     else if (card.CardState == CardState.Торги)
+                                     {
+                                       @:bg-warning
+                                     } 
+                                     else if (card.CardState == CardState.Выиграна)
+                                     {
+                                       @:bg-info
+                                     }
+                                     else if (card.CardState == CardState.ПКО)
+                                     {
+                                       @:bg-haky
+                                     }
+                                     else if (card.CardState == CardState.Проиграна)
+                                     {
+                                       @:bg-dark
+                                     }
                                    text-white">
-                          @card.CardState
-                        </span>
-                      </p>
+                    @card.CardState
+                  </span>
+                  @if (card.CardState == CardState.Проработка || card.CardState == CardState.ПКО || card.CardState == CardState.Торги)
+                  {
+                    @if (card.DateOfProcessingEnd < DateTime.Now)
+                    {
+                      <span class="text-danger font-weight-bold border-danger">Просрочено!</span>
+                    }
+                  }
+                </p>
                 
                 <p class="card-text mb-4">@card.Initiator</p>
                 <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>

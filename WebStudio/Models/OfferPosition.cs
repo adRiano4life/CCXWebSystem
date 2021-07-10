@@ -23,7 +23,7 @@ namespace WebStudio.Models
         public decimal TotalPrice { get; set; }
         [Required (ErrorMessage = "Поле обязательно")]
         public string DeliveryTerms { get; set; }
-        public virtual Comment Comment { get; set; }
+        public string Comment { get; set; }
         [Required (ErrorMessage = "Поле обязательно")]
         public string DeliveryTime { get; set; }
         [Required (ErrorMessage = "Поле обязательно")]
@@ -31,9 +31,6 @@ namespace WebStudio.Models
         [Required (ErrorMessage = "Поле обязательно")]
         public string DeliveryCity { get; set; }
 
-        public string UserId { get; set; }
-        public virtual User User { get; set; }
-        
         public string OfferId { get; set; }
         public virtual Offer Offer { get; set; }
     }

@@ -73,10 +73,10 @@ namespace WebStudio.Controllers
                         Users =  _db.Users.ToList(),
                         FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                     };
-                    
+
                     return View(model);
                 }
-                
+
                 return NotFound();
             }
             catch (Exception e)
@@ -85,6 +85,7 @@ namespace WebStudio.Controllers
                 _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+            
         }
 
         
@@ -201,7 +202,6 @@ namespace WebStudio.Controllers
                         }
                         _db.Cards.Update(card);
                         await _db.SaveChangesAsync();
-                        
                         return RedirectToAction("DetailCard2", "Cards", new {cardId = card.Id});
                     }
                 }
