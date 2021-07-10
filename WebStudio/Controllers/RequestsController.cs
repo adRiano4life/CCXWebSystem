@@ -200,13 +200,14 @@ namespace WebStudio.Controllers
         public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId, string supplierRemoveCardId)
         {
             SearchSupplier? supplier = _db.SearchSuppliers.FirstOrDefault(s => s.Id == supplierId);
+            Card supplierCard = _db.Cards.FirstOrDefault(c => c.Id == supplier.Card.Id);
             if (supplier != null && supplier.Card.Id == supplierRemoveCardId)
             {
                 _db.SearchSuppliers.Remove(supplier);
                 await _db.SaveChangesAsync();
             }
 
-            return Json(_db.SearchSuppliers);
+            return PartialView("SuppliersTablePartialView", supplierCard);
         }
 
         [NonAction]

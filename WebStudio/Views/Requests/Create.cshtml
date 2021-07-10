@@ -308,16 +308,8 @@
                     $('#suppliersNull').hide();
                     $('#suppliersTablePartial').html(data);
                     console.log(data)
-                    /*for (var i = 0; i < data.length; i++)
-                        {
-                            $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
-                            console.log(data[i])
-                        }*/
                 }
             });
-/*            setTimeout(function (){
-                location.reload();
-            }, 250);*/
         }
         
         function AddSupplierAjax(){
@@ -360,18 +352,11 @@
                     'supplierRemoveCardId' : supplierRemoveCardId
                 },
                 success : function (data){
-                    $('#suppliersNull').hide();
-                    for (var i = 0; i < data.length; i++)
-                          {
-                              $('#suppliers').append('<p>' + data[i].name + '</p>')
-                              console.log(data[i])
-                          }
+                      $('#suppliersNull').hide();
+                      $('#suppliersTablePartial').html(data);
                       console.log(data)
-                  },
+                }
             });
-            setTimeout(function (){
-                location.reload();
-            }, 250);
         }
     </script>
 }
