@@ -14,6 +14,7 @@ using WebStudio.ViewModels;
 
 namespace WebStudio.Controllers
 {
+    [Authorize]
     public class RequestsController : Controller
     {
 
