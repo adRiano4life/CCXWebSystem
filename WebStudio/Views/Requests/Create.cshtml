@@ -31,12 +31,12 @@
         </div>
         <label class="font-weight-bold mr-3">Выбранные поставщики:</label>
         <div class="form-inline">
-            @if (_db.SearchSuppliers.Count() == 0)
+            @if (_db.SearchSuppliers.Count() == 0 || !_db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
             {
                 <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
             }
             <div id="suppliersTablePartial"></div>
-            @if (_db.SearchSuppliers.Count() != 0)
+            @if (_db.SearchSuppliers.Count() != 0 && _db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
             {
                 <div id="suppliersTable">
                     <table class="table" style="font-size: 12px;">
@@ -72,10 +72,6 @@
                         }
                     </table>
                 </div>
-                if (_db.SearchSuppliers.All(s=>s.Card.Id != Model.Card.Id))
-                {
-                    <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
-                }
             }
         </div>
         <form asp-action="Create" asp-controller="Requests" method="post" enctype="multipart/form-data">
@@ -88,30 +84,33 @@
                     <label class="font-weight-bold">Текст запроса:</label>
                     <textarea cols="150" rows="10" readonly class="border-0">@Model.TextView</textarea>
                 </div>
+                
                 @if (Model.Card.Positions.Count() > 0)
                 {
-                    <table class="table" style="font-size: 12px;">
-                        <tr>
-                            <th>№</th>
-                            <th>Код ТНВЭД</th>
-                            <th>Наименование</th>
-                            <th>Ед.изм.</th>
-                            <th>Кол-во</th>
-                            <th>Условия поставки</th>
-                        </tr>
-                        @foreach (var position in Model.Card.Positions)
-                        {
+                    <div id="positionTable">
+                        <table class="table" style="font-size: 12px;">
                             <tr>
-                                <td>@(@count++)</td>
-                                <td>@position.CodTNVED</td>
-                                <td>@position.Name</td>
-                                <td>@position.Measure</td>
-                                <td>@position.Amount</td>
-                                <td>@position.DeliveryTerms</td>
+                                <th>№</th>
+                                <th>Код ТНВЭД</th>
+                                <th>Наименование</th>
+                                <th>Ед.изм.</th>
+                                <th>Кол-во</th>
+                                <th>Условия поставки</th>
                             </tr>
-                        }
-                        <div id="newPosition"></div>
-                    </table>
+                            @foreach (var position in Model.Card.Positions)
+                            {
+                                <tr>
+                                    <td>@(@count++)</td>
+                                    <td>@position.CodTNVED</td>
+                                    <td>@position.Name</td>
+                                    <td>@position.Measure</td>
+                                    <td>@position.Amount</td>
+                                    <td>@position.DeliveryTerms</td>
+                                </tr>
+                            }
+                        </table>
+                        <div id="positionAddTablePartial"></div>
+                    </div>
                 }
                 <div class="form-group ml-3">
                     <a type="button" data-toggle="modal" data-target="#addPositionForm">
@@ -156,7 +155,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Отправить" class="btn btn-outline-primary shadow">
+                <button type="submit" class="btn btn-outline-primary shadow"><i class="fas fa-paper-plane"></i> Отправить</button>
             </div>
         </form>
 
@@ -264,6 +263,7 @@
         $('#success').hide();
         $('#supplierSuccess').hide();
         function AddPositionAjax(){
+            var number = $('#number').val();
             var cardId = $('#cardId').val();
             var positionNumber = $('#number').val();
             var codTNVED = $('#codTNVED').val();
@@ -275,6 +275,7 @@
                 url : '@Url.Action("AddPositionAjax", "Requests")',
                 type : 'GET',
                 data : {
+                    'number' : number,
                     'cardId' : cardId,
                     'positionNumber' : positionNumber,
                     'codTNVED' : codTNVED,
@@ -286,6 +287,7 @@
                 success : function (data){
                     //$('#newPosition').append('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
                     //$('#newPosition').append(data)
+                    $('#positionAddTablePartial').append(data);
                     console.log(data);
                 }
             });
@@ -312,16 +314,8 @@
                     $('#suppliersNull').hide();
                     $('#suppliersTablePartial').html(data);
                     console.log(data)
-                    /*for (var i = 0; i < data.length; i++)
-                        {
-                            $('#suppliers').append('<p class="mr-2">' + data[i].name + ',</p>');
-                            console.log(data[i])
-                        }*/
                 }
             });
-/*            setTimeout(function (){
-                location.reload();
-            }, 250);*/
         }
         
         function AddSupplierAjax(){
@@ -364,18 +358,12 @@
                     'supplierRemoveCardId' : supplierRemoveCardId
                 },
                 success : function (data){
-                    $('#suppliersNull').hide();
-                    for (var i = 0; i < data.length; i++)
-                          {
-                              $('#suppliers').append('<p>' + data[i].name + '</p>')
-                              console.log(data[i])
-                          }
+                      $('#suppliersNull').hide();
+                      $('#suppliersTable').hide();
+                      $('#suppliersTablePartial').html(data);
                       console.log(data)
-                  },
+                }
             });
-            setTimeout(function (){
-                location.reload();
-            }, 250);
         }
     </script>
 }
