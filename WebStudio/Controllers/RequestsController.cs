@@ -97,7 +97,6 @@ namespace WebStudio.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
         public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash, List<string> selectedLinkNames)
         {
             if (ModelState.IsValid)
