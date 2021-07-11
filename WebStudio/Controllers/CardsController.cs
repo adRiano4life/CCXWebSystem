@@ -46,8 +46,8 @@ namespace WebStudio.Controllers
             }
             catch (Exception e)
             {
-                _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
             
@@ -73,22 +73,19 @@ namespace WebStudio.Controllers
                         Users =  _db.Users.ToList(),
                         FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                     };
-                    
+
                     return View(model);
                 }
-                
+
                 return NotFound();
             }
             catch (Exception e)
             {
-                var stack = new StackTrace(e);
-                foreach (var frame in stack.GetFrames())
-                {
-                    _nLogger.Error($"Внимание ошибка: {frame.GetMethod()} => {e.Message}");
-                }
-                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+            
         }
 
         
@@ -205,7 +202,6 @@ namespace WebStudio.Controllers
                         }
                         _db.Cards.Update(card);
                         await _db.SaveChangesAsync();
-                        
                         return RedirectToAction("DetailCard2", "Cards", new {cardId = card.Id});
                     }
                 }
@@ -213,8 +209,8 @@ namespace WebStudio.Controllers
             }
             catch (Exception e)
             {
-                _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
         }
@@ -252,14 +248,15 @@ namespace WebStudio.Controllers
                         return RedirectToAction("DetailCard2", "Cards", new {cardId = card.Id});
                     }
                     return Content("Такой карточки не обнаруженно");
+                 
                 }
 
                 return NotFound();
             }
             catch (Exception e)
             {
-                _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
             
@@ -364,8 +361,8 @@ namespace WebStudio.Controllers
             }
             catch (Exception e)
             {
-                _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                 throw;
                 
             }
@@ -412,8 +409,8 @@ namespace WebStudio.Controllers
            }
            catch (Exception e)
            {
-               _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+               _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
        }
@@ -451,8 +448,8 @@ namespace WebStudio.Controllers
            }
            catch (Exception e)
            {
-               _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+               _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
            
@@ -485,8 +482,8 @@ namespace WebStudio.Controllers
            }
            catch (Exception e)
            {
-               _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+               _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
            
@@ -518,8 +515,8 @@ namespace WebStudio.Controllers
            }
            catch (Exception e)
            {
-               _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+               _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
        }
@@ -549,8 +546,8 @@ namespace WebStudio.Controllers
            }
            catch (Exception e)
            {
-               _nLogger.Error($"Внимание ошибка: {e.TargetSite} => {e.Message}");
-               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.TargetSite} => {e.Message}");
+               _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+               _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
            
