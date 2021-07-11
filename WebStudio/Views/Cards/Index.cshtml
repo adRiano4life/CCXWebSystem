@@ -14,7 +14,7 @@
     int ActiveCard = Model.Where(c => c.CardState == CardState.Активна).Count();
     int DelCard = Model.Where(c => c.CardState == CardState.Удалена).Count();
 
-    var customProps = "btn btn-light col-lg-12 text-left mb-2 shadow-sm";
+    var customProps = "btn btn-light col-lg-12 my-0 shadow-sm d-flex flex-row justify-content-between align-items-center";
     
     var closedCards = @db.Cards.Where(c => c.CardState == CardState.Закрыта).Count();
     var auctionRes = db.AuctionResults.Count();
@@ -24,67 +24,22 @@
 <div>
     <div class="container pl-0">
         <div class="row ml-0">
-        
-            <div class="col-lg-4 pl-0 pr-0 justify-content-left">
-                <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList"
-                   asp-route-sort="@CardState.Проиграна">Проигранные 
-                    <span class="badge badge-success">@LoseCard</span>
-                    </a><br>
-                               
-               <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
-                  asp-route-sort="@CardState.Закрыта">Закрытые 
-                   <span class="badge badge-success">@closedCards</span>
-                   </a><br>
-               
-               <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
-                  asp-route-sort="@CardState.Удалена">Удаленные 
-                   <span class="badge badge-success">@DelCard</span>
-                   </a><br>
-               
-               @* <a type="button" class="@customProps">База договоров/ реестр исполнения договоров</a><br> *@
-               
-               <a type="button" class="@customProps" asp-controller="AuctionResults" asp-action="Index">
-                   Результаты торгов с сайта биржи 
-                   <span class="badge badge-success">@auctionRes</span>
-                   </a><br>
-               
-               <a type="button" class="@customProps" asp-controller="Cards" asp-action="AuctionCards">
-                   Архив результатов участия в торгах  
-                   <span class="badge badge-success">@historyRes</span>
-               </a><br>
-               
-                @*цветные*@
-                @* <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList"  *@
-                @*    asp-route-sort="@CardState.Проиграна">Проигранные  *@
-                @*     <span class="badge badge-dark">@LoseCard</span> *@
-                @*     $1$ <span class="text-success font-weight-bold">(@LoseCard)</span> #1# *@
-                @*     </a><br> *@
-                @* *@
-                @* <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList"  *@
-                @*    asp-route-sort="@CardState.Закрыта">Закрытые  *@
-                @*     <span class="badge badge-lightcoral">@closedCards</span> *@
-                @*     $1$ <span class="text-success font-weight-bold">(@closedCards)</span> #1# *@
-                @*     </a><br> *@
-                @* *@
-                @* <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList"  *@
-                @*    asp-route-sort="@CardState.Удалена">Удаленные  *@
-                @*     <span class="badge badge-danger">@DelCard</span> *@
-                @*     $1$ <span class="text-success font-weight-bold">(@DelCard)</span> #1# *@
-                @*     </a><br> *@
-                @* *@
-                @* $1$ <a type="button" class="@customProps">База договоров/ реестр исполнения договоров</a><br> #1# *@
-                @* *@
-                @* <a type="button" class="@customProps" asp-controller="AuctionResults" asp-action="Index"> *@
-                @*     Результаты торгов с сайта биржи  *@
-                @*     <span class="badge badge-secondary">@auctionRes</span> *@
-                @*     $1$ <span class="text-success font-weight-bold">(@auctionRes)</span> #1# *@
-                @*     </a><br> *@
-                @* *@
-                @* <a type="button" class="@customProps" asp-controller="Cards" asp-action="AuctionCards"> *@
-                @*     Архив результатов участия в торгах   *@
-                @*     <span class="badge badge-secondary">@historyRes</span> *@
-                @*     $1$ <span class="text-success font-weight-bold">(@historyRes)</span> #1# *@
-                @*     </a><br> *@
+            <div class="col-lg-4 pl-0 pr-0">
+                
+                <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
+                   asp-route-sort="@CardState.Проиграна"><span>Проигранные </span><span class="badge badge-dark"> @LoseCard</span></a><br>
+                
+                <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
+                   asp-route-sort="@CardState.Закрыта"><span>Закрытые </span><span class="badge badge-lightcoral"> @closedCards </span></a><br>
+                
+                <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
+                   asp-route-sort="@CardState.Удалена">Удаленные </a><br>
+                
+                <a type="button" class="@customProps" asp-controller="AuctionResults" asp-action="Index">
+                    <span>Результаты торгов с сайта биржи </span><span class="badge badge-secondary"> @auctionRes </span></a><br>
+                
+                <a type="button" class="@customProps" asp-controller="Cards" asp-action="AuctionCards">
+                    <span>Архив результатов участия на торгах </span><span class="badge badge-secondary"> @historyRes </span></a><br>
                 
                 <a type="button" class="@customProps" asp-controller="Requests" asp-action="Index">Запросы поставщикам</a><br>
 

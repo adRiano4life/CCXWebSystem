@@ -137,6 +137,11 @@ body {
   background-color: darkviolet;
 }
 
+.badge-violet{
+  color: #fff;
+  background-color: darkviolet;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
