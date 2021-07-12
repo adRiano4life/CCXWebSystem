@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -252,6 +252,7 @@ namespace WebStudio.Migrations
                     DateOfIssue = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Number = table.Column<string>(type: "text", nullable: false),
                     Path = table.Column<string>(type: "text", nullable: true),
+                    FileName = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -415,28 +416,15 @@ namespace WebStudio.Migrations
                     Currency = table.Column<string>(type: "text", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
                     DeliveryTerms = table.Column<string>(type: "text", nullable: false),
-                    CommentId = table.Column<string>(type: "text", nullable: true),
+                    Comment = table.Column<string>(type: "text", nullable: true),
                     DeliveryTime = table.Column<string>(type: "text", nullable: false),
                     PaymentTerms = table.Column<string>(type: "text", nullable: false),
                     DeliveryCity = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true),
                     OfferId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OfferPositions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OfferPositions_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OfferPositions_Comments_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OfferPositions_Offers_OfferId",
                         column: x => x.OfferId,
@@ -532,19 +520,9 @@ namespace WebStudio.Migrations
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfferPositions_CommentId",
-                table: "OfferPositions",
-                column: "CommentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OfferPositions_OfferId",
                 table: "OfferPositions",
                 column: "OfferId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OfferPositions_UserId",
-                table: "OfferPositions",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_UserId",
@@ -603,6 +581,9 @@ namespace WebStudio.Migrations
                 name: "AuctionResults");
 
             migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
                 name: "Files");
 
             migrationBuilder.DropTable(
@@ -619,9 +600,6 @@ namespace WebStudio.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Offers");
