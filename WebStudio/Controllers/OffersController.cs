@@ -45,42 +45,33 @@ namespace WebStudio.Controllers
         [HttpPost]
         public IActionResult Create(Offer offer)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && offer.File != null)
             {
-                if (offer.File != null)
+                string rootDirName = "wwwroot/Files";
+                DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
+                foreach (var dir in dirInfo.GetDirectories())
                 {
-                    string rootDirName = "wwwroot/Files";
-                    DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
-                    foreach (var dir in dirInfo.GetDirectories())
-                    {
-                        if (!Directory.Exists("Offers"))
-                            dirInfo.CreateSubdirectory("Offers");
-                    }
-                    
-                    string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
-                    string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
-                    
-                    var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x) 
-                                                                           || char.IsWhiteSpace(x)).ToArray());
-                    
-                    string fileName = "";
-                    if (offer.CardNumber != null)
-                    {
-                        fileName = $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";    
-                    }
-                    else
-                    {
-                        fileName = $"Без лота - {supplierName}{fileType}";
-                    }
-                    
-                    _uploadService.Upload(rootDirPath, fileName, offer.File);
-                    offer.Path = $"/Offers/{fileName}";
-                    offer.FileName = fileName;
+                    if (!Directory.Exists("Offers"))
+                        dirInfo.CreateSubdirectory("Offers");
                 }
+
+                string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
+                string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
+
+                var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x)
+                                                                            || char.IsWhiteSpace(x)).ToArray());
+                string fileName =
+                    $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";
+
+                _uploadService.Upload(rootDirPath, fileName, offer.File);
+                offer.Path = $"/Offers/{fileName}";
+                offer.FileName = fileName;
+
                 _db.Offers.Add(offer);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
-            } 
+            }
+
             return View(offer);
         }
         

@@ -21,14 +21,11 @@ namespace WebStudio.Models
         public DbSet<Comment> Comments { get; set; }
         
         public DbSet<Offer> Offers { get; set; }
-        // public DbSet<OfferPosition> OfferPositions { get; set; }
-
+        
         public WebStudioContext(DbContextOptions options) : base(options)
         {
             
         }
-        
-        
         
     }
 }
