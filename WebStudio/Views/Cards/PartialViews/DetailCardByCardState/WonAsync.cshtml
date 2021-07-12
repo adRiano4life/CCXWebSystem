@@ -5,25 +5,28 @@
 
  <p class="card-text mb-2 mt-2" id="lin"><span class="badge badge-info text-white">@Model.Card.CardState</span></p>
 
-<div class="mr-3">
+@if (User.IsInRole("admin") || UserManager.GetUserId(User) == Model.Card.Executor.Id)
+{
+ <div class="mr-3">
   <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
-    <label class="font-weight-bold">Прикрепить файл:</label>
-    <div class="form-group">
-      <input class="mb-2" type="file" name="uploads"/>
-    </div>
-    <div class="form-group">
-      <input class="mb-2" type="file" name="uploads"/>
-    </div>
-    <div class="form-group">
-      <input class="mb-1" type="file" name="uploads"/>
-    </div>
-    <button class="btn btn-outline-info shadow" type="submit"><i class="fas fa-upload"></i> Загрузить</button>
+   <label class="font-weight-bold">Прикрепить файл:</label>
+   <div class="form-group">
+    <input class="mb-2" type="file" name="uploads"/>
+   </div>
+   <div class="form-group">
+    <input class="mb-2" type="file" name="uploads"/>
+   </div>
+   <div class="form-group">
+    <input class="mb-1" type="file" name="uploads"/>
+   </div>
+   <button class="btn btn-outline-info shadow" type="submit"><i class="fas fa-upload"></i> Загрузить</button>
   </form>
-</div>
+ </div>
 
-<div class="form-group">
+ <div class="form-group">
   <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardState="Активна" method="post">
-    <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
-    <input class="btn btn-outline-success shadow mt-4" type="submit" value="Активна">
+   <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
+   <input class="btn btn-outline-success shadow mt-4" type="submit" value="Активна">
   </form>
-</div>
+ </div>
+}

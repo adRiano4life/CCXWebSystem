@@ -113,11 +113,32 @@ body {
 .bg-haky{
   background-color: #78866b;
 }
+
+.badge-haky {
+  color: #fff;
+  background-color: #78866b;
+}
+
 .bg-lightcoral{
   background-color: lightcoral;
 }
 
+.badge-lightcoral{
+  color: #fff;
+  background-color: lightcoral;
+}
+
 .bg-violet{
+  background-color: darkviolet;
+}
+
+.badge-violet{
+  color: #fff;
+  background-color: darkviolet;
+}
+
+.badge-violet{
+  color: #fff;
   background-color: darkviolet;
 }
 

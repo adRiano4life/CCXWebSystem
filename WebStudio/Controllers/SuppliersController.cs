@@ -13,6 +13,7 @@ using X.PagedList;
 
 namespace WebStudio.Controllers
 {
+    [Authorize]
     public class SuppliersController : Controller
     {
         private WebStudioContext _db;
