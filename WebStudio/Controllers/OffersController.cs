@@ -75,6 +75,7 @@ namespace WebStudio.Controllers
             return View(offer);
         }
         
+        
         public IActionResult DownloadFile(string path, string fileName)
         {
             if (path == null && fileName == null)
@@ -106,29 +107,6 @@ namespace WebStudio.Controllers
             return contentType;
         }
         
-        
-        [HttpGet]
-        public IActionResult AddPosition(string offerId)
-        {
-            if (offerId == null)
-                return NotFound();
-            OfferPosition offerPosition = new OfferPosition(){OfferId =  offerId};
-            return View(offerPosition);
-        }
-        
-        [HttpPost]
-        public IActionResult AddPosition(OfferPosition offerPosition)
-        {
-            if (ModelState.IsValid)
-            {
-                
-                _db.OfferPositions.Add(offerPosition);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            } 
-            return View(offerPosition);
-        }
-
         
     }
 }
