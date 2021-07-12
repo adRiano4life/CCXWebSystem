@@ -39,4 +39,16 @@
       <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="C:\Users\fifax\.nuget\packages\nlog.config\4.7.10\contentFiles\any\any\NLog.config">
+        <NuGetPackageId>NLog.Config</NuGetPackageId>
+        <NuGetPackageVersion>4.7.10</NuGetPackageVersion>
+        <NuGetItemType>None</NuGetItemType>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>NLog.config</TargetPath>
+        <Private>True</Private>
+        <Link>NLog.config</Link>
+      </None>
+    </ItemGroup>
+
 </Project>
