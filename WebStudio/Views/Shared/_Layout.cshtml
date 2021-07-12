@@ -32,48 +32,44 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
-                           asp-route-sort="@CardState.Новая">Новые<span class="text-success font-weight-bold">(@newCards)</span></a>
-                    </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="navbar-nav flex-grow-1">
 
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
-                           asp-route-sort="@CardState.Проработка">Проработка <span class="text-success font-weight-bold">(@processCards)</span></a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
-                           asp-route-sort="@CardState.ПКО">ПКО <span class="text-success font-weight-bold">(@pkoCards)</span></a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
-                           asp-route-sort="@CardState.Торги">Торги <span class="text-success font-weight-bold">(@auctionCards)</span></a>
-                    </li>
-                    
-                    @* <li class="nav-item"> *@
-                    @*     <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Удалена">-Удалённые</a> *@
-                    @* </li> *@
-                    @* *@
-                    @* <li class="nav-item"> *@
-                    @*     <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" asp-route-sort="@CardState.Проиграна">-Проигранные</a> *@
-                    @* </li> *@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList"
+                               asp-route-sort="@CardState.Новая">Новые <span class="badge badge-success"> @newCards </span></a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
-                           asp-route-sort="@CardState.Выиграна">Выиграные <span class="text-success font-weight-bold">(@wonCards)</span></a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList" 
-                           asp-route-sort="@CardState.Активна">Активные <span class="text-success font-weight-bold">(@activeCards)</span></a>
-                    </li>
-                    
-                </ul>
-                <div class="login-group col-md-2 d-flex justify-content-end align-items-baseline">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList"
+                               asp-route-sort="@CardState.Проработка">Проработка <span class="badge badge-primary"> @processCards </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList"
+                               asp-route-sort="@CardState.ПКО">ПКО <span class="badge badge-haky"> @pkoCards</span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList"
+                               asp-route-sort="@CardState.Торги">Торги <span class="badge badge-warning"> @auctionCards </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList"
+                               asp-route-sort="@CardState.Выиграна">Выиграные <span class="badge badge-info"> @wonCards </span></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cards" asp-action="AllCardsList"
+                               asp-route-sort="@CardState.Активна">Активные <span class="badge badge-violet"> @activeCards </span></a>
+                        </li>
+
+                    </ul>
+                }
+                
+                <div class="login-group col-md-2 d-flex ml-auto align-items-baseline">
                     @if (User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Account" asp-action="Index" asp-route-userId="@UserManager.GetUserId(User)"><i class="far fa-user text-dark"></i></a>
