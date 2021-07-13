@@ -369,8 +369,7 @@ namespace WebStudio.Controllers
             }
             
         }
-       
-       
+        
        [HttpGet]
        [Authorize]
        public IActionResult AuctionCards(AuctionCardsViewModel model, string filterOrder, string executorName, int? page)

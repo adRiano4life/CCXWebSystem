@@ -18,14 +18,12 @@ namespace EZParser
 {
     public class Program
     {
-        public static string DefaultConnection = ""; 
-        //"Server=127.0.0.1;Port=5432;Database=WebStudio;User Id=postgres;Password=QWEqwe123@"; // бд Саня Ф., Гульжан
+        public static string DefaultConnection = "";
  
-        public static string PathToFiles = ""; 
-        // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
+        //public static string PathToFiles = ""; // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
         //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
         //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
-        //public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
+        public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
 
         static void Main(string[] args)
         { 
@@ -33,7 +31,7 @@ namespace EZParser
             var appConfig  = builder.Build();
             DefaultConnection = appConfig.GetConnectionString("DefaultConnection");
             PathToFiles = appConfig.GetValue<string>("PathToFiles:DefaultPath");
-             
+
             int num = 0;
             TimerCallback tm = new TimerCallback(TimerCount);
             Timer timer = new Timer(tm, num, 0, 300000);
@@ -84,7 +82,7 @@ namespace EZParser
                         string[] subDirectory = tds[0].InnerText.Split("/");
                         dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                         string stringLink = $"https://info.ccx.kz{@link.Attributes[0].Value}";
-                        string linkName = link.InnerText;
+                        string linkName = link.InnerText.Trim();
                         if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
                         {
                             foreach (var dir in dirInfo.GetDirectories())
@@ -92,27 +90,38 @@ namespace EZParser
                                 if (!Directory.Exists("Excel"))
                                     dirInfo.CreateSubdirectory("Excel");
                             }
-                            client.DownloadFile($"{stringLink}", @$"{dirInfo}\Excel\{linkName}"); // общий путь
+                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/Excel/{linkName}"); // общий путь
                         }
                         
-                        client.DownloadFile($"{stringLink}", @$"{dirInfo}\{subDirectory[0]}\{linkName}");  // общий путь
+                        client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");  // общий путь
 
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
+                    
+                    /* Код для конвертации на сервере */
 
-                    string[] sumStrings = tds[2].InnerText.Split(",");
-                    decimal sumResult = Convert.ToDecimal(sumStrings[0]);
-                    DateTime acceptingEnd = Convert.ToDateTime(tds[3].InnerText);
-                    Console.WriteLine(sumResult);
-                    Console.WriteLine(acceptingEnd);
+                    // string startSumString = tds[2].InnerText.Trim();
+                    // startSumString = startSumString.Replace(" ", "");
+                    // startSumString = startSumString.Replace(",", ".");
+                    // Console.WriteLine(startSumString);
+                    // bool result = decimal.TryParse(startSumString, out decimal sumResult);
+                    // Console.WriteLine(sumResult);
                     
-                    
+                    // string[] datestrings = tds[3].InnerText.Split(".");
+                    // string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
+                    // DateTime acceptingEnd = Convert.ToDateTime(date);
+                    //
+                    // string[] auctionDates = tds[4].InnerText.Split(".");
+                    // string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
+                    // DateTime auctionEnd = Convert.ToDateTime(auctiondate);
+
+
                     Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
-                        StartSumm = sumResult,
+                        StartSumm = Convert.ToDecimal(tds[2].InnerText),
                         DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
                         DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
                         Initiator = tds[5].InnerText,
