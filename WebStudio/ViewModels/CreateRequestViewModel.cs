@@ -12,7 +12,7 @@ namespace WebStudio.ViewModels
         public string TextView { get; set; }
         public DateTime DateOfCreate { get; set; } = DateTime.Now;
         public List<string> FilePath { get; set; }
-        public string OverallPath { get; set; }
+        public string OverallPath { get; set; } = "/var/www/CCXWebSystem/WebStudio/wwwroot/Files";
         public string SupplierSearchInput { get; set; }
 
         public string ExecutorId { get; set; }

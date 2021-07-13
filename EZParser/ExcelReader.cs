@@ -30,7 +30,7 @@ namespace EZParser
 
                     if (card.Positions is null)
                     {
-                        string rootDirName = @$"{Program.PathToFiles}\Excel"; //общий путь
+                        string rootDirName = @$"{Program.PathToFiles}/Excel"; //общий путь
                         
                         List<string> fileNames = new List<string>();
 
@@ -48,7 +48,7 @@ namespace EZParser
                                 SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
                                 SpreadsheetInfo.FreeLimitReached += (sender, e) => e.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
                                 
-                                ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}\{file}"); // общий путь
+                                ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}/{file}"); // общий путь
                                 
                                 int rowCount = 0, startRow = 0;
                                 for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)

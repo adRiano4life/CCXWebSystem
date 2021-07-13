@@ -13,10 +13,13 @@ namespace WebStudio.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         
+        [Required (ErrorMessage = "Поле обязательно")]
         [Remote("CheckCardNumber", "Validation", ErrorMessage = "Такого номера лота не существует")]
         [StringLength(11, MinimumLength = 0, ErrorMessage = "Длина номера лота от 0 до 12 знаков")]
         [DisplayName("Номер лота (на латинице)")]
         public string CardNumber { get; set; }
+        public string CardId { get; set; }
+        public virtual Card Card { get; set; }
         
         [Required (ErrorMessage = "Поле обязательно")]
         [DisplayName("Поставщик")]
@@ -29,16 +32,16 @@ namespace WebStudio.Models
         [Required (ErrorMessage = "Поле обязательно")]
         [DisplayName("Номер КП")]
         public string Number { get; set; }
-        
+
+        [Required (ErrorMessage = "Поле обязательно")]
         [NotMapped]
         [DisplayName("Загрузить КП")]
         public IFormFile File { get; set; }
         public string Path { get; set; }
         public string FileName { get; set; }
-
-        public virtual List<OfferPosition> Positions { get; set; }
+        public string Note { get; set; }
         
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        
     }
 }

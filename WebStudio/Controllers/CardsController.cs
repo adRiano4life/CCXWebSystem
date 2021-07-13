@@ -20,6 +20,7 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace WebStudio.Controllers
 {
+    [Authorize]
     public class CardsController : Controller
     {
         private WebStudioContext _db;
@@ -368,8 +369,7 @@ namespace WebStudio.Controllers
             }
             
         }
-       
-       
+        
        [HttpGet]
        [Authorize]
        public IActionResult AuctionCards(AuctionCardsViewModel model, string filterOrder, string executorName, int? page)
