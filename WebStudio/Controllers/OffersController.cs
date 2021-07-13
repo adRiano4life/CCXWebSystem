@@ -67,6 +67,11 @@ namespace WebStudio.Controllers
                 offer.Path = $"/Offers/{fileName}";
                 offer.FileName = fileName;
 
+                Card card = _db.Cards.FirstOrDefault(c => c.Number == offer.CardNumber);
+                if (card == null)
+                    return NotFound();
+
+                offer.CardId = card.Id;
                 _db.Offers.Add(offer);
                 _db.SaveChanges();
                 return RedirectToAction("Index");

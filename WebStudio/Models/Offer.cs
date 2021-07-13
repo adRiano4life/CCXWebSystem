@@ -18,6 +18,7 @@ namespace WebStudio.Models
         [StringLength(11, MinimumLength = 0, ErrorMessage = "Длина номера лота от 0 до 12 знаков")]
         [DisplayName("Номер лота (на латинице)")]
         public string CardNumber { get; set; }
+        public string CardId { get; set; }
         public virtual Card Card { get; set; }
         
         [Required (ErrorMessage = "Поле обязательно")]
