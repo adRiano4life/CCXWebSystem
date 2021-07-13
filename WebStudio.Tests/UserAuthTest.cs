@@ -36,5 +36,25 @@ namespace WebStudio.Tests
             Assert.Equal("https://localhost:5001/Requests", suppliersRequestsButtonLink);
             Assert.Equal("https://localhost:5001/Suppliers", suppliersDataBaseButtonLink);
         }
+        
+        [Fact]
+        public void LoginWrongDataReturnsErrorMessage()
+        {
+            _driver.Navigate().GoToUrl("https://localhost:5001/Account/Login");
+            _driver.FindElement(By.Id("email")).SendKeys("wrong@email.com");
+            _driver.FindElement(By.Id("password")).SendKeys("wrongPassword");
+            _driver.FindElement(By.Id("enter")).Click();
+            Assert.Contains("Данный пользователь не зарегистрирован в системе", _driver.PageSource);
+        }
+        
+        [Fact]
+        public void LoginEmptyDataReturnsErrorMessage()
+        {
+            _driver.Navigate().GoToUrl("https://localhost:5001/Account/Login");
+            _driver.FindElement(By.Id("email")).SendKeys(String.Empty);
+            _driver.FindElement(By.Id("password")).SendKeys("password");
+            _driver.FindElement(By.Id("enter")).Click();
+            Assert.Contains("Это поле обязательно для заполнения", _driver.PageSource);
+        }
     }
 }
