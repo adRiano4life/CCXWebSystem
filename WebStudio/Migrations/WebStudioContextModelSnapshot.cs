@@ -478,7 +478,11 @@ namespace WebStudio.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("CardId")
+                        .HasColumnType("text");
+
                     b.Property<string>("CardNumber")
+                        .IsRequired()
                         .HasMaxLength(11)
                         .HasColumnType("character varying(11)");
 
@@ -486,6 +490,9 @@ namespace WebStudio.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("FileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Note")
                         .HasColumnType("text");
 
                     b.Property<string>("Number")
@@ -504,67 +511,9 @@ namespace WebStudio.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CardId");
 
                     b.ToTable("Offers");
-                });
-
-            modelBuilder.Entity("WebStudio.Models.OfferPosition", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<float>("Amount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("CodTNVED")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DeliveryCity")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DeliveryTerms")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DeliveryTime")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Measure")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("OfferId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PaymentTerms")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OfferId");
-
-                    b.ToTable("OfferPositions");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Request", b =>
@@ -789,20 +738,11 @@ namespace WebStudio.Migrations
 
             modelBuilder.Entity("WebStudio.Models.Offer", b =>
                 {
-                    b.HasOne("WebStudio.Models.User", "User")
+                    b.HasOne("WebStudio.Models.Card", "Card")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CardId");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebStudio.Models.OfferPosition", b =>
-                {
-                    b.HasOne("WebStudio.Models.Offer", "Offer")
-                        .WithMany("Positions")
-                        .HasForeignKey("OfferId");
-
-                    b.Navigation("Offer");
+                    b.Navigation("Card");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Request", b =>
@@ -844,11 +784,6 @@ namespace WebStudio.Migrations
                 });
 
             modelBuilder.Entity("WebStudio.Models.CardClone", b =>
-                {
-                    b.Navigation("Positions");
-                });
-
-            modelBuilder.Entity("WebStudio.Models.Offer", b =>
                 {
                     b.Navigation("Positions");
                 });

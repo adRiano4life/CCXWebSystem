@@ -3,10 +3,64 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="E:\csharp\ESDP\CCXWebSystem\EZParser\bin\Debug\net5.0\Npgsql.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=598909e4_002D557b_002D41af_002Da1e4_002Da805f372529d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SuppliersControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=098ed000_002D2ced_002D4881_002Dbbe3_002D3e6dc69e7003/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserAuthTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.AccountControllerTests.RegisterNewUser&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=16e7a621_002D468d_002D4654_002D8103_002Dd7ad0dd46cf4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from UserAuthTest.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;AB0DD439-9150-489C-8157-FCB9A84BB476/f:UserAuthTest.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1e310898_002D274b_002D4408_002Daa96_002D83acebee192e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=51780276_002D9f85_002D45c8_002Dba6c_002D7de6812f0ff1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=519b0063_002D831d_002D454f_002D84c4_002D7c3a2e4d4a4f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginEmptyDataReturnsErrorMessage" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginEmptyDataReturnsErrorMessage&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=64b2a846_002D0b32_002D4bc4_002D9e0e_002D5229e9fc3f02/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserAuthTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9155db5c_002Dca15_002D4e5f_002D8d8b_002D8acffa18d601/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9c312ed6_002D2586_002D447f_002Dad2e_002D964dcc9ed66e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserAuthTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9d4bf011_002Dbf09_002D4138_002D8d2b_002D0fc369745658/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cefec41a_002Df2cc_002D49e6_002D9a86_002D264c4c330028/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f769cdde_002D8147_002D4498_002Da549_002D58530bf5ffc5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserAuthTest #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb34b6d5_002Db659_002D4aa4_002Da3f0_002D52cfaa1723cc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginWrongDataReturnsErrorMessage" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginWrongDataReturnsErrorMessage&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/HangingTestRunnerResponse/@EntryValue">KillProcess</s:String>
+	
 	</wpf:ResourceDictionary>

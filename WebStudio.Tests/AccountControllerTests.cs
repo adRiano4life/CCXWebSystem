@@ -43,13 +43,6 @@ namespace WebStudio.Tests
             };
 
             var result = controller.Register(model);
-            
-            
-            
-            
-            
-
-
         }
     }
 }
