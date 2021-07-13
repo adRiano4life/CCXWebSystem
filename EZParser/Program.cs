@@ -25,7 +25,7 @@ namespace EZParser
         //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
         public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         { 
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             var appConfig  = builder.Build();
