@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class master_initial : Migration
+    public partial class logging : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -243,30 +243,6 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Offers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    CardNumber = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: true),
-                    SupplierName = table.Column<string>(type: "text", nullable: false),
-                    DateOfIssue = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Number = table.Column<string>(type: "text", nullable: false),
-                    Path = table.Column<string>(type: "text", nullable: true),
-                    FileName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Offers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Offers_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -309,6 +285,32 @@ namespace WebStudio.Migrations
                     table.PrimaryKey("PK_Files", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Files_Cards_CardId",
+                        column: x => x.CardId,
+                        principalTable: "Cards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Offers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CardNumber = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
+                    CardId = table.Column<string>(type: "text", nullable: true),
+                    SupplierName = table.Column<string>(type: "text", nullable: false),
+                    DateOfIssue = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Number = table.Column<string>(type: "text", nullable: false),
+                    Path = table.Column<string>(type: "text", nullable: true),
+                    FileName = table.Column<string>(type: "text", nullable: true),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Offers_Cards_CardId",
                         column: x => x.CardId,
                         principalTable: "Cards",
                         principalColumn: "Id",
@@ -404,36 +406,6 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OfferPositions",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    CodTNVED = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Measure = table.Column<string>(type: "text", nullable: false),
-                    Amount = table.Column<float>(type: "real", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Currency = table.Column<string>(type: "text", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    DeliveryTerms = table.Column<string>(type: "text", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: true),
-                    DeliveryTime = table.Column<string>(type: "text", nullable: false),
-                    PaymentTerms = table.Column<string>(type: "text", nullable: false),
-                    DeliveryCity = table.Column<string>(type: "text", nullable: false),
-                    OfferId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OfferPositions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OfferPositions_Offers_OfferId",
-                        column: x => x.OfferId,
-                        principalTable: "Offers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Suppliers",
                 columns: table => new
                 {
@@ -520,14 +492,9 @@ namespace WebStudio.Migrations
                 column: "ExecutorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OfferPositions_OfferId",
-                table: "OfferPositions",
-                column: "OfferId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Offers_UserId",
+                name: "IX_Offers_CardId",
                 table: "Offers",
-                column: "UserId");
+                column: "CardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Positions_CardCloneId",
@@ -587,7 +554,7 @@ namespace WebStudio.Migrations
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "OfferPositions");
+                name: "Offers");
 
             migrationBuilder.DropTable(
                 name: "Positions");
@@ -600,9 +567,6 @@ namespace WebStudio.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Offers");
 
             migrationBuilder.DropTable(
                 name: "HistoryOfVictoryAndLosing");
