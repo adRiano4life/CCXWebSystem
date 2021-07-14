@@ -3,12 +3,63 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="E:\csharp\ESDP\CCXWebSystem\EZParser\bin\Debug\net5.0\Npgsql.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=158f253e_002Dfe38_002D4f39_002Dbbf2_002D77df9756c1ee/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=200fecfb_002Dd1ab_002D4df2_002Da516_002D67590ab80d61/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #8" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=598909e4_002D557b_002D41af_002Da1e4_002Da805f372529d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SuppliersControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.AccountControllerTests.RegisterNewUser&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5dbc46ad_002Da7f5_002D4375_002Dbfe4_002D3a973314e39e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6c7a9925_002Dd273_002D4cf0_002Da8d0_002D650abe4efb6d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6dec6510_002Df0ed_002D4342_002D837b_002Dc47ed564d045/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #7" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9e91dad2_002Dccd7_002D4103_002D9e3f_002D67bdac7b2dbc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cb593bbe_002D1980_002D4f23_002Db6ed_002D07b64f69051e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #9" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d0dc634b_002D67f7_002D45a3_002Da47d_002D440a3aac5ed0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="EditCorrectDataReturnSuccessEdit #10" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e4d17125_002D945d_002D4d53_002D90a1_002D2dc8f74e1a93/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #6" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fe04de4a_002D99f3_002D4e0f_002Da936_002Dcd68efc2ba3a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/HangingTestRunnerResponse/@EntryValue">KillProcess</s:String>
 	
 	
