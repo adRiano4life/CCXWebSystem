@@ -8,9 +8,11 @@ namespace WebStudio.Tests
     public class UserAuthTest
     {
         private readonly IWebDriver _driver;
+        private readonly BasicSteps _basicSteps;
 
         public UserAuthTest()
         {
+            _basicSteps = new BasicSteps();
             _driver = new ChromeDriver();
         }
 
@@ -27,7 +29,7 @@ namespace WebStudio.Tests
             _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
             _driver.FindElement(By.Id("password")).SendKeys("Q1w2e3r4t%");
             _driver.FindElement(By.Id("enter")).Click();
-            
+
             var suppliersRequestsButton = _driver.FindElement(By.LinkText("Запросы поставщикам"));
             var suppliersDataBaseButton = _driver.FindElement(By.LinkText("База поставщиков"));
             var suppliersRequestsButtonLink = suppliersRequestsButton.GetAttribute("href");
