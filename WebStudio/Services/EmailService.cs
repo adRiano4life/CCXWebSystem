@@ -53,7 +53,7 @@ namespace WebStudio.Services
         public bool SendEmailAfterRegister(string email, string link)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("админ CCXWebSystem", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test2@rdprom.kz"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = "Подтвердите свой email";
             
@@ -62,8 +62,8 @@ namespace WebStudio.Services
                 Text = "Пройдите по <a href=\"" + link + "\"> данной ссылке </a> чтобы подтвердить свой email"
             };
             try
-            {
-                TryingSendMessage(emailMessage);
+            { 
+                TryingSendMessageAsync(emailMessage);
                 return true;
             }
             catch (Exception ex)
@@ -74,11 +74,11 @@ namespace WebStudio.Services
         }
 
 
-        private async Task TryingSendMessage(MimeMessage emailMessage)
+        private async Task TryingSendMessageAsync(MimeMessage emailMessage)
         {
             using var client = new SmtpClient();
-            //client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-            await client.ConnectAsync("smtp.mail.ru", 25, false);
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            await client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
             await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);   

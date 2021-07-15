@@ -5,7 +5,7 @@
     Layout = "_Layout";
 }
 
-<h4>@ViewBag.Title</h4>
+<h4 class="text-center mb-3">@ViewBag.Title</h4>
 
 <div class="row justify-content-center">
     <div class="col-md-6">
@@ -32,7 +32,7 @@
             
             <div class="form-group">
                 <label asp-for="Number"></label><br/>
-                <input class="form-control" asp-for="Number"  />
+                <input class="form-control" asp-for="Number" />
                 <span asp-validation-for="Number"></span>
             </div>
             
@@ -45,6 +45,7 @@
             <div class="form-group">
                 <label asp-for="File"></label><br />
                 <input class="form-control-file" asp-for="File" />
+                <span asp-validation-for="File" style="color: red; font-size: 13px; font-style: italic"></span>
             </div>
             @Html.HiddenFor(o=>o.UserId, @Model.UserId)
             
