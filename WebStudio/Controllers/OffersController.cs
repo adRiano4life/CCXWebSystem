@@ -45,44 +45,41 @@ namespace WebStudio.Controllers
         [HttpPost]
         public IActionResult Create(Offer offer)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && offer.File != null)
             {
-                if (offer.File != null)
+                string rootDirName = "wwwroot/Files";
+                DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
+                foreach (var dir in dirInfo.GetDirectories())
                 {
-                    string rootDirName = "wwwroot/Files";
-                    DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
-                    foreach (var dir in dirInfo.GetDirectories())
-                    {
-                        if (!Directory.Exists("Offers"))
-                            dirInfo.CreateSubdirectory("Offers");
-                    }
-                    
-                    string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
-                    string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
-                    
-                    var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x) 
-                                                                           || char.IsWhiteSpace(x)).ToArray());
-                    
-                    string fileName = "";
-                    if (offer.CardNumber != null)
-                    {
-                        fileName = $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";    
-                    }
-                    else
-                    {
-                        fileName = $"Без лота - {supplierName}{fileType}";
-                    }
-                    
-                    _uploadService.Upload(rootDirPath, fileName, offer.File);
-                    offer.Path = $"/Offers/{fileName}";
-                    offer.FileName = fileName;
+                    if (!Directory.Exists("Offers"))
+                        dirInfo.CreateSubdirectory("Offers");
                 }
+
+                string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
+                string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
+
+                var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x)
+                                                                            || char.IsWhiteSpace(x)).ToArray());
+                string fileName =
+                    $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";
+
+                _uploadService.Upload(rootDirPath, fileName, offer.File);
+                offer.Path = $"/Offers/{fileName}";
+                offer.FileName = fileName;
+
+                Card card = _db.Cards.FirstOrDefault(c => c.Number == offer.CardNumber);
+                if (card == null)
+                    return NotFound();
+
+                offer.CardId = card.Id;
                 _db.Offers.Add(offer);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
-            } 
+            }
+
             return View(offer);
         }
+        
         
         public IActionResult DownloadFile(string path, string fileName)
         {
@@ -115,29 +112,6 @@ namespace WebStudio.Controllers
             return contentType;
         }
         
-        
-        [HttpGet]
-        public IActionResult AddPosition(string offerId)
-        {
-            if (offerId == null)
-                return NotFound();
-            OfferPosition offerPosition = new OfferPosition(){OfferId =  offerId};
-            return View(offerPosition);
-        }
-        
-        [HttpPost]
-        public IActionResult AddPosition(OfferPosition offerPosition)
-        {
-            if (ModelState.IsValid)
-            {
-                
-                _db.OfferPositions.Add(offerPosition);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            } 
-            return View(offerPosition);
-        }
-
         
     }
 }

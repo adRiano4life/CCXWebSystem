@@ -9,4 +9,59 @@
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.AccountControllerTests.RegisterNewUser&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/HangingTestRunnerResponse/@EntryValue">KillProcess</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/HangingTestRunnerResponse/@EntryValue">KillProcess</s:String>
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=598909e4_002D557b_002D41af_002Da1e4_002Da805f372529d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SuppliersControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.AccountControllerTests.RegisterNewUser&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/HangingTestRunnerResponse/@EntryValue">KillProcess</s:String>
+	
 	</wpf:ResourceDictionary>
