@@ -485,6 +485,9 @@ namespace WebStudio.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("FileName")
+                        .HasColumnType("text");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("text");
@@ -517,7 +520,7 @@ namespace WebStudio.Migrations
                     b.Property<string>("CodTNVED")
                         .HasColumnType("text");
 
-                    b.Property<string>("CommentId")
+                    b.Property<string>("Comment")
                         .HasColumnType("text");
 
                     b.Property<string>("Currency")
@@ -557,16 +560,9 @@ namespace WebStudio.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentId");
-
                     b.HasIndex("OfferId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("OfferPositions");
                 });
@@ -802,23 +798,11 @@ namespace WebStudio.Migrations
 
             modelBuilder.Entity("WebStudio.Models.OfferPosition", b =>
                 {
-                    b.HasOne("WebStudio.Models.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId");
-
                     b.HasOne("WebStudio.Models.Offer", "Offer")
                         .WithMany("Positions")
                         .HasForeignKey("OfferId");
 
-                    b.HasOne("WebStudio.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Comment");
-
                     b.Navigation("Offer");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Request", b =>
