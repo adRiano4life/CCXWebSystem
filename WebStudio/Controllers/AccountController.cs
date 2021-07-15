@@ -120,7 +120,7 @@ namespace WebStudio.Controllers
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        SendLinkForConfirmEmail(user.Email);
+                        await  SendLinkForConfirmEmail(user.Email);
                         _nLogger.Info($"Регистрация пользователя {user.Surname} {user.Name} - успешно. " +
                                       $"Идет отправка ссылки для подтверждения email");
                         return RedirectToAction("Index", new {userId = user.Id});
