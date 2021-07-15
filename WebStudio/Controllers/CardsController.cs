@@ -93,7 +93,6 @@ namespace WebStudio.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCard(string cardId)
         {
-
             if (cardId != null)
             {
                 Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
@@ -116,7 +115,7 @@ namespace WebStudio.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> ChangeCardStatus(DetailCardViewModel model, string cardState, int bid)
+        public async Task<IActionResult> ChangeCardStatus(DetailCardViewModel model, string cardState, int bid, string cardId)
         {
             try
             {
@@ -160,7 +159,10 @@ namespace WebStudio.Controllers
                                 
                                 _nLogger.Info($"Карточка {card.Number} помечена на удаление.");
                                 
-                                card.CardState = CardState.Удалена; 
+                                card.CardState = CardState.Удалена;
+                                _db.Cards.Update(card);
+                                await _db.SaveChangesAsync();
+                                return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Новая});
                                 break;
                             
                             case "Восстановлена":

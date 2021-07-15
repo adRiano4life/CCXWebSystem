@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using WebStudio.Models;
 using Xunit;
 
 namespace WebStudio.Tests
@@ -7,6 +8,7 @@ namespace WebStudio.Tests
     public class BasicSteps
     {
         private readonly IWebDriver _driver;
+        private readonly WebStudioContext _db;
         private const string MainPageUrl = "https://localhost:5001";
         private const string LoginPageUrl = MainPageUrl + "/Account/Login";
 
@@ -58,6 +60,28 @@ namespace WebStudio.Tests
         {
             var field = _driver.FindElement(By.Id(fieldById));
             field.SendKeys(inputText);
+        }
+
+        public void AddTestUser(string userName, string name, string surname, string email, string phone)
+        {
+            User user = new User
+            {
+                UserName = userName,
+                Name = name,
+                Surname = surname,
+                Email = email,
+                PhoneNumber = phone,
+                EmailConfirmed = true,
+                LockoutEnabled = false
+            };
+            _db.Users.Add(user);
+            _db.SaveChanges();
+        }
+
+        public void RemoveTestUser(User user)
+        {
+            _db.Users.Remove(user);
+            _db.SaveChanges();
         }
     }
 }
