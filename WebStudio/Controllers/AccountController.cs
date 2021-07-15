@@ -245,7 +245,7 @@ namespace WebStudio.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
-                        _nLogger.Info($"Вход в приложение пользователем с id {user.Id}");
+                        _nLogger.Info($"Вход в приложение пользователем {user.Surname} {user.Name} - успешно");
                         if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                         {
                             return Redirect(model.ReturnUrl);
@@ -321,6 +321,12 @@ namespace WebStudio.Controllers
                     User user = await _userManager.FindByIdAsync(model.Id);
                     if (user != null)
                     {
+                        string oldEmail = !user.Email.Equals(model.Email) ? user.Email : "";
+                        string oldName = !user.Name.Equals(model.Name) ? user.Name : "";
+                        string oldSurName = !user.Surname.Equals(model.Surname) ? user.Surname : "";
+                        string oldPhone = !user.PhoneNumber.Equals(model.PhoneNumber) ? user.PhoneNumber : "";
+                        string oldAvatarPath = "";
+                        
                         user.Name = model.Name;
                         user.Surname = model.Surname;
                         user.Email = model.Email;
@@ -333,6 +339,7 @@ namespace WebStudio.Controllers
                             string avatarPath = $"/Images/Avatars/{model.File.FileName}";
                             _uploadService.Upload(path, model.File.FileName, model.File);
                             model.AvatarPath = avatarPath;
+                            oldAvatarPath = !user.AvatarPath.Equals(model.AvatarPath) ? user.AvatarPath : "";
                             user.AvatarPath = model.AvatarPath;
                         }
 
@@ -340,6 +347,17 @@ namespace WebStudio.Controllers
                         if (result.Succeeded)
                         {
                             _nLogger.Info($"Редактирование профиля пользователя {user.Surname} {user.Name} - успешно");
+                            if(!string.IsNullOrEmpty(oldEmail))
+                                _nLogger.Info($"Эл.почта:  до редактирования {oldEmail}, после редактирования {model.Email}");
+                            if(!string.IsNullOrEmpty(oldName))
+                                _nLogger.Info($"Имя: до редактирования {oldName}, после редактирования {model.Name}");
+                            if(!string.IsNullOrEmpty(oldSurName))
+                                _nLogger.Info($"Фамилия: до редактирования {oldSurName}, после редактирования {model.Surname}");
+                            if(!string.IsNullOrEmpty(oldEmail))
+                                _nLogger.Info($"Телефон: до редактирования {oldPhone}, после редактирования {model.PhoneNumber}");
+                            if(!string.IsNullOrEmpty(oldAvatarPath))
+                                _nLogger.Info($"Изменено фото пользователя");
+                            
                             return RedirectToAction("Index", new {userId = model.Id});
                         }
 
@@ -526,15 +544,17 @@ namespace WebStudio.Controllers
                 {
                     user.LockoutEnabled = true;
                     user.LockoutEnd = DateTime.Now.AddYears(100);    
+                    _nLogger.Info($"Разблокировка учетной записи {user.Surname} {user.Name}");
                 }
                 else
                 {
                     user.LockoutEnabled = false;
                     user.LockoutEnd = DateTime.Now.AddMinutes(-1);
+                    _nLogger.Info($"Блокировка учетной записи {user.Surname} {user.Name}");
                 }
             
                 await _userManager.UpdateAsync(user);
-                _nLogger.Info($"Блокирование учетной записи {user.Surname} {user.Name} - успешно");
+                _nLogger.Info($"УСПЕШНО");
                 return RedirectToAction("Index", new {userId = adminId});
             }
             catch (Exception e)
