@@ -51,8 +51,9 @@
     </div>
   </form>
 
-  <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" method="post">
+  <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" method="post">
     <div class="form-group">
+      <input type="hidden" asp-for="CardId" value="@Model.Card.Id">
       <input type="submit" value="Удалить" class="btn btn-outline-danger shadow form-inline">
     </div>
   </form>
