@@ -90,6 +90,7 @@ namespace WebStudio.Controllers
             }
         }
 
+        
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -120,7 +121,7 @@ namespace WebStudio.Controllers
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        await  SendLinkForConfirmEmail(user.Email);
+                        await SendLinkForConfirmEmail(user.Email);
                         _nLogger.Info($"Регистрация пользователя {user.Surname} {user.Name} - успешно. " +
                                       $"Идет отправка ссылки для подтверждения email");
                         return RedirectToAction("Index", new {userId = user.Id});
@@ -129,7 +130,8 @@ namespace WebStudio.Controllers
                     {
                         foreach (var error in result.Errors)
                         {
-                            _nLogger.Warn($"Регистрация пользователя: ошибка при регистрации {user.Surname} {user.Name}");
+                            _nLogger.Warn(
+                                $"Регистрация пользователя: ошибка при регистрации {user.Surname} {user.Name}");
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
                     }
@@ -154,26 +156,18 @@ namespace WebStudio.Controllers
                 if (user == null)
                 {
                     _nLogger.Warn($"Отправка ссылки для подтверждения email: пользователь с email {email} не найден");
-                    return Ok("Неверная  эл.почта");
+                    return Ok("Неверная эл.почта");
                 }
-                
+
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var confirmationLink = Url.Action("ConfirmEmail", "Account", new {token, email = user.Email},
                     Request.Scheme);
                 EmailService emailService = new EmailService();
-                bool emailResponse = emailService.SendEmailAfterRegister(user.Email, confirmationLink);
+                await emailService.SendEmailAfterRegister(user.Email, confirmationLink);
 
-                if (emailResponse)
-                {
-                    _nLogger.Info($"Отправлена ссылка на эл.почту {user.Surname} {user.Name} для подтверждения");
-                    return RedirectToAction("Index", new {userId = user.Id});
-                }
-                else
-                {
-                    _nLogger.Error($"Отправка ссылки для подтверждения email: ошибка при отправке ссылки " +
-                                   $"на эл.почту {user.Surname} {user.Name}");
-                }
-                return View("Login");
+                _nLogger.Info(
+                    $"Отправлена ссылка пользователю {user.Surname} {user.Name} на эл.почту {user.Email} для подтверждения");
+                return RedirectToAction("Index", new {userId = user.Id});
             }
             catch (Exception e)
             {
@@ -182,6 +176,7 @@ namespace WebStudio.Controllers
                 throw;
             }
         }
+        
 
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {

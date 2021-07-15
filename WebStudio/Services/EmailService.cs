@@ -50,39 +50,26 @@ namespace WebStudio.Services
             await client.DisconnectAsync(true);
         }
 
-        public bool SendEmailAfterRegister(string email, string link)
+        public async Task SendEmailAfterRegister(string email, string link)
         {
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test2@rdprom.kz"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = "Подтвердите свой email";
-            
+
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
                 Text = "Пройдите по <a href=\"" + link + "\"> данной ссылке </a> чтобы подтвердить свой email"
             };
-            try
-            { 
-                TryingSendMessageAsync(emailMessage);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return false;
-        }
 
-
-        private async Task TryingSendMessageAsync(MimeMessage emailMessage)
-        {
             using var client = new SmtpClient();
             client.ServerCertificateValidationCallback = (s, c, h, e) => true;
             await client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
             await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
             await client.SendAsync(emailMessage);
-            await client.DisconnectAsync(true);   
+            await client.DisconnectAsync(true);
         }
+
 
         public async Task SendEmailForResetPassword(string email, string title, string link)
         {
