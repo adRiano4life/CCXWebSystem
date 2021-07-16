@@ -103,29 +103,29 @@ namespace EZParser
                     
                     /* Код для конвертации на сервере */
 
-                    // string startSumString = tds[2].InnerText.Trim();
-                    // startSumString = startSumString.Replace(" ", "");
-                    // startSumString = startSumString.Replace(",", ".");
-                    // Console.WriteLine(startSumString);
-                    // bool result = decimal.TryParse(startSumString, out decimal sumResult);
-                    // Console.WriteLine(sumResult);
+                    string startSumString = tds[2].InnerText.Trim();
+                    startSumString = startSumString.Replace(" ", "");
+                    startSumString = startSumString.Replace(",", ".");
+                    Console.WriteLine(startSumString);
+                    bool result = decimal.TryParse(startSumString, out decimal sumResult);
+                    Console.WriteLine(sumResult);
                     
-                    // string[] datestrings = tds[3].InnerText.Split(".");
-                    // string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
-                    // DateTime acceptingEnd = Convert.ToDateTime(date);
-                    //
-                    // string[] auctionDates = tds[4].InnerText.Split(".");
-                    // string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
-                    // DateTime auctionEnd = Convert.ToDateTime(auctiondate);
+                    string[] datestrings = tds[3].InnerText.Split(".");
+                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
+                    DateTime acceptingEnd = Convert.ToDateTime(date);
+                    
+                    string[] auctionDates = tds[4].InnerText.Split(".");
+                    string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
+                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);
 
 
                     Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
-                        StartSumm = Convert.ToDecimal(tds[2].InnerText),
-                        DateOfAcceptingEnd = Convert.ToDateTime(tds[3].InnerText),
-                        DateOfAuctionStart = Convert.ToDateTime(tds[4].InnerText),
+                        StartSumm = sumResult,
+                        DateOfAcceptingEnd = acceptingEnd,
+                        DateOfAuctionStart = auctionEnd,
                         Initiator = tds[5].InnerText,
                         Broker = tds[6].InnerText,
                         Auction = tds[7].InnerText,
