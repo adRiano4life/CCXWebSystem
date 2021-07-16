@@ -18,7 +18,6 @@ namespace WebStudio.Controllers
     public class SuppliersController : Controller
     {
         private WebStudioContext _db;
-
         private Logger _logger = LogManager.GetCurrentClassLogger();
         //private ISuppliersService _suppliersService;
         
