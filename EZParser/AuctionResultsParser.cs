@@ -39,17 +39,48 @@ namespace EZParser
                     // if (tds[0].InnerText != null) 
                     //     Console.WriteLine(tds[0].InnerText);
                     
+                    
+
+                    string[] auctionDateStrings = tds[2].InnerText.Split(".");
+                    string date = $"{auctionDateStrings[1]}/{auctionDateStrings[0]}/{auctionDateStrings[2]}";
+                    DateTime auctionDate = Convert.ToDateTime(date);
+
+                    DateTime signDate = new DateTime();
+                    if (tds[3].InnerText.Contains("-"))
+                    {
+                        string[] signDateStrings = tds[3].InnerText.Split(".");
+                        string signStringDate = $"{signDateStrings[1]}/{signDateStrings[0]}/{signDateStrings[2]}";
+                        signDate = Convert.ToDateTime(signStringDate);
+                    }
+                    else
+                    {
+                        signDate = DateTime.MinValue;
+                    }
+
+                    string contractStringSum = tds[6].InnerText.Trim();
+                    decimal contractSum = 0;
+                    if (!tds[6].InnerText.Contains("-"))
+                    {
+                        contractStringSum = contractStringSum.Replace(" ", "");
+                        contractStringSum = contractStringSum.Replace(",", ".");
+                        contractSum = Convert.ToDecimal(contractStringSum);
+                    }
+                    else
+                    {
+                        contractSum = Decimal.MinValue;
+                    }
+                    
                     if (_db.Cards.Any(c=>c.Number == tds[0].InnerText) && !_db.AuctionResults.Any(r=>r.Number == tds[0].InnerText))
                     {
                         AuctionResult result = new AuctionResult
                         {
                             Number = tds[0].InnerText,
                             Name = tds[1].InnerText,
-                            DateOfAuctionStart = Convert.ToDateTime(tds[2].InnerText),
-                            Winner = tds[5].InnerText
+                            DateOfAuctionStart = auctionDate,
+                            Winner = tds[5].InnerText,
+                            DateOfSignContract = signDate,
+                            Sum = contractSum,
                         };
-                        result.DateOfSignContract = tds[3].InnerText.Contains("-") ? DateTime.MinValue : Convert.ToDateTime(tds[3]?.InnerText);
-                        result.Sum = tds[6].InnerText.Contains("-") ? Decimal.MinValue : Convert.ToDecimal(tds[6]?.InnerText);
 
                         _db.AuctionResults.Add(result);
                         _db.SaveChanges();
