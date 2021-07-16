@@ -16,11 +16,17 @@ namespace WebStudio
 {
     public class Program
     {
+        public static string PathToFiles = ""; 
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
+            
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var appConfig  = builder.Build();
+            PathToFiles = appConfig.GetValue<string>("PathToFiles:DefaultPath");
+            
             try
             {
                 var userManager = services.GetRequiredService<UserManager<User>>();
