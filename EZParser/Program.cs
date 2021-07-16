@@ -29,19 +29,23 @@ namespace EZParser
             var appConfig  = builder.Build();
             DefaultConnection = appConfig.GetConnectionString("DefaultConnection");
             PathToFiles = appConfig.GetValue<string>("PathToFiles:DefaultPath");
-
-            int num = 0;
-            TimerCallback tm = new TimerCallback(TimerCount);
-            Timer timer = new Timer(tm, num, 0, 300000);
-            Console.ReadLine();
-        }
-
-        public static void TimerCount(object obj)
-        {
+            
             GetParse();
             ExcelReader.ExcelRead();
             AuctionResultsParser.GetAuctionResults();
+
+            // int num = 0;
+            // TimerCallback tm = new TimerCallback(TimerCount);
+            // Timer timer = new Timer(tm, num, 0, 300000);
+            // Console.ReadLine();
         }
+
+        // public static void TimerCount(object obj)
+        // {
+        //     GetParse();
+        //     ExcelReader.ExcelRead();
+        //     AuctionResultsParser.GetAuctionResults();
+        // }
         
         public static void GetParse()
         {
