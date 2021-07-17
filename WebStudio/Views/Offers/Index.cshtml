@@ -72,7 +72,7 @@
                                 <td class="py-1">@op.Amount</td>
                                 <td class="py-1">@op.UnitPrice</td>
                                 <td class="py-1">@op.TotalPrice</td>
-                                <td colspan="2"> <a href="#">Добавить расчет</a> </td>
+                                <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-positionId="@op.Id" target="_blank">Добавить расчет</a> </td>
                             </tr>
                         }
                         </tbody>

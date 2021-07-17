@@ -1,0 +1,190 @@
+﻿@model CardPosition
+
+@{
+    ViewBag.Title = "Расчитать";
+    Layout = "_Layout";
+    List<string> Meas = new List<string>(){"шт.", "тонны", "м3", "м2", "кг.", "литр", "комп.", "п.м"};
+    List<string> Curr = new List<string>(){"тенге", "рубль", "доллар", "евро", "юань"};
+    List<string> PayTerm = new List<string>(){"нал", "безнал"};
+    List<string> NDS = new List<string>(){"да", "нет"};
+    List<string> DelivTerm = new List<string>(){"EXW", "DDP", "DAP", "FCA", "CPT", "CIP", "DAT", "FAS", "FOB","CFR", "DDU", "CIF"};
+}
+
+
+<div class="container">
+    <div class="row justify-content-start">
+        <div class="col-lg-6 pl-0 mr-5">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Значение</th>
+                </tr>
+                
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="bg-secondary text-white">Номенклатура</td>
+                    <td class="bg-light">@Model.StockNumber</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Код ТНВЭД</td>
+                    <td class="bg-light">@Model.CodTNVED</td>
+                </tr>
+                
+                <tr>
+                    <td class="bg-secondary text-white">Название</td>
+                    <td class="bg-light">@Model.Name</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Ед.изм.</td>
+                    <td class="bg-light">@Model.Measure</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Кол-во</td>
+                    <td class="bg-light">@Model.Amount</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Валюта</td>
+                    <td class="bg-light">@Model.Currency</td>
+                </tr>
+
+
+                <tr>
+                    <td class="bg-secondary text-white">Старт.цена за ед.товара</td>
+                    <td class="bg-light">@Model.UnitPrice</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Стартовая стоимость</td>
+                    <td class="bg-light">@Model.TotalPrice</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Срок поставки</td>
+                    <td class="bg-light">@Model.DeliveryTime</td>
+                </tr>
+
+                <tr>
+                    <td class="bg-secondary text-white">Условия поставки</td>
+                    <td class="bg-light">@Model.DeliveryTerms</td>
+                </tr>
+              
+                <tr>
+                    <td class="bg-secondary text-white">Условия оплаты</td>
+                    <td class="bg-light">@Model.PaymentTerms</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pr-0 pl-0 col-lg-4">
+            
+            <table class="table">
+                <thead class="bg-secondary text-white">
+                <tr>
+                    <th scope="col">Калькулятор</th>
+                </tr>
+                </thead>
+            </table>
+
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="компания">
+                    <small class="form-text text-muted text-danger">Укажите название компании</small>
+                </div>
+                
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option selected disabled>валюта закупа</option>
+                        @foreach (var option in Curr)
+                        {
+                            <option>@option</option>
+                        }
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option selected disabled>ед.изм</option>
+                        @foreach (var option in Meas)
+                        {
+                            <option>@option</option>
+                        }
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option selected disabled>Способ оплаты</option>
+                        @foreach (var option in PayTerm)
+                        {
+                            <option>@option</option>
+                        }
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="количество">
+                    <small class="form-text text-muted text-danger">Укажите количество</small>
+                </div>
+
+                
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="цена поставщика">
+                    <small class="form-text text-muted">Укажите цену поставщика</small>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="цена для расчета">
+                    <small class="form-text text-muted">Укажите цену для расчета</small>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="транспортные расходы">
+                    <small class="form-text text-muted">Укажите транспортные расходы</small>
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="административные расходы">
+                    <small class="form-text text-muted">Укажите административные расходы</small>
+                </div>
+
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option selected disabled>условия поставки</option>
+                        @foreach (var option in DelivTerm)
+                        {
+                            <option>@option</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="datetime-local" class="form-control" placeholder="срок поставки">
+
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="город отгрузки">
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Введите название" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <input type="button" class="btn-success form-control" value="итого">
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -28,8 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
-      <Folder Include="Views\Calculations" />
       <Folder Include="wwwroot\Files\T-0090879" />
       <Folder Include="wwwroot\Files\T-0090880" />
       <Folder Include="wwwroot\Files\T-0090885" />

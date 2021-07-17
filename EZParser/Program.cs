@@ -140,6 +140,14 @@ namespace EZParser
                     }
                 }
 
+                if (_db.InputDataUsers.Count() == 0)
+                {
+                    InputDataUser dataUser = new InputDataUser();
+                
+                    _db.InputDataUsers.Add(dataUser);
+                    _db.SaveChanges();
+                }
+                
                 Console.WriteLine($"{DateTime.Now} - Парсинг лотов закончен");
             }
             catch (Exception e)
