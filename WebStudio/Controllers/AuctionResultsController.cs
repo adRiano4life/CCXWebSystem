@@ -33,23 +33,23 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetResult(string finde)
+        public IActionResult GetResult(string find)
         {
             try
             {
-                _nLogger.Info($"Пользователь {_userManager.GetUserAsync(User).Result.Name} {_userManager.GetUserAsync(User).Result.Surname} сделал произвел поиск по: {finde}");
+                _nLogger.Info($"Пользователь {_userManager.GetUserAsync(User).Result.Name} {_userManager.GetUserAsync(User).Result.Surname} сделал произвел поиск по: {find}");
 
-                if (!string.IsNullOrEmpty(finde))
+                if (!string.IsNullOrEmpty(find))
                 {
-                    var result = _db.AuctionResults.Where(a => a.Number.ToLower().Contains(finde.ToLower())).ToList();
+                    var result = _db.AuctionResults.Where(a => a.Number.ToLower().Contains(find.ToLower())).OrderByDescending(a=> a.Number).ToList();
                     if (result.Count != 0)
                     {
                         return PartialView("GetResultsPartialView", result);
                     }
                     else
                     {
-                        result = _db.AuctionResults.Where(a => a.Name.ToLower().Contains(finde.ToLower())).ToList();
-                        var cards = _db.Cards.Where(c => c.Positions.Any(n => n.Name.ToLower().Contains(finde.ToLower()))).ToList();
+                        result = _db.AuctionResults.Where(a => a.Name.ToLower().Contains(find.ToLower())).OrderByDescending(a=> a.Number).ToList();
+                        var cards = _db.Cards.Where(c => c.Positions.Any(n => n.Name.ToLower().Contains(find.ToLower()))).ToList();
                     
                         foreach (var card in cards)
                         {
