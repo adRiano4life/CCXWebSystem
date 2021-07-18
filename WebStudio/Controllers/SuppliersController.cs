@@ -18,7 +18,6 @@ namespace WebStudio.Controllers
     public class SuppliersController : Controller
     {
         private WebStudioContext _db;
-
         private Logger _logger = LogManager.GetCurrentClassLogger();
         //private ISuppliersService _suppliersService;
         
@@ -61,7 +60,7 @@ namespace WebStudio.Controllers
             
                 int pageSize = 20;
                 int pageNumber = (page ?? 1);
-                return View(suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
+                return View("Index",suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -165,7 +164,7 @@ namespace WebStudio.Controllers
                 }
                 
                 _logger.Info("Открыта форма редактирования поставщика");
-                return View(model);
+                return View("Edit", model);
             }
             catch (Exception e)
             {
@@ -225,7 +224,7 @@ namespace WebStudio.Controllers
                     Supplier supplier = _db.Suppliers.FirstOrDefault(s => s.Id == id);
                     if (supplier != null)
                     {
-                        return View(supplier);
+                        return View("Delete", supplier);
                     }
                     return NotFound();
                 }
