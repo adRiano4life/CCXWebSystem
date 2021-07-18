@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog;
 using Npgsql;
 using WebStudio.Models;
 using WebStudio.Services;
@@ -19,6 +21,7 @@ namespace EZParser
     public class Program
     {
         public static string DefaultConnection = "";
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
  
         //public static string PathToFiles = ""; // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
         //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
@@ -50,6 +53,7 @@ namespace EZParser
             try
             {
                 Console.WriteLine($"{DateTime.Now} - Парсинг начат");
+                _logger.Info("Парсинг начат");
                 var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
                 var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
 
@@ -141,10 +145,12 @@ namespace EZParser
                 }
 
                 Console.WriteLine($"{DateTime.Now} - Парсинг лотов закончен");
+                _logger.Info("Парсинг лотов закончен");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
         }
