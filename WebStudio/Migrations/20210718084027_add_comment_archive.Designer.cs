@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210713101431_logging")]
-    partial class logging
+    [Migration("20210718084027_add_comment_archive")]
+    partial class add_comment_archive
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -332,6 +332,9 @@ namespace WebStudio.Migrations
 
                     b.Property<int>("CardState")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DateOfAcceptingEnd")
                         .HasColumnType("timestamp without time zone");

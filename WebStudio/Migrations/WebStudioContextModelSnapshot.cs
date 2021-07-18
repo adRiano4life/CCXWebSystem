@@ -331,6 +331,9 @@ namespace WebStudio.Migrations
                     b.Property<int>("CardState")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateOfAcceptingEnd")
                         .HasColumnType("timestamp without time zone");
 
