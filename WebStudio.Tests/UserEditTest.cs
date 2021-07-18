@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -51,6 +52,22 @@ namespace WebStudio.Tests
             var editUserLinkButton = editUserLink.GetAttribute("href");
             var editPasswordLinkButton = editPasswordLink.GetAttribute("href");
             Assert.Contains("Личный кабинет", _driver.PageSource);
+        }
+
+        [Fact]
+        public void EditEmptyDateReturnsWrongEdit()
+        {
+            _driver.Navigate().GoToUrl("https://localhost:5001/Account/Login");
+            _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
+            _driver.FindElement(By.Id("password")).SendKeys("Q1w2e3r4t%");
+            _driver.FindElement(By.Id("enter")).Click();
+            _driver.FindElement(By.Id("account")).Click();
+            _driver.FindElement(By.LinkText("Редактировать")).Click();
+            
+            _driver.FindElement(By.Id("name")).Clear();
+            _driver.FindElement(By.Id("name")).SendKeys(String.Empty);
+            _driver.FindElement(By.Id("edit")).Click();
+            Assert.Contains("Это поле обязательно для заполнения", _driver.PageSource);
         }
     }
 }
