@@ -39,7 +39,7 @@ namespace WebStudio.Controllers
             if (userId == null)
                 return NotFound();
             Offer offer = new Offer(){UserId = userId};
-            return View(offer);
+            return View("Create", offer);
         }
         
         [HttpPost]
@@ -47,7 +47,7 @@ namespace WebStudio.Controllers
         {
             if (ModelState.IsValid && offer.File != null)
             {
-                string rootDirName = "wwwroot/Files";
+                string rootDirName = Program.PathToFiles;
                 DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
                 foreach (var dir in dirInfo.GetDirectories())
                 {
@@ -55,7 +55,9 @@ namespace WebStudio.Controllers
                         dirInfo.CreateSubdirectory("Offers");
                 }
 
-                string rootDirPath = Path.Combine(_environment.ContentRootPath, "wwwroot\\Files\\Offers");
+                rootDirName = rootDirName.Replace('/', '\\').Insert('\\', "\\");
+                Console.WriteLine(rootDirName);
+                string rootDirPath = Path.Combine(_environment.ContentRootPath, $"{rootDirName}\\Offers");
                 string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
 
                 var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x)

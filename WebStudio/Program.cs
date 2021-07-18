@@ -16,6 +16,22 @@ namespace WebStudio
 {
     public class Program
     {
+        private static readonly Func<string> SetConnection = () =>
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var appConfig = builder.Build();
+            return appConfig.GetConnectionString("DefaultConnection");
+        };
+        private static readonly Func<string> SetPath = () =>
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var appConfig = builder.Build();
+            return appConfig.GetValue<string>("PathToFiles:DefaultPath");
+        };
+        
+        public static readonly string DefaultConnection = SetConnection();
+        public static readonly string PathToFiles = SetPath();
+
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();

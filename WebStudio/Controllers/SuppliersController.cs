@@ -19,7 +19,7 @@ namespace WebStudio.Controllers
     {
         private WebStudioContext _db;
         private Logger _logger = LogManager.GetCurrentClassLogger();
-        //private ISuppliersService _suppliersService;
+        
         
         public SuppliersController(WebStudioContext db)
         {
@@ -67,8 +67,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
+        
 
         [HttpGet]
         [Authorize]
@@ -85,8 +85,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-            
         }
+        
         
         [HttpPost]
         [Authorize]
@@ -125,7 +125,6 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
 
         
@@ -171,8 +170,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
+        
 
         [HttpPost]
         [Authorize]
@@ -203,7 +202,6 @@ namespace WebStudio.Controllers
                     _logger.Info($"Поставщик {supplier.Name} отредактирован");
                     return RedirectToAction("Index", "Suppliers");
                 }
-
                 return View(model);
             }
             catch (Exception e)
@@ -235,7 +233,6 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
 
 
@@ -269,7 +266,7 @@ namespace WebStudio.Controllers
             try
             {
                 List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == supplierCardId);
+                
                 Supplier supplier = new Supplier
                 {
                     Name = supplierName,

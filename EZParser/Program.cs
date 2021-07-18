@@ -20,10 +20,11 @@ namespace EZParser
     {
         public static string DefaultConnection = "";
  
-        //public static string PathToFiles = ""; // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
-        //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
+        public static string PathToFiles = "";
+        //// @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
+        //"D://csharp//esdp//app//WebStudio//wwwroot//Files"; // Гульжан
         //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
-        public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
+       // public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
 
         public static void Main(string[] args)
         { 
