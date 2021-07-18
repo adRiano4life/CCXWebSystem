@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog;
 using Npgsql;
 using WebStudio.Models;
 using WebStudio.Services;
@@ -19,6 +21,7 @@ namespace EZParser
     public class Program
     {
         public static string DefaultConnection = "";
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
  
         public static string PathToFiles = "";
         //// @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
@@ -32,25 +35,18 @@ namespace EZParser
             var appConfig  = builder.Build();
             DefaultConnection = appConfig.GetConnectionString("DefaultConnection");
             PathToFiles = appConfig.GetValue<string>("PathToFiles:DefaultPath");
-
-            int num = 0;
-            TimerCallback tm = new TimerCallback(TimerCount);
-            Timer timer = new Timer(tm, num, 0, 300000);
-            Console.ReadLine();
-        }
-
-        public static void TimerCount(object obj)
-        {
+            
             GetParse();
             ExcelReader.ExcelRead();
             AuctionResultsParser.GetAuctionResults();
         }
-        
+
         public static void GetParse()
         {
             try
             {
                 Console.WriteLine($"{DateTime.Now} - Парсинг начат");
+                _logger.Info("Парсинг начат");
                 var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
                 var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
 
@@ -138,14 +134,18 @@ namespace EZParser
                     {
                         _db.Cards.Add(card);
                         _db.SaveChanges();
+                        Console.WriteLine($"{DateTime.Now} - Создана карточка для лота {card.Number}");
+                        _logger.Info($"Создана карточка для лота {card.Number}");
                     }
                 }
 
                 Console.WriteLine($"{DateTime.Now} - Парсинг лотов закончен");
+                _logger.Info("Парсинг лотов закончен");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
         }
