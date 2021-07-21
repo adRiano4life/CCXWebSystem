@@ -285,8 +285,6 @@
                     'deliveryTerms' : deliveryTerms
                 },
                 success : function (data){
-                    //$('#newPosition').append('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
-                    //$('#newPosition').append(data)
                     $('#positionAddTablePartial').append(data);
                     console.log(data);
                 }

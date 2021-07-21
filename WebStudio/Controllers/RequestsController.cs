@@ -120,7 +120,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash, List<string> selectedLinkNames)
+        public async Task<IActionResult> Create(CreateRequestViewModel model, List<string> selectedLinkNames)
         {
             try
             { 
