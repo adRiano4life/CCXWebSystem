@@ -18,10 +18,8 @@ namespace WebStudio.Controllers
     public class SuppliersController : Controller
     {
         private WebStudioContext _db;
-
         private Logger _logger = LogManager.GetCurrentClassLogger();
-        //private ISuppliersService _suppliersService;
-        
+
         public SuppliersController(WebStudioContext db)
         {
             _db = db;
@@ -61,7 +59,7 @@ namespace WebStudio.Controllers
             
                 int pageSize = 20;
                 int pageNumber = (page ?? 1);
-                return View(suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
+                return View("Index",suppliers.OrderBy(s=>s.Name).ToPagedList(pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -165,7 +163,7 @@ namespace WebStudio.Controllers
                 }
                 
                 _logger.Info("Открыта форма редактирования поставщика");
-                return View(model);
+                return View("Edit", model);
             }
             catch (Exception e)
             {
@@ -225,7 +223,7 @@ namespace WebStudio.Controllers
                     Supplier supplier = _db.Suppliers.FirstOrDefault(s => s.Id == id);
                     if (supplier != null)
                     {
-                        return View(supplier);
+                        return View("Delete", supplier);
                     }
                     return NotFound();
                 }
@@ -263,14 +261,13 @@ namespace WebStudio.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddSupplierAjax(string supplierName, string supplierEmail, string supplierSite,
             string supplierPhone, string supplierAddress, string supplierTags, string supplierCardId)
         {
             try
             {
                 List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == supplierCardId);
                 Supplier supplier = new Supplier
                 {
                     Name = supplierName,

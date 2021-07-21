@@ -72,7 +72,7 @@
                 <div class="login-group col-md-2 d-flex ml-auto align-items-baseline">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a asp-controller="Account" asp-action="Index" asp-route-userId="@UserManager.GetUserId(User)"><i class="far fa-user text-dark"></i></a>
+                        <a asp-controller="Account" asp-action="Index" asp-route-userId="@UserManager.GetUserId(User)" id="account"><i class="far fa-user text-dark"></i></a>
                         <form asp-controller="Account" asp-action="Logout" method="post"><input type="submit" class="btn ml-2" value="Выход"></form>
                     }
                     else

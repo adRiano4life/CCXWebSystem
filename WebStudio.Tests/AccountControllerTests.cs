@@ -29,7 +29,7 @@ namespace WebStudio.Tests
 
             var mock = new Mock<IUserRepository>();
 
-            AccountController controller = new AccountController(db, _userManager, _roleManager, _signInManager, _environment, _uploadService);
+            //AccountController controller = new AccountController(db, _userManager, _roleManager, _signInManager, _environment, _uploadService);
             
             RegisterViewModel model = new RegisterViewModel()
             {
@@ -42,14 +42,7 @@ namespace WebStudio.Tests
                 AvatarPath = $"/Images/Avatars/defaultavatar.jpg",
             };
 
-            var result = controller.Register(model);
-            
-            
-            
-            
-            
-
-
+            //var result = controller.Register(model);
         }
     }
 }

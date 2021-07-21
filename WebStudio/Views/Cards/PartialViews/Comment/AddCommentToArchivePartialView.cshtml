@@ -1,0 +1,46 @@
+﻿@model List<CardClone>
+@using Castle.Core.Internal
+
+@{
+    var count = 1;
+}
+
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">№п/п</th>
+        <th scope="col">Номер лота</th>
+        <th scope="col">Название лота</th>
+        <th scope="col">Сумма лота</th>
+        <th scope="col">Ответственный</th>
+        <th scope="col">Комментарий</th>
+        <th scope="col">Статус</th>
+    </tr>
+    </thead>
+    @foreach (var card in Model)
+    {
+        <tbody>
+        <tr>
+            <th scope="row">@(count++)</th>
+            <td>@card.Number</td>
+            <td>@card.Name</td>
+            <td>@card.StartSumm</td>
+            <td>@card.Executor.Name @card.Executor.Surname</td>
+            @if (@card.Comment.IsNullOrEmpty())
+            {
+                <td>
+                    <form>
+                        <input type="hidden" id="cardId" value="@card.Id">
+                        <a type="button" data-toggle="modal" data-target="#addCommentForm" class="font-italic">Добавить комментарий</a>
+                    </form>
+                </td>
+            }
+            else
+            {
+                <td>@card.Comment</td>
+            }
+            <td>@card.CardState</td>
+        </tr>
+        </tbody>
+    }
+</table>

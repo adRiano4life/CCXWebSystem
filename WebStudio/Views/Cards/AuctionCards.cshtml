@@ -1,5 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core
 @using X.PagedList.Mvc.Bootstrap4.Core
+@using Castle.Core.Internal
 @model X.PagedList.IPagedList<CardClone>
 
 @{
@@ -34,7 +35,8 @@
                 </div>
             </div>
         </form>
-        <table class="table">
+        <div id="archiveTablePartial"></div>
+        <table class="table" id="archiveTable">
             <thead class="thead-light">
             <tr>
                 <th scope="col">№п/п</th>
@@ -42,6 +44,7 @@
                 <th scope="col">Название лота</th>
                 <th scope="col">Сумма лота</th>
                 <th scope="col">Ответственный</th>
+                <th scope="col">Комментарий</th>
                 <th scope="col">Статус</th>
             </tr>
             </thead>
@@ -54,11 +57,49 @@
                     <td>@card.Name</td>
                     <td>@card.StartSumm</td>
                     <td>@card.Executor.Name @card.Executor.Surname</td>
+                    @if (@card.Comment.IsNullOrEmpty())
+                    {
+                        <td>
+                            <form>
+                                <input type="hidden" id="cardId" value="@card.Id">
+                                <a type="button" data-toggle="modal" data-target="#addCommentForm" class="font-italic">Добавить комментарий</a>
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>@card.Comment</td>
+                    }
                     <td>@card.CardState</td>
                 </tr>
                 </tbody>
             }
         </table>
+    </div>
+    <div class="modal fade" id="addCommentForm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-uppercase" id="editModalLabel">Добавить комментарий</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="form-group">
+                            <label for="comment">Комментарий</label>
+                            <input type="text" class="form-control" id="comment" placeholder="Комментарий">
+                        </div>
+                        <button type="button" class="btn btn-outline-primary shadow" id="done" onclick="AddCommentToArchiveAjax()">Добавить</button>
+                    </form>
+                    <div class="modal-body add-position-success" id="success">
+                        <h4>Добавлено!</h4>
+                        <i class="check-custom fas fa-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
@@ -66,3 +107,31 @@
     @Html.PagedListPager(Model, page => Url.Action("AuctionCards", "Cards", 
         new { page, filterOrder = ViewBag.filterOrder, executorName = ViewBag.executorName }), Bootstrap4PagedListRenderOptions.Classic)
 </div>
+
+@section Scripts
+{
+    <script>
+        $('#success').hide();
+        function AddCommentToArchiveAjax(){
+            var comment = $('#comment').val();
+            var cardId = $('#cardId').val();
+            console.log(cardId)
+            $.ajax({
+                url : '@Url.Action("AddCommentToArchiveAjax", "Cards")',
+                type : 'POST',
+                data : {
+                    'cardId' : cardId,
+                    'comment' : comment 
+                },
+                success : function (data){
+                    $('#archiveTable').hide();
+                    $('#archiveTablePartial').html(data);
+                    console.log(data)
+                }
+            });
+            $('#form').hide();
+            $('#success').show();
+        }
+
+    </script>
+}

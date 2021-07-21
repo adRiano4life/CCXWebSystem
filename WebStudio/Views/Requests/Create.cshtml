@@ -33,7 +33,7 @@
         <div class="form-inline">
             @if (_db.SearchSuppliers.Count() == 0 || !_db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
             {
-                <p id="suppliersNull">Вы еще не выбрали ни одного поставщика</p>
+                <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
             }
             <div id="suppliersTablePartial"></div>
             @if (_db.SearchSuppliers.Count() != 0 && _db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
@@ -273,7 +273,7 @@
             var deliveryTerms = $('#deliveryTerms').val();
             $.ajax({
                 url : '@Url.Action("AddPositionAjax", "Requests")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'number' : number,
                     'cardId' : cardId,
@@ -285,8 +285,6 @@
                     'deliveryTerms' : deliveryTerms
                 },
                 success : function (data){
-                    //$('#newPosition').append('<tr><td>' + positionNumber + '</td><td>' + data.codTNVED + '</td><td>' + data.name + '</td><td>' + data.measure + '</td><td>' + data.amount + '</td><td>' + data.deliveryTerms + '</td>')
-                    //$('#newPosition').append(data)
                     $('#positionAddTablePartial').append(data);
                     console.log(data);
                 }
@@ -328,7 +326,7 @@
             var supplierCardId = $('#supplierCardId').val();
             $.ajax({
                 url : '@Url.Action("AddSupplierAjax", "Suppliers")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'supplierName' : supplierName,
                     'supplierEmail' : supplierEmail,
@@ -352,7 +350,7 @@
             var supplierRemoveCardId = $('#supplierRemoveCardId').val();
             $.ajax({
                 url : '@Url.Action("RemoveSupplierAjax", "Requests")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'supplierId' : supplierId,
                     'supplierRemoveCardId' : supplierRemoveCardId
