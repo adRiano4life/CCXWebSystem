@@ -245,9 +245,11 @@ namespace WebStudio.Controllers
                     };
                     await _db.SearchSuppliers.AddAsync(searchSupplier);
                     await _db.SaveChangesAsync();
+                    
+                    _logger.Info($"Сформирована временная база данных для рассылки запроса поставщикам. {searchSupplier.Name} добавлен во временную базу");
                 }
+
                 
-                _logger.Info("Сформирована временная база данных для рассылки запроса поставщикам");
                 
                 return PartialView("SuppliersTablePartialView", supplierCard);
             }
