@@ -45,24 +45,18 @@
             var supplierRemoveCardId = $('#supplierRemoveCardId').val();
             $.ajax({
                 url : '@Url.Action("RemoveSupplierAjax", "Requests")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'supplierId' : supplierId,
                     'supplierRemoveCardId' : supplierRemoveCardId
                 },
                 success : function (data){
-                    $('#suppliersNull').hide();
-                    for (var i = 0; i < data.length; i++)
-                          {
-                              $('#suppliers').append('<p>' + data[i].name + '</p>')
-                              console.log(data[i])
-                          }
+                      $('#suppliersNull').hide();
+                      $('#suppliersTable').hide();
+                      $('#suppliersTablePartial').html(data);
                       console.log(data)
-                  },
+                }
             });
-            setTimeout(function (){
-                location.reload();
-            }, 250);
         }
     </script>
 }

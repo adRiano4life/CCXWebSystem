@@ -186,7 +186,7 @@ namespace WebStudio.Controllers
             
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddPositionAjax(int number, string cardId, string codTNVED,
             string name, string measure, string amount, string deliveryTerms)
         {
@@ -261,7 +261,7 @@ namespace WebStudio.Controllers
             
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RemoveSupplierAjax(string supplierId, string supplierRemoveCardId)
         {
             try

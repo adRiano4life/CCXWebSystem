@@ -273,7 +273,7 @@
             var deliveryTerms = $('#deliveryTerms').val();
             $.ajax({
                 url : '@Url.Action("AddPositionAjax", "Requests")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'number' : number,
                     'cardId' : cardId,
@@ -326,7 +326,7 @@
             var supplierCardId = $('#supplierCardId').val();
             $.ajax({
                 url : '@Url.Action("AddSupplierAjax", "Suppliers")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'supplierName' : supplierName,
                     'supplierEmail' : supplierEmail,
@@ -350,7 +350,7 @@
             var supplierRemoveCardId = $('#supplierRemoveCardId').val();
             $.ajax({
                 url : '@Url.Action("RemoveSupplierAjax", "Requests")',
-                type : 'GET',
+                type : 'POST',
                 data : {
                     'supplierId' : supplierId,
                     'supplierRemoveCardId' : supplierRemoveCardId

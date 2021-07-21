@@ -19,8 +19,7 @@ namespace WebStudio.Controllers
     {
         private WebStudioContext _db;
         private Logger _logger = LogManager.GetCurrentClassLogger();
-        //private ISuppliersService _suppliersService;
-        
+
         public SuppliersController(WebStudioContext db)
         {
             _db = db;
@@ -262,14 +261,13 @@ namespace WebStudio.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddSupplierAjax(string supplierName, string supplierEmail, string supplierSite,
             string supplierPhone, string supplierAddress, string supplierTags, string supplierCardId)
         {
             try
             {
                 List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == supplierCardId);
                 Supplier supplier = new Supplier
                 {
                     Name = supplierName,
