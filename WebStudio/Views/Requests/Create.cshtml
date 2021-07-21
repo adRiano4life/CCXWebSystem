@@ -33,7 +33,7 @@
         <div class="form-inline">
             @if (_db.SearchSuppliers.Count() == 0 || !_db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))
             {
-                <p id="suppliersNull">Вы еще не выбрали ни одного поставщика</p>
+                <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
             }
             <div id="suppliersTablePartial"></div>
             @if (_db.SearchSuppliers.Count() != 0 && _db.SearchSuppliers.Any(s=>s.Card.Id == Model.Card.Id))

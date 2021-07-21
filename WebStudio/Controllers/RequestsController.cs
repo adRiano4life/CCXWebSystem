@@ -107,7 +107,7 @@ namespace WebStudio.Controllers
                                "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
                     Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
                 };
-                ViewBag.SearchSuppliersCard = _db.SearchSuppliers.FirstOrDefault(c => c.Id == cardId);
+
                 _logger.Info($"Сформирована форма запроса");
                 return View(model);
             }
@@ -260,7 +260,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId, string supplierRemoveCardId)
+        public async Task<IActionResult> RemoveSupplierAjax(string supplierId, string supplierRemoveCardId)
         {
             try
             {
