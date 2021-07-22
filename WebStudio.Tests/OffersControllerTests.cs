@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 using Moq;
 using WebStudio.Controllers;
 using WebStudio.Models;
@@ -15,10 +16,10 @@ namespace WebStudio.Tests
 {
     public class OffersControllerTests
     {
-        private FileUploadService _uploadService;
-        private IHostEnvironment _environment;
+        private FileUploadService _uploadService = new FileUploadService();
+        private IHostEnvironment _environment = new HostingEnvironment();
         private User _user = new User() { Email = "testUser@test.test"};
-        private Card _card = new Card() { Name = "testCard", Number = "T-000"};
+        private Card _card = new Card() { Name = "testCard", Number = "T-000/1"};
         
         
         [NonAction]
@@ -53,9 +54,7 @@ namespace WebStudio.Tests
 
         public IFormFile CreateFileMock()
         {
-            //Arrange
             var fileMock = new Mock<IFormFile>();
-            //Setup mock file using a memory stream
             var content = "Hello World from a Fake File";
             var fileName = "test.pdf";
             var ms = new MemoryStream();
@@ -67,14 +66,8 @@ namespace WebStudio.Tests
             fileMock.Setup(_ => _.FileName).Returns(fileName);
             fileMock.Setup(_ => _.Length).Returns(ms.Length);
 
-            //var sut = new MyController();
             var file = fileMock.Object;
             return file;
-            //Act
-            //var result = await sut.UploadSingle(file);
-
-            //Assert
-            //Assert.IsInstanceOfType(result, typeof(IActionResult));
         }
 
 
@@ -108,6 +101,7 @@ namespace WebStudio.Tests
         {
             //Arrange
             var db = ReturnsWebStudioDbContext();
+            _environment.ContentRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
             var controller = new OffersController(db, _uploadService, _environment);
             db.Cards.Add(_card);
             db.SaveChanges();
