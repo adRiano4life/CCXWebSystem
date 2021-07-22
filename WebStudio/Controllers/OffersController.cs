@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
 using Org.BouncyCastle.Asn1.X509;
@@ -43,7 +45,7 @@ namespace WebStudio.Controllers
         }
         
         [HttpPost]
-        public IActionResult Create(Offer offer)
+        public async Task<IActionResult> Create(Offer offer)
         {
             if (ModelState.IsValid && offer.File != null)
             {
@@ -55,13 +57,14 @@ namespace WebStudio.Controllers
                         dirInfo.CreateSubdirectory("Offers");
                 }
 
-                rootDirName = rootDirName.Replace('/', '\\').Insert('\\', "\\");
-                Console.WriteLine(rootDirName);
-                string rootDirPath = Path.Combine(_environment.ContentRootPath, $"{rootDirName}\\Offers");
+                //rootDirName = rootDirName.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                //Console.WriteLine(rootDirName);
+                string rootDirPath = Path.Combine(_environment.ContentRootPath, $"wwwroot\\Files\\Offers");
                 string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
 
                 var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x)
                                                                             || char.IsWhiteSpace(x)).ToArray());
+                
                 string fileName =
                     $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";
 
@@ -69,13 +72,13 @@ namespace WebStudio.Controllers
                 offer.Path = $"/Offers/{fileName}";
                 offer.FileName = fileName;
 
-                Card card = _db.Cards.FirstOrDefault(c => c.Number == offer.CardNumber);
+                Card card = await _db.Cards.FirstOrDefaultAsync(c => c.Number == offer.CardNumber);
                 if (card == null)
                     return NotFound();
 
                 offer.CardId = card.Id;
                 _db.Offers.Add(offer);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 

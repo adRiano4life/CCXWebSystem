@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Hosting;
 using Moq;
-using Org.BouncyCastle.Bcpg;
 using WebStudio.Controllers;
 using WebStudio.Models;
 using WebStudio.Services;
-using WebStudio.ViewModels;
 using Xunit;
 
 namespace WebStudio.Tests
@@ -35,13 +28,13 @@ namespace WebStudio.Tests
             {
                 CardNumber = _card.Number,
                 CardId = _card.Id, 
-                SupplierName = "",
+                SupplierName = "ТОО \"Тестовый поставщик\"",
                 DateOfIssue = DateTime.Now,
                 Number = "000",
                 File = CreateFileMock(),
                 FileName = "test.pdf",
-                Note = "",
-                UserId = "",
+                Note = "тестовый коммент",
+                UserId = _user.Id,
             };
             return offer;
         }
@@ -136,6 +129,8 @@ namespace WebStudio.Tests
             Assert.Equal(offer.DateOfIssue, bdresult.DateOfIssue);
             Assert.Equal(offer.Number, bdresult.Number);
 
+            db.Users.Remove(_user);
+            db.Cards.Remove(_card);
             db.Offers.Remove(bdresult);
             db.SaveChanges();
         }

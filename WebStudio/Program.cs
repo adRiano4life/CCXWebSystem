@@ -26,7 +26,8 @@ namespace WebStudio
         {
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
             var appConfig = builder.Build();
-            return appConfig.GetValue<string>("PathToFiles:DefaultPath");
+            //return appConfig.GetValue<string>("PathToFiles:DefaultPath");
+            return "D://csharp//esdp//app//WebStudio//wwwroot//Files"; // Гульжан
         };
         
         public static readonly string DefaultConnection = SetConnection();
