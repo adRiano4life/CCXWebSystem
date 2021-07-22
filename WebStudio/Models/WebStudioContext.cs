@@ -18,6 +18,9 @@ namespace WebStudio.Models
         public DbSet<SearchSupplier> SearchSuppliers { get; set; }
         public DbSet<CardClone> HistoryOfVictoryAndLosing { get; set; }
         public DbSet<FileModel> Files { get; set; }
+        public DbSet<InputDataUser> InputDataUsers { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        
         public DbSet<Comment> Comments { get; set; }
         
         public DbSet<Offer> Offers { get; set; }
@@ -26,6 +29,21 @@ namespace WebStudio.Models
         {
             
         }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "тенге", Сourse = 1});
+            modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "рубль", Сourse = 6});
+            modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "доллар", Сourse = 430});
+            modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "евро", Сourse = 490});
+            modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "юань", Сourse = 53.30});
+            
+        }
+
+
     }
+    
+    
 }

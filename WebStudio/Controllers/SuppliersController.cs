@@ -21,6 +21,7 @@ namespace WebStudio.Controllers
         private Logger _logger = LogManager.GetCurrentClassLogger();
         
         
+
         public SuppliersController(WebStudioContext db)
         {
             _db = db;
@@ -67,8 +68,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+
         }
-        
 
         [HttpGet]
         [Authorize]
@@ -85,8 +86,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+            
         }
-        
         
         [HttpPost]
         [Authorize]
@@ -125,6 +126,7 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+
         }
 
         
@@ -170,8 +172,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+
         }
-        
 
         [HttpPost]
         [Authorize]
@@ -202,6 +204,7 @@ namespace WebStudio.Controllers
                     _logger.Info($"Поставщик {supplier.Name} отредактирован");
                     return RedirectToAction("Index", "Suppliers");
                 }
+
                 return View(model);
             }
             catch (Exception e)
@@ -233,6 +236,7 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+
         }
 
 
@@ -259,7 +263,7 @@ namespace WebStudio.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddSupplierAjax(string supplierName, string supplierEmail, string supplierSite,
             string supplierPhone, string supplierAddress, string supplierTags, string supplierCardId)
         {

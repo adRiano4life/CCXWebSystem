@@ -15,7 +15,7 @@
     <a asp-controller="Offers" asp-action="Create" asp-route-userId="@UserManager.GetUserId(User)" class="font-italic">(Добавить новое)</a>
 </div>
 
-<div>
+<div id="body">
     <table class="table" style="width: 100%">
         <thead>
         <tr class="bg-success text-white">
@@ -72,12 +72,12 @@
                                 <td class="py-1">@op.Amount</td>
                                 <td class="py-1">@op.UnitPrice</td>
                                 <td class="py-1">@op.TotalPrice</td>
-                                <td colspan="2"> <a href="#">Добавить расчет</a> </td>
+                                <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-positionId="@op.Id" target="_blank">Добавить расчет</a> </td>
                             </tr>
                         }
                         </tbody>
                     }
-                    </tr>
+                </tr>
                     
                 <tbody class="border-0">
                     <tr class="line"></tr>

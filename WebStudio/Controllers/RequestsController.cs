@@ -107,7 +107,7 @@ namespace WebStudio.Controllers
                                "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
                     Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
                 };
-                ViewBag.SearchSuppliersCard = _db.SearchSuppliers.FirstOrDefault(c => c.Id == cardId);
+
                 _logger.Info($"Сформирована форма запроса");
                 return View(model);
             }
@@ -120,7 +120,7 @@ namespace WebStudio.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash, List<string> selectedLinkNames)
+        public async Task<IActionResult> Create(CreateRequestViewModel model, List<string> selectedLinkNames)
         {
             try
             { 
@@ -186,7 +186,7 @@ namespace WebStudio.Controllers
             
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> AddPositionAjax(int number, string cardId, string codTNVED,
             string name, string measure, string amount, string deliveryTerms)
         {
@@ -245,9 +245,11 @@ namespace WebStudio.Controllers
                     };
                     await _db.SearchSuppliers.AddAsync(searchSupplier);
                     await _db.SaveChangesAsync();
+                    
+                    _logger.Info($"Сформирована временная база данных для рассылки запроса поставщикам. {searchSupplier.Name} добавлен во временную базу");
                 }
+
                 
-                _logger.Info("Сформирована временная база данных для рассылки запроса поставщикам");
                 
                 return PartialView("SuppliersTablePartialView", supplierCard);
             }
@@ -259,8 +261,8 @@ namespace WebStudio.Controllers
             
         }
 
-        [HttpGet]
-        public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId, string supplierRemoveCardId)
+        [HttpPost]
+        public async Task<IActionResult> RemoveSupplierAjax(string supplierId, string supplierRemoveCardId)
         {
             try
             {
