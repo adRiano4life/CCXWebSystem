@@ -4,17 +4,17 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MimeKit;
 using MimeKit.Text;
+using WebStudio.Helpers;
 using WebStudio.Models;
 
 namespace WebStudio.Services
 {
     public class EmailService
     {
-        private string _emailOffice = Program.EmailName;
-        private string _passwordOffice = Program.EmailPassword;
+        public string _emailOffice = AppCredentials.EmailName;
+        public string _passwordOffice = AppCredentials.EmailPassword;
         
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
