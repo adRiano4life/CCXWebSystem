@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using MimeKit;
 using Org.BouncyCastle.Asn1.X509;
+using WebStudio.Helpers;
 using WebStudio.Models;
 using WebStudio.Services;
 
@@ -49,7 +50,7 @@ namespace WebStudio.Controllers
         {
             if (ModelState.IsValid && offer.File != null)
             {
-                string rootDirName = Program.PathToFiles;
+                string rootDirName = AppCredentials.PathToFiles;
                 DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
                 foreach (var dir in dirInfo.GetDirectories())
                 {
@@ -58,7 +59,7 @@ namespace WebStudio.Controllers
                 }
 
                 //rootDirName = rootDirName.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-                //Console.WriteLine(rootDirName);
+                Console.WriteLine(_environment.ContentRootPath);
                 string rootDirPath = Path.Combine(_environment.ContentRootPath, $"wwwroot\\Files\\Offers");
                 string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
 

@@ -4,19 +4,22 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MimeKit;
 using MimeKit.Text;
+using WebStudio.Helpers;
 using WebStudio.Models;
 
 namespace WebStudio.Services
 {
     public class EmailService
     {
+        public string _emailOffice = AppCredentials.EmailName;
+        public string _passwordOffice = AppCredentials.EmailPassword;
+        
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _emailOffice));
             foreach (var supplier in suppliers)
             {
                 emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
@@ -55,7 +58,7 @@ namespace WebStudio.Services
 
             using var client = new SmtpClient();
             await client.ConnectAsync("smtp.mail.ru", 25, false);
-            await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
@@ -63,7 +66,7 @@ namespace WebStudio.Services
         public async Task SendEmailAfterRegister(string email, string link)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", _emailOffice));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = "Подтвердите свой email";
 
@@ -75,7 +78,7 @@ namespace WebStudio.Services
             using var client = new SmtpClient();
             client.ServerCertificateValidationCallback = (s, c, h, e) => true;
             await client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
-            await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
@@ -85,7 +88,7 @@ namespace WebStudio.Services
         {
             var emailMessage = new MimeMessage();
             
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", _emailOffice));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = title;
 
@@ -97,7 +100,7 @@ namespace WebStudio.Services
 
             using var client = new SmtpClient();
             await client.ConnectAsync("smtp.mail.ru", 25, false);
-            await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
