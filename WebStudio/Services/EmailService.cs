@@ -37,6 +37,16 @@ namespace WebStudio.Services
                                  $"</ul><br><hr>";
                 builder.HtmlBody += positionTable;
             }
+
+            string signature = "<br>С уважением, " +
+                               "<br>ТОО RD PROM " +
+                               "<br>Республика Казахстан, г. Караганда. " +
+                               "<br>Контактные данные: " +
+                               "<br>Моб. тел.: +7 775 992 54 05" +
+                               "<br>Email: office@rdprom.kz";
+
+            builder.HtmlBody += signature;
+            
             foreach (var path in paths) 
             {
                 builder.Attachments.Add(path);
