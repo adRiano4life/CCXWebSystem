@@ -41,7 +41,7 @@ namespace WebStudio.Controllers
         {
             try
             {
-                model.Requests = _db.Requests.ToList();
+                model.Requests = _db.Requests.OrderByDescending(r=>r.Card.Number).ToList();
                 switch (filterOrder)
                 {
                     case "DateOfCreate":
