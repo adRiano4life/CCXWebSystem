@@ -66,7 +66,10 @@ namespace WebStudio.Controllers
                 if (model.ExecutorName != null)
                 {
                     model.Requests = model.Requests.Where(r =>
-                        r.Card.Executor.Surname.Contains(model.ExecutorName)).ToList();
+                        r.Executor.Surname.ToLower().Contains(model.ExecutorName.ToLower()) 
+                        || r.Executor.Name.ToLower().Contains(model.ExecutorName.ToLower())
+                        || r.Card.Number.ToLower().Contains(model.ExecutorName.ToLower())
+                        || r.Card.Name.ToLower().Contains(model.ExecutorName.ToLower())).ToList();
                 }
                 
                 _logger.Info("Открыта таблица поданных запросов поставщикам");
