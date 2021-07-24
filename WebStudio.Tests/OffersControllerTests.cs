@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.Logging;
 using Moq;
+using NLog;
 using WebStudio.Controllers;
 using WebStudio.Models;
 using WebStudio.Services;
@@ -51,7 +53,8 @@ namespace WebStudio.Tests
             return db;
         }
 
-
+        
+        [NonAction]
         public IFormFile CreateFileMock()
         {
             var fileMock = new Mock<IFormFile>();
@@ -96,6 +99,7 @@ namespace WebStudio.Tests
             db.SaveChanges();
         }
 
+        
         [Fact]
         public void CreateOfferPostMethodTest()
         {

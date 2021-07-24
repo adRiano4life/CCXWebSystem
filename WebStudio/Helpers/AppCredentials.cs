@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace WebStudio.Helpers
 {
-    public class AppCredentials
+    public static class AppCredentials
     {
         
         public static readonly Func<string> SetPath = () =>
