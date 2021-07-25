@@ -15,6 +15,7 @@ using Org.BouncyCastle.Asn1.X509;
 using WebStudio.Helpers;
 using WebStudio.Models;
 using WebStudio.Services;
+using X.PagedList;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace WebStudio.Controllers
@@ -36,11 +37,27 @@ namespace WebStudio.Controllers
         }
         
         
-        public IActionResult Index()
+        public IActionResult Index(string searchByCardNumber, string searchBySupplierName, int? page)
         {
             try
             {
-                return View(_db.Offers.ToList());
+                List<Offer> offers = _db.Offers.ToList();
+            
+                if (searchByCardNumber != null)
+                {
+                    offers = offers.Where(s => s.CardNumber.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
+                    ViewBag.searchByCardNumber = searchByCardNumber;
+                }
+            
+                if (searchBySupplierName != null)
+                {
+                    offers = offers.Where(s => s.SupplierName.ToLower().Contains(searchBySupplierName.ToLower())).ToList();
+                    ViewBag.searchBySupplierName = searchBySupplierName;
+                }
+                
+                int pageSize = 20;
+                int pageNumber = (page ?? 1);
+                return View($"Index",offers.OrderByDescending(s=>s.CardNumber).ToPagedList(pageNumber, pageSize));
             }
             catch (Exception e)
             {

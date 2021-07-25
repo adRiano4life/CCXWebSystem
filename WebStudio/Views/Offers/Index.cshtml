@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model List<Offer>
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<WebStudio.Models.Offer>
 @inject UserManager<User> UserManager
 
 @{
@@ -10,14 +12,27 @@
     var cardNumber = "";
     var codTNVED = "";
 }
-<div class="my-3">
-    <h4>@ViewBag.Title</h4>
-    <a asp-controller="Offers" asp-action="Create" asp-route-userId="@UserManager.GetUserId(User)" class="font-italic">(Добавить новое)</a>
+<div class="mt-5 mb-2 d-flex justify-content-center align-items-baseline">
+    <h3>@ViewBag.Title</h3>
+    <a asp-controller="Offers" asp-action="Create" asp-route-userId="@UserManager.GetUserId(User)" class="font-italic ml-3">(Добавить новое)</a>
 </div>
+
+@using (Html.BeginForm("Index", "Offers", FormMethod.Get, 
+    new {@class = "my-3 px-auto py-auto", @style = "border: 1px dotted lightslategrey; border-radius: 8px;"}))
+{
+    <div class="form-inline form-group">
+        <div class="p-4">
+            Поиск по лоту: @Html.TextBox("searchByCardNumber", ViewBag.searchByCardNumber as string)
+            <input type="submit" class="btn btn-outline-primary py-1 font-13 border-primary" value="Искать"/>
+            Поиск по поставщику: @Html.TextBox("searchBySupplierName", ViewBag.searchBySupplierName as string)
+            <input type="submit" class="btn btn-outline-primary ml-3 py-1 font-13 border-primary" value="Искать"/>
+        </div>
+    </div>
+}
 
 <div id="body">
     <table class="table" style="width: 100%">
-        <thead>
+        <thead class="thead-light">
         <tr class="bg-success text-white">
             <th scope="col">№</th>
             <th scope="col" colspan="2">Лот</th>
@@ -27,7 +42,7 @@
             <th scope="col" colspan="2">Примечание</th>
             <th scope="col" colspan="2">Скачать </th>
             <th scope="col" colspan="2"></th>
-            </tr>
+        </tr>
         </thead>
         <tbody>
         @if (Model.Count != 0)
@@ -42,7 +57,7 @@
                     <td colspan="2">@offer.Number</td>
                     <td colspan="2">@offer.Note</td>
                     <td colspan="2"><a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
-                                       asp-route-fileName="@offer.FileName">КП @offer.SupplierName</a><br>
+                                       asp-route-fileName="@offer.FileName" class="py-0">КП @offer.SupplierName</a><br>
                         @if (UserManager.FindByIdAsync(@offer.UserId).Result != null)
                         {
                             <small class="font-10 font-italic">добавлено: @UserManager.FindByIdAsync(@offer.UserId).Result.Surname
@@ -52,7 +67,7 @@
                 
                     @if (offer.Card.Positions.Count != 0)
                     {
-                        <thead class="font-11">
+                        <thead class="font-11 mx-auto">
                         <tr>
                             <th class="py-1">№</th>
                             <th class="py-1">Название</th>
@@ -62,7 +77,9 @@
                             <th class="py-1">Стартовая стоимость</th>
                         </tr>
                         </thead>
-                        <tbody class="font-11 pb-1">
+                        
+                        
+                        <tbody class="font-11 pb-1 mx-auto">
                         @foreach (var op in @offer.Card.Positions)
                         {
                             <tr>
@@ -80,10 +97,16 @@
                 </tr>
                     
                 <tbody class="border-0">
-                    <tr class="line"></tr>
+                <tr class="line"></tr>
                 </tbody>
             }
         }
         </tbody>
     </table>
+</div>
+
+<p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
+<div class="row justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Offers", 
+        new { page, searchByCardNumber = ViewBag.searchByCardNumber, searchBySupplierName = ViewBag.searchBySupplierName }), Bootstrap4PagedListRenderOptions.Classic)
 </div>
