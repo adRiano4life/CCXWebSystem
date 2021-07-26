@@ -231,12 +231,13 @@ namespace WebStudio.Controllers
                     {
                         foreach(var uploadedFile in uploads)
                         {
-                            if (!Directory.Exists( Program.PathToFiles + $"/Files/{card.Number}"))
+                            string[] cardNumbers = card.Number.Split("/");
+                            if (!Directory.Exists( Program.PathToFiles + $"/{cardNumbers[0]}"))
                             {
-                                Directory.CreateDirectory(Program.PathToFiles + $"/Files/{card.Number}");
+                                Directory.CreateDirectory(Program.PathToFiles + $"/{cardNumbers[0]}");
                             }
                         
-                            string path = $"/Files/{card.Number}" + uploadedFile.FileName;
+                            string path = $"/{cardNumbers[0]}" + $"/{uploadedFile.FileName}";
                             using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
                             {
                                 await uploadedFile.CopyToAsync(fileStream);
