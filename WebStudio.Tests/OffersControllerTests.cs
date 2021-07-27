@@ -32,7 +32,7 @@ namespace WebStudio.Tests
                 CardNumber = _card.Number,
                 CardId = _card.Id, 
                 SupplierName = "ТОО \"Тестовый поставщик\"",
-                DateOfIssue = DateTime.Now,
+                DateOfIssue = DateTime.MinValue,
                 Number = "000",
                 File = CreateFileMock(),
                 FileName = "test.pdf",
@@ -73,7 +73,37 @@ namespace WebStudio.Tests
             return file;
         }
 
+        
+        [Fact]
+        public void IndexOffersTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            _environment.ContentRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
+            var controller = new OffersController(db, _uploadService, _environment);
+            int? page = 1;
+            db.Users.Add(_user);
+            db.Cards.Add(_card);
+            var offer = ReturnNewOffer();
+            db.Offers.Add(offer);
+            var position = new CardPosition { CardId = offer.CardId, Card = offer.Card, StockNumber = "test", CodTNVED = "test", 
+                Name = "test", Amount = 1, UnitPrice = 1, Measure = "test", TotalPrice = 1, Currency = "test", };
+            db.Positions.Add(position);
+            db.SaveChanges();
+            
+            //Act
+            ViewResult result = controller.Index(null, null, null, 
+                DateTime.MinValue, null, page : page) as ViewResult;
 
+            //Assert
+            Assert.Equal("Index", result?.ViewName);
+            db.Offers.Remove(offer);
+            db.Positions.Remove(position);
+            db.Users.Remove(_user);
+            db.Cards.Remove(_card);
+            db.SaveChanges();
+        }
+        
         [Fact]
         public void CreateOfferGetMethodTest()
         {

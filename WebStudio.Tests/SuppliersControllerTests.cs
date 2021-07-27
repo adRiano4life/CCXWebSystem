@@ -22,7 +22,6 @@ namespace WebStudio.Tests
        [NonAction]
        private CreateSupplierViewModel ReturnCreateSupplierModel()
        {
-           
            var model = new CreateSupplierViewModel
            {
                Id = Guid.NewGuid().ToString(),

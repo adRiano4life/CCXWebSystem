@@ -85,7 +85,7 @@ namespace WebStudio.Controllers
                     searchByOfferDate = Convert.ToDateTime("");
                     offers = _db.Offers.ToList();
                 }
-                int pageSize = 2;
+                int pageSize = 5;
                 int pageNumber = (page ?? 1);
                 return View($"Index",offers.OrderByDescending(s=>s.CardNumber).ToPagedList(pageNumber, pageSize));
             }
