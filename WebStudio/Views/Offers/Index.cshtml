@@ -11,6 +11,8 @@
     var positionCount = 1;
     var cardNumber = "";
     var codTNVED = "";
+    var arrowIcon = "\"fas fa-angle-double-right\"";
+    //<i class="fas fa-angle-double-right"></i>;
 }
 <div class="mt-5 mb-2 d-flex justify-content-center align-items-baseline">
     <h3>@ViewBag.Title</h3>
@@ -21,11 +23,43 @@
     new {@class = "my-3 px-auto py-auto", @style = "border: 1px dotted lightslategrey; border-radius: 8px;"}))
 {
     <div class="form-inline form-group">
-        <div class="p-4">
-            Поиск по лоту: @Html.TextBox("searchByCardNumber", ViewBag.searchByCardNumber as string)
-            <input type="submit" class="btn btn-outline-primary py-1 font-13 border-primary" value="Искать"/>
-            Поиск по поставщику: @Html.TextBox("searchBySupplierName", ViewBag.searchBySupplierName as string)
-            <input type="submit" class="btn btn-outline-primary ml-3 py-1 font-13 border-primary" value="Искать"/>
+        <div class="pt-1 pb-0 pl-5 text-center">
+            <div class="pl-3 pb-2 font-italic text-secondary font-weight-bold">
+                <span class="text-left py-3">Поиск по:</span>
+                @* <span class="m-0 p-0 float-right"> *@
+                @*     <a asp-action="Index" asp-controller="Offers" asp-route-page="1" class="mt-0 pt-0 font-italic font-13">Сбросить параметры поиска x</a> *@
+                @* </span> *@
+            </div>
+            <div class="row d-flex justify-content-start align-items-baseline">
+                <div class="col-3 m-1 p-0">
+                    <span class="font-13 font-italic text-secondary">лоту</span>
+                    @Html.TextBox("searchByCardNumber", ViewBag.searchByCardNumber as string, new{@class="form-control form-control-sm"})
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-4 m-1 p-0">
+                    <span class="font-13 font-italic text-secondary">поставщику</span>
+                    @Html.TextBox("searchBySupplierName", ViewBag.searchBySupplierName as string, new{@class="form-control form-control-sm"})
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-3 m-1 p-0">
+                    <span class="font-13 font-italic text-secondary">позиции</span>
+                    @Html.TextBox("searchByPositionName", ViewBag.searchByPositionName as string, new{@class="form-control form-control-sm"})
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-3 m-1 p-0">
+                    <span class="font-13 font-italic text-secondary">дате КП</span>
+                    <input name="searchByOfferDate" class="form-control form-control-sm" value="" type="date"/>
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                <div class="col-3 m-1 p-0 ml-5 pl-5">
+                    <a asp-action="Index" asp-controller="Offers" asp-route-page="1" class="btn btn-outline-primary font-italic pl-3 text-primary font-13">
+                        Сбросить параметры поиска
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -33,7 +67,7 @@
 <div id="body">
     <table class="table" style="width: 100%">
         <thead class="thead-light">
-        <tr class="bg-success text-white">
+        <tr>
             <th scope="col">№</th>
             <th scope="col" colspan="2">Лот</th>
             <th scope="col" colspan="2">Поставщик</th>
@@ -41,7 +75,6 @@
             <th scope="col" colspan="2">№ КП</th>
             <th scope="col" colspan="2">Примечание</th>
             <th scope="col" colspan="2">Скачать </th>
-            <th scope="col" colspan="2"></th>
         </tr>
         </thead>
         <tbody>
@@ -72,13 +105,12 @@
                             <th class="py-1">№</th>
                             <th class="py-1">Название</th>
                             <th class="py-1">Ед.изм.</th>
-                            <th class="py-1">Кол-ко</th>
+                            <th class="py-1">Кол-во</th>
                             <th class="py-1">Старт.цена за ед.товара</th>
                             <th class="py-1">Стартовая стоимость</th>
                         </tr>
                         </thead>
-                        
-                        
+
                         <tbody class="font-11 pb-1 mx-auto">
                         @foreach (var op in @offer.Card.Positions)
                         {
@@ -95,10 +127,12 @@
                         </tbody>
                     }
                 </tr>
-                    
+                
+                @*
                 <tbody class="border-0">
                 <tr class="line"></tr>
                 </tbody>
+                *@
             }
         }
         </tbody>
@@ -108,5 +142,22 @@
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
 <div class="row justify-content-center">
     @Html.PagedListPager(Model, page => Url.Action("Index", "Offers", 
-        new { page, searchByCardNumber = ViewBag.searchByCardNumber, searchBySupplierName = ViewBag.searchBySupplierName }), Bootstrap4PagedListRenderOptions.Classic)
+        new { page, searchByCardNumber = ViewBag.searchByCardNumber, searchBySupplierName = ViewBag.searchBySupplierName, 
+            searchByPositionName = ViewBag.searchByPositionName, searchByOfferDate = ViewBag.searchByOfferDate }), 
+        Bootstrap4PagedListRenderOptions.Classic)
 </div>
+
+@section Scripts
+{<script>
+    $('submitReset').onclick(function (event){
+        event.preventDefault();
+        $.ajax({
+        url : '@Url.Action("Index", "Offers")',
+         type : 'GET',
+            data : {
+            'resetSearch' : "resetSearch",
+            'page' : 1    
+            }            
+        });
+    });
+    </script>}

@@ -37,7 +37,8 @@ namespace WebStudio.Controllers
         }
         
         
-        public IActionResult Index(string searchByCardNumber, string searchBySupplierName, int? page)
+        public IActionResult Index(string searchByCardNumber, string searchBySupplierName, string searchByPositionName, 
+            DateTime searchByOfferDate, string resetSearch, int? page)
         {
             try
             {
@@ -54,8 +55,37 @@ namespace WebStudio.Controllers
                     offers = offers.Where(s => s.SupplierName.ToLower().Contains(searchBySupplierName.ToLower())).ToList();
                     ViewBag.searchBySupplierName = searchBySupplierName;
                 }
-                
-                int pageSize = 20;
+
+                if (searchByPositionName != null)
+                {
+                    foreach (var offer in offers)
+                    {
+                        if (offer.Card.Positions.Count() > 0)
+                        {
+                            foreach (var position in offer.Card.Positions)
+                            {
+                                if (position.Name.ToLower().Contains(searchByPositionName.ToLower()))
+                                {
+                                    offers = offers.Where(o => o.CardId == position.CardId).ToList();
+                                    ViewBag.searchByPositionName = searchByPositionName;
+                                }
+                            }
+                        }
+                    }   
+                }
+
+                if (searchByOfferDate != null && searchByOfferDate != DateTime.MinValue)
+                {
+                    offers = offers.Where(o => o.DateOfIssue == searchByOfferDate).ToList();
+                    ViewBag.searchByOfferDate = searchByOfferDate;
+                }
+
+                if (resetSearch != null)
+                {
+                    searchByOfferDate = Convert.ToDateTime("");
+                    offers = _db.Offers.ToList();
+                }
+                int pageSize = 2;
                 int pageNumber = (page ?? 1);
                 return View($"Index",offers.OrderByDescending(s=>s.CardNumber).ToPagedList(pageNumber, pageSize));
             }
