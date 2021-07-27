@@ -68,8 +68,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
+        
 
         [HttpGet]
         [Authorize]
