@@ -1,0 +1,240 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model WebStudio.ViewModels.CreateRequestViewModel
+@inject UserManager<User> UserManager
+@inject WebStudioContext _db
+
+@{
+    ViewBag.Title = "Создание запроса";
+    Layout = "_Layout";
+}
+
+@{
+  var count = 1;
+}
+
+<h2>Запрос поставщикам</h2>
+<div class="container">
+    <div class="col-md-12">
+        <form id="supplierForm">
+            <label class="font-weight-bold mr-3">Введите хештег или название поставщика:</label>
+            <div class="form-inline form-group">
+                <input type="text" id="supplierSearchHash" placeholder="Поиск">
+                <input type="hidden" id="supplierCardId" value="@null">
+                <button type="button" class="btn btn-outline-primary shadow ml-3" id="search" onclick="SearchSupplierWithoutLotAjax()">Найти</button>
+            </div>
+        </form>
+        <div class="form-group">
+            <a type="button" data-toggle="modal" data-target="#addSupplierForm" class="font-italic">
+                Добавить поставщика
+            </a>
+        </div>
+        <label class="font-weight-bold mr-3">Выбранные поставщики:</label>
+        <div class="form-inline">
+            @if (_db.SearchSuppliers.Count() == 0 || !_db.SearchSuppliers.Any(s=>s.Card.Id == null))
+            {
+                <p id="suppliersNull">Вы еще не выбрали поставщиков</p>
+            }
+            <div id="suppliersTablePartial"></div>
+            @if (_db.SearchSuppliers.Count() != 0 && _db.SearchSuppliers.Any(s=>s.Card.Id == null))
+            {
+                <div id="suppliersTable">
+                    <table class="table" style="font-size: 12px;">
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Email</th>
+                            <th>Тэги</th>
+                            <th>Действие</th>
+                        </tr>
+                        @foreach (var supplier in _db.SearchSuppliers)
+                        {
+                            if (supplier.CardId == null)
+                            {
+                                <tr>
+                                    <td>@supplier.Name</td>
+                                    <td>@supplier.Email</td>
+                                    <td>
+                                                        
+                                        @foreach (var tag in @supplier.Tags)
+                                        {
+                                            @(tag + " ")
+                                        }
+                                    </td>
+                                    <td>
+                                        <input type="hidden" id="supplierId-@supplier.Id" value="@supplier.Id">
+                                        <input type="hidden" id="supplierRemoveCardId" value="@null">
+                                        <button type="button" style="border:0px solid black; background-color: transparent; outline:none" onclick="RemoveSupplierWithoutLotAjax('@supplier.Id')">
+                                            <i class="fas fa-times mr-3 mb-3" style="font-size: 15px; color: darkred; align-content: center" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+        <form asp-action="CreateWithoutLot" asp-controller="Requests" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="DateOfCreate" class="font-weight-bold">Дата создания запроса:</label>
+                    <input disabled value="@Model.DateOfCreate.ToLongDateString()">
+                </div>
+                <div class="form-group d-block">
+                    <label class="font-weight-bold">Текст запроса:</label>
+                    <textarea cols="150" rows="10" readonly class="border-0">@Model.TextView</textarea>
+                </div>
+            </div>
+            
+            <input type="hidden" asp-for="CardId" value="@null">
+            <input type="hidden" asp-for="ExecutorId" value="@UserManager.GetUserId(User)">
+            <input type="hidden" asp-for="Text" value="@Model.Text">
+            <input type="hidden" asp-for="OverallPath" value="/var/www/CCXWebSystem/WebStudio/wwwroot/Files">
+            <input type="hidden" name="supplierHash" id="supplierHashSubmit">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="Files">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="Files">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                    <input type="file" asp-for="Files">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary shadow"><i class="fas fa-paper-plane"></i> Отправить</button>
+            </div>
+        </form>
+
+        
+        <div class="modal fade" id="addSupplierForm">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-uppercase" id="editSupplierModalLabel">Добавить поставщика</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ReloadAjax()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="supplierAddForm">
+                            <div class="form-group">
+                                <label for="supplierName">Название:</label>
+                                <input type="text" class="form-control" id="supplierName" placeholder="Название">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierEmail">Email:</label>
+                                <input type="text" class="form-control" id="supplierEmail" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierSite">Сайт:</label>
+                                <input type="text" class="form-control" id="supplierSite" placeholder="Сайт">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierPhone">Телефон</label>
+                                <input type="text" class="form-control" id="supplierPhone" placeholder="Телефон">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierAddress">Адрес:</label>
+                                <input type="text" class="form-control" id="supplierAddress" placeholder="Адрес">
+                            </div>
+                            <div class="form-group">
+                                <label for="supplierTags">Тэги</label>
+                                <input type="text" class="form-control" id="supplierTags" placeholder="Введите тэги">
+                            </div>
+                            <input type="hidden" id="cardId" value="@null">
+                            <button type="button"
+                                    class="btn btn-outline-primary" id="done" onclick="AddSupplierAjax()">Добавить</button>
+                        </form>
+                        <div class="modal-body add-position-success" id="supplierSuccess">
+                            <h4>Добавлено!</h4>
+                            <i class="check-custom fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script >
+        $('#success').hide();
+        $('#supplierSuccess').hide();
+        
+        function ReloadAjax(){
+            location.reload();
+        }
+        
+        function SearchSupplierWithoutLotAjax(){
+            var supplierSearchHash = $('#supplierSearchHash').val();
+            var supplierCardId = $('#supplierCardId').val();
+            $('#supplierHashSubmit').val(supplierSearchHash);
+            $.ajax({
+                url : '@Url.Action("SearchSupplierWithoutLotAjax", "Requests")',
+                type: 'GET',
+                data : {
+                    'supplierSearchHash' : supplierSearchHash,
+                    'supplierCardId' : supplierCardId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    $('#suppliersTablePartial').html(data);
+                    console.log(data)
+                }
+            });
+        }
+        
+        function AddSupplierAjax(){
+            var supplierName = $('#supplierName').val();
+            var supplierEmail = $('#supplierEmail').val();
+            var supplierSite = $('#supplierSite').val();
+            var supplierPhone = $('#supplierPhone').val();
+            var supplierAddress = $('#supplierAddress').val();
+            var supplierTags = $('#supplierTags').val();
+            var supplierCardId = $('#supplierCardId').val();
+            $.ajax({
+                url : '@Url.Action("AddSupplierAjax", "Suppliers")',
+                type : 'POST',
+                data : {
+                    'supplierName' : supplierName,
+                    'supplierEmail' : supplierEmail,
+                    'supplierSite' : supplierSite,
+                    'supplierPhone' : supplierPhone,
+                    'supplierAddress' : supplierAddress,
+                    'supplierTags' : supplierTags,
+                    'supplierCardId' : supplierCardId
+                },
+                success : function (data){
+                    $('#suppliersNull').hide();
+                    $('#suppliersTablePartial').html(data);
+                }
+            });
+            $('#supplierAddForm').hide();
+            $('#supplierSuccess').show();
+        }
+        
+        function RemoveSupplierWithoutLotAjax(supplierRemoveId){
+            var supplierId = $('#supplierId-' + supplierRemoveId).val();
+            var supplierRemoveCardId = $('#supplierRemoveCardId').val();
+            $.ajax({
+                url : '@Url.Action("RemoveSupplierWithoutLotAjax", "Requests")',
+                type : 'POST',
+                data : {
+                    'supplierId' : supplierId,
+                    'supplierRemoveCardId' : supplierRemoveCardId
+                },
+                success : function (data){
+                      $('#suppliersNull').hide();
+                      $('#suppliersTable').hide();
+                      $('#suppliersTablePartial').html(data);
+                      console.log(data)
+                }
+            });
+        }
+    </script>
+}

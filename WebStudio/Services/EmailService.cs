@@ -29,18 +29,21 @@ namespace WebStudio.Services
 
             var builder = new BodyBuilder();
             builder.HtmlBody = message;
-            foreach (var position in card.Positions)
+            if (card != null)
             {
-                string positionTable = $"<br><ul>" +
-                                 $"<li><b>Код ТНВЕД:</b> {@position.CodTNVED}</li>" +
-                                 $"<li><b>Наименование:</b> {@position.Name}</li>" +
-                                 $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
-                                 $"<li><b>Количество:</b> {@position.Amount}</li>" +
-                                 $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
-                                 $"</ul><br><hr>";
-                builder.HtmlBody += positionTable;
+                foreach (var position in card.Positions)
+                {
+                    string positionTable = $"<br><ul>" +
+                                           $"<li><b>Код ТНВЕД:</b> {@position.CodTNVED}</li>" +
+                                           $"<li><b>Наименование:</b> {@position.Name}</li>" +
+                                           $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
+                                           $"<li><b>Количество:</b> {@position.Amount}</li>" +
+                                           $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
+                                           $"</ul><br><hr>";
+                    builder.HtmlBody += positionTable;
+                } 
             }
-
+            
             string signature = "<br>С уважением, " +
                                "<br>ТОО RD PROM " +
                                "<br>Республика Казахстан, г. Караганда. " +
