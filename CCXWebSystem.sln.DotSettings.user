@@ -8,6 +8,12 @@
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0509bbb9_002D6c8e_002D4f51_002D98e8_002Da0491d811de6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterWrongConfirmPasswordDataReturnWrongRegister" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterWrongConfirmPasswordDataReturnWrongRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0ff974d6_002D2925_002D4396_002Dad68_002D47e22db9b2e8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
@@ -16,6 +22,21 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1066bd6a_002Dfc5a_002D4cbf_002D92e8_002D7319d3fd3a32/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=12b9a98e_002D682a_002D450b_002D8d49_002Dc7aa06cf0577/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangePasswordCorrectDataReturnCorrectChange #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=17480820_002D9004_002D4a61_002D978e_002D7deaee828eb2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #12" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1fb30d9e_002D1926_002D49b5_002D9389_002D789c332b0c6b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangePasswordCorrectDataReturnCorrectChange #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=20c65a77_002Dae1c_002D4f60_002Dabc6_002Dda3fbae18c2a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #7" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -38,9 +59,19 @@
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3b7ce037_002D9552_002D4399_002Da627_002Df1e2b109cd9d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ChangePasswordCorrectDataReturnCorrectChange #7" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=51118cb2_002D27dd_002D408e_002D9c04_002D3077272cac6d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=620f2810_002Df5f3_002D4121_002D94d3_002D7a0347903fc4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangePasswordCorrectDataReturnCorrectChange #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=629045e5_002Da4b7_002D40f9_002D823c_002Dc1839ec12c71/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -71,7 +102,7 @@
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9f40539d_002D1bd0_002D43aa_002Da1c8_002D24832d1724ff/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="EditCorrectDataReturnSuccessEdit #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9f40539d_002D1bd0_002D43aa_002Da1c8_002D24832d1724ff/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
@@ -81,9 +112,15 @@
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ae835dbd_002Db475_002D43a9_002Da6f3_002Dde5958b9c891/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bed62b41_002D3bd5_002D486f_002Da612_002D62c97c866c74/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangePasswordCorrectDataReturnCorrectChange" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c6214a01_002D26a7_002D4d6a_002Db5f4_002D1c0f16aec4fd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterEmptyNameDataReturnWrongRegister" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -91,11 +128,21 @@
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterEmptyNameDataReturnWrongRegister&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e8a296b0_002De7df_002D4c85_002D931a_002Dd800b61b147c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangePasswordCorrectDataReturnCorrectChange #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=edcdd824_002Df81b_002D4d0c_002D8855_002D1996d1dbdea6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #8" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb06f329_002D78cd_002D43f5_002Db390_002Ddef2041829a2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ChangePasswordCorrectDataReturnCorrectChange #6" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.ChangePasswordTest.ChangePasswordCorrectDataReturnCorrectChange&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

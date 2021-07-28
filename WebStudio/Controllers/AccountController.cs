@@ -433,7 +433,7 @@ namespace WebStudio.Controllers
                             user.PasswordHash = passwordHasher.HashPassword(user, model.NewPassword);
                             await _userManager.UpdateAsync(user);
                             _nLogger.Info($"Изменение пароля пользователя {user.Surname} {user.Name} - успешно");
-                            return RedirectToAction("Index");
+                            return View("SuccessChangePassword");
                         }
 
                         foreach (var error in result.Errors)
