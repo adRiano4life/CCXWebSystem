@@ -119,6 +119,7 @@ namespace WebStudio.Controllers
                         RoleDisplay = "user"
                     };
                     var result = await _userManager.CreateAsync(user, model.Password);
+                    await _userManager.AddToRoleAsync(user, "user");
                     if (result.Succeeded)
                     {
                         await SendLinkForConfirmEmail(user.Email);

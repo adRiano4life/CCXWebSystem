@@ -3,24 +3,102 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="E:\csharp\ESDP\CCXWebSystem\EZParser\bin\Debug\net5.0\Npgsql.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=860adb7a_002D8acb_002D4534_002D9187_002D22e21d060e9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddSupplierTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=02bb6e4f_002D2851_002D4ec0_002Daa18_002D7dc44e852e52/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #10" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.AddSupplierTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.EditSupplierTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.CreateSupplierTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.DeleteSupplierTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.CreateSupplierGetMethodTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.CreateSupplierPostMethodTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.EditSupplierGetMethodTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.EditSupplierPostMethodTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.AddSupplierAjaxTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.ConfirmDeleteSupplierTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.IndexSupplierTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.OffersControllerTests.CreateOfferGetMethodTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.OffersControllerTests.CreateOfferPostMethodTest&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.OffersControllerTests.IndexOffersTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0ff974d6_002D2925_002D4396_002Dad68_002D47e22db9b2e8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1066bd6a_002Dfc5a_002D4cbf_002D92e8_002D7319d3fd3a32/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=20c65a77_002Dae1c_002D4f60_002Dabc6_002Dda3fbae18c2a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #7" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=242d3bf8_002D4c41_002D4745_002Dba10_002Db95c5699036d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #11" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=26349025_002D074a_002D4b40_002Dbee8_002D0c5beca804d9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #9" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2e3dde63_002D9402_002D4aad_002D8caf_002D938b00add63c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=51118cb2_002D27dd_002D408e_002D9c04_002D3077272cac6d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=629045e5_002Da4b7_002D40f9_002D823c_002Dc1839ec12c71/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7888a163_002D08d2_002D4e7c_002Dbb59_002D10a8124d2c43/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="UserRegisterTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9052defe_002De94f_002D43c4_002Db498_002D77f1b5c05480/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=95bd36eb_002D557e_002D4ad7_002D8612_002Df9bf0a5e2613/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=976d9f18_002D6f5c_002D47df_002D9518_002D9c0d31d1550f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="EditCorrectDataReturnSuccessEdit #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9f40539d_002D1bd0_002D43aa_002Da1c8_002D24832d1724ff/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="EditCorrectDataReturnSuccessEdit #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserEditTest.EditCorrectDataReturnSuccessEdit&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a194a718_002D2c43_002D4cdb_002D9f03_002D153b20654b14/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #6" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ae835dbd_002Db475_002D43a9_002Da6f3_002Dde5958b9c891/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c6214a01_002D26a7_002D4d6a_002Db5f4_002D1c0f16aec4fd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterEmptyNameDataReturnWrongRegister" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterEmptyNameDataReturnWrongRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=edcdd824_002Df81b_002D4d0c_002D8855_002D1996d1dbdea6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="RegisterUserCorrectDataReturnSuccessRegister #8" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserRegisterTest.RegisterUserCorrectDataReturnSuccessRegister&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
 	
 	
 	
