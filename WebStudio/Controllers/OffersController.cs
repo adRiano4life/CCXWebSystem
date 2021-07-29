@@ -63,7 +63,7 @@ namespace WebStudio.Controllers
                 string fileName =
                     $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";
 
-                _uploadService.Upload(rootDirPath, fileName, offer.File);
+                //_uploadService.Upload(rootDirPath, fileName, offer.File);
                 offer.Path = $"/Offers/{fileName}";
                 offer.FileName = fileName;
 
