@@ -136,7 +136,7 @@ namespace WebStudio.Controllers
                     {
                         foreach (var uploadFile in model.Files)
                         {
-                            string path = $"{subDirectory[0]}" + $"/{uploadFile.Name}";
+                            string path = $"/{subDirectory[0]}" + $"/{uploadFile.FileName}";
                             string filePath = @$"{attachPath}/{uploadFile.FileName}";
                             //_uploadService.Upload(Program.PathToFiles + path, file);
                             using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
