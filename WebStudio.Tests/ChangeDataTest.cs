@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenQA.Selenium;
@@ -39,6 +40,10 @@ namespace WebStudio.Tests
             _driver.FindElement(By.Id("changePassword")).SendKeys("QWEqwe123");
             _driver.FindElement(By.Id("edit")).Click();
             Assert.Contains("Изменение пароля!", _driver.PageSource);
+            
+            User user = db.Users.FirstOrDefault(u=>u.Name == "test");
+            db.Users.Remove(user);
+            db.SaveChanges();
         }
 
         [NonAction]

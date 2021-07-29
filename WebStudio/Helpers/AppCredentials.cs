@@ -12,8 +12,8 @@ namespace WebStudio.Helpers
             var appConfig = builder.Build();
             //return appConfig.GetValue<string>("PathToFiles:DefaultPath"); // сервер 
             //return @$"C:\Users\user\Desktop\files"; // Саня Т.
-            // return @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
-            return "D://csharp//esdp//app//WebStudio//wwwroot//Files"; // Гульжан
+            return @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
+            // return "D://csharp//esdp//app//WebStudio//wwwroot//Files"; // Гульжан
         };
 
         public static readonly Func<string> SetConnection = () =>

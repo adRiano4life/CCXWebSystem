@@ -41,9 +41,9 @@ namespace WebStudio.Tests
             _driver.FindElement(By.LinkText("Редактировать")).Click();
             
             _driver.FindElement(By.Id("name")).Clear();
-            _driver.FindElement(By.Id("name")).SendKeys("test3");
+            _driver.FindElement(By.Id("name")).SendKeys("test");
             _driver.FindElement(By.Id("surname")).Clear();
-            _driver.FindElement(By.Id("surname")).SendKeys("test3");
+            _driver.FindElement(By.Id("surname")).SendKeys("test");
             _driver.FindElement(By.Id("email")).Clear();
             _driver.FindElement(By.Id("email")).SendKeys("test@test.com");
             _driver.FindElement(By.Id("phone")).Clear();
@@ -55,10 +55,6 @@ namespace WebStudio.Tests
             var editUserLinkButton = editUserLink.GetAttribute("href");
             var editPasswordLinkButton = editPasswordLink.GetAttribute("href");
             Assert.Contains("Личный кабинет", _driver.PageSource);
-            
-            User user = db.Users.FirstOrDefault(u=>u.Name == "test3");
-            db.Users.Remove(user);
-            db.SaveChanges();
         }
 
         [Fact]
