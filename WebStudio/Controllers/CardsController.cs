@@ -242,7 +242,14 @@ namespace WebStudio.Controllers
                             {
                                 await uploadedFile.CopyToAsync(fileStream);
                             }
-                            FileModel file = new FileModel { Name = uploadedFile.FileName, Path = path, CardId = card.Id, Card = card};
+                            
+                            FileModel file = new FileModel
+                            {
+                                Name = uploadedFile.FileName, 
+                                Path = Program.PathToFiles + path, 
+                                CardId = card.Id, 
+                                Card = card
+                            };
                            
                             _nLogger.Info($"К карточке {card.Number} прикреплен файл: {uploadedFile.FileName}.");
                             
