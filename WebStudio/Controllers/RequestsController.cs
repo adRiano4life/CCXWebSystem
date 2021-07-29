@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -21,13 +22,14 @@ namespace WebStudio.Controllers
 
         private WebStudioContext _db;
         private UserManager<User> _userManager;
-        private readonly IHostEnvironment _environment;
+        //private readonly IHostEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly FileUploadService _uploadService;
         private Logger _logger = LogManager.GetCurrentClassLogger();
 
         public RequestsController(WebStudioContext db, 
             UserManager<User> userManager,
-            IHostEnvironment environment,
+            IWebHostEnvironment environment,
             FileUploadService uploadService)
         {
             _db = db;
@@ -132,13 +134,29 @@ namespace WebStudio.Controllers
                     string attachPath = $"{Program.PathToFiles}/{subDirectory[0]}";
                     if (model.Files != null)
                     {
-                        foreach (var file in model.Files)
+                        foreach (var uploadFile in model.Files)
                         {
-                            string path = Path.Combine($"{Program.PathToFiles}" + $"/{file.Name}");
-                            string filePath = @$"{attachPath}/{file.FileName}";
-                            _uploadService.Upload(path, file.FileName, file);
+                            string path = $"{subDirectory[0]}" + $"/{uploadFile.Name}";
+                            string filePath = @$"{attachPath}/{uploadFile.FileName}";
+                            //_uploadService.Upload(Program.PathToFiles + path, file);
+                            using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
+                            {
+                                await uploadFile.CopyToAsync(fileStream);
+                            }
+
+                            FileModel file = new FileModel
+                            {
+                                Name = uploadFile.Name,
+                                Path = "/Files" + path,
+                                CardId = model.CardId,
+                                Card = model.Card
+                            };
+
+                            _db.Files.Add(file);
+                            await _db.SaveChangesAsync();
+                            
                             filePaths.Add(filePath);
-                            _logger.Info($"Файл {file.FileName} загружен для прикрепления к запросу");
+                            _logger.Info($"Файл {uploadFile.FileName} загружен для прикрепления к запросу");
                         }
                     }
 

@@ -5,9 +5,9 @@ namespace WebStudio.Services
 {
     public class FileUploadService
     {
-        public async void Upload(string path, string fileName, IFormFile file)
+        public async void Upload(string path, IFormFile file)
         {
-            using var stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
+            using var stream = new FileStream(Program.PathToFiles + path, FileMode.Create);
             await file.CopyToAsync(stream);
         }
     }
