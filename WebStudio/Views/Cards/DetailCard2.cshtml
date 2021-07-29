@@ -58,7 +58,7 @@
                                 file.Name.Contains(".pdf") ? "far fa-file-pdf" : 
                                   file.Name.Contains(".jpg") ? "far fa-file-image" : 
                                     "far fa-file") text-secondary"></i>
-                  <a class="text-success" href="@file.Path">@file.Name</a>
+                  <a class="text-success" href="@file.Path" download="@file.Name">@file.Name</a>
                   <br>
                 }
               </span>
