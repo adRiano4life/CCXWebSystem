@@ -53,13 +53,16 @@
               <span>
                 @foreach (var file in Model.FileModels)
                 {
-                  <i class="@(file.Name.Contains(".xlsx") ? "far fa-file-excel" : 
-                              file.Name.Contains(".docx") ? "far fa-file-word" : 
-                                file.Name.Contains(".pdf") ? "far fa-file-pdf" : 
-                                  file.Name.Contains(".jpg") ? "far fa-file-image" : 
-                                    "far fa-file") text-secondary"></i>
-                  <a class="text-success" href="@file.Path" download="@file.Name">@file.Name</a>
-                  <br>
+                  if (Model.FileModels.Count != 0)
+                  {
+                    <i class="@(file.Name.Contains(".xlsx") ? "far fa-file-excel" : 
+                                file.Name.Contains(".docx") ? "far fa-file-word" : 
+                                  file.Name.Contains(".pdf") ? "far fa-file-pdf" : 
+                                    file.Name.Contains(".jpg") ? "far fa-file-image" : 
+                                      "far fa-file") text-secondary"></i>
+                    <a class="text-success" href="@file.Path" download="@file.Name">@file.Name</a>
+                    <br>
+                  }
                 }
               </span>
             }
