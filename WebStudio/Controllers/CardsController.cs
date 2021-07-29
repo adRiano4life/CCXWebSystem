@@ -246,7 +246,7 @@ namespace WebStudio.Controllers
                             FileModel file = new FileModel
                             {
                                 Name = uploadedFile.FileName, 
-                                Path = Program.PathToFiles + path, 
+                                Path = "/Files" + path, 
                                 CardId = card.Id, 
                                 Card = card
                             };
@@ -560,7 +560,6 @@ namespace WebStudio.Controllers
                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
-           
        }
     }
 }
