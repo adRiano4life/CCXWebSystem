@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using NLog;
 using WebStudio.Controllers;
+using WebStudio.Enums;
 using WebStudio.Models;
 using WebStudio.ViewModels;
 using Xunit;
@@ -38,7 +39,7 @@ namespace WebStudio.Tests
         // }
         
         [Fact]
-        public void DetailCardMethodGetTest()
+        public void DetailCardGetMethodTest()
         {
             //Arrange
             var db = ReturnsWebStudioDbContext();
@@ -66,6 +67,29 @@ namespace WebStudio.Tests
             db.Cards.Remove(_card);
             db.SaveChangesAsync();
         }
+
+
+        [Fact]
+        public void DeleteCardPostMethodTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
+            db.Users.Add(_user);
+            db.Cards.Add(_card);
+            db.SaveChanges();
+            
+            //Act
+            var taskResult = controller.DeleteCard(cardId: _card.Id);
+            var bdResult = db.Cards.FirstOrDefault(c => c.Id == _card.Id);
+
+            //Assert
+            Assert.NotNull(taskResult);
+            Assert.Equal(bdResult?.CardState, _card.CardState);
+            db.Users.Remove(_user);
+            db.Cards.Remove(_card);
+            db.SaveChangesAsync();
+        }
         
         
         [NonAction]
@@ -79,18 +103,18 @@ namespace WebStudio.Tests
         }
 
         
-        [NonAction]
-        private void AddTestCardInDbContext()
-        {
-            Card _testCard = new Card
-            {
-                Number = "T-000/1", Name = "testCard", StartSumm = 1, DateOfAcceptingEnd = DateTime.Now,
-                DateOfAuctionStart = DateTime.Now.AddDays(1), Initiator = "testInitiator", Broker = "testBroker",
-                Auction = "test", State = "testState", BestPrice = "test", Links = new List<string>(), LinkNames = new List<string>(),
-                Positions = new List<CardPosition>(), Bidding = 1, Comments = new List<Comment>(), ExecutorId = "",
-                DateOfProcessingEnd = DateTime.Now, DateOfAuctionStartUpdated = DateTime.Now.AddDays(2)
-            };
-        }
+        // [NonAction]
+        // private void AddTestCardInDbContext()
+        // {
+        //     Card _testCard = new Card
+        //     {
+        //         Number = "T-000/1", Name = "testCard", StartSumm = 1, DateOfAcceptingEnd = DateTime.Now,
+        //         DateOfAuctionStart = DateTime.Now.AddDays(1), Initiator = "testInitiator", Broker = "testBroker",
+        //         Auction = "test", State = "testState", BestPrice = "test", Links = new List<string>(), LinkNames = new List<string>(),
+        //         Positions = new List<CardPosition>(), Bidding = 1, Comments = new List<Comment>(), ExecutorId = "",
+        //         DateOfProcessingEnd = DateTime.Now, DateOfAuctionStartUpdated = DateTime.Now.AddDays(2)
+        //     };
+        // }
 
     }
 }
