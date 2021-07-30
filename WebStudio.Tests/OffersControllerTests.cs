@@ -80,7 +80,7 @@ namespace WebStudio.Tests
             //Arrange
             var db = ReturnsWebStudioDbContext();
             _environment.ContentRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
-            var controller = new OffersController(db, _uploadService, _environment);
+            var controller = new OffersController(db);
             int? page = 1;
             db.Users.Add(_user);
             db.Cards.Add(_card);
@@ -109,7 +109,7 @@ namespace WebStudio.Tests
         {
             //Arrange
             var db = ReturnsWebStudioDbContext();
-            var controller = new OffersController(db, _uploadService, _environment);
+            var controller = new OffersController(db);
             db.Cards.Add(_card);
             db.SaveChanges();
             db.Users.Add(_user);
@@ -136,15 +136,16 @@ namespace WebStudio.Tests
             //Arrange
             var db = ReturnsWebStudioDbContext();
             _environment.ContentRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
-            var controller = new OffersController(db, _uploadService, _environment);
+            var controller = new OffersController(db);
             db.Cards.Add(_card);
             db.SaveChanges();
             db.Users.Add(_user);
             db.SaveChanges();
             var offer = ReturnNewOffer();
+            IFormFileCollection formFileCollection = new FormFileCollection();
             
             //Act
-            var result = controller.Create(offer: offer); 
+            var result = controller.Create(offer: offer, formFileCollection); 
             var bdresult = db.Offers.FirstOrDefault(o => o.Id == offer.Id);
 
             //Assert
