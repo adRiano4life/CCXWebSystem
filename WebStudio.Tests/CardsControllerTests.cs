@@ -81,6 +81,8 @@ namespace WebStudio.Tests
             var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
             var model = ReturnDetailCardViewModel();
             string cardStateUpdate = CardState.Проработка.ToString();
+            model.Card.ExecutorId = _user.Id;
+            _card.ExecutorId = _user.Id;
             
             //Act
             var taskResult = controller.ChangeCardStatus(model: model, cardState: cardStateUpdate, bid: 1, cardId: model.Card.Id);
@@ -95,6 +97,32 @@ namespace WebStudio.Tests
             db.SaveChangesAsync();
         }
         
+        
+        [Fact]
+        public void ChangeCardStatusFromProcessToPkoPostMethodTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
+            var model = ReturnDetailCardViewModel();
+            model.Card.CardState = CardState.Проработка;
+            string cardStateUpdate = CardState.ПКО.ToString();
+            
+            
+            //Act
+            var taskResult = controller.ChangeCardStatus(model: model, cardState: cardStateUpdate, bid: 1, cardId: model.Card.Id);
+            var bdResult = db.Cards.FirstOrDefault(c => c.Id == model.Card.Id);
+            
+            //Assert
+            Assert.NotNull(taskResult);
+            Assert.Equal(bdResult?.CardState.ToString(), cardStateUpdate);
+            Assert.Equal(bdResult?.DateOfProcessingEnd, model.Card.DateOfProcessingEnd);
+            Assert.Equal(bdResult?.DateOfAuctionStartUpdated, model.Card.DateOfAuctionStartUpdated);
+            db.Users.Remove(_user);
+            db.Cards.Remove(bdResult);
+            db.SaveChangesAsync();
+        }
+
         
         [NonAction]
         private WebStudioContext ReturnsWebStudioDbContext()
