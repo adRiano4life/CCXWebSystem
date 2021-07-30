@@ -75,7 +75,7 @@ namespace WebStudio.Controllers
                         FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                     };
 
-                    return View(model);
+                    return View("DetailCard2", model);
                 }
 
                 return NotFound();
