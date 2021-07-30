@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using MimeKit;
 using NLog;
-using Org.BouncyCastle.Asn1.X509;
 using WebStudio.Helpers;
 using WebStudio.Models;
 using WebStudio.Services;
 using X.PagedList;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace WebStudio.Controllers
 {
@@ -24,16 +21,12 @@ namespace WebStudio.Controllers
     public class OffersController : Controller
     {
         private WebStudioContext _db;
-        private FileUploadService _uploadService;
-        private IHostEnvironment _environment;
         Logger _nLogger = LogManager.GetCurrentClassLogger();
 
         
-        public OffersController(WebStudioContext db, FileUploadService uploadService, IHostEnvironment environment)
+        public OffersController(WebStudioContext db)
         {
             _db = db;
-            _uploadService = uploadService;
-            _environment = environment;
         }
         
         
@@ -116,33 +109,54 @@ namespace WebStudio.Controllers
         
         
         [HttpPost]
-        public async Task<IActionResult> Create(Offer offer)
+        public async Task<IActionResult> Create(Offer offer, IFormFileCollection uploads)
         {
             try
             {
-                if (ModelState.IsValid && offer.File != null)
+                if (ModelState.IsValid)
                 {
-                    string rootDirName = AppCredentials.PathToFiles;
-                    DirectoryInfo dirInfo = new DirectoryInfo(rootDirName);
-                    foreach (var dir in dirInfo.GetDirectories())
+                    string cardNumber = offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'));
+                    
+                    string dirFiles = AppCredentials.PathToFiles;
+                    DirectoryInfo dirFilesInfo = new DirectoryInfo(dirFiles);
+                    foreach (var dir in dirFilesInfo.GetDirectories())
                     {
-                        if (!Directory.Exists("Offers"))
-                            dirInfo.CreateSubdirectory("Offers");
+                        if (!Directory.Exists($"Offers"))
+                            dirFilesInfo.CreateSubdirectory("Offers");
                     }
 
-                    string rootDirPath = Path.Combine(_environment.ContentRootPath, $"wwwroot\\Files\\Offers");
-                    string fileType = offer.File.FileName.Substring(offer.File.FileName.IndexOf('.'));
-                    var supplierName = new String(offer.SupplierName.Where(x => char.IsLetterOrDigit(x)
-                        || char.IsWhiteSpace(x)).ToArray());
-                
-                    string fileName =
-                        $"{offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'))} - {supplierName}{fileType}";
+                    DirectoryInfo dirOffersInfo = new DirectoryInfo(dirFiles + "/Offers");
+                    if (dirOffersInfo.GetDirectories().Length > 0)
+                    {
+                        foreach (var dir in dirOffersInfo.GetDirectories())
+                        {
+                            if (!Directory.Exists($"{cardNumber}"))
+                                dirOffersInfo.CreateSubdirectory($"{cardNumber}");
+                        }    
+                    }
+                    else
+                    {
+                        dirOffersInfo.CreateSubdirectory($"{cardNumber}");
+                    }
+                    
+                    foreach (var upFile in uploads)
+                    {
+                        string offerPath = $"/Offers/{cardNumber}/" + upFile.FileName;
+                        using (var fileStream = new FileStream(dirFiles + offerPath, FileMode.Create))
+                        {
+                            await upFile.CopyToAsync(fileStream);
+                        }
 
-                    _uploadService.Upload(rootDirPath, fileName, offer.File);
+                        FileModel file = new FileModel {Name = upFile.FileName, Path = "/Files" + offerPath, 
+                            CardId = offer.CardId, Card = offer.Card};
+                        _db.Files.Add(file);
+                        offer.Path = file.Path;
+                        offer.FileName = file.Name;
+                    }
+
+                    await _db.SaveChangesAsync();
                     _nLogger.Info($"Загружен файл комм.предложения");
-                    offer.Path = $"/Offers/{fileName}";
-                    offer.FileName = fileName;
-
+                    
                     Card card = await _db.Cards.FirstOrDefaultAsync(c => c.Number == offer.CardNumber);
                     if (card == null)
                         return NotFound();
