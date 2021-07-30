@@ -28,15 +28,6 @@ namespace WebStudio.Tests
         private User _user = new User() { Email = "testUser@test.test"};
         private Card _card = new Card() { Name = "testCard", Number = "T-000/1"};
 
-
-        // public CardsControllerTests(WebStudioContext db, UserManager<User> userManager, IWebHostEnvironment appEnvironment,
-        //     ILogger<CardsController> iLogger)
-        // {
-        //     _db = ReturnsWebStudioDbContext();
-        //     _userManager = userManager;
-        //     _appEnvironment = appEnvironment;
-        //     _iLogger = iLogger;
-        // }
         
         [Fact]
         public void DetailCardGetMethodTest()
@@ -44,25 +35,15 @@ namespace WebStudio.Tests
             //Arrange
             var db = ReturnsWebStudioDbContext();
             var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
-            db.Users.Add(_user);
-            db.Cards.Add(_card);
-            db.SaveChanges();
-            DetailCardViewModel model = new DetailCardViewModel()
-            {
-                CardId = _card.Id, Card = _card,Comment = new Comment(),
-                UserId = _user.Id, Users = db.Users.ToList(), FileModels = new List<FileModel>()
-            };
 
             //Act
             var taskResult = controller.DetailCard2(cardId: _card.Id);
             taskResult.Wait();
             var result = taskResult.Result as ViewResult;
-            var testModel = model; 
             
             //Assert
             Assert.NotNull(result);
             Assert.Equal("DetailCard2", result?.ViewName);
-            Assert.Equal(model.CardId, testModel.CardId);
             db.Users.Remove(_user);
             db.Cards.Remove(_card);
             db.SaveChangesAsync();
@@ -90,6 +71,29 @@ namespace WebStudio.Tests
             db.Cards.Remove(_card);
             db.SaveChangesAsync();
         }
+
+        
+        [Fact]
+        public void ChangeCardStatusFromNewToProcessPostMethodTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
+            var model = ReturnDetailCardViewModel();
+            string cardStateUpdate = CardState.Проработка.ToString();
+            
+            //Act
+            var taskResult = controller.ChangeCardStatus(model: model, cardState: cardStateUpdate, bid: 1, cardId: model.Card.Id);
+            var bdResult = db.Cards.FirstOrDefault(c => c.Id == model.Card.Id);
+
+            //Assert
+            Assert.NotNull(taskResult);
+            Assert.Equal(bdResult?.CardState.ToString(), cardStateUpdate);
+            Assert.Equal(bdResult?.ExecutorId, model.UserId);
+            db.Users.Remove(_user);
+            db.Cards.Remove(bdResult);
+            db.SaveChangesAsync();
+        }
         
         
         [NonAction]
@@ -102,19 +106,22 @@ namespace WebStudio.Tests
             return db;
         }
 
-        
-        // [NonAction]
-        // private void AddTestCardInDbContext()
-        // {
-        //     Card _testCard = new Card
-        //     {
-        //         Number = "T-000/1", Name = "testCard", StartSumm = 1, DateOfAcceptingEnd = DateTime.Now,
-        //         DateOfAuctionStart = DateTime.Now.AddDays(1), Initiator = "testInitiator", Broker = "testBroker",
-        //         Auction = "test", State = "testState", BestPrice = "test", Links = new List<string>(), LinkNames = new List<string>(),
-        //         Positions = new List<CardPosition>(), Bidding = 1, Comments = new List<Comment>(), ExecutorId = "",
-        //         DateOfProcessingEnd = DateTime.Now, DateOfAuctionStartUpdated = DateTime.Now.AddDays(2)
-        //     };
-        // }
+
+        [NonAction]
+        private DetailCardViewModel ReturnDetailCardViewModel()
+        {
+            var db = ReturnsWebStudioDbContext();
+            db.Users.Add(_user);
+            db.Cards.Add(_card);
+            db.SaveChanges();
+            
+            DetailCardViewModel model = new DetailCardViewModel()
+            {
+                CardId = _card.Id, Card = _card,Comment = new Comment(),
+                UserId = _user.Id, Users = db.Users.ToList(), FileModels = new List<FileModel>()
+            };
+            return model;
+        }
 
     }
 }
