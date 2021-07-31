@@ -192,7 +192,7 @@ namespace WebStudio.Controllers
                     return NotFound();
                 string contentType = GetContentType(fileName);
             
-                var filePath = Path.Combine("", "/Files" + path);
+                var filePath = Path.Combine("", path);
                 try
                 {
                     return File(filePath, contentType, fileName);
