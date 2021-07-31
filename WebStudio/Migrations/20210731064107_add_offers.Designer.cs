@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210723095217_add_signature")]
-    partial class add_signature
+    [Migration("20210731064107_add_offers")]
+    partial class add_offers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -473,31 +473,31 @@ namespace WebStudio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b7059b30-e236-4bc4-b439-aa28e79120f8",
+                            Id = "12c36af7-4cee-437b-8810-b3d804e4d99c",
                             Name = "тенге",
                             Сourse = 1.0
                         },
                         new
                         {
-                            Id = "39299b00-6a82-4186-ba4e-3e5a1cdf7164",
+                            Id = "97212c0c-db8a-4f8c-a73c-fe062f0e8179",
                             Name = "рубль",
                             Сourse = 6.0
                         },
                         new
                         {
-                            Id = "1809577e-4aa6-4e08-88a4-6e8640f5fa42",
+                            Id = "bab33339-89fb-4ea9-9f7e-37ee9b082c6b",
                             Name = "доллар",
                             Сourse = 430.0
                         },
                         new
                         {
-                            Id = "627e7d71-b87a-49ce-a478-eedf687802da",
+                            Id = "95c65059-c17f-4ad3-b15b-4f549e64cef1",
                             Name = "евро",
                             Сourse = 490.0
                         },
                         new
                         {
-                            Id = "8a446e12-3763-4190-825b-dc5d3b16d6ab",
+                            Id = "0a12e6ae-e1bf-4bce-a212-ef251d784b6d",
                             Name = "юань",
                             Сourse = 53.299999999999997
                         });

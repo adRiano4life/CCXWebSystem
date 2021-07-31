@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class add_signature : Migration
+    public partial class add_offers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -463,11 +463,11 @@ namespace WebStudio.Migrations
                 columns: new[] { "Id", "Name", "Сourse" },
                 values: new object[,]
                 {
-                    { "b7059b30-e236-4bc4-b439-aa28e79120f8", "тенге", 1.0 },
-                    { "39299b00-6a82-4186-ba4e-3e5a1cdf7164", "рубль", 6.0 },
-                    { "1809577e-4aa6-4e08-88a4-6e8640f5fa42", "доллар", 430.0 },
-                    { "627e7d71-b87a-49ce-a478-eedf687802da", "евро", 490.0 },
-                    { "8a446e12-3763-4190-825b-dc5d3b16d6ab", "юань", 53.299999999999997 }
+                    { "12c36af7-4cee-437b-8810-b3d804e4d99c", "тенге", 1.0 },
+                    { "97212c0c-db8a-4f8c-a73c-fe062f0e8179", "рубль", 6.0 },
+                    { "bab33339-89fb-4ea9-9f7e-37ee9b082c6b", "доллар", 430.0 },
+                    { "95c65059-c17f-4ad3-b15b-4f549e64cef1", "евро", 490.0 },
+                    { "0a12e6ae-e1bf-4bce-a212-ef251d784b6d", "юань", 53.299999999999997 }
                 });
 
             migrationBuilder.CreateIndex(
