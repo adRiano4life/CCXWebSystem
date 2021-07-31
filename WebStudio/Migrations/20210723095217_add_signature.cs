@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class logging : Migration
+    public partial class add_signature : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,6 +68,34 @@ namespace WebStudio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuctionResults", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currencies",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Сourse = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InputDataUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Meas = table.Column<List<string>>(type: "text[]", nullable: true),
+                    PayTerm = table.Column<List<string>>(type: "text[]", nullable: true),
+                    NDS = table.Column<List<string>>(type: "text[]", nullable: true),
+                    DelivTerm = table.Column<List<string>>(type: "text[]", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InputDataUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,6 +256,7 @@ namespace WebStudio.Migrations
                     CardState = table.Column<int>(type: "integer", nullable: false),
                     Links = table.Column<List<string>>(type: "text[]", nullable: true),
                     LinkNames = table.Column<List<string>>(type: "text[]", nullable: true),
+                    Comment = table.Column<string>(type: "text", nullable: true),
                     Bidding = table.Column<int>(type: "integer", nullable: false),
                     ExecutorId = table.Column<string>(type: "text", nullable: true)
                 },
@@ -429,6 +458,18 @@ namespace WebStudio.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Currencies",
+                columns: new[] { "Id", "Name", "Сourse" },
+                values: new object[,]
+                {
+                    { "b7059b30-e236-4bc4-b439-aa28e79120f8", "тенге", 1.0 },
+                    { "39299b00-6a82-4186-ba4e-3e5a1cdf7164", "рубль", 6.0 },
+                    { "1809577e-4aa6-4e08-88a4-6e8640f5fa42", "доллар", 430.0 },
+                    { "627e7d71-b87a-49ce-a478-eedf687802da", "евро", 490.0 },
+                    { "8a446e12-3763-4190-825b-dc5d3b16d6ab", "юань", 53.299999999999997 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -551,7 +592,13 @@ namespace WebStudio.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Currencies");
+
+            migrationBuilder.DropTable(
                 name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "InputDataUsers");
 
             migrationBuilder.DropTable(
                 name: "Offers");

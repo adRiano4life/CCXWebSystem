@@ -1,6 +1,21 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+.butt{
+  border:0px solid black; 
+  background-color: transparent; 
+  outline:none
+}
+
+.iconFont{
+  font-size: 12px;
+  align-content: center
+}
+
+.sizeInput{
+  width: 85px;
+}
+
 
 .finde {
   width: 300px;
@@ -91,12 +106,15 @@ body {
 .suppliers-remove{
   color: darkred;
 }
+
 .font-10{
   font-size: 10px;
 }
+
 .font-11{
   font-size: 11px;
 }
+
 .font-13{
   font-size: 13px;
 }
@@ -137,9 +155,8 @@ body {
   background-color: darkviolet;
 }
 
-.badge-violet{
-  color: #fff;
-  background-color: darkviolet;
+.bg-custom-grey{
+  background-color: #CCD1D1;
 }
 
 .footer {

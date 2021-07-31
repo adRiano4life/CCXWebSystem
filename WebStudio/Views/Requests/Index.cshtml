@@ -13,6 +13,7 @@
 
 <h2>Список запросов</h2>
 <div class="container">
+  <a asp-controller="Requests" asp-action="CreateWithoutLot" class="font-italic">Добавить новый запрос</a>
   @if (@Model.Requests.ToList().Count == 0)
   {
     <p>У вас нет запросов</p>
@@ -96,19 +97,22 @@
     {
       foreach (var request in Model.Requests)
       {
-        <tbody>
-        <tr>
-          <th scope="row">@(count++)</th>
-          <td>@request.Card.Number</td>
-          <td>@request.Card.Name</td>
-          <td>@request.Card.StartSumm</td>
-          <td>@request.Card.DateOfAcceptingEnd.ToShortDateString()</td>
-          <td>@request.Card.DateOfAuctionStart.ToShortDateString()</td>
-          <td>@request.DateOfCreate.ToShortDateString()</td>
-          <td></td>
-          <td>@request.Executor.Name @request.Executor.Surname</td>
-        </tr>
-        </tbody>
+        if (request.Card != null)
+        {
+          <tbody>
+          <tr>
+            <th scope="row">@(count++)</th>
+            <td>@request.Card.Number</td>
+            <td>@request.Card.Name</td>
+            <td>@request.Card.StartSumm</td>
+            <td>@request.Card.DateOfAcceptingEnd.ToShortDateString()</td>
+            <td>@request.Card.DateOfAuctionStart.ToShortDateString()</td>
+            <td>@request.DateOfCreate.ToShortDateString()</td>
+            <td></td>
+            <td>@request.Executor.Name @request.Executor.Surname</td>
+          </tr>
+          </tbody>
+        }
       }
     }
     @if (User.IsInRole("user"))

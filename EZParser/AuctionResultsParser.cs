@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NLog;
 using WebStudio.Enums;
 using WebStudio.Models;
 
@@ -12,10 +14,14 @@ namespace EZParser
 {
     public class AuctionResultsParser
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
         public static void GetAuctionResults()
         {
             try
             {
+                Console.WriteLine($"{DateTime.Now} - Парсинг результатов аукциона начат");
+                _logger.Info("Парсинг результатов аукциона начат");
+                
                 string connection = Program.DefaultConnection; // общая строка
                 
                 var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
@@ -84,6 +90,8 @@ namespace EZParser
 
                         _db.AuctionResults.Add(result);
                         _db.SaveChanges();
+                        Console.WriteLine($"{DateTime.Now} - Результат аукциона по лоту {result.Number} создан");
+                        _logger.Info($"Результат аукциона по лоту {result.Number} создан");
                     }
                 }
                 
@@ -187,11 +195,13 @@ namespace EZParser
                 //      GetAuctionResults();
                 // }
                 Console.WriteLine($"{DateTime.Now} - Парсинг результатов аукциона закончен");
+                _logger.Info("Парсинг результатов аукциона закончен");
             }
             
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
 

@@ -75,7 +75,7 @@ namespace WebStudio.Controllers
                         FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                     };
 
-                    return View(model);
+                    return View("DetailCard2", model);
                 }
 
                 return NotFound();
@@ -560,6 +560,26 @@ namespace WebStudio.Controllers
                _iLogger.Log(LogLevel.Error, $"Внимание ошибка: {e.Message} => {e.StackTrace}");
                throw;
            }
+       }
+
+       [HttpPost]
+       public async Task<IActionResult> AddCommentToArchiveAjax(string cardId, string comment)
+       {
+           List<CardClone> cardClones = _db.HistoryOfVictoryAndLosing.ToList();
+           CardClone card = _db.HistoryOfVictoryAndLosing.FirstOrDefault(c => c.Id == cardId);
+           if (card != null)
+           {
+               if (comment != null)
+               {
+                   card.Comment = comment;
+               
+                   _db.HistoryOfVictoryAndLosing.Update(card);
+                   await _db.SaveChangesAsync();
+                   return PartialView("PartialViews/Comment/AddCommentToArchivePartialView", cardClones);
+               }
+           }
+
+           return NotFound();
        }
     }
 }

@@ -11,8 +11,8 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210713101431_logging")]
-    partial class logging
+    [Migration("20210723095217_add_signature")]
+    partial class add_signature
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -333,6 +333,9 @@ namespace WebStudio.Migrations
                     b.Property<int>("CardState")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateOfAcceptingEnd")
                         .HasColumnType("timestamp without time zone");
 
@@ -452,6 +455,54 @@ namespace WebStudio.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("WebStudio.Models.Currency", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<double>("Сourse")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b7059b30-e236-4bc4-b439-aa28e79120f8",
+                            Name = "тенге",
+                            Сourse = 1.0
+                        },
+                        new
+                        {
+                            Id = "39299b00-6a82-4186-ba4e-3e5a1cdf7164",
+                            Name = "рубль",
+                            Сourse = 6.0
+                        },
+                        new
+                        {
+                            Id = "1809577e-4aa6-4e08-88a4-6e8640f5fa42",
+                            Name = "доллар",
+                            Сourse = 430.0
+                        },
+                        new
+                        {
+                            Id = "627e7d71-b87a-49ce-a478-eedf687802da",
+                            Name = "евро",
+                            Сourse = 490.0
+                        },
+                        new
+                        {
+                            Id = "8a446e12-3763-4190-825b-dc5d3b16d6ab",
+                            Name = "юань",
+                            Сourse = 53.299999999999997
+                        });
+                });
+
             modelBuilder.Entity("WebStudio.Models.FileModel", b =>
                 {
                     b.Property<int>("Id")
@@ -473,6 +524,28 @@ namespace WebStudio.Migrations
                     b.HasIndex("CardId");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.InputDataUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<List<string>>("DelivTerm")
+                        .HasColumnType("text[]");
+
+                    b.Property<List<string>>("Meas")
+                        .HasColumnType("text[]");
+
+                    b.Property<List<string>>("NDS")
+                        .HasColumnType("text[]");
+
+                    b.Property<List<string>>("PayTerm")
+                        .HasColumnType("text[]");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InputDataUsers");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Offer", b =>

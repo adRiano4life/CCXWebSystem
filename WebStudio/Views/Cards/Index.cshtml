@@ -14,79 +14,97 @@
     int ActiveCard = Model.Where(c => c.CardState == CardState.Активна).Count();
     int DelCard = Model.Where(c => c.CardState == CardState.Удалена).Count();
 
-    var customProps = "btn btn-light col-lg-12 my-0 shadow-sm d-flex flex-row justify-content-between align-items-center";
+    var customProps = "btn btn-light col-lg-12 mb-2 shadow-sm d-flex flex-row justify-content-between align-items-center";
     
     var closedCards = @db.Cards.Where(c => c.CardState == CardState.Закрыта).Count();
     var auctionRes = db.AuctionResults.Count();
     var historyRes = db.HistoryOfVictoryAndLosing.Count();
+    
+    var nev = (double)newCard / Model.Count;
+    var work = (double)workCard / Model.Count;
+    var pko = (double)PKOCard / Model.Count;
+    var auction = (double)AuctionCard / Model.Count;
+    var win = (double)WinCard / Model.Count;
+    var lose = (double)LoseCard / Model.Count;
+    var active = (double)ActiveCard / Model.Count;
+    var del = (double)DelCard / Model.Count;
+    var closed = (double)closedCards / Model.Count;
+    
 }
 
 <div>
     <div class="container pl-0">
         <div class="row ml-0">
-            <div class="col-lg-4 pl-0 pr-0">
+            <div class="col-lg-4 pl-0 pr-0 mr-2">
                 
                 <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
-                   asp-route-sort="@CardState.Проиграна"><span>Проигранные </span><span class="badge badge-dark"> @LoseCard</span></a><br>
+                   asp-route-sort="@CardState.Проиграна"><span>Проигранные </span><span class="badge badge-dark"> @LoseCard</span></a>
                 
                 <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
-                   asp-route-sort="@CardState.Закрыта"><span>Закрытые </span><span class="badge badge-lightcoral"> @closedCards </span></a><br>
+                   asp-route-sort="@CardState.Закрыта"><span>Закрытые </span><span class="badge badge-lightcoral"> @closedCards </span></a>
                 
                 <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
-                   asp-route-sort="@CardState.Удалена">Удаленные </a><br>
+                   asp-route-sort="@CardState.Удалена">Удаленные </a>
                 
                 <a type="button" class="@customProps" asp-controller="AuctionResults" asp-action="Index">
-                    <span>Результаты торгов с сайта биржи </span><span class="badge badge-secondary"> @auctionRes </span></a><br>
+                    <span>Результаты торгов с сайта биржи </span><span class="badge badge-secondary"> @auctionRes </span></a>
                 
                 <a type="button" class="@customProps" asp-controller="Cards" asp-action="AuctionCards">
-                    <span>Архив результатов участия на торгах </span><span class="badge badge-secondary"> @historyRes </span></a><br>
+                    <span>Архив результатов участия на торгах </span><span class="badge badge-secondary"> @historyRes </span></a>
                 
-                <a type="button" class="@customProps" asp-controller="Requests" asp-action="Index">Запросы поставщикам</a><br>
+                <a type="button" class="@customProps" asp-controller="Requests" asp-action="Index">Запросы поставщикам</a>
 
-                <a type="button" class="@customProps" asp-controller="Suppliers" asp-action="Index">База поставщиков</a><br>
+                <a type="button" class="@customProps" asp-controller="Suppliers" asp-action="Index">База поставщиков</a>
                 
-                <a type="button" class="@customProps" asp-controller="Offers" asp-action="Index">Коммерческие предложения</a><br>
+                <a type="button" class="@customProps" asp-controller="Offers" asp-action="Index">Коммерческие предложения</a>
                 
-                <a type="button" class="@customProps">Настройки и ввод постоянных данных</a><br>
+                <a type="button" class="@customProps" asp-controller="Calculations" asp-action="GetInfoInputData">Настройки и ввод постоянных данных</a>
             </div>
             
-            <div class="col-lg-6">
-                <div id="piechart_3d" style="width: 720px; height: 400px;"></div> 
+            <div class="col-lg-3">
+                 <ul class="list-group ">
+                   <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                       Новые
+                     <span class="badge badge-success badge-pill" title="@newCard">@String.Format("{0:P1}", nev)</span>
+                   </li>
+                   <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                       Проработка
+                     <span class="badge badge-primary badge-pill" title="@workCard">@String.Format("{0:P1}", work)</span>
+                   </li>
+                   <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                     ПКО
+                     <span class="badge bg-haky text-white badge-pill" title="@PKOCard">@String.Format("{0:P1}", pko)</span>
+                   </li>
+                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                         Торги
+                         <span class="badge badge-warning badge-pill" title="@AuctionCard">@String.Format("{0:P1}", auction)</span>
+                     </li>
+                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                         Выиграные
+                         <span class="badge badge-info badge-pill" title="@WinCard">@String.Format("{0:P1}", win)</span>
+                     </li>
+                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                        Активные
+                         <span class="badge bg-violet text-white badge-pill" title="@ActiveCard">@String.Format("{0:P1}", active)</span>
+                     </li>
+                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                         Закрытые
+                         <span class="badge bg-lightcoral text-white badge-pill" title="@closedCards">@String.Format("{0:P1}", closed)</span>
+                     </li>
+                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                         Проиграные
+                         <span class="badge badge-dark badge-pill" title="@LoseCard">@String.Format("{0:P1}", lose)</span>
+                     </li>
+                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                         Удаленые
+                         <span class="badge badge-danger badge-pill" title="@DelCard">@String.Format("{0:P1}", del)</span>
+                     </li>
+                     
+                     
+                     
+                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts
-{
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Новые',     @newCard,],
-          ['В проработке',      @workCard],
-          ['ПКО',  @PKOCard],
-          ['Торги', @AuctionCard],
-          ['Выиграные',    @WinCard],
-          ['Проиграные',  @LoseCard],
-          ['Активные', @ActiveCard],
-          ['Удалённые',    @DelCard]
-        ]);
-
-        var options = {
-          title: 'Статистика карточек',
-          is3D: true,
-          colors: ['#28A745','#007BFF', '#78866B', '#FFC107', '#17A2B8', '#343A40', '#9400D3', '#DC3545'],
-          chartArea: {left:30,top:20,width:'80%',height:'70%'},
-          width: 1130,
-          height: 800,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-      }
-    </script>
-}

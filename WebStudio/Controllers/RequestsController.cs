@@ -109,7 +109,7 @@ namespace WebStudio.Controllers
                                "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
                     Card = _db.Cards.FirstOrDefault(c=>c.Id == cardId)
                 };
-                ViewBag.SearchSuppliersCard = _db.SearchSuppliers.FirstOrDefault(c => c.Id == cardId);
+
                 _logger.Info($"Сформирована форма запроса");
                 return View(model);
             }
@@ -118,11 +118,10 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateRequestViewModel model, string supplierHash, List<string> selectedLinkNames)
+        public async Task<IActionResult> Create(CreateRequestViewModel model, List<string> selectedLinkNames)
         {
             try
             { 
@@ -201,10 +200,109 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-            
         }
 
         [HttpGet]
+        public IActionResult CreateWithoutLot()
+        {
+             try
+             {
+                 CreateRequestViewModel model = new CreateRequestViewModel
+                 {
+                     Text = "<p>В связи с производственной необходимостью, просим Вас рассмотреть возможность предоставления коммерческого предложения в максимально короткие сроки. " +
+                            "При составлении коммерческого предложения просим Вас учесть следующее:</p>" +
+                            "<ol>" +
+                            "<li>Соответствие запрашиваемого ТМЦ с Вашим предложением: марка, модель, модификации, ГОСТ , ТУ и т.д. В случае не “критичного” расхождения, просим указать данный факт в КП.</li>" +
+                            "<li>Количество: в случае несоответствия запрашиваемого кол-ва нормам отгрузки ТМЦ, просим указать данный факт.</li>" +
+                            "<li>Качество: предлагать только новый товар, не бывшим в использовании, в ином случае предупреждать в КП.</li>" +
+                            "<li>Отгрузка: просим указывать варианты отгрузки, которыми располагаете (автотранспорт, жд/транспорт, авиатранспорт).</li>" +
+                            "<li>Условия оплаты.</li>" +
+                            "<li>В случае габаритного груза, просим указывать полные габариты в упакованном виде.</li>",
+                     TextView = "В связи с производственной необходимостью, просим Вас рассмотреть возможность предоставления коммерческого предложения в максимально короткие сроки.\n " +
+                                "При составлении коммерческого предложения просим Вас учесть следующее:\n" +
+                                "1.    Соответствие запрашиваемого ТМЦ с Вашим предложением: марка, модель, модификации, ГОСТ , ТУ и т.д. В случае не “критичного” расхождения, просим указать данный факт в КП.\n" +
+                                "2.    Количество: в случае несоответствия запрашиваемого кол-ва нормам отгрузки ТМЦ, просим указать данный факт.\n" +
+                                "3.    Качество: предлагать только новый товар, не бывшим в использовании, в ином случае предупреждать в КП.\n" +
+                                "4.    Отгрузка: просим указывать варианты отгрузки, которыми располагаете (автотранспорт, жд/транспорт, авиатранспорт)\n" +
+                                "5.    Условия оплаты.\n" +
+                                "6.    В случае габаритного груза, просим указывать полные габариты в упакованном виде.",
+                 };
+
+                 _logger.Info($"Сформирована форма запроса");
+                 return View(model);
+             }
+             catch (Exception e)
+             {
+                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
+                 throw;
+             }
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateWithoutLot(CreateRequestViewModel model, List<string> selectedLinkNames)
+        {
+            try
+            { 
+                if (ModelState.IsValid)
+                {
+                    List<string> filePaths = new List<string>();
+                    //model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
+                    //string[] subDirectory = model.Card.Number.Split("/");
+                    if (!Directory.Exists(_environment.ContentRootPath + "/Other Files"))
+                    {
+                        Directory.CreateDirectory(_environment.ContentRootPath + "/Other Files");
+                    }
+                    string attachPath = _environment.ContentRootPath + "/Other Files";
+                    if (model.Files != null)
+                    {
+                        foreach (var file in model.Files)
+                        {
+                            string path = Path.Combine(_environment.ContentRootPath, $"{attachPath}");
+                            string filePath = @$"{attachPath}/{file.FileName}";
+                            _uploadService.Upload(path, file.FileName, file);
+                            filePaths.Add(filePath);
+                            _logger.Info($"Файл {file.FileName} загружен для прикрепления к запросу");
+                        }
+                    }
+
+                    List<SearchSupplier> suppliers = _db.SearchSuppliers.ToList();
+                    
+                    Request request = new Request
+                    {
+                        Text = model.Text,
+                        DateOfCreate = model.DateOfCreate,
+                        ExecutorId = model.ExecutorId,
+                        Executor = await _userManager.FindByIdAsync(model.ExecutorId),
+                        CardId = model.CardId,
+                        Card = model.Card,
+                        Suppliers = model.Suppliers,
+                    };
+                    var result = _db.Requests.AddAsync(request);
+                    if (result.IsCompleted)
+                    {
+                        await _db.SaveChangesAsync();
+                        EmailService emailService = new EmailService();
+                        
+                        await emailService.SendMessageAsync(suppliers, "Запрос коммерческого предложения", $"{model.Text}",
+                            filePaths, request.Executor, model.Card);
+                        _logger.Info("Запрос поставщикам отправлен");
+                        _db.SearchSuppliers.RemoveRange(_db.SearchSuppliers);
+                        await _db.SaveChangesAsync();
+                        return RedirectToAction("Index", "Cards");
+                    }
+                    
+                }
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
+                throw;
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> AddPositionAjax(int number, string cardId, string codTNVED,
             string name, string measure, string amount, string deliveryTerms)
         {
@@ -263,9 +361,11 @@ namespace WebStudio.Controllers
                     };
                     await _db.SearchSuppliers.AddAsync(searchSupplier);
                     await _db.SaveChangesAsync();
+                    
+                    _logger.Info($"Сформирована временная база данных для рассылки запроса поставщикам. {searchSupplier.Name} добавлен во временную базу");
                 }
+
                 
-                _logger.Info("Сформирована временная база данных для рассылки запроса поставщикам");
                 
                 return PartialView("SuppliersTablePartialView", supplierCard);
             }
@@ -274,17 +374,56 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-            
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> SearchSupplierWithoutLotAjax(CreateRequestViewModel model, string supplierSearchHash, string supplierCardId)
+        {
+            try
+            {
+                model.Suppliers = Search(supplierSearchHash);
+                foreach (var supplier in model.Suppliers)
+                {
+                    SearchSupplier searchSupplier = new SearchSupplier
+                    {
+                        Name = supplier.Name,
+                        Email = supplier.Email,
+                        Website = supplier.Website,
+                        PhoneNumber = supplier.PhoneNumber,
+                        Address = supplier.Address,
+                        Tags = supplier.Tags,
+                        CardId = supplierCardId,
+                        Card = _db.Cards.FirstOrDefault(c=>c.Id == supplierCardId)
+                    };
+                    await _db.SearchSuppliers.AddAsync(searchSupplier);
+                    await _db.SaveChangesAsync();
+                    
+                    _logger.Info($"Сформирована временная база данных для рассылки запроса поставщикам. {searchSupplier.Name} добавлен во временную базу");
+                }
+                
+                return PartialView("SuppliersTableWithoutLotPartialView");
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
+                throw;
+            }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> RemoveSupplierAjax(CreateRequestViewModel model, string supplierId, string supplierRemoveCardId)
+        [HttpPost]
+        public async Task<IActionResult> RemoveSupplierAjax(string supplierId, string supplierRemoveCardId)
         {
             try
             {
                 SearchSupplier? supplier = _db.SearchSuppliers.FirstOrDefault(s => s.Id == supplierId);
                 Card supplierCard = _db.Cards.FirstOrDefault(c => c.Id == supplier.Card.Id);
                 if (supplier != null && supplier.Card.Id == supplierRemoveCardId)
+                {
+                    _db.SearchSuppliers.Remove(supplier);
+                    await _db.SaveChangesAsync();
+                }
+
+                if (supplier.Card.Id == null)
                 {
                     _db.SearchSuppliers.Remove(supplier);
                     await _db.SaveChangesAsync();
@@ -299,7 +438,29 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> RemoveSupplierWithoutLotAjax(string supplierId)
+        {
+            try
+            {
+                SearchSupplier? supplier = _db.SearchSuppliers.FirstOrDefault(s => s.Id == supplierId);
+                if (supplier != null)
+                {
+                    _db.SearchSuppliers.Remove(supplier);
+                    await _db.SaveChangesAsync();
+                }
+
+                _logger.Info($"Поставщик {supplier?.Name} удален с временной базы поставщиков для массовой рассылки запроса");
+            
+                return PartialView("SuppliersTablePartialView");
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
+                throw;
+            }
         }
 
         [NonAction]

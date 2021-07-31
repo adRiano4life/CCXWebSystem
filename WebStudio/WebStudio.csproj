@@ -23,10 +23,11 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Nodes\Index.cshtml" />
       <_ContentIncludedByDefault Remove="wwwroot\Files\T-0090805\1 типовая форма.docx" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
       <Folder Include="wwwroot\Files\T-0090879" />
       <Folder Include="wwwroot\Files\T-0090880" />
       <Folder Include="wwwroot\Files\T-0090885" />

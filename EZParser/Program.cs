@@ -4,9 +4,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using NLog;
 using WebStudio.Models;
 using System.Configuration;
 using System.Collections.Specialized;
@@ -17,6 +18,8 @@ namespace EZParser
     public class Program
     {
         public static string DefaultConnection = "";
+        //public static string PathToFiles = "";
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
  
         public static string PathToFiles = ""; // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
         //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
@@ -33,25 +36,14 @@ namespace EZParser
             GetParse();
             ExcelReader.ExcelRead();
             AuctionResultsParser.GetAuctionResults();
-
-            // int num = 0;
-            // TimerCallback tm = new TimerCallback(TimerCount);
-            // Timer timer = new Timer(tm, num, 0, 300000);
-            // Console.ReadLine();
         }
 
-        // public static void TimerCount(object obj)
-        // {
-        //     GetParse();
-        //     ExcelReader.ExcelRead();
-        //     AuctionResultsParser.GetAuctionResults();
-        // }
-        
         public static void GetParse()
         {
             try
             {
                 Console.WriteLine($"{DateTime.Now} - Парсинг начат");
+                _logger.Info("Парсинг начат");
                 var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
                 var options = optionsBuilder.UseNpgsql(DefaultConnection).Options;
 
@@ -139,14 +131,26 @@ namespace EZParser
                     {
                         _db.Cards.Add(card);
                         _db.SaveChanges();
+                        Console.WriteLine($"{DateTime.Now} - Создана карточка для лота {card.Number}");
+                        _logger.Info($"Создана карточка для лота {card.Number}");
                     }
                 }
 
+                if (_db.InputDataUsers.Count() == 0)
+                {
+                    InputDataUser dataUser = new InputDataUser();
+                
+                    _db.InputDataUsers.Add(dataUser);
+                    _db.SaveChanges();
+                }
+                
                 Console.WriteLine($"{DateTime.Now} - Парсинг лотов закончен");
+                _logger.Info("Парсинг лотов закончен");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
         }

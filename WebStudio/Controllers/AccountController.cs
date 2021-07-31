@@ -119,6 +119,7 @@ namespace WebStudio.Controllers
                         RoleDisplay = "user"
                     };
                     var result = await _userManager.CreateAsync(user, model.Password);
+                    await _userManager.AddToRoleAsync(user, "user");
                     if (result.Succeeded)
                     {
                         await SendLinkForConfirmEmail(user.Email);
@@ -432,7 +433,7 @@ namespace WebStudio.Controllers
                             user.PasswordHash = passwordHasher.HashPassword(user, model.NewPassword);
                             await _userManager.UpdateAsync(user);
                             _nLogger.Info($"Изменение пароля пользователя {user.Surname} {user.Name} - успешно");
-                            return RedirectToAction("Index");
+                            return View("SuccessChangePassword");
                         }
 
                         foreach (var error in result.Errors)

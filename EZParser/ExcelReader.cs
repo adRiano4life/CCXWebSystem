@@ -4,16 +4,21 @@ using System.IO;
 using System.Linq;
 using GemBox.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using NLog;
 using WebStudio.Models;
 
 namespace EZParser
 {
     public class ExcelReader
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
         public static void ExcelRead()
         {
             try
             {
+                Console.WriteLine($"{DateTime.Now} - Парсинг Excel начат");
+                _logger.Info("Парсинг Excel начат");
                 string connection = Program.DefaultConnection; // общая строка
                 var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
                 var options = optionsBuilder.UseNpgsql(connection).Options;
@@ -26,7 +31,6 @@ namespace EZParser
                 {
                     int indexStart = card.Number.IndexOf('-') + 1;
                     string cardNumber = card.Number.Substring(indexStart, 7);
-                    Console.WriteLine(cardNumber);
 
                     if (card.Positions is null)
                     {
@@ -98,6 +102,8 @@ namespace EZParser
                                     {
                                         _db.Positions.Add(position);
                                         _db.SaveChanges();
+                                        Console.WriteLine($"Позиция {position.Name} добавлена к карточке {card.Number}");
+                                        _logger.Info($"Позиция {position.Name} добавлена к карточке {card.Number}");
                                     }
                                 }
                             }
@@ -105,10 +111,12 @@ namespace EZParser
                     }
                 }
                 Console.WriteLine($"{DateTime.Now} - Парсинг Excel закончен");
+                _logger.Info("Парсинг Excel закончен");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
 

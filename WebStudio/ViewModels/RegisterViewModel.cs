@@ -34,6 +34,7 @@ namespace WebStudio.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
         
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Подтверждение пароля")]
         [DataType(DataType.Password)]
