@@ -98,10 +98,8 @@ namespace EZParser
                     string startSumString = tds[2].InnerText.Trim();
                     startSumString = startSumString.Replace(" ", "");
                     startSumString = startSumString.Replace(",", ".");
-                    Console.WriteLine(startSumString);
                     bool result = decimal.TryParse(startSumString, out decimal sumResult);
-                    Console.WriteLine(sumResult);
-                    
+
                     string[] datestrings = tds[3].InnerText.Split(".");
                     string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
                     DateTime acceptingEnd = Convert.ToDateTime(date);
