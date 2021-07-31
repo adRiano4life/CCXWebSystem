@@ -21,12 +21,14 @@ namespace WebStudio.Controllers
     public class OffersController : Controller
     {
         private WebStudioContext _db;
+        private IWebHostEnvironment _environment;
         Logger _nLogger = LogManager.GetCurrentClassLogger();
 
         
-        public OffersController(WebStudioContext db)
+        public OffersController(WebStudioContext db, IWebHostEnvironment environment)
         {
             _db = db;
+            _environment = environment;
         }
         
         
@@ -117,7 +119,8 @@ namespace WebStudio.Controllers
                 {
                     string cardNumber = offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'));
                     
-                    string dirFiles = AppCredentials.PathToFiles;
+                    //string dirFiles = AppCredentials.PathToFiles;
+                    string dirFiles = _environment.WebRootPath + "/Files";
                     DirectoryInfo dirFilesInfo = new DirectoryInfo(dirFiles);
                     foreach (var dir in dirFilesInfo.GetDirectories())
                     {
@@ -141,14 +144,20 @@ namespace WebStudio.Controllers
                     
                     foreach (var upFile in uploads)
                     {
-                        string offerPath = $"/Offers/{cardNumber}/" + upFile.FileName;
-                        using (var fileStream = new FileStream(dirFiles + offerPath, FileMode.Create))
+                        string offerPath = $"/Files/Offers/{cardNumber}/" + upFile.FileName;
+                        using (var fileStream = new FileStream(_environment.WebRootPath + offerPath, FileMode.Create))
                         {
                             await upFile.CopyToAsync(fileStream);
                         }
 
-                        FileModel file = new FileModel {Name = upFile.FileName, Path = "/Files" + offerPath, 
-                            CardId = offer.CardId, Card = offer.Card};
+                        FileModel file = new FileModel 
+                        {
+                            Name = upFile.FileName, 
+                            Path = offerPath, 
+                            CardId = offer.CardId, 
+                            Card = offer.Card
+                        };
+                        
                         _db.Files.Add(file);
                         offer.Path = file.Path;
                         offer.FileName = file.Name;
