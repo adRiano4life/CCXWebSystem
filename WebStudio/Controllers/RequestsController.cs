@@ -137,7 +137,6 @@ namespace WebStudio.Controllers
                         {
                             string path = $"/{subDirectory[0]}" + $"/{uploadFile.FileName}";
                             string filePath = @$"{attachPath}/{uploadFile.FileName}";
-                            //_uploadService.Upload(Program.PathToFiles + path, file);
                             using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
                             {
                                 await uploadFile.CopyToAsync(fileStream);
@@ -246,22 +245,35 @@ namespace WebStudio.Controllers
                 if (ModelState.IsValid)
                 {
                     List<string> filePaths = new List<string>();
-                    //model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
-                    //string[] subDirectory = model.Card.Number.Split("/");
-                    if (!Directory.Exists(_environment.ContentRootPath + "/Other Files"))
+                    if (!Directory.Exists(Program.PathToFiles + "/Other Files"))
                     {
-                        Directory.CreateDirectory(_environment.ContentRootPath + "/Other Files");
+                        Directory.CreateDirectory(Program.PathToFiles + "/Other Files");
                     }
-                    string attachPath = _environment.ContentRootPath + "/Other Files";
+                    string attachPath = Program.PathToFiles + "/Other Files";
                     if (model.Files != null)
                     {
-                        foreach (var file in model.Files)
+                        foreach (var uploadFile in model.Files)
                         {
-                            string path = Path.Combine(_environment.ContentRootPath, $"{attachPath}");
-                            string filePath = @$"{attachPath}/{file.FileName}";
-                            _uploadService.Upload(path, file.FileName, file);
+                            string path = $"/Other Files" + $"/{uploadFile.FileName}";
+                            string filePath = @$"{attachPath}/{uploadFile.FileName}";
+                            using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
+                            {
+                                await uploadFile.CopyToAsync(fileStream);
+                            }
+
+                            FileModel file = new FileModel
+                            {
+                                Name = uploadFile.Name,
+                                Path = "/Files" + path,
+                                CardId = model.CardId,
+                                Card = model.Card
+                            };
+
+                            _db.Files.Add(file);
+                            await _db.SaveChangesAsync();
+                            
                             filePaths.Add(filePath);
-                            _logger.Info($"Файл {file.FileName} загружен для прикрепления к запросу");
+                            _logger.Info($"Файл {uploadFile.FileName} загружен для прикрепления к запросу");
                         }
                     }
 
