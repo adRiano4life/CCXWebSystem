@@ -25,16 +25,16 @@ namespace WebStudio.Controllers
     {
         private WebStudioContext _db;
         private UserManager<User> _userManager;
-        IWebHostEnvironment _appEnvironment;
+        private IWebHostEnvironment _environment;
         private ILogger<CardsController> _iLogger;
         Logger _nLogger = LogManager.GetCurrentClassLogger();
         
 
-        public CardsController(WebStudioContext db, UserManager<User> userManager, IWebHostEnvironment appEnvironment, ILogger<CardsController> iLogger)
+        public CardsController(WebStudioContext db, UserManager<User> userManager, IWebHostEnvironment environment, ILogger<CardsController> iLogger)
         {
             _db = db;
             _userManager = userManager;
-            _appEnvironment = appEnvironment;
+            _environment = environment;
             _iLogger = iLogger;
         }
 
@@ -232,13 +232,13 @@ namespace WebStudio.Controllers
                         foreach(var uploadedFile in uploads)
                         {
                             string[] cardNumbers = card.Number.Split("/");
-                            if (!Directory.Exists( Program.PathToFiles + $"/{cardNumbers[0]}"))
+                            if (!Directory.Exists( $"/{_environment.WebRootPath}/Files/{cardNumbers[0]}"))
                             {
-                                Directory.CreateDirectory(Program.PathToFiles + $"/{cardNumbers[0]}");
+                                Directory.CreateDirectory($"/{_environment.WebRootPath}/Files/{cardNumbers[0]}");
                             }
                         
-                            string path = $"/{cardNumbers[0]}" + $"/{uploadedFile.FileName}";
-                            using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
+                            string path = $"/Files/{cardNumbers[0]}" + $"/{uploadedFile.FileName}";
+                            using (var fileStream = new FileStream(_environment.WebRootPath + path, FileMode.Create))
                             {
                                 await uploadedFile.CopyToAsync(fileStream);
                             }
@@ -246,7 +246,7 @@ namespace WebStudio.Controllers
                             FileModel file = new FileModel
                             {
                                 Name = uploadedFile.FileName, 
-                                Path = "/Files" + path, 
+                                Path = path, 
                                 CardId = card.Id, 
                                 Card = card
                             };
