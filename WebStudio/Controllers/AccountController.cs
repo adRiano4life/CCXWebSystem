@@ -334,7 +334,7 @@ namespace WebStudio.Controllers
                         string oldEmail = !user.Email.Equals(model.Email) ? user.Email : "";
                         string oldName = !user.Name.Equals(model.Name) ? user.Name : "";
                         string oldSurName = !user.Surname.Equals(model.Surname) ? user.Surname : "";
-                        string oldPhone = !user.PhoneNumber.Equals(model.PhoneNumber) ? user.PhoneNumber : "";
+                        //string oldPhone = !user.PhoneNumber.Equals(model.PhoneNumber) ? user.PhoneNumber : "";
                         string oldAvatarPath = "";
                         
                         user.Name = model.Name;
@@ -375,8 +375,8 @@ namespace WebStudio.Controllers
                                 _nLogger.Info($"Имя: до редактирования {oldName}, после редактирования {model.Name}");
                             if(!string.IsNullOrEmpty(oldSurName))
                                 _nLogger.Info($"Фамилия: до редактирования {oldSurName}, после редактирования {model.Surname}");
-                            if(!string.IsNullOrEmpty(oldEmail))
-                                _nLogger.Info($"Телефон: до редактирования {oldPhone}, после редактирования {model.PhoneNumber}");
+                            //if(!string.IsNullOrEmpty(oldEmail))
+                                //_nLogger.Info($"Телефон: до редактирования {oldPhone}, после редактирования {model.PhoneNumber}");
                             if(!string.IsNullOrEmpty(oldAvatarPath))
                                 _nLogger.Info($"Изменено фото пользователя");
                             
