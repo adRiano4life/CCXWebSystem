@@ -22,8 +22,7 @@ namespace WebStudio.Controllers
 
         private WebStudioContext _db;
         private UserManager<User> _userManager;
-        //private readonly IHostEnvironment _environment;
-        private readonly IWebHostEnvironment _environment;
+        private IWebHostEnvironment _environment;
         private readonly FileUploadService _uploadService;
         private Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -130,14 +129,14 @@ namespace WebStudio.Controllers
                     List<string> filePaths = new List<string>();
                     model.Card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
                     string[] subDirectory = model.Card.Number.Split("/");
-                    string attachPath = $"{Program.PathToFiles}/{subDirectory[0]}";
+                    string attachPath = $"/{_environment.WebRootPath}/Files/{subDirectory[0]}";
                     if (model.Files != null)
                     {
                         foreach (var uploadFile in model.Files)
                         {
-                            string path = $"/{subDirectory[0]}" + $"/{uploadFile.FileName}";
+                            string path = $"/Files/{subDirectory[0]}" + $"/{uploadFile.FileName}";
                             string filePath = @$"{attachPath}/{uploadFile.FileName}";
-                            using (var fileStream = new FileStream(Program.PathToFiles + path, FileMode.Create))
+                            using (var fileStream = new FileStream(_environment.WebRootPath + path, FileMode.Create))
                             {
                                 await uploadFile.CopyToAsync(fileStream);
                             }
@@ -145,7 +144,7 @@ namespace WebStudio.Controllers
                             FileModel file = new FileModel
                             {
                                 Name = uploadFile.Name,
-                                Path = "/Files" + path,
+                                Path = path,
                                 CardId = model.CardId,
                                 Card = model.Card
                             };
