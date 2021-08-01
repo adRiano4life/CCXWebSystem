@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -21,14 +22,14 @@ namespace WebStudio.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IHostEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly FileUploadService _uploadService;
         private ILogger<AccountController> _iLogger;
         Logger _nLogger = LogManager.GetCurrentClassLogger();
         
 
         public AccountController(WebStudioContext db, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, 
-            SignInManager<User> signInManager, IHostEnvironment environment, FileUploadService uploadService, 
+            SignInManager<User> signInManager, IWebHostEnvironment environment, FileUploadService uploadService, 
             ILogger<AccountController> iLogger)
         {
             _db = db;
@@ -98,11 +99,24 @@ namespace WebStudio.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string path = Path.Combine(_environment.ContentRootPath, "wwwroot/Images/Avatars");
+                    //string path = Path.Combine(_environment.ContentRootPath, "wwwroot/Images/Avatars");
                     string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
                     if (model.File != null)
                     {
                         avatarPath = $"/Images/Avatars/{model.File.FileName}";
+                        using (var fileStream = new FileStream(_environment.WebRootPath + avatarPath, FileMode.Create))
+                        {
+                            await model.File.CopyToAsync(fileStream);
+                        }
+
+                        FileModel file = new FileModel
+                        {
+                            Name = model.File.FileName,
+                            Path = avatarPath
+                        };
+
+                        _db.Files.Add(file);
+                        _db.SaveChanges();
                         //_uploadService.Upload(path, model.File.FileName, model.File);
                     }
 
@@ -331,9 +345,21 @@ namespace WebStudio.Controllers
 
                         if (model.File != null)
                         {
-                            string path = Path.Combine(_environment.ContentRootPath, "wwwroot\\Images\\Avatars");
                             string avatarPath = $"/Images/Avatars/{model.File.FileName}";
-                            //_uploadService.Upload(path, model.File.FileName, model.File);
+                            using (var fileStream = new FileStream(_environment.WebRootPath + avatarPath, FileMode.Create))
+                            {
+                                await model.File.CopyToAsync(fileStream);
+                            }
+
+                            FileModel file = new FileModel
+                            {
+                                Name = model.File.FileName,
+                                Path = avatarPath
+                            };
+
+                            _db.Files.Add(file);
+                            _db.SaveChanges();
+                            
                             model.AvatarPath = avatarPath;
                             oldAvatarPath = !user.AvatarPath.Equals(model.AvatarPath) ? user.AvatarPath : "";
                             user.AvatarPath = model.AvatarPath;
