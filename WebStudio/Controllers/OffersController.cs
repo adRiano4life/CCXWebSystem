@@ -119,7 +119,7 @@ namespace WebStudio.Controllers
                 {
                     string cardNumber = offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'));
 
-                    string dirFiles = _environment.WebRootPath + "/Files"; //AppCredentials.PathToFiles;
+                    string dirFiles = _environment.WebRootPath + "/Files";
                     DirectoryInfo dirFilesInfo = new DirectoryInfo(dirFiles);
                     foreach (var dir in dirFilesInfo.GetDirectories())
                     {
