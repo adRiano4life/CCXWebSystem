@@ -507,7 +507,7 @@ namespace WebStudio.Controllers
                            Id = comment.Id,
                            Message = comment.Message,
                        };
-                       return View(model);
+                       return View("ChangeComment", model);
                    }
 
                    return NotFound();
