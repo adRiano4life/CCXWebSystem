@@ -3,31 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using HtmlAgilityPack;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NLog;
-using Npgsql;
 using WebStudio.Models;
-using WebStudio.Services;
 
 namespace EZParser
 {
     public class Program
     {
         public static string DefaultConnection = "";
+        //public static string PathToFiles = "";
         private static Logger _logger = LogManager.GetCurrentClassLogger();
  
-        //public static string PathToFiles = ""; // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
-        //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
-        public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
-        //public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
-
+        
+        // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
+        //public static string PathToFiles = "D:/csharp/esdp/app/WebStudio/wwwroot/Files"; // Гульжан
+        //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
+        public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
+        
         public static void Main(string[] args)
         { 
             var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");

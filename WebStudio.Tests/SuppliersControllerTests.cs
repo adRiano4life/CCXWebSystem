@@ -17,13 +17,11 @@ namespace WebStudio.Tests
 {
     public class SuppliersControllerTests
     {
-       //private readonly ISuppliersService _suppliersService;
 
        
        [NonAction]
        private CreateSupplierViewModel ReturnCreateSupplierModel()
        {
-           
            var model = new CreateSupplierViewModel
            {
                Id = Guid.NewGuid().ToString(),
@@ -91,7 +89,7 @@ namespace WebStudio.Tests
            var bdresult = db.Suppliers.FirstOrDefault(s => s.Name == model.Name);
            
            //Assert
-           Assert.NotNull(result);
+           Assert.NotNull(bdresult);
            Assert.Equal(model.Name, bdresult.Name);
            Assert.Equal(model.Email, bdresult.Email);
            Assert.Equal(model.Website, bdresult.Website);

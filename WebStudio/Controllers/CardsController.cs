@@ -75,7 +75,7 @@ namespace WebStudio.Controllers
                         FileModels = _db.Files.Where(f => f.CardId == cardId).ToList()
                     };
 
-                    return View(model);
+                    return View("DetailCard2", model);
                 }
 
                 return NotFound();
@@ -132,7 +132,7 @@ namespace WebStudio.Controllers
                                 
                                 card.CardState = CardState.Проработка;
                                 card.ExecutorId = model.UserId;
-                                card.Executor = await _userManager.FindByIdAsync(model.UserId);
+                                card.Executor =  _userManager.FindByIdAsync(model.UserId).Result;
                                 card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
                                 card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
                                 break;
@@ -507,7 +507,7 @@ namespace WebStudio.Controllers
                            Id = comment.Id,
                            Message = comment.Message,
                        };
-                       return View(model);
+                       return View("ChangeComment", model);
                    }
 
                    return NotFound();

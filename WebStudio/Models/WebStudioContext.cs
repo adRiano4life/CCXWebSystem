@@ -45,11 +45,6 @@ namespace WebStudio.Models
             modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "доллар", Сourse = 430});
             modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "евро", Сourse = 490});
             modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "юань", Сourse = 53.30});
-            
         }
-
-
     }
-    
-    
 }

@@ -4,19 +4,22 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MimeKit;
 using MimeKit.Text;
+using WebStudio.Helpers;
 using WebStudio.Models;
 
 namespace WebStudio.Services
 {
     public class EmailService
     {
+        public string _emailOffice = AppCredentials.EmailName;
+        public string _passwordOffice = AppCredentials.EmailPassword;
+        
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _emailOffice));
             foreach (var supplier in suppliers)
             {
                 emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
@@ -26,17 +29,30 @@ namespace WebStudio.Services
 
             var builder = new BodyBuilder();
             builder.HtmlBody = message;
-            foreach (var position in card.Positions)
+            if (card != null)
             {
-                string positionTable = $"<br><ul>" +
-                                 $"<li><b>Код ТНВЕД:</b> {@position.CodTNVED}</li>" +
-                                 $"<li><b>Наименование:</b> {@position.Name}</li>" +
-                                 $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
-                                 $"<li><b>Количество:</b> {@position.Amount}</li>" +
-                                 $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
-                                 $"</ul><br><hr>";
-                builder.HtmlBody += positionTable;
+                foreach (var position in card.Positions)
+                {
+                    string positionTable = $"<br><ul>" +
+                                           $"<li><b>Код ТНВЕД:</b> {@position.CodTNVED}</li>" +
+                                           $"<li><b>Наименование:</b> {@position.Name}</li>" +
+                                           $"<li><b>Единица измерения:</b> {@position.Measure}</li>" +
+                                           $"<li><b>Количество:</b> {@position.Amount}</li>" +
+                                           $"<li><b>Условия поставки:</b> {@position.DeliveryTerms}</li>" +
+                                           $"</ul><br><hr>";
+                    builder.HtmlBody += positionTable;
+                } 
             }
+            
+            string signature = "<br>С уважением, " +
+                               "<br>ТОО RD PROM " +
+                               "<br>Республика Казахстан, г. Караганда. " +
+                               "<br>Контактные данные: " +
+                               "<br>Моб. тел.: +7 775 992 54 05" +
+                               "<br>Email: office@rdprom.kz";
+
+            builder.HtmlBody += signature;
+            
             foreach (var path in paths) 
             {
                 builder.Attachments.Add(path);
@@ -45,7 +61,7 @@ namespace WebStudio.Services
 
             using var client = new SmtpClient();
             await client.ConnectAsync("smtp.mail.ru", 25, false);
-            await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
@@ -53,7 +69,7 @@ namespace WebStudio.Services
         public async Task SendEmailAfterRegister(string email, string link)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", _emailOffice));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = "Подтвердите свой email";
 
@@ -65,7 +81,7 @@ namespace WebStudio.Services
             using var client = new SmtpClient();
             client.ServerCertificateValidationCallback = (s, c, h, e) => true;
             await client.ConnectAsync("smtp.mail.ru", 25, SecureSocketOptions.Auto);
-            await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
@@ -75,7 +91,7 @@ namespace WebStudio.Services
         {
             var emailMessage = new MimeMessage();
             
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта", "test2@rdprom.kz"));
+            emailMessage.From.Add(new MailboxAddress("Администрация сайта", _emailOffice));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = title;
 
@@ -87,7 +103,7 @@ namespace WebStudio.Services
 
             using var client = new SmtpClient();
             await client.ConnectAsync("smtp.mail.ru", 25, false);
-            await client.AuthenticateAsync("test2@rdprom.kz", "QWEqwe123");
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }

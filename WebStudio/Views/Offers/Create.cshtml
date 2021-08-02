@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label asp-for="CardNumber"></label><br/>
                 <input class="form-control" asp-for="CardNumber"  />
-                <span asp-validation-for="CardNumber"></span>
+                <span asp-validation-for="CardNumber" style="color: red;"></span>
             </div>
             
             <div class="form-group">
@@ -43,10 +43,9 @@
             </div>
             
             <div class="form-group">
-                <label asp-for="File"></label><br />
-                <input class="form-control-file" asp-for="File" />
-                <span asp-validation-for="File" style="color: red; font-size: 13px; font-style: italic"></span>
-            </div>
+                <label for="uploads"></label><br />
+                <input class="form-control-file" type="file" name="uploads" required />
+                </div>
             @Html.HiddenFor(o=>o.UserId, @Model.UserId)
             
             <div>

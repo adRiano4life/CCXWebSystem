@@ -112,12 +112,15 @@ body {
 .suppliers-remove{
   color: darkred;
 }
+
 .font-10{
   font-size: 10px;
 }
+
 .font-11{
   font-size: 11px;
 }
+
 .font-13{
   font-size: 13px;
 }
@@ -158,9 +161,8 @@ body {
   background-color: darkviolet;
 }
 
-.badge-violet{
-  color: #fff;
-  background-color: darkviolet;
+.bg-custom-grey{
+  background-color: #CCD1D1;
 }
 
 .footer {

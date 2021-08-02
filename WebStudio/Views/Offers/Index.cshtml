@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model List<Offer>
 @inject WebStudio.Models.WebStudioContext _db
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<WebStudio.Models.Offer>
 @inject UserManager<User> UserManager
 
 @{
@@ -13,15 +16,57 @@
     string calculation = "calculation";
     string recalculation = "recalculation";
 }
-<div class="my-3">
-    <h4>@ViewBag.Title</h4>
-    <a asp-controller="Offers" asp-action="Create" asp-route-userId="@UserManager.GetUserId(User)" class="font-italic">(Добавить новое)</a>
+<div class="mt-4 mb-2 d-flex justify-content-center align-items-baseline">
+    <h3>@ViewBag.Title</h3>
+    <a asp-controller="Offers" asp-action="Create" asp-route-userId="@UserManager.GetUserId(User)" class="font-italic ml-3">(Добавить новое)</a>
 </div>
 
-<div id="body">
-    <table class="table" style="width: 100%">
-        <thead>
-        <tr class="bg-success text-white">
+@using (Html.BeginForm("Index", "Offers", FormMethod.Get, 
+    new {@class = "my-3 px-auto py-auto", @style = "border: 1px dotted lightslategrey; border-radius: 8px;"}))
+{
+    <div class="form-inline form-group">
+        <div class="pt-3 pb-0 pl-5 text-center">
+            <div class="row d-flex justify-content-start align-items-baseline">
+                <div class="col-3 m-1 px-0 py-1 font-italic text-secondary font-weight-bold">
+                    Поиск по:
+                </div>
+                <div class="col-3 m-1 px-0 py-1">
+                    <span class="font-13 font-italic text-secondary">лоту</span>
+                    @Html.TextBox("searchByCardNumber", ViewBag.searchByCardNumber as string, new {@class = "form-control form-control-sm font-italic font-11", @placeholder="на латинице"})
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-4 m-1 px-0 py-1">
+                    <span class="font-13 font-italic text-secondary">поставщику</span>
+                    @Html.TextBox("searchBySupplierName", ViewBag.searchBySupplierName as string, new {@class = "form-control form-control-sm"})
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-3 m-1 px-0 py-1">
+                    <span class="font-13 font-italic text-secondary">позиции</span>
+                    @Html.TextBox("searchByPositionName", ViewBag.searchByPositionName as string, new {@class = "form-control form-control-sm"})
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-3 m-1 px-0 py-1">
+                    <span class="font-13 font-italic text-secondary">дате КП</span>
+                    <input name="searchByOfferDate" class="form-control form-control-sm" value="" type="date"/>
+                    <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                <div class="col-3 m-1 py-1 ml-5 pl-5">
+                    <a asp-action="Index" asp-controller="Offers" asp-route-page="1" class="btn btn-outline-primary font-italic pl-3 text-primary font-13">
+                        Сбросить параметры поиска
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="body" class="mt-4">
+    <table class="table">
+        <thead class="thead-light">
+        <tr class="text-center">
             <th scope="col">№</th>
             <th scope="col" colspan="2">Лот</th>
             <th scope="col" colspan="2">Поставщик</th>
@@ -29,23 +74,23 @@
             <th scope="col" colspan="2">№ КП</th>
             <th scope="col" colspan="2">Примечание</th>
             <th scope="col" colspan="2">Скачать </th>
-            <th scope="col" colspan="2"></th>
-            </tr>
+        </tr>
         </thead>
         <tbody>
         @if (Model.Count != 0)
         {
             @foreach (var offer in @Model)
             {
-                <tr class="bg-light">
+                <tr class="bg-custom-grey text-center">
                     <th scope="row">@(@count++)</th>
                     <td colspan="2">@(@cardNumber = @offer.CardNumber != null ? @offer.CardNumber : "без номера")</td>
                     <td colspan="2">@offer.SupplierName</td>
                     <td colspan="2">@offer.DateOfIssue.ToShortDateString()</td>
                     <td colspan="2">@offer.Number</td>
                     <td colspan="2">@offer.Note</td>
-                    <td colspan="2"><a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
-                                       asp-route-fileName="@offer.FileName">КП @offer.SupplierName</a><br>
+                    <td colspan="2">
+                    <a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
+                                       asp-route-fileName="@offer.FileName" class="py-0">КП @offer.SupplierName</a><br>
                         @if (UserManager.FindByIdAsync(@offer.UserId).Result != null)
                         {
                             <small class="font-10 font-italic">добавлено: @UserManager.FindByIdAsync(@offer.UserId).Result.Surname
@@ -55,17 +100,18 @@
                 
                     @if (offer.Card.Positions.Count != 0)
                     {
-                        <thead class="font-11">
+                        <thead class="font-11 ml-5 text-center">
                         <tr>
                             <th class="py-1">№</th>
                             <th class="py-1">Название</th>
                             <th class="py-1">Ед.изм.</th>
-                            <th class="py-1">Кол-ко</th>
+                            <th class="py-1">Кол-во</th>
                             <th class="py-1">Старт.цена за ед.товара</th>
                             <th class="py-1">Стартовая стоимость</th>
+                            <th></th>
                         </tr>
                         </thead>
-                        <tbody class="font-11 pb-1">
+                        <tbody class="font-11 pb-1 ml-5 text-center">
                         @foreach (var op in @offer.Card.Positions)
                         {
                             <tr>
@@ -89,12 +135,22 @@
                         </tbody>
                     }
                 </tr>
-                    
+                
+                @*
                 <tbody class="border-0">
-                    <tr class="line"></tr>
+                <tr class="line"></tr>
                 </tbody>
+                *@
             }
         }
         </tbody>
     </table>
+</div>
+
+<p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
+<div class="row justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Offers", 
+        new { page, searchByCardNumber = ViewBag.searchByCardNumber, searchBySupplierName = ViewBag.searchBySupplierName, 
+            searchByPositionName = ViewBag.searchByPositionName, searchByOfferDate = ViewBag.searchByOfferDate }), 
+        Bootstrap4PagedListRenderOptions.Classic)
 </div>

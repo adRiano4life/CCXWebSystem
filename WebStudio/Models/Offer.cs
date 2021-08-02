@@ -33,7 +33,6 @@ namespace WebStudio.Models
         [DisplayName("Номер КП")]
         public string Number { get; set; }
 
-        [Required (ErrorMessage = "Добавьте файл!")]
         [NotMapped]
         [DisplayName("Коммерческое предложение")]
         public IFormFile File { get; set; }

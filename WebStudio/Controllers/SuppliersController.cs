@@ -19,6 +19,8 @@ namespace WebStudio.Controllers
     {
         private WebStudioContext _db;
         private Logger _logger = LogManager.GetCurrentClassLogger();
+        
+        
 
         public SuppliersController(WebStudioContext db)
         {
@@ -66,8 +68,8 @@ namespace WebStudio.Controllers
                 _logger.Error($"Внимание, ошибка: {e.Message} => {e.StackTrace}");
                 throw;
             }
-
         }
+        
 
         [HttpGet]
         [Authorize]
@@ -268,6 +270,7 @@ namespace WebStudio.Controllers
             try
             {
                 List<string> tags = supplierTags.ToLower().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                
                 Supplier supplier = new Supplier
                 {
                     Name = supplierName,
