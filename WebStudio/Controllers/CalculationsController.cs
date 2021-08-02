@@ -389,7 +389,7 @@ namespace WebStudio.Controllers
 
                 _db.SaveChanges();
                 
-                _nLogger.Info($"Добавлен расчет для КП: {infoResults.Id} => Номер КП: {infoResults.Offer.Number}");
+                _nLogger.Info($"Внимание добавлен расчет для КП: {infoResults.Id} => Номер КП: {infoResults.Offer.Number}");
             }
             catch (Exception e)
             {
