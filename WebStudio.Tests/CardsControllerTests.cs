@@ -298,19 +298,14 @@ namespace WebStudio.Tests
             await db.SaveChangesAsync();
         }
 
-        //Отложено до момента закрытия тикета 134
-        //т.к. экшн будет изменен после данного тикета
+        //Отложено т.к. экшн будет меняться после закрытия тикета 134 
         // аналогично с тикетом 132
         // [Fact]
         // public void AllCardsListMethodGetTest()
         // {
         //     //Arrange
-        //     var db = ReturnsWebStudioDbContext();
-        //     var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
-        //     CardState state = CardState.Новая;
         //     //Act
-        //     var taskResult = controller.AllCardsList(page: 1, from: DateTime.Now, to: DateTime.Now.AddDays(1), filter: state.ToString(), sort: CardState.Новая );
-        //     var bdResult = db.Cards.All(c => c.CardState == state);
+        //      //Assert
         // }
 
         [Fact]
@@ -333,15 +328,88 @@ namespace WebStudio.Tests
             Assert.NotNull(taskResult);
             Assert.NotNull(bdResult);
             Assert.Equal(bdResult?.Message, model.Comment.Message);
-            db.Comments.FirstOrDefaultAsync(c => c.Message == model.Comment.Message).Result.CardId = null;
-            db.Comments.FirstOrDefaultAsync(c => c.Message == model.Comment.Message).Result.UserId = null;
-            await db.SaveChangesAsync();
             db.Comments.Remove(bdResult);
-            
-            await db.SaveChangesAsync();
             db.Users.Remove(_user);
+            var card = await db.Cards.FindAsync(model.Card.Id);
+            db.Cards.Remove(card);
             await db.SaveChangesAsync();
-            db.Cards.Remove(model.Card);// не удаляется из бд
+        }
+        
+
+        [Fact]
+        public void ChangeCommentMethodGetTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
+            db.Users.Add(_user);
+            db.Cards.Add(_card);
+            var comment = new Comment() { Message = "test message", UserId = _user.Id, CardId = _card.Id, Card = _card };
+            db.Comments.Add(comment);
+            db.SaveChanges();
+            
+            //Act
+            ViewResult result = controller.ChangeComment(commentId: comment.Id) as ViewResult;
+            
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal("ChangeComment", result?.ViewName);
+            db.Comments.Remove(comment);
+            db.Users.Remove(_user);
+            db.Cards.Remove(_card);
+            db.SaveChangesAsync();
+        }
+
+
+        [Fact]
+        public async Task ChangeCommentMethodPostTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
+            db.Users.Add(_user);
+            db.Cards.Add(_card);
+            var comment = new Comment() { Message = "test message", UserId = _user.Id, CardId = _card.Id, Card = _card };
+            db.Comments.Add(comment);
+            await db.SaveChangesAsync();
+            ChangeCommentViewModel commentViewModel = new ChangeCommentViewModel { Id = comment.Id,
+                Message = "change test comment"};
+            
+            //Act
+            var taskResult = await controller.ChangeComment(model: commentViewModel);
+            var bdResult = db.Comments.FirstOrDefault(c => c.Message == commentViewModel.Message);
+
+            //Assert
+            Assert.NotNull(taskResult);
+            Assert.NotNull(bdResult);
+            Assert.Equal(bdResult?.Message, commentViewModel.Message);
+            db.Comments.Remove(bdResult);
+            db.Users.Remove(_user);
+            db.Cards.Remove(_card);
+            await db.SaveChangesAsync();
+        }
+
+
+        [Fact]
+        public async Task AddCommentToArchiveAjaxMethodPostTest()
+        {
+            //Arrange
+            var db = ReturnsWebStudioDbContext();
+            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
+            CardClone testCardClone = new CardClone(){Name = "test name"};
+            db.HistoryOfVictoryAndLosing.Add(testCardClone);
+            await db.SaveChangesAsync();
+            string commentString = "test comment";
+            
+            //Act
+            var taskResult = await controller.AddCommentToArchiveAjax(cardId: testCardClone.Id, comment: commentString);
+            var bdResult = db.HistoryOfVictoryAndLosing.FirstOrDefault(c => c.Id == testCardClone.Id);
+
+            //Assert
+            Assert.NotNull(taskResult);
+            Assert.NotNull(bdResult);
+            Assert.Equal(bdResult?.Comment, commentString);
+            db.HistoryOfVictoryAndLosing.Remove(testCardClone);
             await db.SaveChangesAsync();
         }
         
@@ -356,7 +424,7 @@ namespace WebStudio.Tests
             return db;
         }
 
-
+        
         [NonAction]
         private DetailCardViewModel ReturnDetailCardViewModel()
         {
@@ -367,7 +435,7 @@ namespace WebStudio.Tests
             
             DetailCardViewModel model = new DetailCardViewModel()
             {
-                CardId = _card.Id, Card = _card,Comment = new Comment(),
+                CardId = _card.Id, Card = _card, Comment = new Comment(),
                 UserId = _user.Id, Users = db.Users.ToList(), FileModels = new List<FileModel>()
             };
             return model;
@@ -378,7 +446,8 @@ namespace WebStudio.Tests
         {
             //
             Mock<IUserPasswordStore<User>> userPasswordStore = new Mock<IUserPasswordStore<User>>();
-            userPasswordStore.Setup(s => s.CreateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
+            userPasswordStore.Setup(s => s.CreateAsync(It.IsAny<User>(), 
+                    It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(IdentityResult.Success));
 
             var options = new Mock<IOptions<IdentityOptions>>();
