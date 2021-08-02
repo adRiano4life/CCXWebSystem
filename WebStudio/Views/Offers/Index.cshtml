@@ -84,7 +84,8 @@
                     <td colspan="2">@offer.DateOfIssue.ToShortDateString()</td>
                     <td colspan="2">@offer.Number</td>
                     <td colspan="2">@offer.Note</td>
-                    <td colspan="2"><a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
+                    <td colspan="2">
+                    <a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
                                        asp-route-fileName="@offer.FileName" class="py-0">КП @offer.SupplierName</a><br>
                         @if (UserManager.FindByIdAsync(@offer.UserId).Result != null)
                         {

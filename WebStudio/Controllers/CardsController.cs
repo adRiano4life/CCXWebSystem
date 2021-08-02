@@ -132,7 +132,7 @@ namespace WebStudio.Controllers
                                 
                                 card.CardState = CardState.Проработка;
                                 card.ExecutorId = model.UserId;
-                                card.Executor = await _userManager.FindByIdAsync(model.UserId);
+                                card.Executor =  _userManager.FindByIdAsync(model.UserId).Result;
                                 card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
                                 card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
                                 break;
