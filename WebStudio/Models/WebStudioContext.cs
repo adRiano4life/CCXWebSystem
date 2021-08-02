@@ -25,6 +25,12 @@ namespace WebStudio.Models
         
         public DbSet<Offer> Offers { get; set; }
         
+        public DbSet<InputData> InputDatas { get; set; }
+        
+        public DbSet<ResultsInputData> ResultsInputDatas { get; set; }
+        
+        public DbSet<InfoResultsOfferPosition> InfoResultsOfferPositions { get; set; }
+        
         public WebStudioContext(DbContextOptions options) : base(options)
         {
             

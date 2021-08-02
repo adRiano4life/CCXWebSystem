@@ -11,7 +11,7 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    [Migration("20210721142411_init")]
+    [Migration("20210802185556_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -473,31 +473,31 @@ namespace WebStudio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c04ffc50-7970-4138-8a88-49628be17399",
+                            Id = "bc005055-02fa-47c1-b07a-ecd013d2cd3a",
                             Name = "тенге",
                             Сourse = 1.0
                         },
                         new
                         {
-                            Id = "e04bb190-9343-420b-af93-2136cde39f5b",
+                            Id = "a9f9b986-e5db-4a57-9108-d8f168a1eb64",
                             Name = "рубль",
                             Сourse = 6.0
                         },
                         new
                         {
-                            Id = "88b2178e-59a1-46dc-98aa-0a69d2d2f5b2",
+                            Id = "454e36cb-b8dc-4bfd-b7bf-3c5d3a0d5554",
                             Name = "доллар",
                             Сourse = 430.0
                         },
                         new
                         {
-                            Id = "60314310-8483-4c61-9fae-878fd5e909bf",
+                            Id = "03a4ee4d-e6bd-426c-ad31-c174d8db9b4f",
                             Name = "евро",
                             Сourse = 490.0
                         },
                         new
                         {
-                            Id = "2fb39621-6959-4773-aa4a-8ce06248ed97",
+                            Id = "1281d51a-a5a0-4801-a6fc-75b96e06b9ff",
                             Name = "юань",
                             Сourse = 53.299999999999997
                         });
@@ -524,6 +524,103 @@ namespace WebStudio.Migrations
                     b.HasIndex("CardId");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.InfoResultsOfferPosition", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("InputDataId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OfferId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PositionId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResultsInputDataId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InputDataId");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("PositionId");
+
+                    b.HasIndex("ResultsInputDataId");
+
+                    b.ToTable("InfoResultsOfferPositions");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.InputData", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Administrative")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Amount")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Bet")
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DelivTerm")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DeliveryTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Duty")
+                        .HasColumnType("text");
+
+                    b.Property<string>("KPN")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Meas")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NDS")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OfferId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PayMethod")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PositionId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Prepay")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Purchase")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TermPayment")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Transport")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InputDatas");
                 });
 
             modelBuilder.Entity("WebStudio.Models.InputDataUser", b =>
@@ -618,6 +715,64 @@ namespace WebStudio.Migrations
                     b.HasIndex("ExecutorId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.ResultsInputData", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Bet")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Broker")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EconomyNDS")
+                        .HasColumnType("text");
+
+                    b.Property<string>("InputDataId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Investments")
+                        .HasColumnType("text");
+
+                    b.Property<string>("KPN")
+                        .HasColumnType("text");
+
+                    b.Property<string>("KPNTenge")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NDS")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NDSImport")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NDSTenge")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Payouts")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Profit")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Summ")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Total")
+                        .HasColumnType("text");
+
+                    b.Property<string>("summTenge")
+                        .HasColumnType("text");
+
+                    b.Property<string>("tPay")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ResultsInputDatas");
                 });
 
             modelBuilder.Entity("WebStudio.Models.SearchSupplier", b =>
@@ -809,6 +964,33 @@ namespace WebStudio.Migrations
                         .HasForeignKey("CardId");
 
                     b.Navigation("Card");
+                });
+
+            modelBuilder.Entity("WebStudio.Models.InfoResultsOfferPosition", b =>
+                {
+                    b.HasOne("WebStudio.Models.InputData", "InputData")
+                        .WithMany()
+                        .HasForeignKey("InputDataId");
+
+                    b.HasOne("WebStudio.Models.Offer", "Offer")
+                        .WithMany()
+                        .HasForeignKey("OfferId");
+
+                    b.HasOne("WebStudio.Models.CardPosition", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId");
+
+                    b.HasOne("WebStudio.Models.ResultsInputData", "ResultsInputData")
+                        .WithMany()
+                        .HasForeignKey("ResultsInputDataId");
+
+                    b.Navigation("InputData");
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("Position");
+
+                    b.Navigation("ResultsInputData");
                 });
 
             modelBuilder.Entity("WebStudio.Models.Offer", b =>

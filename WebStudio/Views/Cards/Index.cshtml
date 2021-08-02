@@ -29,6 +29,9 @@
     var active = (double)ActiveCard / Model.Count;
     var del = (double)DelCard / Model.Count;
     var closed = (double)closedCards / Model.Count;
+
+    string settingsLi = "mb-2 pl-2 shadow-sm d-flex bg-light justify-content-between align-items-center";
+    string settingsSpan = "badge badge-pill";
     
 }
 
@@ -62,47 +65,45 @@
             </div>
             
             <div class="col-lg-3">
-                 <ul class="list-group ">
-                   <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                       Новые
-                     <span class="badge badge-success badge-pill" title="@newCard">@String.Format("{0:P1}", nev)</span>
-                   </li>
-                   <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                       Проработка
-                     <span class="badge badge-primary badge-pill" title="@workCard">@String.Format("{0:P1}", work)</span>
-                   </li>
-                   <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                     ПКО
-                     <span class="badge bg-haky text-white badge-pill" title="@PKOCard">@String.Format("{0:P1}", pko)</span>
-                   </li>
-                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                         Торги
-                         <span class="badge badge-warning badge-pill" title="@AuctionCard">@String.Format("{0:P1}", auction)</span>
-                     </li>
-                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                         Выиграные
-                         <span class="badge badge-info badge-pill" title="@WinCard">@String.Format("{0:P1}", win)</span>
-                     </li>
-                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
+                <ul class="list-group ">
+                    <li class="@settingsLi">
+                        Новые
+                        <span class="@settingsSpan badge-success" title="@newCard">@String.Format("{0:P1}", nev)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        Проработка
+                        <span class="@settingsSpan badge-primary" title="@workCard">@String.Format("{0:P1}", work)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        ПКО
+                        <span class="@settingsSpan bg-haky text-white" title="@PKOCard">@String.Format("{0:P1}", pko)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        Торги
+                        <span class="@settingsSpan badge-warning" title="@AuctionCard">@String.Format("{0:P1}", auction)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        Выиграные
+                        <span class="@settingsSpan badge-info" title="@WinCard">@String.Format("{0:P1}", win)</span>
+                    </li>
+                    <li class="@settingsLi">
                         Активные
-                         <span class="badge bg-violet text-white badge-pill" title="@ActiveCard">@String.Format("{0:P1}", active)</span>
-                     </li>
-                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                         Закрытые
-                         <span class="badge bg-lightcoral text-white badge-pill" title="@closedCards">@String.Format("{0:P1}", closed)</span>
-                     </li>
-                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                         Проиграные
-                         <span class="badge badge-dark badge-pill" title="@LoseCard">@String.Format("{0:P1}", lose)</span>
-                     </li>
-                     <li class="mb-2 d-flex bg-light justify-content-between align-items-center">
-                         Удаленые
-                         <span class="badge badge-danger badge-pill" title="@DelCard">@String.Format("{0:P1}", del)</span>
-                     </li>
-                     
-                     
-                     
-                 </ul>
+                        <span class="@settingsSpan bg-violet text-white" title="@ActiveCard">@String.Format("{0:P1}", active)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        Закрытые
+                        <span class="@settingsSpan bg-lightcoral text-white" title="@closedCards">@String.Format("{0:P1}", closed)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        Проиграные
+                        <span class="@settingsSpan badge-dark" title="@LoseCard">@String.Format("{0:P1}", lose)</span>
+                    </li>
+                    <li class="@settingsLi">
+                        Удаленые
+                        <span class="@settingsSpan badge-danger" title="@DelCard">@String.Format("{0:P1}", del)</span>
+                    </li>
+                </ul>
+                
             </div>
         </div>
     </div>

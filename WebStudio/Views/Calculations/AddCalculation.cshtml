@@ -1,190 +1,725 @@
-﻿@model CardPosition
+﻿@model WebStudio.ViewModels.GetInfoInputDataViewModel
 
 @{
     ViewBag.Title = "Расчитать";
     Layout = "_Layout";
-    List<string> Meas = new List<string>(){"шт.", "тонны", "м3", "м2", "кг.", "литр", "комп.", "п.м"};
-    List<string> Curr = new List<string>(){"тенге", "рубль", "доллар", "евро", "юань"};
-    List<string> PayTerm = new List<string>(){"нал", "безнал"};
-    List<string> NDS = new List<string>(){"да", "нет"};
-    List<string> DelivTerm = new List<string>(){"EXW", "DDP", "DAP", "FCA", "CPT", "CIP", "DAT", "FAS", "FOB","CFR", "DDU", "CIF"};
+    
+    
+    List<string> prepay = new List<string>(){"100%", "90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%"};
+    List<string> nds = new List<string>(){"да", "нет"};
+    List<string> kpn = new List<string>(){"да", "нет"};
+    
+    string setH5 = "mb-1";
+    string setDiv = "mb-3 border-bottom";
+    string setLab = "mb-1";
+    string setLabCalc = "mb-1 form-text text-primary";
+    string setLabelResult = "mb-1 text-danger font-weight-light font-italic";
 }
 
 
 <div class="container">
-    <div class="row justify-content-start">
-        <div class="col-lg-6 pl-0 mr-5">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Наименование</th>
-                    <th scope="col">Значение</th>
-                </tr>
-                
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="bg-secondary text-white">Номенклатура</td>
-                    <td class="bg-light">@Model.StockNumber</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Код ТНВЭД</td>
-                    <td class="bg-light">@Model.CodTNVED</td>
-                </tr>
-                
-                <tr>
-                    <td class="bg-secondary text-white">Название</td>
-                    <td class="bg-light">@Model.Name</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Ед.изм.</td>
-                    <td class="bg-light">@Model.Measure</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Кол-во</td>
-                    <td class="bg-light">@Model.Amount</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Валюта</td>
-                    <td class="bg-light">@Model.Currency</td>
-                </tr>
+    <div class="row">
+        <div class="col-lg-3 bg-success hn1"></div>
+        <div class="col-lg-3 bg-warning hn1"></div>
+        <div class="col-lg-3 bg-info hn1"></div>
+        <div class="col-lg-3 bg-dark hn1"></div>
+    </div>
+</div>
 
 
-                <tr>
-                    <td class="bg-secondary text-white">Старт.цена за ед.товара</td>
-                    <td class="bg-light">@Model.UnitPrice</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Стартовая стоимость</td>
-                    <td class="bg-light">@Model.TotalPrice</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Срок поставки</td>
-                    <td class="bg-light">@Model.DeliveryTime</td>
-                </tr>
-
-                <tr>
-                    <td class="bg-secondary text-white">Условия поставки</td>
-                    <td class="bg-light">@Model.DeliveryTerms</td>
-                </tr>
-              
-                <tr>
-                    <td class="bg-secondary text-white">Условия оплаты</td>
-                    <td class="bg-light">@Model.PaymentTerms</td>
-                </tr>
-
-                </tbody>
-            </table>
+<div class="container mb-5 shadow pr-0">
+<div class="row col-lg-12 pl-3 pr-3 pb-3 pt-3">
+    
+    <div class="col-lg-12 pl-0 pb-2 mb-4 mt-4 border-bottom"><h2 class="mb-0 pb-2 display-4"><i class="fas fa-align-justify text-danger"></i> Данные</h2></div>
+    
+    <div class="col-lg-6 pl-0">
+        <div class="@setDiv">
+            <h5 class="@setH5">Номенклатура</h5>
+            <label class="@setLab">@Model.Position.StockNumber</label>
         </div>
-        
-        <div class="pr-0 pl-0 col-lg-4">
-            
-            <table class="table">
-                <thead class="bg-secondary text-white">
-                <tr>
-                    <th scope="col">Калькулятор</th>
-                </tr>
-                </thead>
-            </table>
+        <div class="@setDiv">
+            <h5 class="@setH5">Код ТНВЭД</h5>
+            <label class="@setLab">@Model.Position.CodTNVED</label>
+        </div>
 
-            <form>
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="компания">
-                    <small class="form-text text-muted text-danger">Укажите название компании</small>
-                </div>
-                
-                <div class="form-group">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option selected disabled>валюта закупа</option>
-                        @foreach (var option in Curr)
-                        {
-                            <option>@option</option>
-                        }
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option selected disabled>ед.изм</option>
-                        @foreach (var option in Meas)
-                        {
-                            <option>@option</option>
-                        }
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option selected disabled>Способ оплаты</option>
-                        @foreach (var option in PayTerm)
-                        {
-                            <option>@option</option>
-                        }
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <input type="number" class="form-control" placeholder="количество">
-                    <small class="form-text text-muted text-danger">Укажите количество</small>
-                </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Наименование</h5>
+            <label class="@setLab">@Model.Position.Name</label>
 
-                
-                <div class="form-group">
-                    <input type="number" class="form-control" placeholder="цена поставщика">
-                    <small class="form-text text-muted">Укажите цену поставщика</small>
-                </div>
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Ед.изм.</h5>
+            <label class="@setLab">@Model.Position.Measure</label>
 
-                <div class="form-group">
-                    <input type="number" class="form-control" placeholder="цена для расчета">
-                    <small class="form-text text-muted">Укажите цену для расчета</small>
-                </div>
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Кол-во</h5>
+            <label class="@setLab" id="quality">@Model.Position.Amount</label>
 
-                <div class="form-group">
-                    <input type="number" class="form-control" placeholder="транспортные расходы">
-                    <small class="form-text text-muted">Укажите транспортные расходы</small>
-                </div>
+        </div>
+        <div class="mb-3">
+            <h5 class="@setH5">Валюта</h5>
+            <label class="@setLab">@Model.Position.Currency</label>
 
-                <div class="form-group">
-                    <input type="number" class="form-control" placeholder="административные расходы">
-                    <small class="form-text text-muted">Укажите административные расходы</small>
-                </div>
+        </div>
+    </div>
+    <div class="col-lg-6 pr-0">
+        <div class="@setDiv">
+            <h5 class="@setH5">Старт.цена</h5>
+            <label class="@setLab" id="startPrice">@Model.Position.UnitPrice</label>
 
-                <div class="form-group">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option selected disabled>условия поставки</option>
-                        @foreach (var option in DelivTerm)
-                        {
-                            <option>@option</option>
-                        }
-                    </select>
-                </div>
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Стартовая сумма</h5>
+            <label class="@setLab" id="startSumm">@Model.Position.TotalPrice</label>
 
-                <div class="form-group">
-                    <input type="datetime-local" class="form-control" placeholder="срок поставки">
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Срок поставки</h5>
+            <label class="@setLab" id="termPay">@Model.Position.DeliveryTime</label>
 
-                </div>
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Условия поставки</h5>
+            <label class="@setLab" align="justify">@Model.Position.DeliveryTerms</label>
 
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="город отгрузки">
-                </div>
-
-                <div class="form-group">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Введите название" rows="3"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <input type="button" class="btn-success form-control" value="итого">
-                </div>
-
-
-
-            </form>
+        </div>
+        <div class="mb-3">
+            <h5 class="@setH5">Условия оплаты</h5>
+            <label class="@setLab" align="justify">@Model.Position.PaymentTerms</label>
         </div>
     </div>
 </div>
+    
+    
+<div class="col-lg-6 pl-0"><h2 class="mb-0 display-4"><i class="fas fa-calculator text-success"></i> Калькулятор</h2></div>
+    
+<!---Калькулятор---->
+<div class="row col-lg-12 pl-3 pr-3 pb-3 pt-3 justify-content-start">
+<div class="col-lg-4 pl-0 border-top pt-4">
+        
+    <div class="form-group">
+        <select class="form-control" id="currency">
+            <option selected disabled>Валюта закупа</option>
+            @foreach (var currency in Model.Currencies)
+            {
+                <option value="@currency.Сourse">@currency.Name @currency.Сourse</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <select class="form-control" id="prepay">
+            <option selected disabled>Предоплата</option>
+            prepay
+            @foreach (var option in @prepay)
+            {
+                <option>@option</option>
+            }
+                
+        </select>
+        
+    </div>
+    
+    <div class="form-group">
+        <select class="form-control" id="nds">
+            <option selected disabled>НДС</option>
+            @foreach (var option in nds)
+            {
+                <option>@option</option>
+            }
+        </select>
+        
+    </div>
+    
+    <div class="form-group">
+        
+        <select class="form-control" id="kpn">
+            <option selected disabled>КПН</option>
+            @foreach (var option in kpn)
+            {
+                <option>@option</option>
+            }
+        </select>
+        
+    </div>
+    
+    <div class="form-group">
+        <select class="form-control" id="PayMethod">
+            <option selected disabled>Способ оплаты</option>
+            @foreach (var option in Model.ListInputData.PayTerm)
+            {
+                <option>@option</option>
+            }
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <select class="form-control" id="DelivTerm">
+            <option selected disabled>Условия поставки</option>
+            @foreach (var option in Model.ListInputData.DelivTerm)
+            {
+                <option>@option</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <select class="form-control" id="Meas">
+            <option selected disabled>Ед.изм</option>
+            @foreach (var option in Model.ListInputData.Meas)
+            {
+                <option>@option</option>
+            }
+        </select>
+    </div>
+
+    
+
+</div>
+
+<div class="col-lg-4 pl-0 pr-0 border-top pt-4">
+
+    <div class="form-group">
+        <input type="number" id="zakup" onkeyup="Summ()" class="form-control" placeholder="Цена (закуп)">
+        <small class="@setLabCalc">Цена (закуп)</small>
+    </div>
+        
+    <div class="form-group">
+        <input type="number" id="amount" onkeyup="Summ()" class="form-control"  placeholder="количество">
+        <small class="@setLabCalc">Количество</small>
+    </div>
+    
+    <div class="form-group">
+        <div class="form-group">
+            <input type="number" id="bet" onkeyup="Bet()" class="form-control" placeholder="Ставка %">
+            <small class="@setLabCalc">Ставка %</small>
+        </div>
+    </div>
+        
+    <div class="form-group">
+        <input type="number" id="duty" onkeyup="DutySumm()" class="form-control" placeholder="Пошлина">
+        <small class="@setLabCalc">Пошлина</small>
+    </div>
+    
+    <div class="form-group">
+        <input type="number" id="Transport" onkeyup="TransportSumm()" class="form-control" placeholder="Транспортные расходы">
+        <small class="@setLabCalc">Транспорт</small>
+    </div>
+        
+    <div class="form-group">
+        <input type="number" id="Administrative" onkeyup="AdministrativeSumm()" class="form-control" placeholder="Административные расходы">
+        <small class="@setLabCalc">Административные расходы</small>
+    </div>
+    
+    <div class="form-group">
+        <input type="number" id="termPayment" onkeyup="TermPaymentSumm()" class="form-control" placeholder="Срок оплаты">
+        <small class="@setLabCalc">Срок оплаты</small>
+    </div>
+    
+</div>
+    
+<div class="col-lg-4 pr-0 border-top pt-4">
+        
+    <div class="form-group">
+        <input type="text" class="form-control" value="@Model.Offer.SupplierName" disabled>
+        <small class="@setLabCalc">Укажите название компании</small>
+    </div>
+        
+    <div class="form-group">
+        <input type="text" class="form-control" id="City" placeholder="Город отгрузки">
+        <small class="@setLabCalc">Город отгрузки</small>
+    </div>
+        
+    <div class="form-group">
+        <input type="datetime-local" class="form-control" id="DeliveryTime" placeholder="срок поставки">
+        <small class="@setLabCalc">Cрок поставки</small>
+    </div>
+        
+    <div class="form-group">
+        <textarea class="form-control" id="Description" placeholder="Введите название" rows="8"></textarea>
+        <small class="@setLabCalc">Введите название товара</small>
+    </div>
+</div>
+
+        
+<!---------Результаты-------->    
+<div class="col-lg-6 pl-0 mt-3"><h2 class="mb-0 display-4"><i class="fas fa-poll-h text-warning"></i> Результаты</h2></div>
+<div class="col-lg-12 border-bottom mt-3 mb-3"></div>
+        
+<div class="col-lg-4 pl-0 pt-4">
+    <div class="@setDiv">
+        <h5 class="@setH5">Сумма закупа</h5>
+        <label class="@setLabelResult" id="summ">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Сумма закупа (тенге)</h5>
+        <label class="@setLabelResult" id="summTenge">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Брокер</h5>
+        <label class="@setLabelResult" id="broker">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">НДС импорт</h5>
+        <label class="@setLabelResult" id="NDSImport">(нет данных)</label>
+    </div>
+    <div class="mb-3">
+        <h5 class="@setH5">Вложения</h5>
+        <label class="@setLabelResult" id="Investments">(нет данных)</label>
+    </div>
+</div>
+<div class="col-lg-4 pl-0 pt-4">
+    <div class="@setDiv">
+        <h5 class="@setH5">Срок займа</h5>
+        <label class="@setLabelResult" id="TPay">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Ставка %</h5>
+        <label class="@setLabelResult" id="infoBet">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Выплаты %</h5>
+        <label class="@setLabelResult" id="Payouts">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Итого затрат на конкурс, тенге.</h5>
+        <label class="@setLabelResult" id="Total">(нет данных)</label>
+    </div>
+    <div class="mb-3">
+        <h5 class="@setH5">НДС %</h5>
+        <label class="@setLabelResult" id="NDSinfo">(нет данных)</label>
+    </div>
+</div>
+<div class="col-lg-4 pl-0 pt-4">
+    <div class="@setDiv">
+        <h5 class="@setH5">НДС тенге</h5>
+        <label class="@setLabelResult" id="NDSTenge">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">КПН %</h5>
+        <label class="@setLabelResult" id="KPNinfo">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">КПН тенге</h5>
+        <label class="@setLabelResult" id="KPNTenge">(нет данных)</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Экономия в сумме (НДС)</h5>
+        <label class="@setLabelResult" id="EconomyNDS">(нет данных)</label>
+    </div>
+    <div class="mb-3">
+        <h5 class="@setH5">Прибыль в %</h5>
+        <label class="@setLabelResult" id="Profit">(нет данных)</label>
+    </div>
+</div>
+        
+        
+<div class="col-lg-12 border-bottom mt-3 mb-3"></div>
+<div class="col-lg-3 pl-0">
+    <button disabled hidden type="button" id="saveInfo" onclick="SendSaveData()" class="btn btn-success form-control">сохранено</button>
+    <button disabled type="button" id="saveData" onclick="SendSaveData()" class="btn btn-success form-control">сохранить</button>
+    <input hidden id="value" value="@Model.Value">
+</div>
+        
+</div>
+</div>
+
+@section Scripts
+{
+    <script>
+    
+    var Value = $('#value').val()
+    
+    $(document).on('keypress',function(e) {
+        if(e.which === 13) {
+            Summ()
+            TermPaymentSumm()
+        }
+    })
+    
+    var DutyBase = 0
+    var TransportBase = 0
+    var AdministrativeBase = 0
+    var termPaymentBase = 0
+    var prepay = ''
+    var bet = ''
+    var nds = ''
+    var kpn = ''
+    
+    $('#currency').change(function (){
+        
+        Summ()
+        
+    })
+    $('#prepay').change(function (){
+         let a = $(this).val().replace('%','')
+         prepay = a / 100
+    })
+    $('#nds').change(function (){
+         let a = $(this).val()
+         if (a === 'да'){
+             nds = 0.12
+         }
+         else if (a === 'нет'){
+             nds = 0
+         }
+         
+         RemClass('#NDSinfo')
+         $('#NDSinfo').html(a)
+         
+    })    
+    $('#kpn').change(function (){
+         let a = $(this).val()
+         if (a === 'да'){
+             kpn = 0.2
+         }
+         else if (a === 'нет'){
+             kpn = 0
+         }
+         
+         RemClass('#KPNinfo')
+         $('#KPNinfo').html(a)
+         
+    })
+    
+    function Bet(){
+      let a = $('#bet').val()
+      bet = a / 100
+      RemClass('#infoBet')
+      $('#infoBet').html(bet)  
+      
+    }
+    function Profit(){
+        let EconomyNDS = parseFloat($('#EconomyNDS').text())
+        let Total = parseFloat($('#Total').text())
+        
+        let Profit = EconomyNDS / Total
+        RemClass('#Profit')
+        $('#Profit').html(Profit.toFixed(1))
+    }
+    function EconomyNDS(){
+        let startSumm = parseFloat($('#startSumm').text())
+        let Total = parseFloat($('#Total').text())
+        let NDSTenge = parseFloat($('#NDSTenge').text())
+        let KPNTenge = parseFloat($('#KPNTenge').text())
+        
+        let EconomyNDS = startSumm - Total - NDSTenge - KPNTenge
+        RemClass('#EconomyNDS')
+        $('#EconomyNDS').html(EconomyNDS.toFixed(1))
+        
+        
+    }
+    function KPN(){
+        let broker = parseFloat($('#broker').text())
+        let NDSImport = parseFloat($('#NDSImport').text())
+        let summTenge = parseFloat($('#summTenge').text())
+        let startPrice = parseFloat($('#startPrice').text())
+        let quality = parseFloat($('#quality').text())
+        
+        let KPN = (startPrice * quality - (summTenge + broker + NDSImport)) * kpn
+        RemClass('#KPNTenge')
+        $('#KPNTenge').html(KPN.toFixed(1))
+        
+    }
+    function NDS(){
+        let broker = parseFloat($('#broker').text())
+        let NDSImport = parseFloat($('#NDSImport').text())
+        let summTenge = parseFloat($('#summTenge').text())
+        let startPrice = parseFloat($('#startPrice').text())
+        let quality = parseFloat($('#quality').text())
+        
+        let NDS = (startPrice * quality - (summTenge + broker + NDSImport)) * nds
+        RemClass('#NDSTenge')
+        $('#NDSTenge').html(NDS.toFixed(1))
+        
+    }   
+    function Summ(){
+        
+        let zakup = $('#zakup').val()
+        let amount = $('#amount').val()
+        
+        if (zakup !== '' && amount !== '')
+        {
+            let summ = zakup * amount
+            RemClass('#summ')
+            $('#summ').html(summ)
+            
+            StartSumm()
+            
+            let curr = parseFloat($('#currency').val().replace(',', '.'))
+                        
+            if (!isNaN(curr))
+            {
+                let summCurr = summ * curr
+                RemClass('#summTenge')
+                $('#summTenge').html(summCurr.toFixed(1))
+                
+                if (curr !== 1){
+                    let NDSImport = (summCurr / 100) * 12
+                    RemClass('#NDSImport')
+                     $('#NDSImport').html(NDSImport.toFixed(1)) 
+                }
+                else {
+                    AddClass('#NDSImport')
+                    $('#NDSImport').html('0')
+                }
+                
+                let Investments = parseFloat($('#summTenge').text()) + parseFloat($('#broker').text()) + parseFloat($('#NDSImport').text())
+                RemClass('#Investments')
+                $('#Investments').html(Investments)
+                
+                DutyBase = 0
+                TransportBase = 0
+                AdministrativeBase = 0
+                
+                DutySumm()
+                TransportSumm()
+                AdministrativeSumm()
+                                             
+           }
+           
+        }
+        else
+        {
+            AddClass('#summ')
+            AddClass('#summTenge')
+            $('#summ').html('(нет данных)')
+            $('#summTenge').html('(нет данных)')
+            $('#saveData').attr('disabled', true)
+        }
+        
+    }
+    function Total(){
+        let investments = parseFloat($('#Investments').text())
+        let payouts = parseFloat($('#Payouts').text())
+        
+        if (isNaN(payouts)){
+            payouts = 0
+        }
+        
+        let Total = investments + payouts
+        
+        RemClass('#Total')
+        $('#Total').html(Total.toFixed(1))
+    }
+    function Payouts(){
+        let broker = parseFloat($('#broker').text())
+        let administrative = parseFloat($('#Administrative').val())
+        let transport = parseFloat($('#Transport').val())
+        let duty = parseFloat($('#duty').val())
+        let summTenge = parseFloat($('#summTenge').text())
+        let tPay = parseInt($('#TPay').text())
+        let NDSImport = parseFloat($('#NDSImport').text())
+        let termPay = parseFloat($('#termPay').text())
+        
+        
+        let Payouts = (((broker + administrative + summTenge * prepay) * (tPay / 30)) * bet) +
+                      (((summTenge * (1 - prepay)) + transport + NDSImport + duty) * (termPay / 30) * bet)
+        RemClass('#Payouts')
+        $('#Payouts').html(Payouts.toFixed(1))
+    }
+    function DutySumm(){
+        let Investments = parseFloat($('#Investments').text())
+        let Duty = $('#duty').val()
+                        
+        if (DutyBase === 0 && Duty !== ''){
+            DutyBase = parseFloat(Duty)
+            Investments = Investments + DutyBase
+            $('#Investments').html(Investments.toFixed(1))
+            
+        }
+        else if (Duty === ''){
+            Investments = Investments - DutyBase
+            DutyBase = 0
+            $('#Investments').html(Investments.toFixed(1))
+        }
+        else if (Duty !== DutyBase){
+            Investments = Investments - DutyBase
+            DutyBase = parseFloat(Duty)
+            Investments = Investments + DutyBase
+            $('#Investments').html(Investments.toFixed(1))
+        }
+    }
+    function TransportSumm(){
+        let Investments = parseFloat($('#Investments').text())
+        let Transport = $('#Transport').val()
+                
+        if (TransportBase === 0 && Transport !== ''){
+            TransportBase = parseFloat(Transport)
+            Investments = Investments + TransportBase
+            $('#Investments').html(Investments.toFixed(1))
+            
+        }
+        else if (Transport === ''){
+            Investments = Investments - TransportBase
+            TransportBase = 0
+            $('#Investments').html(Investments.toFixed(1))
+        }
+        else if (Transport !== TransportBase){
+            Investments = Investments - TransportBase
+            TransportBase = parseFloat(Transport)
+            Investments = Investments + TransportBase
+            $('#Investments').html(Investments.toFixed(1))
+        }
+    }
+    function AdministrativeSumm(){
+        let Investments = parseFloat($('#Investments').text())
+        let Administrative = $('#Administrative').val()
+                
+        if (AdministrativeBase === 0 && Administrative !== ''){
+            AdministrativeBase = parseFloat(Administrative)
+            Investments = Investments + AdministrativeBase
+            $('#Investments').html(Investments.toFixed(1))
+            
+        }
+        else if (Administrative === ''){
+            Investments = Investments - AdministrativeBase
+            AdministrativeBase = 0
+            $('#Investments').html(Investments.toFixed(1))
+        }
+        else if (Administrative !== AdministrativeBase){
+            Investments = Investments - AdministrativeBase
+            AdministrativeBase = parseFloat(Administrative)
+            Investments = Investments + AdministrativeBase
+            $('#Investments').html(Investments.toFixed(1))
+        }
+    }
+    function TermPaymentSumm(){
+        let termPay = parseInt($('#termPay').text()) + 15
+        let termPayment = $('#termPayment').val()
+        RemClass('#TPay')
+       
+                
+        if (termPaymentBase === 0 && termPayment !== ''){
+            $('#saveData').removeAttr('disabled')
+            termPaymentBase = parseInt(termPayment)
+            termPay = termPay + parseInt(termPaymentBase)
+            $('#TPay').html(termPay)
+            
+        }
+        else if (termPayment === ''){
+            termPaymentBase = 0
+            $('#saveData').attr('disabled', true)
+            $('#TPay').html(termPay)
+        }
+        else if (termPayment !== termPaymentBase){
+            $('#saveData').removeAttr('disabled')
+            termPay = termPay + parseInt(termPayment)
+            termPaymentBase = termPayment
+            $('#TPay').html(termPay)
+        }
+        
+        Payouts()
+        Total()
+        NDS()
+        KPN()
+        EconomyNDS()
+        Profit()
+        
+        
+    }
+    function StartSumm(){
+      let startSumm = parseInt($('#startSumm').text())
+                  
+      if (startSumm < 5000000)
+      {
+         startSumm = (startSumm / 100) * 1.5
+      }
+      else if (startSumm < 25000000)
+      {
+        startSumm = (startSumm / 100) * 1.2
+      }
+      else if (startSumm < 75000000)
+      {
+        startSumm = (startSumm / 100)
+      }
+      else if (startSumm < 100000000)
+      {
+        startSumm = (startSumm / 100) * 0.8
+      }
+      else if (startSumm < 10000000000)
+      {
+        startSumm = (startSumm / 100) * 0.6
+      }
+        
+     RemClass('#broker')
+     $('#broker').html(startSumm.toFixed(1))
+      
+    }
+    function RemClass(data){
+        $(data).removeClass('text-danger font-weight-light font-italic')
+        $(data).addClass('text-success')
+    }
+    function AddClass(data){
+        $(data).removeClass('text-success')
+        $(data).addClass('text-danger font-weight-light font-italic')
+    }
+    
+    function SendSaveData(){
+       const inputDataUser = {
+        
+            OfferId: '@Model.Offer.Id',
+            PositionId: '@Model.Position.Id',
+            Currency: $('#currency').val().replace(',', '.'),
+            Prepay: prepay,
+            NDS: nds,
+            KPN: kpn, 
+            PayMethod: $('#PayMethod').val(),
+            DelivTerm: $('#DelivTerm').val(),
+            Meas: $('#Meas').val(),
+            Purchase: $('#zakup').val(),
+            Amount: $('#amount').val(),
+            Bet: bet,
+            Duty: $('#duty').val(),
+            Transport: $('#Transport').val(),
+            Administrative: $('#Administrative').val(),
+            TermPayment: $('#termPayment').val(),
+            City: $('#City').val(),
+            DeliveryTime: $('#DeliveryTime').val(),
+            Description: $('#Description').val()
+            
+        };
+       const resultsInputDataUser = {
+            Summ: $('#summ').text(),
+            summTenge: $('#summTenge').text(),
+            Broker: $('#broker').text(),
+            NDSImport: $('#NDSImport').text(),
+            Investments: $('#Investments').text(),
+            tPay: $('#TPay').text(),
+            Bet: bet,
+            Payouts: $('#Payouts').text(),
+            Total: $('#Total').text(),
+            NDS: nds, 
+            NDSTenge: $('#NDSTenge').text(),
+            KPN: kpn, 
+            KPNTenge: $('#KPNTenge').text(),
+            EconomyNDS: $('#EconomyNDS').text(),
+            Profit: $('#Profit').text()
+        };
+        
+       $.ajax({
+       url: '@Url.Action("SaveDataCalculations", "Calculations")',
+       type: 'POST',
+       data: {'inputData': inputDataUser, 'resultsInputData': resultsInputDataUser, 'value': Value},
+       
+       success: function (data){
+           $('select').attr('disabled', true)
+           $('input').attr('disabled', true)
+           $('textarea').attr('disabled', true)
+           $('#saveData').attr('hidden', true) 
+           $('#saveInfo').removeAttr('hidden')
+           alert(data)
+       }
+       })
+    }
+        
+        
+    </script>
+}
+
+
+
+
+
+

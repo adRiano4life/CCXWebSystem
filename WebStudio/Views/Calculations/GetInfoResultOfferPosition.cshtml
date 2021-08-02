@@ -1,0 +1,269 @@
+﻿@model InfoResultsOfferPosition
+
+@{
+    ViewBag.Title = "Информация о результатах";
+    Layout = "_Layout";
+    
+    string setH5 = "mb-1";
+    string setDiv = "mb-3 border-bottom";
+    string setLab = "mb-1";
+    string setLabCalc = "mb-1 form-text text-primary";
+    string setLabelResult = "mb-1 text-success font-weight-light font-italic";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 bg-success hn1"></div>
+        <div class="col-lg-3 bg-warning hn1"></div>
+        <div class="col-lg-3 bg-info hn1"></div>
+        <div class="col-lg-3 bg-dark hn1"></div>
+    </div>
+</div>
+
+
+<div class="container mb-5 shadow pr-0">
+<div class="row col-lg-12 pl-3 pr-3 pb-3 pt-3">
+    
+    <div class="col-lg-12 pl-0 pb-2 mb-4 mt-4 border-bottom"><h2 class="mb-0 pb-2 display-4"><i class="fas fa-align-justify text-danger"></i> Данные</h2></div>
+    
+    <div class="col-lg-6 pl-0">
+        <div class="@setDiv">
+            <h5 class="@setH5">Номенклатура</h5>
+            <label class="@setLab">@Model.Position.StockNumber</label>
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Код ТНВЭД</h5>
+            <label class="@setLab">@Model.Position.CodTNVED</label>
+        </div>
+
+        <div class="@setDiv">
+            <h5 class="@setH5">Наименование</h5>
+            <label class="@setLab">@Model.Position.Name</label>
+
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Ед.изм.</h5>
+            <label class="@setLab">@Model.Position.Measure</label>
+
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Кол-во</h5>
+            <label class="@setLab" id="quality">@Model.Position.Amount</label>
+
+        </div>
+        <div class="mb-3">
+            <h5 class="@setH5">Валюта</h5>
+            <label class="@setLab">@Model.Position.Currency</label>
+
+        </div>
+    </div>
+    <div class="col-lg-6 pr-0">
+        <div class="@setDiv">
+            <h5 class="@setH5">Старт.цена</h5>
+            <label class="@setLab" id="startPrice">@Model.Position.UnitPrice</label>
+
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Стартовая сумма</h5>
+            <label class="@setLab" id="startSumm">@Model.Position.TotalPrice</label>
+
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Срок поставки</h5>
+            <label class="@setLab" id="termPay">@Model.Position.DeliveryTime</label>
+
+        </div>
+        <div class="@setDiv">
+            <h5 class="@setH5">Условия поставки</h5>
+            <label class="@setLab" align="justify">@Model.Position.DeliveryTerms</label>
+
+        </div>
+        <div class="mb-3">
+            <h5 class="@setH5">Условия оплаты</h5>
+            <label class="@setLab" align="justify">@Model.Position.PaymentTerms</label>
+        </div>
+    </div>
+</div>
+    
+    
+<div class="col-lg-6 pl-0"><h2 class="mb-0 display-4"><i class="fas fa-calculator text-success"></i> Вводные данные</h2></div>
+    
+<!---Вводные данные---->
+<div class="row col-lg-12 pl-3 pr-3 pb-3 pt-3 justify-content-start">
+<div class="col-lg-4 pl-0 border-top pt-4">
+    <div class="mb-3">
+        <h5 class="@setH5">Расчетный курс</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Currency</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Предоплата</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Prepay</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">НДС</h5>
+        <label class="@setLab" align="justify">@Model.InputData.NDS</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">КПН</h5>
+        <label class="@setLab" align="justify">@Model.InputData.KPN</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Способ оплаты</h5>
+        <label class="@setLab" align="justify">@Model.InputData.PayMethod</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Условия поставки</h5>
+        <label class="@setLab" align="justify">@Model.InputData.DelivTerm</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Ед.изм</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Meas</label>
+    </div>
+    
+</div>
+
+<div class="col-lg-4 pl-0 pr-0 border-top pt-4">
+
+    <div class="mb-3">
+        <h5 class="@setH5">Цена (закуп)</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Purchase</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Количество</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Amount</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Ставка %</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Bet</label>
+    </div>
+
+    <div class="mb-3">
+        <h5 class="@setH5">Пошлина</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Duty</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Транспортные расходы</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Transport</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Административные расходы</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Administrative</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Срок оплаты</h5>
+        <label class="@setLab" align="justify">@Model.InputData.TermPayment</label>
+    </div>
+
+</div>
+    
+<div class="col-lg-4 pr-0 border-top pt-4">
+    <div class="mb-3">
+        <h5 class="@setH5">Название компании</h5>
+        <label class="@setLab" align="justify">@Model.Offer.SupplierName</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Город отгрузки</h5>
+        <label class="@setLab" align="justify">@Model.InputData.City</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Cрок поставки</h5>
+        <label class="@setLab" align="justify">@Model.InputData.DeliveryTime</label>
+    </div>
+    
+    <div class="mb-3">
+        <h5 class="@setH5">Название товара</h5>
+        <label class="@setLab" align="justify">@Model.InputData.Description</label>
+    </div>
+    
+</div>
+
+        
+<!---------Результаты-------->    
+<div class="col-lg-6 pl-0 mt-3"><h2 class="mb-0 display-4"><i class="fas fa-poll-h text-warning"></i> Результаты</h2></div>
+<div class="col-lg-12 border-bottom mt-3 mb-3"></div>
+        
+<div class="col-lg-4 pl-0 pt-4">
+
+    <div class="@setDiv">
+        <h5 class="@setH5">Сумма закупа</h5>
+        <label class="@setLabelResult" id="summ">@Model.ResultsInputData.Summ</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Сумма закупа (тенге)</h5>
+        <label class="@setLabelResult" id="summTenge">@Model.ResultsInputData.summTenge</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Брокер</h5>
+        <label class="@setLabelResult" id="broker">@Model.ResultsInputData.Broker</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">НДС импорт</h5>
+        <label class="@setLabelResult" id="NDSImport">@Model.ResultsInputData.NDSImport</label>
+    </div>
+    <div class="mb-3">
+        <h5 class="@setH5">Вложения</h5>
+        <label class="@setLabelResult" id="Investments">@Model.ResultsInputData.Investments</label>
+    </div>
+</div>
+<div class="col-lg-4 pl-0 pt-4">
+    <div class="@setDiv">
+        <h5 class="@setH5">Срок займа</h5>
+        <label class="@setLabelResult" id="TPay">@Model.ResultsInputData.tPay</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Ставка %</h5>
+        <label class="@setLabelResult" id="infoBet">@Model.ResultsInputData.Bet</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Выплаты %</h5>
+        <label class="@setLabelResult" id="Payouts">@Model.ResultsInputData.Payouts</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Итого затрат на конкурс, тенге.</h5>
+        <label class="@setLabelResult" id="Total">@Model.ResultsInputData.Total</label>
+    </div>
+    <div class="mb-3">
+        <h5 class="@setH5">НДС %</h5>
+        <label class="@setLabelResult" id="NDSinfo">@Model.ResultsInputData.NDS</label>
+    </div>
+</div>
+<div class="col-lg-4 pl-0 pt-4">
+    <div class="@setDiv">
+        <h5 class="@setH5">НДС тенге</h5>
+        <label class="@setLabelResult" id="NDSTenge">@Model.ResultsInputData.NDSTenge</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">КПН %</h5>
+        <label class="@setLabelResult" id="KPNinfo">@Model.ResultsInputData.KPN</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">КПН тенге</h5>
+        <label class="@setLabelResult" id="KPNTenge">@Model.ResultsInputData.KPNTenge</label>
+    </div>
+    <div class="@setDiv">
+        <h5 class="@setH5">Экономия в сумме (НДС)</h5>
+        <label class="@setLabelResult" id="EconomyNDS">@Model.ResultsInputData.EconomyNDS</label>
+    </div>
+    <div class="mb-3">
+        <h5 class="@setH5">Прибыль в %</h5>
+        <label class="@setLabelResult" id="Profit">@Model.ResultsInputData.Profit</label>
+    </div>
+</div>
+
+</div>
+</div>

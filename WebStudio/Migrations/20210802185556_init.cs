@@ -84,6 +84,36 @@ namespace WebStudio.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InputDatas",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    OfferId = table.Column<string>(type: "text", nullable: true),
+                    PositionId = table.Column<string>(type: "text", nullable: true),
+                    Currency = table.Column<string>(type: "text", nullable: true),
+                    Prepay = table.Column<string>(type: "text", nullable: true),
+                    NDS = table.Column<string>(type: "text", nullable: true),
+                    KPN = table.Column<string>(type: "text", nullable: true),
+                    PayMethod = table.Column<string>(type: "text", nullable: true),
+                    DelivTerm = table.Column<string>(type: "text", nullable: true),
+                    Meas = table.Column<string>(type: "text", nullable: true),
+                    Purchase = table.Column<string>(type: "text", nullable: true),
+                    Amount = table.Column<string>(type: "text", nullable: true),
+                    Bet = table.Column<string>(type: "text", nullable: true),
+                    Duty = table.Column<string>(type: "text", nullable: true),
+                    Transport = table.Column<string>(type: "text", nullable: true),
+                    Administrative = table.Column<string>(type: "text", nullable: true),
+                    TermPayment = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    DeliveryTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InputDatas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InputDataUsers",
                 columns: table => new
                 {
@@ -96,6 +126,33 @@ namespace WebStudio.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InputDataUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResultsInputDatas",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    InputDataId = table.Column<string>(type: "text", nullable: true),
+                    Summ = table.Column<string>(type: "text", nullable: true),
+                    summTenge = table.Column<string>(type: "text", nullable: true),
+                    Broker = table.Column<string>(type: "text", nullable: true),
+                    NDSImport = table.Column<string>(type: "text", nullable: true),
+                    Investments = table.Column<string>(type: "text", nullable: true),
+                    tPay = table.Column<string>(type: "text", nullable: true),
+                    Bet = table.Column<string>(type: "text", nullable: true),
+                    Payouts = table.Column<string>(type: "text", nullable: true),
+                    Total = table.Column<string>(type: "text", nullable: true),
+                    NDS = table.Column<string>(type: "text", nullable: true),
+                    NDSTenge = table.Column<string>(type: "text", nullable: true),
+                    KPN = table.Column<string>(type: "text", nullable: true),
+                    KPNTenge = table.Column<string>(type: "text", nullable: true),
+                    EconomyNDS = table.Column<string>(type: "text", nullable: true),
+                    Profit = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResultsInputDatas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -458,16 +515,55 @@ namespace WebStudio.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "InfoResultsOfferPositions",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    OfferId = table.Column<string>(type: "text", nullable: true),
+                    PositionId = table.Column<string>(type: "text", nullable: true),
+                    InputDataId = table.Column<string>(type: "text", nullable: true),
+                    ResultsInputDataId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InfoResultsOfferPositions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InfoResultsOfferPositions_InputDatas_InputDataId",
+                        column: x => x.InputDataId,
+                        principalTable: "InputDatas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InfoResultsOfferPositions_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InfoResultsOfferPositions_Positions_PositionId",
+                        column: x => x.PositionId,
+                        principalTable: "Positions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InfoResultsOfferPositions_ResultsInputDatas_ResultsInputDat~",
+                        column: x => x.ResultsInputDataId,
+                        principalTable: "ResultsInputDatas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Currencies",
                 columns: new[] { "Id", "Name", "Сourse" },
                 values: new object[,]
                 {
-                    { "c04ffc50-7970-4138-8a88-49628be17399", "тенге", 1.0 },
-                    { "e04bb190-9343-420b-af93-2136cde39f5b", "рубль", 6.0 },
-                    { "88b2178e-59a1-46dc-98aa-0a69d2d2f5b2", "доллар", 430.0 },
-                    { "60314310-8483-4c61-9fae-878fd5e909bf", "евро", 490.0 },
-                    { "2fb39621-6959-4773-aa4a-8ce06248ed97", "юань", 53.299999999999997 }
+                    { "bc005055-02fa-47c1-b07a-ecd013d2cd3a", "тенге", 1.0 },
+                    { "a9f9b986-e5db-4a57-9108-d8f168a1eb64", "рубль", 6.0 },
+                    { "454e36cb-b8dc-4bfd-b7bf-3c5d3a0d5554", "доллар", 430.0 },
+                    { "03a4ee4d-e6bd-426c-ad31-c174d8db9b4f", "евро", 490.0 },
+                    { "1281d51a-a5a0-4801-a6fc-75b96e06b9ff", "юань", 53.299999999999997 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -531,6 +627,26 @@ namespace WebStudio.Migrations
                 name: "IX_HistoryOfVictoryAndLosing_ExecutorId",
                 table: "HistoryOfVictoryAndLosing",
                 column: "ExecutorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InfoResultsOfferPositions_InputDataId",
+                table: "InfoResultsOfferPositions",
+                column: "InputDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InfoResultsOfferPositions_OfferId",
+                table: "InfoResultsOfferPositions",
+                column: "OfferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InfoResultsOfferPositions_PositionId",
+                table: "InfoResultsOfferPositions",
+                column: "PositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InfoResultsOfferPositions_ResultsInputDataId",
+                table: "InfoResultsOfferPositions",
+                column: "ResultsInputDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_CardId",
@@ -598,13 +714,10 @@ namespace WebStudio.Migrations
                 name: "Files");
 
             migrationBuilder.DropTable(
+                name: "InfoResultsOfferPositions");
+
+            migrationBuilder.DropTable(
                 name: "InputDataUsers");
-
-            migrationBuilder.DropTable(
-                name: "Offers");
-
-            migrationBuilder.DropTable(
-                name: "Positions");
 
             migrationBuilder.DropTable(
                 name: "SearchSuppliers");
@@ -616,10 +729,22 @@ namespace WebStudio.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "HistoryOfVictoryAndLosing");
+                name: "InputDatas");
+
+            migrationBuilder.DropTable(
+                name: "Offers");
+
+            migrationBuilder.DropTable(
+                name: "Positions");
+
+            migrationBuilder.DropTable(
+                name: "ResultsInputDatas");
 
             migrationBuilder.DropTable(
                 name: "Requests");
+
+            migrationBuilder.DropTable(
+                name: "HistoryOfVictoryAndLosing");
 
             migrationBuilder.DropTable(
                 name: "Cards");

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model List<Offer>
+@inject WebStudio.Models.WebStudioContext _db
 @inject UserManager<User> UserManager
 
 @{
@@ -9,6 +10,8 @@
     var positionCount = 1;
     var cardNumber = "";
     var codTNVED = "";
+    string calculation = "calculation";
+    string recalculation = "recalculation";
 }
 <div class="my-3">
     <h4>@ViewBag.Title</h4>
@@ -72,7 +75,15 @@
                                 <td class="py-1">@op.Amount</td>
                                 <td class="py-1">@op.UnitPrice</td>
                                 <td class="py-1">@op.TotalPrice</td>
-                                <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-positionId="@op.Id" target="_blank">Добавить расчет</a> </td>
+                                @if (_db.InfoResultsOfferPositions.Any(x => x.OfferId == offer.Id && x.PositionId == op.Id))
+                                {
+                                    <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-offerId="@offer.Id" asp-route-positionId="@op.Id" asp-route-value="@recalculation" target="_blank">Пересчитать</a> </td>
+                                    <td> <a asp-controller="Calculations" asp-action="GetInfoResultOfferPosition" asp-route-offerId="@offer.Id" asp-route-positionId="@op.Id" target="_blank">Подробнее</a> </td>
+                                }
+                                else
+                                {
+                                    <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-offerId="@offer.Id" asp-route-positionId="@op.Id" asp-route-value="@calculation" target="_blank">Добавить расчет</a> </td>
+                                }
                             </tr>
                         }
                         </tbody>
