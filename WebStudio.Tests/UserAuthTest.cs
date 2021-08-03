@@ -58,5 +58,17 @@ namespace WebStudio.Tests
             _driver.FindElement(By.Id("enter")).Click();
             Assert.Contains("Это поле обязательно для заполнения", _driver.PageSource);
         }
+
+        [Fact]
+        public void LogoutCorrectReturnsSuccessLogout()
+        {
+            _driver.Navigate().GoToUrl("https://localhost:5001/Account/Login");
+            _driver.FindElement(By.Id("email")).SendKeys("admin@admin.com");
+            _driver.FindElement(By.Id("password")).SendKeys("Q1w2e3r4t%");
+            _driver.FindElement(By.Id("enter")).Click();
+            _driver.FindElement(By.Id("logout")).Click();
+
+            Assert.Contains("Вход в систему", _driver.PageSource);
+        }
     }
 }
