@@ -19,7 +19,7 @@ namespace EZParser
             {
                 Console.WriteLine($"{DateTime.Now} - Парсинг Excel начат");
                 _logger.Info("Парсинг Excel начат");
-                string connection = Program.DefaultConnection; // общая строка
+                string connection = Program.DefaultConnection;
                 var optionsBuilder = new DbContextOptionsBuilder<WebStudioContext>();
                 var options = optionsBuilder.UseNpgsql(connection).Options;
 
@@ -34,7 +34,7 @@ namespace EZParser
 
                     if (card.Positions is null)
                     {
-                        string rootDirName = @$"{Program.PathToFiles}/Excel"; //общий путь
+                        string rootDirName = @$"{Program.PathToFiles}/Excel";
                         
                         List<string> fileNames = new List<string>();
 
@@ -52,7 +52,7 @@ namespace EZParser
                                 SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
                                 SpreadsheetInfo.FreeLimitReached += (sender, e) => e.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
                                 
-                                ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}/{file}"); // общий путь
+                                ExcelFile workbook = ExcelFile.Load(@$"{rootDirName}/{file}");
                                 
                                 int rowCount = 0, startRow = 0;
                                 for (int sheetIndex = 0; sheetIndex < workbook.Worksheets.Count; sheetIndex++)

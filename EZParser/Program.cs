@@ -18,13 +18,9 @@ namespace EZParser
     public class Program
     {
         public static string DefaultConnection = "";
-        //public static string PathToFiles = "";
         private static Logger _logger = LogManager.GetCurrentClassLogger();
  
-        public static string PathToFiles = ""; // @"/var/www/CCXWebSystem/WebStudio/wwwroot/Files"; // сервер
-        //public static string PathToFiles = @$"D:\csharp\esdp\app\WebStudio\wwwroot\Files"; // Гульжан
-        //public static string PathToFiles = @$"C:\Users\user\Desktop\files"; // Саня Т.
-        //public static string PathToFiles = @$"E:\csharp\ESDP\Download Files"; // Саня Ф.
+        public static string PathToFiles = "";
 
         public static void Main(string[] args)
         { 
@@ -71,7 +67,7 @@ namespace EZParser
                     List<string> linkNames = new List<string>();
                     foreach (var link in links)
                     {
-                        DirectoryInfo dirInfo = new DirectoryInfo(PathToFiles); // общий путь
+                        DirectoryInfo dirInfo = new DirectoryInfo(PathToFiles);
                         
                         string[] subDirectory = tds[0].InnerText.Split("/");
                         dirInfo.CreateSubdirectory($"{subDirectory[0]}");
@@ -84,10 +80,10 @@ namespace EZParser
                                 if (!Directory.Exists("Excel"))
                                     dirInfo.CreateSubdirectory("Excel");
                             }
-                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/Excel/{linkName}"); // общий путь
+                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/Excel/{linkName}");
                         }
                         
-                        client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");  // общий путь
+                        client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");
 
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
