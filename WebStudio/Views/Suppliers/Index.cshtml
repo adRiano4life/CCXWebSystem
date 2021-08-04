@@ -19,23 +19,23 @@
     new {@class = "my-3 px-auto py-auto", @style = "border: 1px dotted lightslategrey; border-radius: 8px;"}))
 {
     <div class="form-inline form-group">
-        <div class="pt-3 pb-0 pl-2 text-center">
-            <div class="row d-flex justify-content-around align-items-baseline">
+        <div class="pt-3 pb-0 pl-2 mx-auto text-center">
+            <div class="d-flex justify-content-around align-items-baseline">
                 <div class="col-2 m-1 px-0 py-1 font-italic text-secondary font-weight-bold">
                     Поиск по:
                 </div>
-                <div class="col-3 m-1 px-0 py-1">
+                <div class="col-4 m-1 px-0 py-1">
                     <span class="font-13 font-italic text-secondary">поставщику</span>
                     @Html.TextBox("searchByName", ViewBag.searchByName as string, new {@class = "form-control form-control-sm font-italic font-11", @placeholder="полностью или частично"})
                     <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
 
-                <div class="col-3 m-1 px-0 py-1">
+                <div class="col-4 m-1 px-0 py-1">
                     <span class="font-13 font-italic text-secondary">тэгу</span>
                     @Html.TextBox("searchByTag", ViewBag.searchByTag as string, new {@class = "form-control form-control-sm font-italic font-11", @placeholder="полностью или частично"})
                     <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
-                <div class="col-3 m-1 py-1">
+                <div class="col-4 m-1 py-1">
                     <a asp-action="Index" asp-controller="Suppliers" asp-route-page="1" class="btn btn-outline-primary font-italic pl-3 text-primary font-13">
                         Сбросить параметры поиска
                     </a>
@@ -46,7 +46,7 @@
     </div>
 }
 
-<div class="row">
+<div class="row mt-3">
     <table class="table font-13">
         <theader>
             <tr>

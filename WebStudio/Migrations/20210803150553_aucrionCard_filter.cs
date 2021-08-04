@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WebStudio.Migrations
 {
-    public partial class init : Migration
+    public partial class aucrionCard_filter : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -559,11 +559,11 @@ namespace WebStudio.Migrations
                 columns: new[] { "Id", "Name", "Сourse" },
                 values: new object[,]
                 {
-                    { "e7861183-6dc8-4cf5-aad5-b0007c5352ca", "тенге", 1.0 },
-                    { "9dde8c46-5fb7-4460-a9b4-d32764b3d186", "рубль", 6.0 },
-                    { "7b217b45-4d03-41a6-9950-63ad4f824ff8", "доллар", 430.0 },
-                    { "e995d9bd-6da1-48f5-a29d-046b7c5e14c5", "евро", 490.0 },
-                    { "7a80031c-cd40-4193-9558-45c7b2d28ef8", "юань", 53.299999999999997 }
+                    { "8762a9b0-3143-4997-8eec-262bafb9312d", "тенге", 1.0 },
+                    { "22f5152b-e9bb-4aa7-8276-c57e13699c1d", "рубль", 6.0 },
+                    { "71d8d531-c9de-4cca-875f-86298d6f9353", "доллар", 430.0 },
+                    { "fa447b6f-b6e8-4746-a9f5-6100a851f13e", "евро", 490.0 },
+                    { "01db25e5-360f-48f4-a5b9-f3a78d730208", "юань", 53.299999999999997 }
                 });
 
             migrationBuilder.CreateIndex(

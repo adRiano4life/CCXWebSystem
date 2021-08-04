@@ -471,31 +471,31 @@ namespace WebStudio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e7861183-6dc8-4cf5-aad5-b0007c5352ca",
+                            Id = "8762a9b0-3143-4997-8eec-262bafb9312d",
                             Name = "тенге",
                             Сourse = 1.0
                         },
                         new
                         {
-                            Id = "9dde8c46-5fb7-4460-a9b4-d32764b3d186",
+                            Id = "22f5152b-e9bb-4aa7-8276-c57e13699c1d",
                             Name = "рубль",
                             Сourse = 6.0
                         },
                         new
                         {
-                            Id = "7b217b45-4d03-41a6-9950-63ad4f824ff8",
+                            Id = "71d8d531-c9de-4cca-875f-86298d6f9353",
                             Name = "доллар",
                             Сourse = 430.0
                         },
                         new
                         {
-                            Id = "e995d9bd-6da1-48f5-a29d-046b7c5e14c5",
+                            Id = "fa447b6f-b6e8-4746-a9f5-6100a851f13e",
                             Name = "евро",
                             Сourse = 490.0
                         },
                         new
                         {
-                            Id = "7a80031c-cd40-4193-9558-45c7b2d28ef8",
+                            Id = "01db25e5-360f-48f4-a5b9-f3a78d730208",
                             Name = "юань",
                             Сourse = 53.299999999999997
                         });

@@ -367,36 +367,44 @@ namespace WebStudio.Controllers
         
        [HttpGet]
        [Authorize]
-       public IActionResult AuctionCards(AuctionCardsViewModel model, string filterOrder, string executorName, int? page)
+       public IActionResult AuctionCards(AuctionCardsViewModel model, string cardStatus, string searchByCardNumber, string searchByCardName,
+           string searchByExecutor, int? page)
        {
            try
            {
                model.Cards = _db.HistoryOfVictoryAndLosing.ToList();
-               switch (filterOrder)
+               switch (cardStatus)
                {
                    case "All":
-                       model.Cards = model.Cards;
-                       ViewBag.filterOrder = filterOrder;
+                       model.Cards = _db.HistoryOfVictoryAndLosing.ToList();
                        break;
-                   case "Number":
-                       model.Cards = model.Cards.OrderBy(c => c.Number).ToList();
-                       ViewBag.filterOrder = filterOrder;
+                   case "winnerCard":
+                       model.Cards = model.Cards.Where(c=>c.CardState == CardState.Выиграна).ToList();
+                       ViewBag.cardStatus = cardStatus;
                        break;
-                   case "CardSummDesc":
-                       model.Cards = model.Cards.OrderByDescending(c => c.StartSumm).ToList();
-                       ViewBag.filterOrder = filterOrder;
-                       break;
-                   case "CardSummAsc":
-                       model.Cards = model.Cards.OrderBy(c => c.StartSumm).ToList();
-                       ViewBag.filterOrder = filterOrder;
+                   case "looserCard":
+                       model.Cards = model.Cards.Where(c => c.CardState == CardState.Проиграна).ToList();
+                       ViewBag.cardStatus = cardStatus;
                        break;
                }
 
-               if (executorName != null)
+               if (searchByCardNumber != null)
                {
-                   model.Cards = model.Cards.Where(c => c.Executor.Name.Contains(model.ExecutorName) 
-                                                        || c.Executor.Surname.Contains(model.ExecutorName)).ToList();
-                   ViewBag.executorName = executorName;
+                   model.Cards = model.Cards.Where(c => c.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
+                   ViewBag.searchByCardNumber = searchByCardNumber;
+               }
+               
+               if (searchByCardName != null)
+               {
+                   model.Cards = model.Cards.Where(c => c.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
+                   ViewBag.searchByCardName = searchByCardName;
+               }
+               
+               if (searchByExecutor != null)
+               {
+                   model.Cards = model.Cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower()) 
+                                                        || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower())).ToList();
+                   ViewBag.searchByExecutor = searchByExecutor;
                }
                int pageSize = 20;
                int pageNumber = (page ?? 1);
