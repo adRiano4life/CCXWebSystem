@@ -12,6 +12,7 @@ using NLog;
 using WebStudio.Models;
 using WebStudio.Services;
 using WebStudio.ViewModels;
+using X.PagedList;
 
 namespace WebStudio.Controllers
 {
@@ -38,7 +39,7 @@ namespace WebStudio.Controllers
 
         [HttpGet]
         public IActionResult Index(RequestIndexViewModel model, string searchByCardNumber, string searchByCardName, 
-            string searchByExecutor, DateTime searchDateFrom, DateTime searchDateTo)
+            string searchByExecutor, DateTime searchDateFrom, DateTime searchDateTo, int? page)
         {
             try
             {
@@ -71,11 +72,15 @@ namespace WebStudio.Controllers
                     model.Requests = model.Requests
                         .Where(r => r.DateOfCreate >= searchDateFrom && r.DateOfCreate <= searchDateTo)
                         .OrderBy(r => r.DateOfCreate).ToList();
+                    ViewBag.searchDateFrom = searchDateFrom;
+                    ViewBag.searchDateTo = searchDateTo;
                 }
 
                 _logger.Info("Открыта таблица поданных запросов поставщикам");
-                    
-                return View(model);
+                
+                int pageSize = 20;
+                int pageNumber = (page ?? 1);
+                return View(model.Requests.ToPagedList(pageNumber, pageSize));
             }
             catch (Exception e)
             {
