@@ -14,10 +14,6 @@
 <h2>Список запросов</h2>
 <div class="container">
   <a asp-controller="Requests" asp-action="CreateWithoutLot" class="font-italic">Добавить новый запрос</a>
-  @if (@Model.Requests.ToList().Count == 0)
-  {
-    <p>У вас нет запросов</p>
-  }
   @if (User.IsInRole("user"))
   {
     <form method="get" class="mt-3 mb-5" style="border: 1px dotted lightslategrey; border-radius: 8px;">
