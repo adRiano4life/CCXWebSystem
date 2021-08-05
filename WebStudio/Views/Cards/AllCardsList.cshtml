@@ -88,26 +88,28 @@ else
                 </div>
                 <div class="col-3 m-1 px-0 py-1 d-inline">
                   <span class="font-13 font-italic text-secondary">номеру лота</span>
-                  @* <input type="hidden" name="sort" value="@ViewBag.sort"> *@
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
                   <input type="text" name="searchByCardNumber" placeholder="на латинице" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
 
                 <div class="col-4 m-1 px-0 py-1">
                   <span class="font-13 font-italic text-secondary">названию лота</span>
-                  @* <input type="hidden" name="sort" value="@ViewBag.sort"> *@
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
                   <input type="text" name="searchByCardName" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
 
                 <div class="col-6 m-1 px-0 py-1">
                   <span class="font-13 font-italic text-secondary">позиции</span>
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
                   <input type="text" name="searchByPositionName" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
 
                 <div class="col-3 m-1 px-0 py-1">
                   <span class="font-13 font-italic text-secondary">исполнителю</span>
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
                   <input type="text" name="searchByExecutor" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
@@ -116,10 +118,12 @@ else
                   <span class="font-13 font-italic text-secondary">дате начала торгов</span>
                   <div class="m-3">
                     <span class="font-13 font-italic text-secondary">от</span>
+                    <input type="hidden" name="sort" value="@ViewBag.sort">
                     <input type="date" value="" name="searchDateFrom" class="form-control form-control-sm">
                   </div>
                   <div class="m-1">
                     <span class="font-13 font-italic text-secondary">до</span>
+                    <input type="hidden" name="sort" value="@ViewBag.sort">
                     <input type="date" value="" name="searchDateTo" class="form-control form-control-sm">
                   </div>
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
@@ -299,7 +303,13 @@ else
 
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
 <div class="row justify-content-center">
-  @Html.PagedListPager(Model, page =>Url.Action("AllCardsList", "Cards", new {page, ViewBag.sort, ViewBag.filter}), Bootstrap4PagedListRenderOptions.Classic)
+  @Html.PagedListPager(Model, page =>Url.Action("AllCardsList", "Cards", 
+    new
+    {
+      page, sort = ViewBag.sort, searchByCardNumber = ViewBag.searchByCardNumber, searchByCardName = ViewBag.searchByCardName,
+      searchByPositionName = ViewBag.searchByPositionName, searchByExecutor = ViewBag.searchByExecutor, searchDateFrom = ViewBag.searchDateFrom,
+      searchDateTo = ViewBag.searchDateTo
+    }), Bootstrap4PagedListRenderOptions.Classic)
 </div>
 
 @section Scripts

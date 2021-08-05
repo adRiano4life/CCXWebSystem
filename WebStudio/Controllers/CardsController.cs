@@ -274,7 +274,7 @@ namespace WebStudio.Controllers
         {
             try
             {
-                List<Card> cards = _db.Cards.ToList();
+                List<Card> cards = _db.Cards.OrderByDescending(c=>c.Number).ToList();
 
                 switch (sort)
                 {
@@ -282,39 +282,6 @@ namespace WebStudio.Controllers
                         cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderByDescending(c => c.Number)
                             .ToList();
                         ViewBag.sort = CardState.Новая;
-                        // if (searchByCardNumber != null)
-                        // {
-                        //     cards = cards.Where(c => c.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
-                        //     ViewBag.searchByCardNumber = searchByCardNumber;
-                        // }
-                        //
-                        // if (searchByCardName != null)
-                        // {
-                        //     cards = cards.Where(c => c.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
-                        //     ViewBag.searchByCardName = searchByCardName;
-                        // }
-                        //
-                        // if (searchByPositionName != null)
-                        // {
-                        //     cards = cards.Where(c =>
-                        //         c.Positions.Any(p => p.Name.ToLower().Contains(searchByPositionName.ToLower()))).ToList();
-                        //     ViewBag.searchByCardName = searchByPositionName;
-                        // }
-                        //
-                        // if (searchByExecutor != null)
-                        // {
-                        //     cards = _db.Cards.Where(c => c.CardState != CardState.Новая).ToList();
-                        //     cards = cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower())
-                        //                              || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower()))
-                        //         .ToList();
-                        // }
-                        //
-                        // if (searchDateFrom != null && searchDateTo != null && searchDateFrom != DateTime.MinValue && searchDateTo != DateTime.MinValue)
-                        // {
-                        //     cards = cards
-                        //         .Where(c => c.DateOfAcceptingEnd >= searchDateFrom && c.DateOfAcceptingEnd <= searchDateTo)
-                        //         .OrderBy(c => c.Number).ToList();
-                        // }
                         break;
 
                     case CardState.Удалена:
@@ -368,6 +335,7 @@ namespace WebStudio.Controllers
 
                 if (searchByCardNumber != null)
                 {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
                     cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderByDescending(c => c.Number)
                         .ToList();
                     cards = cards.Where(c => c.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
@@ -384,7 +352,7 @@ namespace WebStudio.Controllers
                 {
                     cards = cards.Where(c =>
                         c.Positions.Any(p => p.Name.ToLower().Contains(searchByPositionName.ToLower()))).ToList();
-                    ViewBag.searchByCardName = searchByPositionName;
+                    ViewBag.searchByPositionName = searchByPositionName;
                 }
                 
                 if (searchByExecutor != null)
@@ -393,13 +361,16 @@ namespace WebStudio.Controllers
                     cards = cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower())
                                              || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower()))
                         .ToList();
+                    ViewBag.searchByExecutor = searchByExecutor;
                 }
                 
                 if (searchDateFrom != null && searchDateTo != null && searchDateFrom != DateTime.MinValue && searchDateTo != DateTime.MinValue)
                 {
                     cards = cards
                         .Where(c => c.DateOfAcceptingEnd >= searchDateFrom && c.DateOfAcceptingEnd <= searchDateTo)
-                        .OrderBy(c => c.Number).ToList();
+                        .OrderBy(c => c.DateOfAcceptingEnd).ToList();
+                    ViewBag.searchDateFrom = searchDateFrom;
+                    ViewBag.searchDateTo = searchDateTo;
                 }
 
                 int pageSize = 20;
