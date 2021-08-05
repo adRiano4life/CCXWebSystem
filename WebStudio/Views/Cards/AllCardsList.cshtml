@@ -25,29 +25,61 @@ else
   <div>
     <div class="container pl-0 justify-content-between">
       <div class="row pt-3 pb-3 mb-4 ml-0 border-bottom">
-        
-        <form asp-controller="Cards" asp-action="AllCardsList" method="get" asp-route-sort="@ViewBag.sort">
-          <input hidden name="sort" value="@ViewBag.sort">
-          <select name="filter">
-            <option value="DateOfAcceptingEnd">Дата окончания приема заявок</option>
-            <option value="DateOfAuctionStart">Дата начала проведения торгов</option>
-            <option disabled>--------------------------------------</option>
-            @foreach (var user in _db.Users)
-            {
-              if (@user.Name != "admin")
-              {
-                <option value="@user.Id">@user.Name @user.Surname</option>
-              }
-            }
-          </select>
-
-          <span>c: </span>
-          <input type="date" name="from" placeholder="с">
-          <span> по: </span>
-          <input type="date" name="to" placeholder="по">
-          <input value="фильтровать" type="submit">
+        <form method="get" class="my-3 px-auto py-auto" style="border: 1px dotted lightslategrey; border-radius: 8px;">
+          <div class="form-inline form-group">
+            <div class="pt-3 pb-0 pl-5 text-center">
+              <div class="row d-flex justify-content-start align-items-baseline">
+                <div class="col-3 m-1 px-0 py-1 font-italic text-secondary font-weight-bold">
+                  Поиск по:
+                </div>
+                <div class="col-3 m-1 px-0 py-1 d-inline">
+                  <span class="font-13 font-italic text-secondary">номеру лота</span>
+                  @* <input type="hidden" name="sort" value="@ViewBag.sort"> *@
+                  <input type="text" name="searchByCardNumber" placeholder="на латинице" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                        
+                <div class="col-4 m-1 px-0 py-1">
+                  <span class="font-13 font-italic text-secondary">названию лота</span>
+                  @* <input type="hidden" name="sort" value="@ViewBag.sort"> *@
+                  <input type="text" name="searchByCardName" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                
+                <div class="col-6 m-1 px-0 py-1">
+                  <span class="font-13 font-italic text-secondary">позиции</span>
+                  <input type="text" name="searchByPositionName" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                
+                <div class="col-3 m-1 px-0 py-1">
+                  <span class="font-13 font-italic text-secondary">исполнителю</span>
+                  <input type="text" name="searchByExecutor" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                
+                <div class="col-7 m-1 pl-5 py-1 form-inline">
+                  <span class="font-13 font-italic text-secondary">дате начала торгов</span>
+                  <div class="m-3">
+                    <span class="font-13 font-italic text-secondary">от</span>
+                    <input type="date" value="" name="searchDateFrom" class="form-control form-control-sm">
+                  </div>
+                  <div class="m-1">
+                    <span class="font-13 font-italic text-secondary">до</span>
+                    <input type="date" value="" name="searchDateTo" class="form-control form-control-sm">
+                  </div>
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                <div class="col-4 m-1 py-1">
+                  <a asp-action="AllCardsList" asp-controller="Cards" asp-route-page="1" asp-route-sort="@ViewBag.sort" class="btn btn-outline-primary font-italic pl-3 text-primary font-13">
+                    Сбросить параметры поиска
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
-        
+
       </div>
     </div>
   </div>
