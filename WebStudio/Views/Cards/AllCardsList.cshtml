@@ -191,7 +191,7 @@ else
               @if (card.CardState == CardState.Новая && User.IsInRole("admin"))
               {
                 <div class="ml-auto" id="deleteCard">
-                  <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id" method="post">
+                  <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" asp-route-cardId="@card.Id" method="post">
                     <button type="submit" style="border:0px solid black; background-color: transparent; outline:none">
                       <i class="far fa-times-circle mr-3 mt-3" style="font-size: 25px; color: darkred; align-content: center" aria-hidden="true"></i>
                     </button>
@@ -268,19 +268,19 @@ else
                   {
                     if (card.LinkNames[i].Contains(".xlsx")) 
                     {
-                      <i class="far fa-file-excel text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-excel text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     else if (card.LinkNames[i].Contains(".docx"))
                     {
-                      <i class="far fa-file-word text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-word text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     else if (card.LinkNames[i].Contains(".pdf"))
                     {
-                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     else if (card.LinkNames[i].Contains(".jpg"))
                     {
-                      <i class="far fa-file-image text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-image text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     
                   }

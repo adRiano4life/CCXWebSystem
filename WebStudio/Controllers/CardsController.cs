@@ -90,38 +90,26 @@ namespace WebStudio.Controllers
         }
 
         
-        [HttpPost]
-        public async Task<IActionResult> DeleteCard(string cardId)
-        {
-            if (cardId != null)
-            {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-                if (card != null)
-                {
-                    _nLogger.Info($"Карта {card.Number} помечена на удаление.");
-                    _iLogger.Log(LogLevel.Information, $"Карта {card.Number} помечена на удаление.");
-                    
-                    card.CardState = CardState.Удалена;
-                    
-                    _db.Cards.Update(card);
-                    await _db.SaveChangesAsync();
-                    return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Новая});
-                }
-                return NotFound();
-            }
-
-            return NotFound();
-        }
-
+        
+        /// <summary>
+        /// Универсальный экшн по изменению сатусов у карточек
+        /// </summary>
+        /// <param name="model">Если запрос пришел из детальной информации карточки, такж там передается Id карточки.</param>
+        /// <param name="cardState">Данный параметр необходим для изменения статуса в нужный.</param>
+        /// <param name="bid">Параметр для значения при пройгранном тендере.</param>
+        /// <param name="cardId">Параметр приходит при удалении из общего списка карточек</param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangeCardStatus(DetailCardViewModel model, string cardState, int bid, string cardId)
         {
             try
             {
-                if (model.CardId != null) 
-                { 
-                    Card card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId); 
+                if (model.CardId != null || cardId != null)
+                {
+                    string id = model.CardId == null ? cardId : model.CardId;
+                    
+                    Card card = _db.Cards.FirstOrDefault(c => c.Id == id); 
                     if (card != null) 
                     { 
                         switch (cardState) 
@@ -218,7 +206,12 @@ namespace WebStudio.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Добавление файлов на детальной информации карточки 
+        /// </summary>
+        /// <param name="uploads">Загружаемый файл</param>
+        /// <param name="cardId">Айди карточки для прикрепления файла к искомой карточке</param>
+        /// <returns></returns>
         [HttpPost] 
         public async Task<IActionResult> AddFile(IFormFileCollection uploads, string cardId)
         {
@@ -479,6 +472,11 @@ namespace WebStudio.Controllers
            }
        }
 
+       
+       /// <summary>
+       /// Данный метод позволяет делать копию тех карточек которые участвовали в торгах и сохранять их БД.
+       /// </summary>
+       /// <param name="card">Параметр карточки для клонирования.</param>
        [NonAction]
        private void SaveCloneCard(Card card)
        {
