@@ -344,12 +344,14 @@ namespace WebStudio.Controllers
                 
                 if (searchByCardName != null)
                 {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
                     cards = cards.Where(c => c.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
                     ViewBag.searchByCardName = searchByCardName;
                 }
                 
                 if (searchByPositionName != null)
                 {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
                     cards = cards.Where(c =>
                         c.Positions.Any(p => p.Name.ToLower().Contains(searchByPositionName.ToLower()))).ToList();
                     ViewBag.searchByPositionName = searchByPositionName;
@@ -357,7 +359,8 @@ namespace WebStudio.Controllers
                 
                 if (searchByExecutor != null)
                 {
-                    cards = _db.Cards.Where(c => c.CardState != CardState.Новая).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == sort && c.CardState != CardState.Новая && c.CardState != CardState.Удалена)
+                        .OrderByDescending(c => c.Number).ToList();
                     cards = cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower())
                                              || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower()))
                         .ToList();
@@ -366,6 +369,7 @@ namespace WebStudio.Controllers
                 
                 if (searchDateFrom != null && searchDateTo != null && searchDateFrom != DateTime.MinValue && searchDateTo != DateTime.MinValue)
                 {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
                     cards = cards
                         .Where(c => c.DateOfAcceptingEnd >= searchDateFrom && c.DateOfAcceptingEnd <= searchDateTo)
                         .OrderBy(c => c.DateOfAcceptingEnd).ToList();
