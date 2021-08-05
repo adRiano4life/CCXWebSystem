@@ -23,8 +23,62 @@
 else
 {
   <div>
+    @if (ViewBag.sort == CardState.Новая)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Новые лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Проработка)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Лоты в работе</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.ПКО)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Лоты на ПКО</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Удалена)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Удаленные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Торги)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Лоты на торгах</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Выиграна)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Выигранные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Проиграна)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Проигранные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Активна)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Активные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Закрыта)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Закрытые лоты</h3>
+      </div>
+    }
     <div class="container pl-0 justify-content-between">
-      <div class="row pt-3 pb-3 mb-4 ml-0 border-bottom">
+      <div class="row pb-3 mb-4 ml-0 border-bottom">
         <form method="get" class="my-3 px-auto py-auto" style="border: 1px dotted lightslategrey; border-radius: 8px;">
           <div class="form-inline form-group">
             <div class="pt-3 pb-0 pl-5 text-center">
@@ -38,26 +92,26 @@ else
                   <input type="text" name="searchByCardNumber" placeholder="на латинице" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
-                        
+
                 <div class="col-4 m-1 px-0 py-1">
                   <span class="font-13 font-italic text-secondary">названию лота</span>
                   @* <input type="hidden" name="sort" value="@ViewBag.sort"> *@
                   <input type="text" name="searchByCardName" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
-                
+
                 <div class="col-6 m-1 px-0 py-1">
                   <span class="font-13 font-italic text-secondary">позиции</span>
                   <input type="text" name="searchByPositionName" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
-                
+
                 <div class="col-3 m-1 px-0 py-1">
                   <span class="font-13 font-italic text-secondary">исполнителю</span>
                   <input type="text" name="searchByExecutor" class="form-control form-control-sm font-italic font-11">
                   <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
                 </div>
-                
+
                 <div class="col-7 m-1 pl-5 py-1 form-inline">
                   <span class="font-13 font-italic text-secondary">дате начала торгов</span>
                   <div class="m-3">
