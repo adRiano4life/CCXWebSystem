@@ -1,15 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NLog;
 using WebStudio.Controllers;
+using WebStudio.Helpers;
 using WebStudio.Models;
 using WebStudio.Services;
 using Xunit;
@@ -19,11 +22,12 @@ namespace WebStudio.Tests
     public class OffersControllerTests
     {
         private FileUploadService _uploadService = new FileUploadService();
-        private IHostEnvironment _environment = new HostingEnvironment();
+        private IHostEnvironment hostEnv = new HostingEnvironment();
+        private IWebHostEnvironment _environment;
         private User _user = new User() { Email = "testUser@test.test"};
         private Card _card = new Card() { Name = "testCard", Number = "T-000/1"};
-        
-        
+
+
         [NonAction]
         private Offer ReturnNewOffer()
         {
@@ -79,8 +83,7 @@ namespace WebStudio.Tests
         {
             //Arrange
             var db = ReturnsWebStudioDbContext();
-            _environment.ContentRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
-            var controller = new OffersController(db);
+            var controller = new OffersController(db, _environment);
             int? page = 1;
             db.Users.Add(_user);
             db.Cards.Add(_card);
@@ -104,12 +107,13 @@ namespace WebStudio.Tests
             db.SaveChanges();
         }
         
+        
         [Fact]
         public void CreateOfferGetMethodTest()
         {
             //Arrange
             var db = ReturnsWebStudioDbContext();
-            var controller = new OffersController(db);
+            var controller = new OffersController(db, _environment);
             db.Cards.Add(_card);
             db.SaveChanges();
             db.Users.Add(_user);
@@ -135,8 +139,9 @@ namespace WebStudio.Tests
         {
             //Arrange
             var db = ReturnsWebStudioDbContext();
-            _environment.ContentRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
-            var controller = new OffersController(db);
+            //_environment.WebRootPath = "\\var\\www\\CCXWebSystem\\WebStudio\\";
+            _environment.WebRootPath = "D:\\csharp\\esdp\\app\\WebStudio\\wwwroot";
+            var controller = new OffersController(db, _environment);
             db.Cards.Add(_card);
             db.SaveChanges();
             db.Users.Add(_user);
@@ -163,6 +168,7 @@ namespace WebStudio.Tests
             db.Offers.Remove(bdresult);
             db.SaveChanges();
         }
+        
         
     }
 }

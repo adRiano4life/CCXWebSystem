@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@inject WebStudio.Models.WebStudioContext _db
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
 @model X.PagedList.IPagedList<WebStudio.Models.Offer>
@@ -10,7 +11,9 @@
     var count = 1;
     var positionCount = 1;
     var cardNumber = "";
-    var codTNVED = "";    
+    var codTNVED = "";
+    string calculation = "calculation";
+    string recalculation = "recalculation";
 }
 <div class="mt-4 mb-2 d-flex justify-content-center align-items-baseline">
     <h3>@ViewBag.Title</h3>
@@ -84,7 +87,8 @@
                     <td colspan="2">@offer.DateOfIssue.ToShortDateString()</td>
                     <td colspan="2">@offer.Number</td>
                     <td colspan="2">@offer.Note</td>
-                    <td colspan="2"><a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
+                    <td colspan="2">
+                    <a asp-controller="Offers" asp-action="DownloadFile" asp-route-path="@offer.Path" 
                                        asp-route-fileName="@offer.FileName" class="py-0">КП @offer.SupplierName</a><br>
                         @if (UserManager.FindByIdAsync(@offer.UserId).Result != null)
                         {
@@ -116,7 +120,15 @@
                                 <td class="py-1">@op.Amount</td>
                                 <td class="py-1">@op.UnitPrice</td>
                                 <td class="py-1">@op.TotalPrice</td>
-                                <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-positionId="@op.Id" target="_blank">Добавить расчет</a> </td>
+                                @if (_db.InfoResultsOfferPositions.Any(x => x.OfferId == offer.Id && x.PositionId == op.Id))
+                                {
+                                    <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-offerId="@offer.Id" asp-route-positionId="@op.Id" asp-route-value="@recalculation" target="_blank">Пересчитать</a> </td>
+                                    <td> <a asp-controller="Calculations" asp-action="GetInfoResultOfferPosition" asp-route-offerId="@offer.Id" asp-route-positionId="@op.Id" target="_blank">Подробнее</a> </td>
+                                }
+                                else
+                                {
+                                    <td colspan="2"> <a asp-controller="Calculations" asp-action="AddCalculation" asp-route-offerId="@offer.Id" asp-route-positionId="@op.Id" asp-route-value="@calculation" target="_blank">Добавить расчет</a> </td>
+                                }
                             </tr>
                         }
                         </tbody>

@@ -4,7 +4,7 @@
 @model X.PagedList.IPagedList<CardClone>
 
 @{
-    ViewBag.Title = "База проведенных торгов";
+    ViewBag.Title = "Архив результатов участия на торгах";
     Layout = "_Layout";
 }
 
@@ -12,26 +12,50 @@
     var count = 1;
 }
 
-<h2>База проведенных торгов</h2>
+<div class="mt-4 mb-2 d-flex justify-content-center align-items-baseline">
+    <h2>Архив результатов участия на торгах</h2>
+</div>
 <div class="container">
-    <div class="col-md-12">
-        <form method="get" class="mt-3 mb-5" style="border: 1px dotted lightslategrey; border-radius: 8px;">
-            <div class="form-inline form-group justify-content-center">
-                <div class="m-3">
-                    <label class="control-label">Фильтровать по </label>
-                    <select name="filterOrder" id="filterOrder">
-                        <option value="All">По умолчанию</option>
-                        <option value="Number">Номер лота</option>
-                        <option value="CardSummDesc">Сумма лота по убыванию</option>
-                        <option value="CardSummAsc">Сумма лота по возрастанию</option>
-                    </select>
-                </div>
-                <div class="m-3">
-                    <label class="control-label">Фильтровать по ответственному</label>
-                    <input class="control-label col-xl-12" type="text" name="executorName" placeholder="Введите имя или фамилию">
-                </div>
-                <div class="my-auto pt-3">
-                    <input type="submit" class="btn btn-outline-primary" value="Отфильтровать">
+    <form method="get" class="my-3 px-auto py-auto" style="border: 1px dotted lightslategrey; border-radius: 8px;">
+            <div class="form-inline form-group">
+                <div class="pt-3 pb-0 pl-5 text-center">
+                    <div class="row d-flex justify-content-start align-items-baseline">
+                        <div class="col-3 m-1 px-0 py-1 font-italic text-secondary font-weight-bold">
+                            Поиск по:
+                        </div>
+                        <div class="col-3 m-1 px-0 py-1 d-inline">
+                            <span class="font-13 font-italic text-secondary">номеру лота</span>
+                            <input type="text" name="searchByCardNumber" placeholder="на латинице" class="form-control form-control-sm font-italic font-11">
+                            <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                
+                        <div class="col-4 m-1 px-0 py-1">
+                            <span class="font-13 font-italic text-secondary">названию лота</span>
+                            <input type="text" name="searchByCardName" class="form-control form-control-sm font-italic font-11">
+                            <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                
+                        <div class="col-4 m-1 px-0 py-1">
+                            <span class="font-13 font-italic text-secondary">ответственному</span>
+                            <input type="text" name="searchByExecutor" class="form-control form-control-sm">
+                            <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                
+                        <div class="col-3 m-1 px-0 py-1">
+                            <span class="font-13 font-italic text-secondary">статусу</span>
+                            <select name="cardStatus" id="filterOrder">
+                                <option value="All">Все</option>
+                                <option value="winnerCard">Выиграна</option>
+                                <option value="looserCard">Проиграна</option>
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                        <div class="col-4 m-1 py-1">
+                            <a asp-action="AuctionCards" asp-controller="Cards" asp-route-page="1" class="btn btn-outline-primary font-italic pl-3 text-primary font-13">
+                                Сбросить параметры поиска
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -62,7 +86,7 @@
                         <td>
                             <form>
                                 <input type="hidden" id="cardId" value="@card.Id">
-                                <a type="button" data-toggle="modal" data-target="#addCommentForm" class="font-italic">Добавить комментарий</a>
+                                <a type="button" data-toggle="modal" data-target="#addCommentForm" class="font-italic" style="color: #0366d6">Добавить комментарий</a>
                             </form>
                         </td>
                     }
@@ -101,11 +125,11 @@
             </div>
         </div>
     </div>
-</div>
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount </p>
 <div class="row justify-content-center">
     @Html.PagedListPager(Model, page => Url.Action("AuctionCards", "Cards", 
-        new { page, filterOrder = ViewBag.filterOrder, executorName = ViewBag.executorName }), Bootstrap4PagedListRenderOptions.Classic)
+        new { page, cardStatus = ViewBag.cardStatus, searchByCardNumber = ViewBag.searchByCardNumber, 
+            searchByCardName = ViewBag.searchByCardName, searchByExecutor = ViewBag.searchByExecutor }), Bootstrap4PagedListRenderOptions.Classic)
 </div>
 
 @section Scripts

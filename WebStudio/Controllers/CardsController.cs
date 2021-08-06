@@ -90,38 +90,26 @@ namespace WebStudio.Controllers
         }
 
         
-        [HttpPost]
-        public async Task<IActionResult> DeleteCard(string cardId)
-        {
-            if (cardId != null)
-            {
-                Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
-                if (card != null)
-                {
-                    _nLogger.Info($"Карта {card.Number} помечена на удаление.");
-                    _iLogger.Log(LogLevel.Information, $"Карта {card.Number} помечена на удаление.");
-                    
-                    card.CardState = CardState.Удалена;
-                    
-                    _db.Cards.Update(card);
-                    await _db.SaveChangesAsync();
-                    return RedirectToAction("AllCardsList", "Cards", new {sort = CardState.Новая});
-                }
-                return NotFound();
-            }
-
-            return NotFound();
-        }
-
+        
+        /// <summary>
+        /// Универсальный экшн по изменению сатусов у карточек
+        /// </summary>
+        /// <param name="model">Если запрос пришел из детальной информации карточки, такж там передается Id карточки.</param>
+        /// <param name="cardState">Данный параметр необходим для изменения статуса в нужный.</param>
+        /// <param name="bid">Параметр для значения при пройгранном тендере.</param>
+        /// <param name="cardId">Параметр приходит при удалении из общего списка карточек</param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangeCardStatus(DetailCardViewModel model, string cardState, int bid, string cardId)
         {
             try
             {
-                if (model.CardId != null) 
-                { 
-                    Card card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId); 
+                if (model.CardId != null || cardId != null)
+                {
+                    string id = model.CardId == null ? cardId : model.CardId;
+                    
+                    Card card = _db.Cards.FirstOrDefault(c => c.Id == id); 
                     if (card != null) 
                     { 
                         switch (cardState) 
@@ -132,7 +120,7 @@ namespace WebStudio.Controllers
                                 
                                 card.CardState = CardState.Проработка;
                                 card.ExecutorId = model.UserId;
-                                card.Executor = await _userManager.FindByIdAsync(model.UserId);
+                                card.Executor =  _userManager.FindByIdAsync(model.UserId).Result;
                                 card.DateOfProcessingEnd = model.Card.DateOfProcessingEnd;
                                 card.DateOfAuctionStartUpdated = model.Card.DateOfAuctionStartUpdated;
                                 break;
@@ -218,7 +206,12 @@ namespace WebStudio.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Добавление файлов на детальной информации карточки 
+        /// </summary>
+        /// <param name="uploads">Загружаемый файл</param>
+        /// <param name="cardId">Айди карточки для прикрепления файла к искомой карточке</param>
+        /// <returns></returns>
         [HttpPost] 
         public async Task<IActionResult> AddFile(IFormFileCollection uploads, string cardId)
         {
@@ -284,83 +277,112 @@ namespace WebStudio.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public IActionResult AllCardsList(int? page, DateTime? from, DateTime? to, string filter, CardState sort)
+        public IActionResult AllCardsList(int? page, CardState sort, string searchByCardNumber, 
+            string searchByCardName, string searchByPositionName, string searchByExecutor, DateTime searchDateFrom, DateTime searchDateTo)
         {
             try
             {
-                List<Card> cards = new List<Card>();
+                List<Card> cards = _db.Cards.OrderByDescending(c=>c.Number).ToList();
 
                 switch (sort)
                 {
                     case CardState.Новая:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.Новая;
                         break;
 
                     case CardState.Удалена:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Удалена).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Удалена).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.Удалена;
                         break;
 
                     case CardState.Проработка:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Проработка).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Проработка)
+                            .OrderByDescending(c => c.Number).ToList();
                         ViewBag.sort = CardState.Проработка;
                         break;
 
                     case CardState.ПКО:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.ПКО;
                         break;
 
                     case CardState.Торги:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Торги).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Торги).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.Торги;
                         break;
 
                     case CardState.Выиграна:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Выиграна).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Выиграна).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.Выиграна;
                         break;
 
                     case CardState.Проиграна:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Проиграна).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Проиграна)
+                            .OrderByDescending(c => c.Number).ToList();
                         ViewBag.sort = CardState.Проиграна;
                         break;
 
                     case CardState.Активна:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Активна).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Активна).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.Активна;
                         break;
 
                     case CardState.Закрыта:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Закрыта).OrderByDescending(c => c.Number).ToList();
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Закрыта).OrderByDescending(c => c.Number)
+                            .ToList();
                         ViewBag.sort = CardState.Закрыта;
                         break;
                 }
 
-                if (filter != null)
+                if (searchByCardNumber != null)
                 {
-                    switch (filter)
-                    {
-                        case "DateOfAcceptingEnd":
-                            if (from != null || to != null)
-                            {
-                                cards = cards.Where(c => c.DateOfAcceptingEnd >= from && c.DateOfAcceptingEnd <= to).ToList();
-                            }
-                            break;
-
-                        case "DateOfAuctionStart":
-                            if (from != null || to != null)
-                            {
-                                cards = cards.Where(c => c.DateOfAuctionStart >= from && c.DateOfAuctionStart <= to).ToList();
-                            }
-                            break;
-
-                        default:
-                            cards = cards.Where(c => c.ExecutorId == filter).ToList();
-                            ViewBag.filter = filter;
-                            break;
-                    }
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderByDescending(c => c.Number)
+                        .ToList();
+                    cards = cards.Where(c => c.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
+                    ViewBag.searchByCardNumber = searchByCardNumber;
+                }
+                
+                if (searchByCardName != null)
+                {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
+                    cards = cards.Where(c => c.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
+                    ViewBag.searchByCardName = searchByCardName;
+                }
+                
+                if (searchByPositionName != null)
+                {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
+                    cards = cards.Where(c =>
+                        c.Positions.Any(p => p.Name.ToLower().Contains(searchByPositionName.ToLower()))).ToList();
+                    ViewBag.searchByPositionName = searchByPositionName;
+                }
+                
+                if (searchByExecutor != null)
+                {
+                    cards = _db.Cards.Where(c => c.CardState == sort && c.CardState != CardState.Новая && c.CardState != CardState.Удалена)
+                        .OrderByDescending(c => c.Number).ToList();
+                    cards = cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower())
+                                             || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower()))
+                        .ToList();
+                    ViewBag.searchByExecutor = searchByExecutor;
+                }
+                
+                if (searchDateFrom != null && searchDateTo != null && searchDateFrom != DateTime.MinValue && searchDateTo != DateTime.MinValue)
+                {
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
+                    cards = cards
+                        .Where(c => c.DateOfAcceptingEnd >= searchDateFrom && c.DateOfAcceptingEnd <= searchDateTo)
+                        .OrderBy(c => c.DateOfAcceptingEnd).ToList();
+                    ViewBag.searchDateFrom = searchDateFrom;
+                    ViewBag.searchDateTo = searchDateTo;
                 }
 
                 int pageSize = 20;
@@ -382,36 +404,44 @@ namespace WebStudio.Controllers
         
        [HttpGet]
        [Authorize]
-       public IActionResult AuctionCards(AuctionCardsViewModel model, string filterOrder, string executorName, int? page)
+       public IActionResult AuctionCards(AuctionCardsViewModel model, string cardStatus, string searchByCardNumber, string searchByCardName,
+           string searchByExecutor, int? page)
        {
            try
            {
                model.Cards = _db.HistoryOfVictoryAndLosing.ToList();
-               switch (filterOrder)
+               switch (cardStatus)
                {
                    case "All":
-                       model.Cards = model.Cards;
-                       ViewBag.filterOrder = filterOrder;
+                       model.Cards = _db.HistoryOfVictoryAndLosing.ToList();
                        break;
-                   case "Number":
-                       model.Cards = model.Cards.OrderBy(c => c.Number).ToList();
-                       ViewBag.filterOrder = filterOrder;
+                   case "winnerCard":
+                       model.Cards = model.Cards.Where(c=>c.CardState == CardState.Выиграна).ToList();
+                       ViewBag.cardStatus = cardStatus;
                        break;
-                   case "CardSummDesc":
-                       model.Cards = model.Cards.OrderByDescending(c => c.StartSumm).ToList();
-                       ViewBag.filterOrder = filterOrder;
-                       break;
-                   case "CardSummAsc":
-                       model.Cards = model.Cards.OrderBy(c => c.StartSumm).ToList();
-                       ViewBag.filterOrder = filterOrder;
+                   case "looserCard":
+                       model.Cards = model.Cards.Where(c => c.CardState == CardState.Проиграна).ToList();
+                       ViewBag.cardStatus = cardStatus;
                        break;
                }
 
-               if (executorName != null)
+               if (searchByCardNumber != null)
                {
-                   model.Cards = model.Cards.Where(c => c.Executor.Name.Contains(model.ExecutorName) 
-                                                        || c.Executor.Surname.Contains(model.ExecutorName)).ToList();
-                   ViewBag.executorName = executorName;
+                   model.Cards = model.Cards.Where(c => c.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
+                   ViewBag.searchByCardNumber = searchByCardNumber;
+               }
+               
+               if (searchByCardName != null)
+               {
+                   model.Cards = model.Cards.Where(c => c.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
+                   ViewBag.searchByCardName = searchByCardName;
+               }
+               
+               if (searchByExecutor != null)
+               {
+                   model.Cards = model.Cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower()) 
+                                                        || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower())).ToList();
+                   ViewBag.searchByExecutor = searchByExecutor;
                }
                int pageSize = 20;
                int pageNumber = (page ?? 1);
@@ -425,6 +455,11 @@ namespace WebStudio.Controllers
            }
        }
 
+       
+       /// <summary>
+       /// Данный метод позволяет делать копию тех карточек которые участвовали в торгах и сохранять их БД.
+       /// </summary>
+       /// <param name="card">Параметр карточки для клонирования.</param>
        [NonAction]
        private void SaveCloneCard(Card card)
        {
@@ -515,7 +550,7 @@ namespace WebStudio.Controllers
                            Id = comment.Id,
                            Message = comment.Message,
                        };
-                       return View(model);
+                       return View("ChangeComment", model);
                    }
 
                    return NotFound();

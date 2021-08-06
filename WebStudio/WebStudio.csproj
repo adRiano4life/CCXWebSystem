@@ -34,12 +34,7 @@
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Migrations\20210604090656_Initial.cs" />
-      <Compile Remove="Migrations\20210604090656_Initial.Designer.cs" />
-      <Compile Remove="Migrations\20210614082416_Initial.cs" />
-      <Compile Remove="Migrations\20210614082416_Initial.Designer.cs" />
-    </ItemGroup>
+    
 
     <ItemGroup>
       <None Update="C:\Users\fifax\.nuget\packages\nlog.config\4.7.10\contentFiles\any\any\NLog.config">

@@ -25,6 +25,12 @@ namespace WebStudio.Models
         
         public DbSet<Offer> Offers { get; set; }
         
+        public DbSet<InputData> InputDatas { get; set; }
+        
+        public DbSet<ResultsInputData> ResultsInputDatas { get; set; }
+        
+        public DbSet<InfoResultsOfferPosition> InfoResultsOfferPositions { get; set; }
+        
         public WebStudioContext(DbContextOptions options) : base(options)
         {
             
@@ -39,11 +45,6 @@ namespace WebStudio.Models
             modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "доллар", Сourse = 430});
             modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "евро", Сourse = 490});
             modelBuilder.Entity<Currency>().HasData(new Currency(){Name = "юань", Сourse = 53.30});
-            
         }
-
-
     }
-    
-    
 }

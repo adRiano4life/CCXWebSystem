@@ -118,8 +118,7 @@ namespace WebStudio.Controllers
                 if (ModelState.IsValid)
                 {
                     string cardNumber = offer.CardNumber.Substring(0, offer.CardNumber.IndexOf('/'));
-                    
-                    //string dirFiles = AppCredentials.PathToFiles;
+
                     string dirFiles = _environment.WebRootPath + "/Files";
                     DirectoryInfo dirFilesInfo = new DirectoryInfo(dirFiles);
                     foreach (var dir in dirFilesInfo.GetDirectories())
@@ -150,16 +149,10 @@ namespace WebStudio.Controllers
                             await upFile.CopyToAsync(fileStream);
                         }
 
-                        FileModel file = new FileModel 
-                        {
-                            Name = upFile.FileName, 
-                            Path = offerPath, 
-                            CardId = offer.CardId, 
-                            Card = offer.Card
-                        };
-                        
+                        FileModel file = new FileModel {Name = upFile.FileName, Path = offerPath, 
+                            CardId = offer.CardId, Card = offer.Card};
                         _db.Files.Add(file);
-                        offer.Path = file.Path;
+                        offer.Path = offerPath;
                         offer.FileName = file.Name;
                     }
 

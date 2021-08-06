@@ -13,6 +13,7 @@ using NLog;
 using WebStudio.Models;
 using WebStudio.Services;
 using WebStudio.ViewModels;
+using X.PagedList;
 
 namespace WebStudio.Controllers
 {
@@ -38,41 +39,49 @@ namespace WebStudio.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(RequestIndexViewModel model, string filterOrder)
+        public IActionResult Index(RequestIndexViewModel model, string searchByCardNumber, string searchByCardName, 
+            string searchByExecutor, DateTime searchDateFrom, DateTime searchDateTo, int? page)
         {
             try
             {
                 model.Requests = _db.Requests.ToList();
-                switch (filterOrder)
+
+                if (searchByCardNumber != null)
                 {
-                    case "DateOfCreate":
-                        model.Requests = model.Requests
-                            .Where(r => r.DateOfCreate >= model.DateFrom && r.DateOfCreate <= model.DateTo)
-                            .OrderBy(r=>r.DateOfCreate).ToList();
-                        break;
-                    case "DateOfAcceptingEnd":
-                        model.Requests = model.Requests
-                            .Where(r => r.Card.DateOfAcceptingEnd >= model.DateFrom &&
-                                        r.Card.DateOfAcceptingEnd <= model.DateTo)
-                            .OrderBy(r => r.Card.DateOfAcceptingEnd).ToList();
-                        break;
-                    case "DateOfAuctionStart":
-                        model.Requests = model.Requests
-                            .Where(r => r.Card.DateOfAuctionStart >= model.DateFrom &&
-                                        r.Card.DateOfAuctionStart <= model.DateTo)
-                            .OrderBy(r => r.Card.DateOfAuctionStart).ToList();
-                        break;
+                    model.Requests = model.Requests
+                        .Where(r => r.Card.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
+                    ViewBag.searchByCardNumber = searchByCardNumber;
                 }
 
-                if (model.ExecutorName != null)
+                if (searchByCardName != null)
+                {
+                    model.Requests = model.Requests
+                        .Where(r => r.Card.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
+                    ViewBag.searchByCardName = searchByCardName;
+                }
+
+                if (searchByExecutor != null)
                 {
                     model.Requests = model.Requests.Where(r =>
-                        r.Card.Executor.Surname.Contains(model.ExecutorName)).ToList();
+                        r.Executor.Name.ToLower().Contains(searchByExecutor.ToLower())
+                        || r.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower())).ToList();
+                    ViewBag.searchByExecutor = searchByExecutor;
                 }
-                
+
+                if (searchDateFrom != null && searchDateTo != null && searchDateFrom != DateTime.MinValue && searchDateTo != DateTime.MinValue)
+                {
+                    model.Requests = model.Requests
+                        .Where(r => r.DateOfCreate >= searchDateFrom && r.DateOfCreate <= searchDateTo)
+                        .OrderBy(r => r.DateOfCreate).ToList();
+                    ViewBag.searchDateFrom = searchDateFrom;
+                    ViewBag.searchDateTo = searchDateTo;
+                }
+
                 _logger.Info("Открыта таблица поданных запросов поставщикам");
-                    
-                return View(model);
+                
+                int pageSize = 20;
+                int pageNumber = (page ?? 1);
+                return View(model.Requests.ToPagedList(pageNumber, pageSize));
             }
             catch (Exception e)
             {
@@ -485,7 +494,7 @@ namespace WebStudio.Controllers
                     return suppliers;
                 }
             
-                suppliers = _db.Suppliers.Where(s => s.Tags.Contains(supplierSearchHash) || s.Name.Contains(supplierSearchHash)).ToList();
+                suppliers = _db.Suppliers.Where(s => s.Tags.Contains(supplierSearchHash) || s.Name.ToLower().Contains(supplierSearchHash.ToLower())).ToList();
                 return suppliers;
             }
             catch (Exception e)

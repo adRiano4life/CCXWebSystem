@@ -23,31 +23,121 @@
 else
 {
   <div>
+    @if (ViewBag.sort == CardState.Новая)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Новые лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Проработка)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Лоты в работе</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.ПКО)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Предварительный квалификационный отбор</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Удалена)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Удаленные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Торги)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Лоты на торгах</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Выиграна)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Выигранные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Проиграна)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Проигранные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Активна)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Активные лоты</h3>
+      </div>
+    }
+    @if (ViewBag.sort == CardState.Закрыта)
+    {
+      <div class="mt-3 d-flex justify-content-center align-items-baseline">
+        <h3>Закрытые лоты</h3>
+      </div>
+    }
     <div class="container pl-0 justify-content-between">
-      <div class="row pt-3 pb-3 mb-4 ml-0 border-bottom">
-        
-        <form asp-controller="Cards" asp-action="AllCardsList" method="get" asp-route-sort="@ViewBag.sort">
-          <input hidden name="sort" value="@ViewBag.sort">
-          <select name="filter">
-            <option value="DateOfAcceptingEnd">Дата окончания приема заявок</option>
-            <option value="DateOfAuctionStart">Дата начала проведения торгов</option>
-            <option disabled>--------------------------------------</option>
-            @foreach (var user in _db.Users)
-            {
-              if (@user.Name != "admin")
-              {
-                <option value="@user.Id">@user.Name @user.Surname</option>
-              }
-            }
-          </select>
+      <div class="row pb-3 mb-4 ml-0 border-bottom">
+        <form method="get" class="my-3 px-auto py-auto" style="border: 1px dotted lightslategrey; border-radius: 8px;">
+          <div class="form-inline form-group">
+            <div class="pt-3 pb-0 pl-5 text-center">
+              <div class="row d-flex justify-content-start align-items-baseline">
+                <div class="col-3 m-1 px-0 py-1 font-italic text-secondary font-weight-bold">
+                  Поиск по:
+                </div>
+                <div class="col-3 m-1 px-0 py-1 d-inline">
+                  <span class="font-13 font-italic text-secondary">номеру лота</span>
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
+                  <input type="text" name="searchByCardNumber" placeholder="на латинице" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
 
-          <span>c: </span>
-          <input type="date" name="from" placeholder="с">
-          <span> по: </span>
-          <input type="date" name="to" placeholder="по">
-          <input value="фильтровать" type="submit">
+                <div class="col-4 m-1 px-0 py-1">
+                  <span class="font-13 font-italic text-secondary">названию лота</span>
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
+                  <input type="text" name="searchByCardName" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-6 m-1 px-0 py-1">
+                  <span class="font-13 font-italic text-secondary">позиции</span>
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
+                  <input type="text" name="searchByPositionName" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-3 m-1 px-0 py-1">
+                  <span class="font-13 font-italic text-secondary">исполнителю</span>
+                  <input type="hidden" name="sort" value="@ViewBag.sort">
+                  <input type="text" name="searchByExecutor" class="form-control form-control-sm font-italic font-11">
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+
+                <div class="col-7 m-1 pl-5 py-1 form-inline">
+                  <span class="font-13 font-italic text-secondary">дате начала торгов</span>
+                  <div class="m-3">
+                    <span class="font-13 font-italic text-secondary">от</span>
+                    <input type="hidden" name="sort" value="@ViewBag.sort">
+                    <input type="date" value="" name="searchDateFrom" class="form-control form-control-sm">
+                  </div>
+                  <div class="m-1">
+                    <span class="font-13 font-italic text-secondary">до</span>
+                    <input type="hidden" name="sort" value="@ViewBag.sort">
+                    <input type="date" value="" name="searchDateTo" class="form-control form-control-sm">
+                  </div>
+                  <button type="submit" class="btn btn-outline-primary py-1 font-13 border-primary"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+                <div class="col-4 m-1 py-1">
+                  <a asp-action="AllCardsList" asp-controller="Cards" asp-route-page="1" asp-route-sort="@ViewBag.sort" class="btn btn-outline-primary font-italic pl-3 text-primary font-13">
+                    Сбросить параметры поиска
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
-        
+
       </div>
     </div>
   </div>
@@ -105,7 +195,7 @@ else
               @if (card.CardState == CardState.Новая && User.IsInRole("admin"))
               {
                 <div class="ml-auto" id="deleteCard">
-                  <form asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="@card.Id" method="post">
+                  <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" asp-route-cardId="@card.Id" method="post">
                     <button type="submit" style="border:0px solid black; background-color: transparent; outline:none">
                       <i class="far fa-times-circle mr-3 mt-3" style="font-size: 25px; color: darkred; align-content: center" aria-hidden="true"></i>
                     </button>
@@ -182,19 +272,19 @@ else
                   {
                     if (card.LinkNames[i].Contains(".xlsx")) 
                     {
-                      <i class="far fa-file-excel text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-excel text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     else if (card.LinkNames[i].Contains(".docx"))
                     {
-                      <i class="far fa-file-word text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-word text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     else if (card.LinkNames[i].Contains(".pdf"))
                     {
-                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     else if (card.LinkNames[i].Contains(".jpg"))
                     {
-                      <i class="far fa-file-image text-secondary"></i><a href="@card.Links[i]">@card.LinkNames[i]</a><br>
+                      <i class="far fa-file-image text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
                     }
                     
                   }
@@ -213,7 +303,13 @@ else
 
 <p class="text-center">Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
 <div class="row justify-content-center">
-  @Html.PagedListPager(Model, page =>Url.Action("AllCardsList", "Cards", new {page, ViewBag.sort, ViewBag.filter}), Bootstrap4PagedListRenderOptions.Classic)
+  @Html.PagedListPager(Model, page =>Url.Action("AllCardsList", "Cards", 
+    new
+    {
+      page, sort = ViewBag.sort, searchByCardNumber = ViewBag.searchByCardNumber, searchByCardName = ViewBag.searchByCardName,
+      searchByPositionName = ViewBag.searchByPositionName, searchByExecutor = ViewBag.searchByExecutor, searchDateFrom = ViewBag.searchDateFrom,
+      searchDateTo = ViewBag.searchDateTo
+    }), Bootstrap4PagedListRenderOptions.Classic)
 </div>
 
 @section Scripts
