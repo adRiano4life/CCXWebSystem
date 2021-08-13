@@ -102,8 +102,11 @@ namespace WebStudio.Controllers
                     string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
                     if (model.File != null)
                     {
-                        avatarPath = $"/Images/Avatars/{model.File.FileName}";
-                        _uploadService.Upload(path, model.File.FileName, model.File);
+                        if (model.File.FileName.Contains(".jpg") || model.File.FileName.Contains(".png"))
+                        {
+                            avatarPath = $"/Images/Avatars/{model.File.FileName}";
+                            _uploadService.Upload(path, model.File.FileName, model.File);
+                        }
                     }
 
                     model.AvatarPath = avatarPath;

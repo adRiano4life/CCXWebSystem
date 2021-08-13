@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using Microsoft.AspNetCore.Http;
 
 namespace WebStudio.ViewModels
@@ -17,7 +18,8 @@ namespace WebStudio.ViewModels
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Электронная почта")]
-        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес электронной почты")]
+        [EmailAddress (ErrorMessage = "Некорректный адрес")]
         public string Email { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
@@ -25,12 +27,14 @@ namespace WebStudio.ViewModels
         [DataType(DataType.Text)]
         public string PhoneNumber { get; set; }
         public string AvatarPath { get; set; }
+        
         public IFormFile File { get; set; }
         
         
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Пароль")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])\S{1,16}$", ErrorMessage = "В пароле должны присутствовать заглавные, прописные буквы и цифры")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         
