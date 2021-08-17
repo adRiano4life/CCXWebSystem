@@ -2,7 +2,30 @@
 	
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="E:\csharp\ESDP\CCXWebSystem\EZParser\bin\Debug\net5.0\Npgsql.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Пользователь\.nuget\packages\gembox.spreadsheet\47.0.1207\lib\netcoreapp3.1\GemBox.Spreadsheet.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0395b32b_002D50f2_002D448e_002D9062_002Da554ffecaf26/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=03c94b8d_002D63f1_002D43ce_002Db79f_002Dff020892d5db/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="IndexSupplierTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.IndexSupplierTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9bd0c95e_002Ddb86_002D4c67_002Dab08_002D90f5c0ec0b38/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoginCorrectDataReturnsSuccessAuth" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e327ae49_002Df00b_002D46b4_002Dbb67_002Db5cb784118fd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IndexSupplierTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.SuppliersControllerTests.IndexSupplierTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	
@@ -16,11 +39,12 @@
 	
 	
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e6893bc5_002D6209_002D423c_002Daff1_002D1e2c2541c498/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CardsControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e6893bc5_002D6209_002D423c_002Daff1_002D1e2c2541c498/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CardsControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.CardsControllerTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.AccountControllerTests.RegisterNewUser&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.AccountControllerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::AB0DD439-9150-489C-8157-FCB9A84BB476::net5.0::WebStudio.Tests.UserAuthTest.LoginCorrectDataReturnsSuccessAuth&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
