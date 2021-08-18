@@ -85,24 +85,6 @@ namespace EZParser
                         stringLinks.Add(stringLink);
                         linkNames.Add(linkName);
                     }
-                    
-                    /* Код для конвертации на сервере */
-
-                    // string startSumString = tds[2].InnerText.Trim();
-                    // startSumString = startSumString.Replace(" ", "");
-                    // startSumString = startSumString.Replace(",", ".");
-                    // Console.WriteLine(startSumString);
-                    // bool result = decimal.TryParse(startSumString, out decimal sumResult);
-                    // Console.WriteLine(sumResult);
-                    
-                    // string[] datestrings = tds[3].InnerText.Split(".");
-                    // string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
-                    // DateTime acceptingEnd = Convert.ToDateTime(date);
-                    //
-                    // string[] auctionDates = tds[4].InnerText.Split(".");
-                    // string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
-                    // DateTime auctionEnd = Convert.ToDateTime(auctiondate);
-
 
                     Card card = new Card
                     {
