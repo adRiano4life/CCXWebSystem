@@ -53,30 +53,6 @@ namespace WebStudio.Tests
             db.SaveChangesAsync();
         }
 
-
-        [Fact]
-        public void DeleteCardPostMethodTest()
-        {
-            //Arrange
-            var db = ReturnsWebStudioDbContext();
-            var controller = new CardsController(db, _userManager, _appEnvironment, _iLogger);
-            db.Users.Add(_user);
-            db.Cards.Add(_card);
-            db.SaveChanges();
-            
-            //Act
-            /*var taskResult = controller.DeleteCard(cardId: _card.Id);*/
-            var bdResult = db.Cards.FirstOrDefault(c => c.Id == _card.Id);
-
-            //Assert
-            /*Assert.NotNull(taskResult);*/
-            Assert.Equal(bdResult?.CardState, _card.CardState);
-            db.Users.Remove(_user);
-            db.Cards.Remove(_card);
-            db.SaveChangesAsync();
-        }
-
-        
         [Fact]
         public async Task ChangeCardStatusFromNewToProcessPostMethodTest()
         {
