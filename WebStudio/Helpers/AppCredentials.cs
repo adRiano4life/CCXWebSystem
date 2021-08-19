@@ -29,6 +29,13 @@ namespace WebStudio.Helpers
             var appConfig = builder.Build();
             return appConfig.GetValue<string>("EmailCredentials:Email");
         };
+        
+        public static readonly Func<string> SetAdminEmailName = () =>
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var appConfig = builder.Build();
+            return appConfig.GetValue<string>("EmailCredentials:AdminEmail");
+        };
 
         public static readonly Func<string> SetEmailPassword = () =>
         {
@@ -40,6 +47,7 @@ namespace WebStudio.Helpers
         public static readonly string DefaultConnection = SetConnection();
         public static readonly string PathToFiles = SetPath();
         public static readonly string EmailName = SetEmailName();
+        public static readonly string AdminEmailName = SetAdminEmailName();
         public static readonly string EmailPassword = SetEmailPassword();
     }
 }
