@@ -15,7 +15,7 @@
   <p class="text-danger font-weight-bold border-danger">Просрочено!</p>
 }
 
-@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
   <div class="d-flex align-items-end mt-2">
     <form asp-controller="Cards" asp-action="ChangeCardStatus" asp-route-cardState="Выиграна" method="post">

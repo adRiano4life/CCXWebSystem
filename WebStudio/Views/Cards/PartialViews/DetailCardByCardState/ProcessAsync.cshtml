@@ -16,7 +16,7 @@
   <p class="text-danger font-weight-bold border-danger">Просрочено!</p>  
 }
 
-@if (User.IsInRole("admin"))
+@if (User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
   <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Проработка" method="post">
     <div class="form-group">
@@ -69,7 +69,7 @@ else
   </div>
 }
 
-@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
   <div class="row container form-group">
     <a asp-action="Create" asp-controller="Requests" asp-route-cardId="@Model.Card.Id"

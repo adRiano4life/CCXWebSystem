@@ -192,7 +192,10 @@ else
                   text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
-              @if (card.CardState == CardState.Новая && User.IsInRole("admin"))
+              @if (card.CardState == CardState.Новая && User.IsInRole("admin") 
+                   || card.CardState == CardState.Проработка && User.IsInRole("admin")
+                   || card.CardState == CardState.Новая && User.IsInRole("superadmin")
+                   || card.CardState == CardState.Проработка && User.IsInRole("superadmin"))
               {
                 <div class="ml-auto" id="deleteCard">
                   <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" asp-route-cardId="@card.Id" method="post">

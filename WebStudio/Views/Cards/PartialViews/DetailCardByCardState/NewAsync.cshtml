@@ -10,7 +10,7 @@
 
 <p class="card-text mb-2" id="lin"><span class="badge badge-success">@Model.Card.CardState</span></p>
 
-@if (User.IsInRole("admin"))
+@if (User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
   <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Проработка" method="post">
     <div class="form-group">
