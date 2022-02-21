@@ -52,7 +52,7 @@ namespace WebStudio.Controllers
                     if (user != null)
                     {
                         IndexUsersViewModel model = new IndexUsersViewModel{User = user};
-                        if (User.IsInRole("admin"))
+                        if (User.IsInRole("admin") || User.IsInRole("superadmin"))
                         {
                             model.Users = _db.Users.ToList();
                         }
