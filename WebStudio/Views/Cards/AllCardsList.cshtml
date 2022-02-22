@@ -1,12 +1,15 @@
 ﻿@using WebStudio.Enums
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
+@using System.Globalization
 @model X.PagedList.IPagedList<WebStudio.Models.Card>
 @inject WebStudioContext _db
 
 @{
     ViewBag.Title = "Карточки";
     Layout = "_Layout";
+
+    var culture = new CultureInfo("ru-RU");
 }
 
 
@@ -261,7 +264,7 @@ else
                   }
                 </p>
                 <p class="card-text mb-4">@card.Initiator</p>
-                <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>
+                <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm.ToString("#,#", @culture)</p>
                 <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @card.DateOfAcceptingEnd.ToLongDateString() @card.DateOfAcceptingEnd.ToShortTimeString()</p>
                 <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @card.DateOfAuctionStart.ToLongDateString() @card.DateOfAuctionStart.ToShortTimeString()</p>
               </div>
