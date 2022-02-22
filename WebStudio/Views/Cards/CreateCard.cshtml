@@ -1,0 +1,118 @@
+﻿@model WebStudio.ViewModels.CreateCardViewModel
+
+@{
+    ViewBag.Title = "Создание карточки";
+    Layout = "_Layout";
+
+    var count = 1;
+}
+
+<div class="container justify-content-center">
+    <div class="col-md-12 pt-3 pb-4 shadow">
+        <div class="mt-3 mb-3 d-flex justify-content-center align-items-baseline">
+            <h3>Создание карточки</h3>
+        </div>
+        <form asp-action="CreateCard" asp-controller="Cards" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Number"></label>
+                <input class="form-control" asp-for="Number" placeholder="Введите номер лота">
+                <span asp-validation-for="Number"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" placeholder="Введите название лота">
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Initiator"></label>
+                <input class="form-control" asp-for="Initiator" placeholder="Введите инициатора лота">
+                <span asp-validation-for="Initiator"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfAcceptingEnd"></label>
+                <input class="form-control" asp-for="DateOfAcceptingEnd" type="date" value="">
+                <span asp-validation-for="DateOfAcceptingEnd"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfAuctionStart"></label>
+                <input class="form-control" asp-for="DateOfAuctionStart" type="date" value="">
+                <span asp-validation-for="DateOfAuctionStart"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuctionType"></label>
+                <input class="form-control" asp-for="AuctionType" placeholder="Введите тип торгов">
+                <span asp-validation-for="AuctionType"></span>
+            </div>
+            @* <div class="form-group form-inline"> *@
+            @*     <label class="font-weight-bold mr-3">Позиции:</label> *@
+            @*     <a type="button" data-toggle="modal" data-target="#addPositionForm" class="font-italic" style="color: #0366d6"> *@
+            @*         (Добавить позицию) *@
+            @*     </a> *@
+            @* </div> *@
+            <div class="form-group">
+                <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                <input type="file" asp-for="Files">
+            </div>
+            <div class="form-group">
+                <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                <input type="file" asp-for="Files">
+            </div>
+            <div class="form-group">
+                <label asp-for="Files" class="font-weight-bold">Прикрепить файл:</label>
+                <input type="file" asp-for="Files">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-outline-primary" value="Создать">
+            </div>
+        </form>
+        
+        @* <div class="modal fade" id="addPositionForm"> *@
+        @*     <div class="modal-dialog" role="document"> *@
+        @*         <div class="modal-content"> *@
+        @*             <div class="modal-header"> *@
+        @*                 <h5 class="modal-title text-uppercase" id="editModalLabel">Добавить позицию</h5> *@
+        @*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ReloadAjax()"> *@
+        @*                     <span aria-hidden="true">&times;</span> *@
+        @*                 </button> *@
+        @*             </div> *@
+        @*             <div class="modal-body"> *@
+        @*                 <form id="form"> *@
+        @*                     <div class="form-group"> *@
+        @*                         <label for="positionNumberInput">Порядковый номер</label> *@
+        @*                         <input disabled type="text" class="form-control" id="number" value="@(count++)" placeholder="Порядковый номер"> *@
+        @*                     </div> *@
+        @*                     <div class="form-group"> *@
+        @*                         <label for="codTNVEDInput">Код ТНВЭД</label> *@
+        @*                         <input type="text" class="form-control" id="codTNVED" placeholder="Код ТНВЭД"> *@
+        @*                     </div> *@
+        @*                     <div class="form-group"> *@
+        @*                         <label for="nameInput">Название</label> *@
+        @*                         <input type="text" class="form-control" id="name" placeholder="Название"> *@
+        @*                     </div> *@
+        @*                     <div class="form-group"> *@
+        @*                         <label for="measureInput">Единица измерения</label> *@
+        @*                         <input type="text" class="form-control" id="measure" placeholder="Единица измерения"> *@
+        @*                     </div> *@
+        @*                     <div class="form-group"> *@
+        @*                         <label for="amountInput">Количество</label> *@
+        @*                         <input type="text" class="form-control" id="amount" placeholder="Количество"> *@
+        @*                     </div> *@
+        @*                     <div class="form-group"> *@
+        @*                         <label for="deliveryTermsInput">Условия поставки</label> *@
+        @*                         <input type="text" class="form-control" id="deliveryTerms" placeholder="Условия поставки"> *@
+        @*                     </div> *@
+        @*                     <input type="hidden" id="cardId" value="@Model.Card.Id"> *@
+        @*                     <button type="button" *@
+        @*                             class="btn btn-outline-primary" id="done" onclick="AddPositionAjax()">Добавить</button> *@
+        @*                 </form> *@
+        @*                 <div class="modal-body add-position-success" id="success"> *@
+        @*                     <h4>Добавлено!</h4> *@
+        @*                     <i class="check-custom fas fa-check"></i> *@
+        @*                 </div> *@
+        @*             </div> *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </div> *@
+    </div>
+</div>

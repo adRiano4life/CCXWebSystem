@@ -31,6 +31,9 @@ else
       <div class="mt-3 d-flex justify-content-center align-items-baseline">
         <h3>Новые лоты</h3>
       </div>
+      <div class="mb-3 d-flex justify-content-center align-items-baseline">
+        <a asp-controller="Cards" asp-action="CreateCard" class="font-italic">Добавить новую карточку</a>
+      </div>
     }
     @if (ViewBag.sort == CardState.Проработка)
     {

@@ -89,8 +89,150 @@ namespace WebStudio.Controllers
             
         }
 
-        
-        
+        [HttpGet]
+        public IActionResult CreateCard()
+        {
+            try
+            {
+                CreateCardViewModel model = new CreateCardViewModel();
+                _nLogger.Info($"Сформирована форма создания карточки");
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCard(CreateCardViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Card card = new Card
+                    {
+                        Number = model.Number,
+                        Name = model.Name,
+                        DateOfAcceptingEnd = model.DateOfAcceptingEnd,
+                        DateOfAuctionStart = model.DateOfAuctionStart,
+                        Initiator = model.Initiator,
+                        Auction = model.AuctionType
+                    };
+
+                    _db.Cards.Add(card);
+                    await _db.SaveChangesAsync();
+                    _nLogger.Info($"Карточка {card.Number} по лоту {card.Name} успешно создана");
+
+                    if (model.Files != null)
+                    {
+                        foreach (var file in model.Files)
+                        {
+                            if (!Directory.Exists(_appEnvironment.WebRootPath + $"/Files/{card.Number}"))
+                            {
+                                Directory.CreateDirectory(_appEnvironment.WebRootPath + $"/Files/{card.Number}");
+                            }
+
+                            string path = $"/Files/{card.Number}" + file.FileName;
+                            using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                            }
+
+                            FileModel fileModel = new FileModel
+                            {
+                                Name = file.FileName,
+                                Path = path,
+                                CardId = card.Id,
+                                Card = card
+                            };
+
+                            _db.Files.Add(fileModel);
+                            _nLogger.Info($"К карточке {card.Number} прикреплен файл {file.FileName}");
+                        }
+                        _db.Cards.Update(card);
+                        await _db.SaveChangesAsync();
+                    }
+
+                    return RedirectToAction("DetailCard2", "Cards", new {cardId = card.Id});
+                }
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult CreatePosition(string cardId)
+        {
+            try
+            {
+                if (cardId != null)
+                {
+                    Card card = _db.Cards.FirstOrDefault(c => c.Id == cardId);
+                    CreatePositionViewModel model = new CreatePositionViewModel
+                    {
+                        Card = card
+                    };
+                    return View(model);
+                }
+
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                _nLogger.Error($"Внимание ошибка: {e.Message} => {e.StackTrace}");
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePosition(CreatePositionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Card card = _db.Cards.FirstOrDefault(c => c.Id == model.CardId);
+                if (card != null)
+                {
+                    CardPosition position = new CardPosition
+                    {
+                        Name = model.Name,
+                        Measure = model.Measure,
+                        Amount = model.Amount,
+                        UnitPrice = model.UnitPrice,
+                        TotalPrice = model.UnitPrice * (decimal)model.Amount,
+                        DeliveryTime = model.DeliveryTime,
+                        DeliveryTerms = model.DeliveryTerms,
+                        CardId = model.CardId,
+                        Card = card
+                    };
+
+                    _db.Positions.Add(position);
+                    await _db.SaveChangesAsync();
+                    _nLogger.Info($"Добавлена позиция {position.Name} к карточке {card.Number}");
+                    
+                    card.StartSumm += position.TotalPrice;
+
+                    _db.Cards.Update(card);
+                    await _db.SaveChangesAsync();
+                    _nLogger.Info($"Обновлена информация по стартовой сумме карточки {card.Number}");
+
+                    return RedirectToAction("DetailCard2", "Cards", new { cardId = card.Id });
+                }
+
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+
         /// <summary>
         /// Универсальный экшн по изменению сатусов у карточек
         /// </summary>

@@ -41,14 +41,13 @@
       <p class="card-text mb-4" id="lin">
         <span class="card-files row ml-0">
           <span class="mr-5">
-            @for (int i = 0; i < Model.Card.Links.Count; i++)
+            @if (Model.Card.Links != null)
             {
-              <i class="@(Model.Card.LinkNames[i].Contains(".xlsx") ? "far fa-file-excel" : 
-                          Model.Card.LinkNames[i].Contains(".docx") ? "far fa-file-word" : 
-                            Model.Card.LinkNames[i].Contains(".pdf") ? "far fa-file-pdf" : 
-                              Model.Card.LinkNames[i].Contains(".jpg") ? "far fa-file-image" : 
-                                "far fa-file") text-secondary"></i>
-              <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              for (int i = 0; i < Model.Card.Links.Count; i++)
+              {
+                <i class="@(Model.Card.LinkNames[i].Contains(".xlsx") ? "far fa-file-excel" : Model.Card.LinkNames[i].Contains(".docx") ? "far fa-file-word" : Model.Card.LinkNames[i].Contains(".pdf") ? "far fa-file-pdf" : Model.Card.LinkNames[i].Contains(".jpg") ? "far fa-file-image" : "far fa-file") text-secondary"></i>
+                <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+              }
             }
           </span>
           <span class="d-flex align-items-baseline">
@@ -71,21 +70,26 @@
         </span>
       </p>
       
+      <div class="form-group d-inline-block">
+        <a asp-action="CreatePosition" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="font-italic">Добавить позицию</a>
+      </div>
       @if (Model.Card.Positions.Count() > 0)
       {
         <table class="table font-10">
-          <tr>
-            <th>№</th>
-            <th>Код ТНВЭД</th>
-            <th>Наименование</th>
-            <th>Ед.изм.</th>
-            <th>Кол-во</th>
-            <th>Валюта</th>
-            <th>Старт.цена за ед.товара</th>
-            <th>Стартовая стоимость</th>
-            <th>Срок поставки</th>
-            <th>Условия поставки</th>
-          </tr>
+          <thead class="thead-light">
+            <tr>
+              <th>№</th>
+              <th>Код ТНВЭД</th>
+              <th>Наименование</th>
+              <th>Ед.изм.</th>
+              <th>Кол-во</th>
+              <th>Валюта</th>
+              <th>Старт.цена за ед.товара</th>
+              <th>Стартовая стоимость</th>
+              <th>Срок поставки</th>
+              <th>Условия поставки</th>
+            </tr>
+          </thead>
           @foreach (var position in Model.Card.Positions)
           {
             <tr>
