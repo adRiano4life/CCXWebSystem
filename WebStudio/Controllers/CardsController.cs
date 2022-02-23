@@ -130,13 +130,13 @@ namespace WebStudio.Controllers
                     {
                         foreach (var file in model.Files)
                         {
-                            if (!Directory.Exists(_appEnvironment.WebRootPath + $"/Files/{card.Number}"))
+                            if (!Directory.Exists(_environment.WebRootPath + $"/Files/{card.Number}"))
                             {
-                                Directory.CreateDirectory(_appEnvironment.WebRootPath + $"/Files/{card.Number}");
+                                Directory.CreateDirectory(_environment.WebRootPath + $"/Files/{card.Number}");
                             }
 
                             string path = $"/Files/{card.Number}" + file.FileName;
-                            using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                            using (var fileStream = new FileStream(_environment.WebRootPath + path, FileMode.Create))
                             {
                                 await file.CopyToAsync(fileStream);
                             }
