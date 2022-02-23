@@ -49,4 +49,10 @@
       </None>
     </ItemGroup>
 
+    
+
+    <ItemGroup>
+      <Compile Remove="Migrations\WebStudioContextModelSnapshot.cs" />
+    </ItemGroup>
+
 </Project>

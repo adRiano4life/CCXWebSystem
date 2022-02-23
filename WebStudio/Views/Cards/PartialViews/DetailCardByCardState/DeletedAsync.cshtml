@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
 
-@if (User.IsInRole("admin"))
+@if (User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
     <p class="card-text mb-2" id="lin"><span class="badge badge-danger">@Model.Card.CardState</span></p>
     <div class="form-group">

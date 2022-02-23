@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebStudio.Models;
@@ -10,9 +11,10 @@ using WebStudio.Models;
 namespace WebStudio.Migrations
 {
     [DbContext(typeof(WebStudioContext))]
-    partial class WebStudioContextModelSnapshot : ModelSnapshot
+    [Migration("20211123055553_add_filter")]
+    partial class add_filter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -471,31 +473,31 @@ namespace WebStudio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "eb16f76c-f459-47be-be19-c7600f539132",
+                            Id = "db80b40e-a347-4764-b2c6-68e121a7d488",
                             Name = "тенге",
                             Сourse = 1.0
                         },
                         new
                         {
-                            Id = "2f1b104f-e571-48e1-81a3-9c458cdd0727",
+                            Id = "0f2911f0-40da-4fb6-b181-23dbd57af05e",
                             Name = "рубль",
                             Сourse = 6.0
                         },
                         new
                         {
-                            Id = "6226290c-f225-402c-a5fc-f2d146854469",
+                            Id = "cca438f8-f1ae-4d62-b395-1c6ccb8c35e3",
                             Name = "доллар",
                             Сourse = 430.0
                         },
                         new
                         {
-                            Id = "fe55a0bb-3e5f-44d0-b5ca-ccade14c9c06",
+                            Id = "e71707c2-dddd-436c-9337-e5bd0e52ff26",
                             Name = "евро",
                             Сourse = 490.0
                         },
                         new
                         {
-                            Id = "136579b4-eb70-49b3-960f-295c8a8a0ac2",
+                            Id = "da6ac755-3c81-4b60-a0dd-e55132aef980",
                             Name = "юань",
                             Сourse = 53.299999999999997
                         });

@@ -1,12 +1,15 @@
 ﻿@using WebStudio.Enums
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
+@using System.Globalization
 @model X.PagedList.IPagedList<WebStudio.Models.Card>
 @inject WebStudioContext _db
 
 @{
     ViewBag.Title = "Карточки";
     Layout = "_Layout";
+
+    var culture = new CultureInfo("ru-RU");
 }
 
 
@@ -27,6 +30,9 @@ else
     {
       <div class="mt-3 d-flex justify-content-center align-items-baseline">
         <h3>Новые лоты</h3>
+      </div>
+      <div class="mb-3 d-flex justify-content-center align-items-baseline">
+        <a asp-controller="Cards" asp-action="CreateCard" class="font-italic">Добавить новую карточку</a>
       </div>
     }
     @if (ViewBag.sort == CardState.Проработка)
@@ -192,7 +198,10 @@ else
                   text-white"><h5 class="card-title">@card.Number @card.Name.Substring(0, 1).ToUpper()@card.Name.Substring(1)</h5></div>
               </a>
               
-              @if (card.CardState == CardState.Новая && User.IsInRole("admin"))
+              @if (card.CardState == CardState.Новая && User.IsInRole("admin") 
+                   || card.CardState == CardState.Проработка && User.IsInRole("admin")
+                   || card.CardState == CardState.Новая && User.IsInRole("superadmin")
+                   || card.CardState == CardState.Проработка && User.IsInRole("superadmin"))
               {
                 <div class="ml-auto" id="deleteCard">
                   <form asp-action="ChangeCardStatus" asp-controller="Cards" asp-route-cardState="Удалена" asp-route-cardId="@card.Id" method="post">
@@ -257,43 +266,13 @@ else
                     }
                   }
                 </p>
-                
                 <p class="card-text mb-4">@card.Initiator</p>
-                <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm</p>
+                <p class="card-text mb-0" id="lin"><b>Стартовая сумма:</b> @card.StartSumm.ToString("#,#", @culture)</p>
                 <p class="card-text mb-0" id="lin"><b>Дата окончания приема заявок:</b> @card.DateOfAcceptingEnd.ToLongDateString() @card.DateOfAcceptingEnd.ToShortTimeString()</p>
                 <p class="card-text mb-0" id="lin"><b>Дата и время начала торгов:</b> @card.DateOfAuctionStart.ToLongDateString() @card.DateOfAuctionStart.ToShortTimeString()</p>
-                <p class="card-text mb-0" id="lin"><b>Брокер:</b> @card.Broker</p>
-                <p class="card-text mb-0" id="lin"><b>Аукцион:</b> @card.Auction</p>
-                <p class="card-text mb-0" id="lin"><b>Статус / Участники:</b> @card.State</p>
-                <p class="card-text mb-3" id="lin"><b>Лучшая текущая цена (тг):</b> @card.BestPrice</p>
-                <p class="card-text mb-0" id="lin">
-                
-                  @for (int i = 0; i < card.Links.Count; i++)
-                  {
-                    if (card.LinkNames[i].Contains(".xlsx")) 
-                    {
-                      <i class="far fa-file-excel text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
-                    }
-                    else if (card.LinkNames[i].Contains(".docx"))
-                    {
-                      <i class="far fa-file-word text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
-                    }
-                    else if (card.LinkNames[i].Contains(".pdf"))
-                    {
-                      <i class="far fa-file-pdf text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
-                    }
-                    else if (card.LinkNames[i].Contains(".jpg"))
-                    {
-                      <i class="far fa-file-image text-secondary"></i><a href="@card.Links[i]"> @card.LinkNames[i]</a><br>
-                    }
-                    
-                  }
-                
-                </p>
               </div>
             </div>
           </div>
-        
         }
       </div>
     </div>

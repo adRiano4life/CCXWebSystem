@@ -36,6 +36,13 @@ namespace WebStudio.Helpers
             var appConfig = builder.Build();
             return appConfig.GetValue<string>("EmailCredentials:AdminEmailOffice");
         };
+        
+        public static readonly Func<string> SetAdminEmailName = () =>
+        {
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+            var appConfig = builder.Build();
+            return appConfig.GetValue<string>("EmailCredentials:AdminEmail");
+        };
 
         public static readonly Func<string> SetEmailPassword = () =>
         {

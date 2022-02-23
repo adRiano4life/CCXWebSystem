@@ -21,7 +21,7 @@ namespace WebStudio.Services
             string userEmail3 = "user3@user.com";
             string userPassword3 = "12345Aa";
 
-            var roles = new[] {"admin", "user"};
+            var roles = new[] {"admin", "user", "superadmin"};
 
             foreach (var role in roles)
             {
@@ -46,7 +46,7 @@ namespace WebStudio.Services
                 var result = await userManager.CreateAsync(admin, adminPassword);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "admin");
+                    await userManager.AddToRoleAsync(admin, "superadmin");
                 }
             }
 

@@ -48,10 +48,7 @@
                 
                 <a type="button" class="@customProps" asp-controller="Cards" asp-action="AllCardsList" 
                    asp-route-sort="@CardState.Удалена">Удаленные </a>
-                
-                <a type="button" class="@customProps" asp-controller="AuctionResults" asp-action="Index">
-                    <span>Результаты торгов с сайта биржи </span><span class="badge badge-secondary"> @auctionRes </span></a>
-                
+
                 <a type="button" class="@customProps" asp-controller="Cards" asp-action="AuctionCards">
                     <span>Архив результатов участия на торгах </span><span class="badge badge-secondary"> @historyRes </span></a>
                 

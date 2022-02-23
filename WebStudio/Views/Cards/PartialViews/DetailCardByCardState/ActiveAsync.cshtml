@@ -5,7 +5,7 @@
 
 <p class="card-text mb-2" id="lin"><span class="badge text-white bg-violet">@Model.Card.CardState</span></p>
 
-@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin"))
+@if (Model.Card.ExecutorId == UserManager.GetUserId(User) || User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
     <div class="mr-3">
         <form asp-controller="Cards" asp-action="AddFile" asp-route-cardId="@Model.Card.Id" method="post" enctype="multipart/form-data">
