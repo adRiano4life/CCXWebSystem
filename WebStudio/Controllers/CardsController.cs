@@ -416,12 +416,12 @@ namespace WebStudio.Controllers
         {
             try
             {
-                List<Card> cards = _db.Cards.OrderBy(c=>c.Number).ToList();
+                List<Card> cards = _db.Cards.OrderBy(c=>c.DateOfAcceptingEnd).ToList();
 
                 switch (sort)
                 {
                     case CardState.Новая:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderBy(c => c.Number)
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderBy(c => c.DateOfAcceptingEnd)
                             .ToList();
                         ViewBag.sort = CardState.Новая;
                         break;
@@ -434,18 +434,18 @@ namespace WebStudio.Controllers
 
                     case CardState.Проработка:
                         cards = _db.Cards.Where(c => c.CardState == CardState.Проработка)
-                            .OrderBy(c => c.Number).ToList();
+                            .OrderBy(c => c.DateOfAcceptingEnd).ToList();
                         ViewBag.sort = CardState.Проработка;
                         break;
 
                     case CardState.ПКО:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).OrderBy(c => c.Number)
+                        cards = _db.Cards.Where(c => c.CardState == CardState.ПКО).OrderBy(c => c.DateOfAcceptingEnd)
                             .ToList();
                         ViewBag.sort = CardState.ПКО;
                         break;
 
                     case CardState.Торги:
-                        cards = _db.Cards.Where(c => c.CardState == CardState.Торги).OrderBy(c => c.Number)
+                        cards = _db.Cards.Where(c => c.CardState == CardState.Торги).OrderBy(c => c.DateOfAcceptingEnd)
                             .ToList();
                         ViewBag.sort = CardState.Торги;
                         break;
@@ -477,8 +477,8 @@ namespace WebStudio.Controllers
 
                 if (searchByCardNumber != null)
                 {
-                    cards = _db.Cards.Where(c => c.CardState == sort).OrderBy(c => c.Number).ToList();
-                    cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderBy(c => c.Number)
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderBy(c => c.DateOfAcceptingEnd).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == CardState.Новая).OrderBy(c => c.DateOfAcceptingEnd)
                         .ToList();
                     cards = cards.Where(c => c.Number.ToLower().Contains(searchByCardNumber.ToLower())).ToList();
                     ViewBag.searchByCardNumber = searchByCardNumber;
@@ -486,14 +486,14 @@ namespace WebStudio.Controllers
                 
                 if (searchByCardName != null)
                 {
-                    cards = _db.Cards.Where(c => c.CardState == sort).OrderBy(c => c.Number).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderBy(c => c.DateOfAcceptingEnd).ToList();
                     cards = cards.Where(c => c.Name.ToLower().Contains(searchByCardName.ToLower())).ToList();
                     ViewBag.searchByCardName = searchByCardName;
                 }
                 
                 if (searchByPositionName != null)
                 {
-                    cards = _db.Cards.Where(c => c.CardState == sort).OrderBy(c => c.Number).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderBy(c => c.DateOfAcceptingEnd).ToList();
                     cards = cards.Where(c =>
                         c.Positions.Any(p => p.Name.ToLower().Contains(searchByPositionName.ToLower()))).ToList();
                     ViewBag.searchByPositionName = searchByPositionName;
@@ -502,7 +502,7 @@ namespace WebStudio.Controllers
                 if (searchByExecutor != null)
                 {
                     cards = _db.Cards.Where(c => c.CardState == sort && c.CardState != CardState.Новая && c.CardState != CardState.Удалена)
-                        .OrderBy(c => c.Number).ToList();
+                        .OrderBy(c => c.DateOfAcceptingEnd).ToList();
                     cards = cards.Where(c => c.Executor.Name.ToLower().Contains(searchByExecutor.ToLower())
                                              || c.Executor.Surname.ToLower().Contains(searchByExecutor.ToLower()))
                         .ToList();
@@ -511,7 +511,7 @@ namespace WebStudio.Controllers
                 
                 if (searchDateFrom != null && searchDateTo != null && searchDateFrom != DateTime.MinValue && searchDateTo != DateTime.MinValue)
                 {
-                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.Number).ToList();
+                    cards = _db.Cards.Where(c => c.CardState == sort).OrderByDescending(c => c.DateOfAcceptingEnd).ToList();
                     cards = cards
                         .Where(c => c.DateOfAcceptingEnd >= searchDateFrom && c.DateOfAcceptingEnd <= searchDateTo)
                         .OrderBy(c => c.DateOfAcceptingEnd).ToList();
