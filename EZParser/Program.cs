@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
@@ -45,8 +46,8 @@ namespace EZParser
 
                 using WebStudioContext _db = new WebStudioContext(options);
                 
-                var url = @"https://info.ccx.kz/ru/announcement?per-page=100";
-                
+                var url = @"https://ccx.kz/aukcion";
+
                 HtmlWeb web = new HtmlWeb();
 
                 var docAllPosition = web.Load(url);
@@ -71,22 +72,41 @@ namespace EZParser
                         
                         string[] subDirectory = tds[0].InnerText.Split("/");
                         dirInfo.CreateSubdirectory($"{subDirectory[0]}");
-                        string stringLink = $"{@link.Attributes[0].Value}";
+                        string stringLink = $"{link.Attributes[0].Value}";
                         string linkName = link.InnerText.Trim();
-                        if (link.InnerText.Contains(".xlsx") && link.InnerText.Contains("Приложение"))
+                        foreach (var dir in dirInfo.GetDirectories())
                         {
-                            foreach (var dir in dirInfo.GetDirectories())
-                            {
-                                if (!Directory.Exists("Excel"))
-                                    dirInfo.CreateSubdirectory("Excel");
-                            }
-                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/Excel/{linkName}");
+                            if (!Directory.Exists("Excel"))
+                                dirInfo.CreateSubdirectory("Excel");
                         }
-                        
-                        client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");
 
-                        stringLinks.Add(stringLink);
-                        linkNames.Add(linkName);
+                        if (!Directory.EnumerateFiles($"{dirInfo}/{subDirectory[0]}", "*.*", SearchOption.AllDirectories).Any())
+                        {
+                            client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");  // общий путь
+                        
+                            ZipFile.ExtractToDirectory(@$"{dirInfo}/{subDirectory[0]}/{linkName}", $"{dirInfo}/{subDirectory[0]}");
+                            string[] allFiles = Directory.GetFiles(@$"{dirInfo}/{subDirectory[0]}");
+                            File.Delete(@$"{dirInfo}/{subDirectory[0]}/Скачать");
+                            DirectoryInfo subDirInfo = new DirectoryInfo(@$"{dirInfo}/{subDirectory[0]}");
+                        
+                            foreach (FileInfo file in subDirInfo.GetFiles("*.xlsx"))
+                            {
+                                if (Directory.Exists(@$"{dirInfo}/Excel/{file.Name}"))
+                                {
+                                    File.Copy(file.FullName, @$"{dirInfo}/Excel/{file.Name}");
+                                }
+                            }
+
+                            foreach (string file in allFiles)
+                            {
+                                if (!file.Contains("Скачать"))
+                                {
+                                    string[] subFile = file.Split(@"\");
+                                    stringLinks.Add(file);
+                                    linkNames.Add(subFile[1]);
+                                }
+                            }
+                        }
                     }
                     
                     /* Код для конвертации на сервере */
@@ -115,7 +135,7 @@ namespace EZParser
                         Initiator = tds[5].InnerText,
                         Broker = tds[6].InnerText,
                         Auction = tds[7].InnerText,
-                        State = tds[9].InnerText,
+                        State = tds[8].InnerText,
                         BestPrice = tds[10].InnerText,
                         Links = stringLinks,
                         LinkNames = linkNames,
