@@ -32,6 +32,7 @@
       <Folder Include="wwwroot\Files\T-0090880" />
       <Folder Include="wwwroot\Files\T-0090885" />
       <Folder Include="wwwroot\Files\T-0091453" />
+      <Folder Include="wwwroot\Files\T-0095419" />
       <Folder Include="wwwroot\Images\Avatars" />
     </ItemGroup>
 

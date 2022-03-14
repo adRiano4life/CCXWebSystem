@@ -46,7 +46,7 @@
               for (int i = 0; i < Model.Card.Links.Count; i++)
               {
                 <i class="@(Model.Card.LinkNames[i].Contains(".xlsx") ? "far fa-file-excel" : Model.Card.LinkNames[i].Contains(".docx") ? "far fa-file-word" : Model.Card.LinkNames[i].Contains(".pdf") ? "far fa-file-pdf" : Model.Card.LinkNames[i].Contains(".jpg") ? "far fa-file-image" : "far fa-file") text-secondary"></i>
-                <a href="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
+                <a href="@Model.Card.Links[i]" download="@Model.Card.Links[i]">@Model.Card.LinkNames[i]</a><br>
               }
             }
           </span>
