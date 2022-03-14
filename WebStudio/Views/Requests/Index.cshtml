@@ -2,6 +2,7 @@
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @using X.PagedList.Mvc.Bootstrap4.Core
 @using X.PagedList.Mvc.Core
+@using Castle.Core.Internal
 @model X.PagedList.IPagedList<Request>
 @inject UserManager<User> UserManager
 
@@ -64,7 +65,7 @@
       </div>
     </form>
   }
-  @if (User.IsInRole("admin"))
+  @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
   {
     <form method="get" class="my-3 px-auto py-auto" style="border: 1px dotted lightslategrey; border-radius: 8px;">
       <div class="form-inline form-group">
@@ -124,13 +125,13 @@
       <th scope="col">Дата окончания приема заявок</th>
       <th scope="col">Дата начала проведения торгов</th>
       <th scope="col">Дата создания запроса</th>
-      @if (User.IsInRole("admin"))
+      @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
       {
         <th scope="col">Исполнитель</th>
       }
     </tr>
     </thead>
-    @if (User.IsInRole("admin"))
+    @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
     {
       foreach (var request in Model)
       {

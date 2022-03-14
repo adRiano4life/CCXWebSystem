@@ -74,40 +74,41 @@
         <a asp-action="CreatePosition" asp-controller="Cards" asp-route-cardId="@Model.Card.Id" class="font-italic">Добавить позицию</a>
       </div>
       @if (Model.Card.Positions.Count() > 0)
-      {
-        <table class="table font-10">
-          <thead class="thead-light">
-            <tr>
-              <th>№</th>
-              <th>Код ТНВЭД</th>
-              <th>Наименование</th>
-              <th>Ед.изм.</th>
-              <th>Кол-во</th>
-              <th>Валюта</th>
-              <th>Старт.цена за ед.товара</th>
-              <th>Стартовая стоимость</th>
-              <th>Срок поставки</th>
-              <th>Условия поставки</th>
-            </tr>
-          </thead>
-          @foreach (var position in Model.Card.Positions)
           {
-            <tr>
-              <td>@(@count++)</td>
-              <td>@position.CodTNVED</td>
-              <td>@position.Name</td>
-              <td>@position.Measure</td>
-              <td>@position.Amount</td>
-              <td>@position.Currency</td>
-              <td>@position.UnitPrice</td>
-              <td>@position.TotalPrice</td>
-              <td>@position.DeliveryTime</td>
-              <td>@position.DeliveryTerms</td>
-            </tr>
+            <table class="table font-10 flex-wrap" style="width: auto;">
+              <thead class="thead-light">
+                <tr>
+                  <th>№</th>
+                  <th>Код ТНВЭД</th>
+                  <th>Наименование</th>
+                  <th>Ед.изм.</th>
+                  <th>Кол-во</th>
+                  <th>Валюта</th>
+                  <th>Старт.цена за ед.товара</th>
+                  <th>Стартовая стоимость</th>
+                  <th>Срок поставки</th>
+                  <th>Условия поставки</th>
+                </tr>
+              </thead>
+              @foreach (var position in Model.Card.Positions)
+              {
+                <tr>
+                  <td>@(@count++)</td>
+                  <td>@position.CodTNVED</td>
+                  <td>@position.Name</td>
+                  <td>@position.Measure</td>
+                  <td>@position.Amount</td>
+                  <td>@position.Currency</td>
+                  <td>@position.UnitPrice</td>
+                  <td>@position.TotalPrice</td>
+                  <td>@position.DeliveryTime</td>
+                  <td>@position.DeliveryTerms</td>
+                </tr>
+              }
+            </table>
           }
-        </table>
-      }
-        
+
+
       @if (Model.Card.CardState != CardState.Новая && Model.Card.CardState != CardState.Удалена)
       {
         @if (Model.Card.ExecutorId != null)
