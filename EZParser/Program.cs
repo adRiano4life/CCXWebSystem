@@ -85,13 +85,14 @@ namespace EZParser
                             client.DownloadFile($"{stringLink}", @$"{dirInfo}/{subDirectory[0]}/{linkName}");  // общий путь
                         
                             ZipFile.ExtractToDirectory(@$"{dirInfo}/{subDirectory[0]}/{linkName}", $"{dirInfo}/{subDirectory[0]}");
-                            string[] allFiles = Directory.GetFiles(@$"{dirInfo}/{subDirectory[0]}");
+                            //string[] allFiles = Directory.GetFiles(@$"{dirInfo}/{subDirectory[0]}");
+                            string linkForDownload = @$"/Files/{subDirectory[0]}";
                             File.Delete(@$"{dirInfo}/{subDirectory[0]}/Скачать");
                             DirectoryInfo subDirInfo = new DirectoryInfo(@$"{dirInfo}/{subDirectory[0]}");
                         
                             foreach (FileInfo file in subDirInfo.GetFiles("*.xlsx"))
                             {
-                                if (Directory.Exists(@$"{dirInfo}/Excel/{file.Name}"))
+                                if (!Directory.Exists(@$"{dirInfo}/Excel/{file.Name}"))
                                 {
                                     File.Copy(file.FullName, @$"{dirInfo}/Excel/{file.Name}");
                                 }
@@ -100,15 +101,16 @@ namespace EZParser
                             foreach (FileInfo file in subDirInfo.GetFiles())
                             {
                                 linkNames.Add(file.Name);
+                                stringLinks.Add(@$"{linkForDownload}/{file.Name}");
                             }
                             
-                            foreach (string file in allFiles)
-                            {
-                                if (!file.Contains("Скачать"))
-                                {
-                                    stringLinks.Add(file);
-                                }
-                            }
+                            // foreach (string file in allFiles)
+                            // {
+                            //     if (!file.Contains("Скачать"))
+                            //     {
+                            //         stringLinks.Add(file);
+                            //     }
+                            // }
                         }
                     }
                     
