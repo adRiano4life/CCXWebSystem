@@ -97,13 +97,16 @@ namespace EZParser
                                 }
                             }
 
+                            foreach (FileInfo file in subDirInfo.GetFiles())
+                            {
+                                linkNames.Add(file.Name);
+                            }
+                            
                             foreach (string file in allFiles)
                             {
                                 if (!file.Contains("Скачать"))
                                 {
-                                    string[] subFile = file.Split(@"\");
                                     stringLinks.Add(file);
-                                    linkNames.Add(subFile[1]);
                                 }
                             }
                         }
