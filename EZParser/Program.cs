@@ -103,14 +103,6 @@ namespace EZParser
                                 linkNames.Add(file.Name);
                                 stringLinks.Add(@$"{linkForDownload}/{file.Name}");
                             }
-                            
-                            // foreach (string file in allFiles)
-                            // {
-                            //     if (!file.Contains("Скачать"))
-                            //     {
-                            //         stringLinks.Add(file);
-                            //     }
-                            // }
                         }
                     }
                     
