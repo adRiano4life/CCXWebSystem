@@ -29,8 +29,10 @@ namespace EZParser
 
                 foreach (var card in cards)
                 {
-                    int indexStart = card.Number.IndexOf('-') + 1;
-                    string cardNumber = card.Number.Substring(indexStart, 7);
+                    // int indexStart = card.Number.IndexOf('-') + 1;
+                    // string cardNumber = card.Number.Substring(indexStart, 7);
+                    string[] subCardNumber = card.Number.Split("/");
+                    string cardNumber = subCardNumber[0];
 
                     if (card.Positions is null)
                     {
@@ -90,10 +92,10 @@ namespace EZParser
                                         CodTNVED = workbook.Worksheets.First().Cells[$"C{i}"].Value?.ToString(),
                                         Name = workbook.Worksheets.First().Cells[$"D{i}"].Value.ToString(),
                                         Measure = workbook.Worksheets.First().Cells[$"E{i}"].Value.ToString(),
-                                        Amount = Convert.ToInt32(workbook.Worksheets.First().Cells[$"F{i}"].Value),
+                                        Amount = Convert.ToInt64(workbook.Worksheets.First().Cells[$"F{i}"].Value),
                                         Currency = workbook.Worksheets.First().Cells[$"G{i}"].Value.ToString(),
-                                        UnitPrice = Convert.ToInt32(workbook.Worksheets.First().Cells[$"H{i}"].Value),
-                                        TotalPrice = Convert.ToInt32(workbook.Worksheets.First().Cells[$"I{i}"].Value),
+                                        UnitPrice = Convert.ToInt64(workbook.Worksheets.First().Cells[$"H{i}"].Value),
+                                        TotalPrice = Convert.ToInt64(workbook.Worksheets.First().Cells[$"I{i}"].Value),
                                         PaymentTerms = workbook.Worksheets.First().Cells[$"M{i}"].Value.ToString(),
                                         DeliveryTime = workbook.Worksheets.First().Cells[$"N{i}"].Value.ToString(),
                                         DeliveryTerms = workbook.Worksheets.First().Cells[$"O{i}"].Value.ToString()
