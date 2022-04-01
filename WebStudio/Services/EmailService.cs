@@ -62,6 +62,7 @@ namespace WebStudio.Services
             emailMessage.Body = builder.ToMessageBody();
 
             using var client = new SmtpClient();
+            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
             await client.ConnectAsync("smtp.mail.ru", 25, false);
             await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
