@@ -20,7 +20,7 @@ namespace WebStudio.Services
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _adminEmailOffice));
+            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _emailOffice));
             foreach (var supplier in suppliers)
             {
                 emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
@@ -64,7 +64,7 @@ namespace WebStudio.Services
             using var client = new SmtpClient();
             client.ServerCertificateValidationCallback = (s, c, h, e) => true;
             await client.ConnectAsync("smtp.mail.ru", 25, false);
-            await client.AuthenticateAsync(_adminEmailOffice, _passwordOffice);
+            await client.AuthenticateAsync(_emailOffice, _passwordOffice);
             await client.SendAsync(emailMessage);
             await client.DisconnectAsync(true);
         }
