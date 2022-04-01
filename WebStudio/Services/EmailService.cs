@@ -20,7 +20,7 @@ namespace WebStudio.Services
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _emailOffice));
+            emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _adminEmailOffice));
             foreach (var supplier in suppliers)
             {
                 emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
