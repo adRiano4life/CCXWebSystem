@@ -66,7 +66,7 @@ namespace EZParser
                 {
                     List<string> stringLinks = new List<string>();
                     List<string> linkNames = new List<string>();
-                    decimal startSum = Convert.ToDecimal(item.sum);
+                    //decimal startSum = Convert.ToDecimal(item.sum);
                     string[] subDirectory = item.number.Split("/");
                     dirInfo.CreateSubdirectory($"{subDirectory[0]}");
                     foreach (var dir in dirInfo.GetDirectories())
