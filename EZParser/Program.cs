@@ -99,12 +99,26 @@ namespace EZParser
                         }
                     }
                     
+                    /* Код для конвертации на сервере */
+
+                    string startSumString = item.sum.Trim();
+                    startSumString = startSumString.Replace(" ", "");
+                    startSumString = startSumString.Replace(",", ".");
+                    bool result = decimal.TryParse(startSumString, out decimal sumResult);
+
+                    /*string[] datestrings = tds[3].InnerText.Split(".");
+                    string date = $"{datestrings[1]}/{datestrings[0]}/{datestrings[2]}";
+                    DateTime acceptingEnd = Convert.ToDateTime(date);
+                    
+                    string[] auctionDates = tds[4].InnerText.Split(".");
+                    string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
+                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);*/
                     
                     Card card = new Card
                     {
                         Number = item.number,
                         Name = item.name,
-                        StartSumm = startSum,
+                        StartSumm = sumResult,
                         DateOfAcceptingEnd = item.submission_end,
                         DateOfAuctionStart = item.bidding_begin,
                         Initiator = item.client.name,
@@ -183,7 +197,7 @@ namespace EZParser
                     
                     /* Код для конвертации на сервере */
 
-                    string startSumString = tds[2].InnerText.Trim();
+                    /*string startSumString = tds[2].InnerText.Trim();
                     startSumString = startSumString.Replace(" ", "");
                     startSumString = startSumString.Replace(",", ".");
                     bool result = decimal.TryParse(startSumString, out decimal sumResult);
@@ -194,10 +208,10 @@ namespace EZParser
                     
                     string[] auctionDates = tds[4].InnerText.Split(".");
                     string auctiondate = $"{auctionDates[1]}/{auctionDates[0]}/{auctionDates[2]}";
-                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);
+                    DateTime auctionEnd = Convert.ToDateTime(auctiondate);*/
 
 
-                    Card card = new Card
+                    /*Card card = new Card
                     {
                         Number = tds[0].InnerText,
                         Name = tds[1].InnerText,
@@ -220,7 +234,7 @@ namespace EZParser
                         Console.WriteLine($"{DateTime.Now} - Создана карточка для лота {card.Number}");
                         _logger.Info($"Создана карточка для лота {card.Number}");
                     }
-                }*/
+                }
 
                 if (_db.InputDataUsers.Count() == 0)
                 {
@@ -228,7 +242,7 @@ namespace EZParser
                 
                     _db.InputDataUsers.Add(dataUser);
                     _db.SaveChanges();
-                }
+                }*/
                 
                 Console.WriteLine($"{DateTime.Now} - Парсинг лотов закончен");
                 _logger.Info("Парсинг лотов закончен");
