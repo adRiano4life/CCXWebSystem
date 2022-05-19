@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using EZParser.jsonmodel;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using NLog;
 using WebStudio.Models;
 
@@ -29,7 +33,7 @@ namespace EZParser
             
             GetParse();
             ExcelReader.ExcelRead();
-            AuctionResultsParser.GetAuctionResults();
+            //AuctionResultsParser.GetAuctionResults();
         }
 
         public static void GetParse()
@@ -47,7 +51,80 @@ namespace EZParser
 
                 HtmlWeb web = new HtmlWeb();
 
-                var docAllPosition = web.Load(url);
+                var httpClient = new HttpClient();
+                WebClient webClient = new WebClient();
+                
+                
+                var contents = httpClient.GetStringAsync("https://st.ccx.kz/api/lot/detail/pagination/?page=1&page_size=10&name=&number=&customer=&submission=&bidding=&status=").Result;
+                
+                
+                var myDeserializedClass = JsonConvert.DeserializeObject<Root>(contents);
+                DirectoryInfo dirInfo = new DirectoryInfo(PathToFiles);
+
+                foreach (var item in myDeserializedClass.results)
+                {
+                    List<string> stringLinks = new List<string>();
+                    List<string> linkNames = new List<string>();
+                    decimal startSum = Convert.ToDecimal(item.sum);
+                    string[] subDirectory = item.number.Split("/");
+                    dirInfo.CreateSubdirectory($"{subDirectory[0]}");
+                    foreach (var dir in dirInfo.GetDirectories())
+                    {
+                        if (!Directory.Exists("Excel"))
+                            dirInfo.CreateSubdirectory("Excel");
+                    }
+
+                    if (!Directory.EnumerateFiles($"{dirInfo}/{subDirectory[0]}", "*.*", SearchOption.AllDirectories)
+                        .Any())
+                    {
+                        webClient.DownloadFile($"{item.documents}", @$"{dirInfo}/{subDirectory[0]}/download.zip");
+                        ZipFile.ExtractToDirectory(@$"{dirInfo}/{subDirectory[0]}/download.zip", $"{dirInfo}/{subDirectory[0]}");
+                        string linkForDownload = @$"/Files/{subDirectory[0]}";
+                        File.Delete(@$"{dirInfo}/{subDirectory[0]}/download.zip");
+                        DirectoryInfo subDirInfo = new DirectoryInfo(@$"{dirInfo}/{subDirectory[0]}");
+                        
+                        foreach (FileInfo file in subDirInfo.GetFiles("*.xlsx"))
+                        {
+                            if (!File.Exists(@$"{dirInfo}/Excel/{file.Name}"))
+                            {
+                                File.Copy(file.FullName, @$"{dirInfo}/Excel/{file.Name}");
+                            }
+                        }
+
+                        foreach (FileInfo file in subDirInfo.GetFiles())
+                        {
+                            linkNames.Add(file.Name);
+                            stringLinks.Add(@$"{linkForDownload}/{file.Name}");
+                        }
+                    }
+                    
+                    
+                    Card card = new Card
+                    {
+                        Number = item.number,
+                        Name = item.name,
+                        StartSumm = startSum,
+                        DateOfAcceptingEnd = item.submission_end,
+                        DateOfAuctionStart = item.bidding_begin,
+                        Initiator = item.client.name,
+                        Broker = item.trader.name,
+                        Auction = item.type,
+                        State = item.status,
+                        BestPrice = item.best_sum,
+                        Links = stringLinks,
+                        LinkNames = linkNames
+                    };
+
+                    if (!_db.Cards.Any(c=>c.Number == item.number))
+                    {
+                        _db.Cards.Add(card);
+                        _db.SaveChanges();
+                        Console.WriteLine($"{DateTime.Now} - Создана карточка для лота {card.Number}");
+                        _logger.Info($"Создана карточка для лота {card.Number}");
+                    }
+                }
+                
+                /*var docAllPosition = web.Load(url);
 
                 var collectionPosition = docAllPosition.DocumentNode.SelectNodes("//td[contains(text(),'Казахмыс')]/..");
 
@@ -126,7 +203,7 @@ namespace EZParser
                         Console.WriteLine($"{DateTime.Now} - Создана карточка для лота {card.Number}");
                         _logger.Info($"Создана карточка для лота {card.Number}");
                     }
-                }
+                }*/
 
                 if (_db.InputDataUsers.Count() == 0)
                 {

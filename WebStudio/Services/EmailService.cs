@@ -16,7 +16,7 @@ namespace WebStudio.Services
         public string _emailOffice = AppCredentials.EmailName;
         public string _adminEmailOffice = AppCredentials.AdminEmailName;
         public string _passwordOffice = AppCredentials.EmailPassword;
-        
+
         public async Task SendMessageAsync(List<SearchSupplier> suppliers, string title, string message, List<string> paths, User user, Card card)
         {
             var emailMessage = new MimeMessage();
