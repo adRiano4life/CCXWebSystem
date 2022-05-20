@@ -56,7 +56,7 @@ namespace EZParser
                 WebClient webClient = new WebClient();
                 
                 
-                var contents = httpClient.GetStringAsync("https://st.ccx.kz/api/lot/detail/pagination/?page=1&page_size=10&name=&number=&customer=&submission=&bidding=&status=").Result;
+                var contents = httpClient.GetStringAsync("https://st.ccx.kz/api/lot/detail/pagination/?page=1&page_size=30&name=&number=&customer=&submission=&bidding=&status=").Result;
                 
                 
                 var myDeserializedClass = JsonConvert.DeserializeObject<Root>(contents);
