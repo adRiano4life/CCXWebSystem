@@ -34,7 +34,7 @@ namespace EZParser
                     string[] subCardNumber = card.Number.Split("/");
                     string cardNumber = subCardNumber[0];
 
-                    if (card.Positions is null)
+                    if (card.Positions is null && card.Initiator.Contains("Казахмыс"))
                     {
                         string rootDirName = @$"{Program.PathToFiles}/Excel"; //общий путь
                         
