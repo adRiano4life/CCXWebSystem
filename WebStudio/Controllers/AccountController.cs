@@ -241,7 +241,7 @@ namespace WebStudio.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    User user = await _userManager.FindByEmailAsync(model.Email);
+                    User user = await _userManager.FindByNameAsync(model.Email);
                     if (user == null)
                     {
                         _nLogger.Warn("Попытка входа: пользователь не найден");

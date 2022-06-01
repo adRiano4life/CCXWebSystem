@@ -12,7 +12,7 @@ namespace WebStudio.Services
             string adminPassword = "Q1w2e3r4t%";
             string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
 
-            string guestEmail = "forum2022@forum2022.com";
+            string guestEmail = "Forum2022@forum2022";
             string guestPassword = "123456Aa";
 
             // string userEmail = "user@user.com";
@@ -58,14 +58,14 @@ namespace WebStudio.Services
                 User guest = new User
                 {
                     Email = guestEmail,
-                    UserName = guestEmail,
+                    UserName = "forum2022",
                     Name = "guest",
                     Surname = "guest",
                     AvatarPath = avatarPath,
                     EmailConfirmed = true,
                     LockoutEnabled = false
                 };
-                var result = await userManager.CreateAsync(guest, adminPassword);
+                var result = await userManager.CreateAsync(guest, guestPassword);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(guest, "admin");

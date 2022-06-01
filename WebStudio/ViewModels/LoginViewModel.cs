@@ -7,7 +7,7 @@ namespace WebStudio.ViewModels
     {
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
         [Display(Name = "Электронная почта")]
-        [DataType(DataType.EmailAddress)]
+        //[DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         
         [Required(ErrorMessage = "Это поле обязательно для заполнения")]
