@@ -12,6 +12,9 @@ namespace WebStudio.Services
             string adminPassword = "Q1w2e3r4t%";
             string avatarPath = $"/Images/Avatars/defaultavatar.jpg";
 
+            string guestEmail = "forum2022@forum2022.com";
+            string guestPassword = "123456Aa";
+
             // string userEmail = "user@user.com";
             // string userPassword = "12345Aa";
             //
@@ -47,6 +50,25 @@ namespace WebStudio.Services
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "superadmin");
+                }
+            }
+            
+            if (await userManager.FindByEmailAsync(guestEmail) is null)
+            {
+                User guest = new User
+                {
+                    Email = guestEmail,
+                    UserName = guestEmail,
+                    Name = "guest",
+                    Surname = "guest",
+                    AvatarPath = avatarPath,
+                    EmailConfirmed = true,
+                    LockoutEnabled = false
+                };
+                var result = await userManager.CreateAsync(guest, adminPassword);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(guest, "admin");
                 }
             }
 
