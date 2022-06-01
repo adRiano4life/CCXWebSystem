@@ -39,7 +39,7 @@ namespace WebStudio.Controllers
                 {
                     var position = await _db.Positions.FirstOrDefaultAsync(p => p.Id == positionId);
                     Offer offer = await _db.Offers.FirstOrDefaultAsync(of => of.Id == offerId);
-                    if (_db.InputDataUsers.Count() == 0)
+                    if (!_db.InputDataUsers.Any())
                     {
                         InputDataUser inputDataUser = new InputDataUser();
                         await _db.InputDataUsers.AddAsync(inputDataUser);
@@ -140,6 +140,11 @@ namespace WebStudio.Controllers
         {
             try
             {
+                if (!_db.InputDataUsers.Any())
+                {
+                    InputDataUser inputDataUser = new InputDataUser();
+                    _db.InputDataUsers.Add(inputDataUser);
+                }
                 GetInfoInputDataViewModel model = new GetInfoInputDataViewModel()
                 {
                     ListInputData = _db.InputDataUsers.ToList()[0],
