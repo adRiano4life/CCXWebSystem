@@ -39,12 +39,8 @@ namespace WebStudio.Controllers
                 {
                     var position = await _db.Positions.FirstOrDefaultAsync(p => p.Id == positionId);
                     Offer offer = await _db.Offers.FirstOrDefaultAsync(of => of.Id == offerId);
-                    if (!_db.InputDataUsers.Any())
-                    {
-                        InputDataUser inputDataUser = new InputDataUser();
-                        await _db.InputDataUsers.AddAsync(inputDataUser);
-                    }
                     
+
                     if (position != null && offer != null)
                     {
                         GetInfoInputDataViewModel model = new GetInfoInputDataViewModel()
