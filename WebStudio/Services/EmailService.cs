@@ -23,8 +23,8 @@ namespace WebStudio.Services
             emailMessage.From.Add(new MailboxAddress($"{user.Name} {user.Surname}", _emailOffice));
             foreach (var supplier in suppliers)
             {
-                emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
-                //emailMessage.Bcc.Add(MailboxAddress.Parse(supplier.Email));
+                //emailMessage.Bcc.Add(new MailboxAddress("", $"{supplier.Email}"));
+                emailMessage.Bcc.Add(MailboxAddress.Parse(supplier.Email));
             }
 
             emailMessage.Subject = title;
